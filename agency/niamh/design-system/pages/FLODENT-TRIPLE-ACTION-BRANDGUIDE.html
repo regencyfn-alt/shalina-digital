@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flodent Triple Action — Brand Guide (for sign-off)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Salzburg-MediumIta is the licensed brand face; Fraunces italic stands in for screen preview only -->
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,600&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red:#E31F26; --black:#231F20; --white:#FFFFFF; --ink:#231F20;
+    --paper:#fbf7f4; --line:#efe2df; --dim:#8a7f7d;
+    --ok:#1F8A5B; --sign:#E31F26;
+    --display:'Fraunces',Georgia,serif; --body:'Inter',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:#e9e2df;color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased;
+    display:flex;justify-content:center;padding:22px 14px 60px}
+  .sheet{width:820px;max-width:100%;background:var(--white);box-shadow:0 10px 40px rgba(35,31,32,.16);
+    border:1px solid var(--line)}
+  /* red band header */
+  .band{background:var(--red);color:#fff;padding:22px 34px 20px;position:relative;overflow:hidden}
+  .band:before{content:"";position:absolute;right:-60px;top:-40px;width:230px;height:230px;border-radius:50%;
+    border:26px solid rgba(255,255,255,.10)} /* protection-ring nod */
+  .ksmall{font-size:.68rem;letter-spacing:.34em;text-transform:uppercase;font-weight:800;opacity:.9}
+  .word{font-family:var(--display);font-style:italic;font-weight:600;font-size:2.9rem;line-height:.98;margin:.06em 0 .02em}
+  .word small{font-style:italic;font-weight:500;font-size:1.05rem;display:block;letter-spacing:.02em;opacity:.95}
+  .flu{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;font-weight:700;opacity:.9;margin-top:6px}
+  /* body */
+  .in{padding:24px 34px 8px}
+  .lede{font-family:var(--display);font-style:italic;font-weight:500;font-size:1.16rem;line-height:1.35;color:var(--black);margin:0 0 4px}
+  .prov{display:inline-block;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;
+    color:var(--red);border:1px solid var(--red);border-radius:0;padding:2px 7px;vertical-align:middle;margin-left:6px}
+  /* the three actions */
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0 6px}
+  .act{border:1px solid var(--line);padding:16px 14px;position:relative}
+  .act .n{font-family:var(--display);font-style:italic;font-weight:600;font-size:1.5rem;color:var(--red);line-height:1}
+  .act h3{margin:8px 0 4px;font-size:1rem;font-weight:800;letter-spacing:.01em}
+  .act p{margin:0;font-size:.82rem;color:#5c5350;line-height:1.4}
+  /* identity strip */
+  .grid2{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;margin:20px 0 4px}
+  .sec h4{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin:0 0 8px;font-weight:800}
+  .sw{display:flex;gap:8px;flex-wrap:wrap}
+  .sw i{display:flex;flex-direction:column;justify-content:flex-end;width:78px;height:56px;border:1px solid var(--line);
+    padding:5px 6px;font-size:.6rem;font-weight:700;color:#fff}
+  .sw i.lt{color:var(--black)}
+  .kv{font-size:.84rem;line-height:1.6}
+  .kv b{font-weight:800}
+  .law{border-left:4px solid var(--red);background:var(--paper);padding:10px 14px;font-size:.84rem;margin:16px 0 2px}
+  .signoff{font-family:var(--display);font-style:italic;font-weight:600;font-size:1.35rem;color:var(--red);margin:6px 0 0}
+  .signoff span{display:block;font-size:.95rem;color:var(--black);font-weight:500}
+  /* sign console — governance pattern */
+  .console{margin:22px 34px 26px;border:1px solid var(--black);background:#fbfafa}
+  .console .h{background:var(--black);color:#fff;padding:10px 16px;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;font-weight:800;
+    display:flex;align-items:center;gap:10px}
+  .console .b{padding:16px}
+  .chk{display:flex;align-items:flex-start;gap:10px;font-size:.9rem;margin-bottom:12px}
+  .chk input{margin-top:3px;width:16px;height:16px;accent-color:var(--red)}
+  .who{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+  .who input{font:inherit;padding:8px 12px;border:1px solid var(--line);border-radius:0}
+  .who input#who{min-width:220px}
+  .signbtn{font:inherit;font-weight:800;letter-spacing:.02em;padding:10px 22px;border:1px solid var(--red);
+    background:var(--red);color:#fff;border-radius:0;cursor:pointer}
+  .signbtn:disabled{background:#d9cdca;border-color:#d9cdca;color:#8d8380;cursor:not-allowed}
+  .stamp{margin-top:14px;font-size:.82rem;display:none}
+  .stamp.on{display:block}
+  .stamp .rec{border:1px solid var(--ok);background:#1f8a5b12;padding:10px 12px}
+  .stamp code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.74rem;word-break:break-all}
+  .note{font-size:.72rem;color:var(--dim);margin-top:10px}
+  .foot{padding:0 34px 26px;font-size:.68rem;color:var(--dim)}
+  @media print{body{background:#fff;padding:0}.sheet{box-shadow:none;border:0}.console{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="sheet" id="sheet">
+  <div class="band">
+    <div class="ksmall">Flodent · Shalina Healthcare</div>
+    <div class="word">Triple Action<small>Grab Life, Grab the Freshness!</small></div>
+    <div class="flu">Fluoride Toothpaste</div>
+  </div>
+
+  <div class="in">
+    <p class="lede">One tube, three jobs done — the everyday red Flodent, working while you brush.<span class="prov" title="Drawn from Brand Guideline R2 language — awaiting the formulation line to confirm">provisional · confirm</span></p>
+
+    <div class="three">
+      <div class="act"><div class="n">01</div><h3>Cavity Protection</h3><p>Fluoride that guards every tooth, every brush — the base job of the red tube.</p></div>
+      <div class="act"><div class="n">02</div><h3>Stronger Teeth</h3><p>Mom's secret to stronger teeth — enamel built to take on real life.</p></div>
+      <div class="act"><div class="n">03</div><h3>Freshness</h3><p>The clean, awake freshness you reach for before the day that matters.</p></div>
+    </div>
+
+    <div class="grid2">
+      <div class="sec">
+        <h4>Colour</h4>
+        <div class="sw">
+          <i style="background:#E31F26">RED<br>#E31F26</i>
+          <i style="background:#231F20">BLACK<br>#231F20</i>
+          <i class="lt" style="background:#fff;border-color:#ddd">WHITE<br>#FFFFFF</i>
+        </div>
+        <p class="note" style="margin-top:8px">Proportion 50 / 45 / 5. Logo always on a red band. No greens, no teals — ever.</p>
+      </div>
+      <div class="sec">
+        <h4>Type &amp; marks</h4>
+        <div class="kv">
+          <b>Salzburg-MediumIta</b> — logo &amp; sign-off, locked<br>
+          Sign-off <b>Sentence case</b>, left-aligned; never right-aligned<br>
+          Endorsed: <b>Nigerian Dental Association</b><br>
+          Assets: Protection Ring · Swoosh · Flodent Family
+        </div>
+      </div>
+    </div>
+
+    <div class="law"><b>The one law:</b> product in the image, used, never posed — no label to camera, no claim in the scene. The claim lands once, at the end frame.</div>
+
+    <div class="signoff">Grab Life, Grab the Freshness!
+      <span>PT — Agarre a Vida, Agarre a Frescura! · FR — Saisis la Vie, Saisis la Fraîcheur!</span>
+    </div>
+  </div>
+
+  <!-- SIGN CONSOLE — governance-plate pattern: read, then one click signs -->
+  <div class="console" id="console">
+    <div class="h">◆ Approval — one page, one signature</div>
+    <div class="b">
+      <label class="chk"><input type="checkbox" id="agree">
+        <span>I have read this brand guide and approve <b>Flodent Triple Action</b> as canon for production — colour, type, sign-off and the three actions above.</span></label>
+      <div class="who">
+        <input type="text" id="who" placeholder="Your name (signatory)">
+        <input type="text" id="role" placeholder="Role (e.g. Client / Brand)">
+        <button class="signbtn" id="sign" disabled>Sign &amp; approve</button>
+      </div>
+      <div class="stamp" id="stamp">
+        <div class="rec">
+          <b>Signed ✓</b> — <span id="stxt"></span><br>
+          <code id="shash"></code>
+        </div>
+        <div class="note" id="persist">Record held locally in this page. To post it to the estate like the governance system, this guide deploys behind the OAuth door with a sign endpoint — same launcher pattern as the governance plate. Flagged for deploy.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">Flodent Triple Action · 1-page brand guide v0.1 (draft for sign-off) · CENTREFREE Agency / RegencyFlux · sources: Flodent Brand Guideline R2 (client) + Story Bible V2. Three actions provisional pending the formulation line.</div>
+</div>
+
+<script>
+(function(){
+  var agree=document.getElementById("agree"),
+      who=document.getElementById("who"),
+      role=document.getElementById("role"),
+      btn=document.getElementById("sign"),
+      stamp=document.getElementById("stamp"),
+      stxt=document.getElementById("stxt"),
+      shash=document.getElementById("shash");
+
+  function refresh(){ btn.disabled=!(agree.checked && who.value.trim().length>1); }
+  agree.addEventListener("change",refresh);
+  who.addEventListener("input",refresh);
+
+  async function sha256(str){
+    try{
+      var buf=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(str));
+      return Array.prototype.map.call(new Uint8Array(buf),function(b){return b.toString(16).padStart(2,"0");}).join("");
+    }catch(e){ return "sha-unavailable"; }
+  }
+
+  btn.addEventListener("click",async function(){
+    var when=new Date().toISOString();
+    var body=document.getElementById("sheet").innerText;
+    var hash=await sha256(body);
+    stxt.textContent=who.value.trim()+(role.value.trim()?" ("+role.value.trim()+")":"")+" · "+when;
+    shash.textContent="sha256 "+hash;
+    stamp.classList.add("on");
+    btn.disabled=true; agree.disabled=true; who.disabled=true; role.disabled=true;
+    // When deployed: POST {who,role,when,hash} to a sign endpoint. Left honest until wired.
+  });
+})();
+</script>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

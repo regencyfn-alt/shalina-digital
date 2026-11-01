@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ibucap Kenya — Storyboards 05–08</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --azure: #1B6CA8;
+    --orange: #F47920;
+    --cream: #FDF8F0;
+    --charcoal: #1C1C1C;
+    --mid: #5A5A5A;
+    --light: #E8E0D0;
+    --panel-bg: #F0EBE0;
+    --green: #006838;
+    --red: #c0392b;
+    --amber: #e67e22;
+    --page-w: 210mm;
+    --page-h: 297mm;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+    background: #d0ccc4;
+    color: var(--charcoal);
+    font-size: 10px;
+  }
+
+  /* ── CONTROLS ── */
+  .controls {
+    width: var(--page-w);
+    margin: 8mm auto 6mm;
+    display: flex;
+    gap: 3mm;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .controls button {
+    background: var(--azure);
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .controls button:hover { background: #155a8a; }
+  .controls button.orange { background: var(--orange); }
+  .controls button.orange:hover { background: #d9650f; }
+  .controls .nav-label {
+    font-size: 11px;
+    color: var(--mid);
+    font-weight: 600;
+  }
+
+  @media print {
+    body { background: white; }
+    .controls { display: none !important; }
+    .page {
+      margin: 0;
+      box-shadow: none;
+      padding: 6mm 7mm 8mm;
+      page-break-after: always;
+    }
+  }
+
+  /* ── PAGE ── */
+  .page {
+    width: var(--page-w);
+    min-height: var(--page-h);
+    background: var(--cream);
+    margin: 0 auto 12mm;
+    padding: 8mm 8mm 10mm;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+    page-break-after: always;
+    position: relative;
+  }
+
+  /* ── HEADER ── */
+  .page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    border-bottom: 2.5px solid var(--azure);
+    padding-bottom: 3.5mm;
+    margin-bottom: 4mm;
+  }
+  .header-left .brand-line {
+    font-size: 7.5px;
+    font-weight: 600;
+    color: var(--orange);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1mm;
+  }
+  .header-left .story-title {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--charcoal);
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .header-left .story-sub {
+    font-size: 8px;
+    color: var(--mid);
+    margin-top: 1mm;
+    font-weight: 500;
+  }
+  .header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1.5mm;
+  }
+  .page-badge {
+    background: var(--azure);
+    color: white;
+    font-size: 7px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .format-badge {
+    background: var(--green);
+    color: white;
+    font-size: 7px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .story-badge {
+    background: var(--charcoal);
+    color: white;
+    font-size: 7px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── EXEC SUMMARY ── */
+  .exec-summary {
+    background: white;
+    border-left: 3px solid var(--orange);
+    padding: 3mm 4mm;
+    margin-bottom: 4mm;
+    border-radius: 0 3px 3px 0;
+  }
+  .exec-summary .es-label {
+    font-size: 6px;
+    font-weight: 800;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 1.5mm;
+  }
+  .exec-summary .es-text {
+    font-size: 8.5px;
+    color: var(--charcoal);
+    line-height: 1.5;
+  }
+  .exec-summary .es-text strong { color: var(--azure); }
+
+  /* ── LOOP DIVIDER ── */
+  .loop-divider {
+    display: flex;
+    align-items: center;
+    gap: 3mm;
+    margin: 2mm 0 1.5mm;
+  }
+  .loop-divider .loop-label {
+    font-size: 6.5px;
+    font-weight: 800;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+  .loop-divider .loop-line {
+    flex: 1;
+    height: 1px;
+    background: var(--light);
+  }
+  .loop-divider .loop-time {
+    font-size: 6px;
+    color: var(--mid);
+    white-space: nowrap;
+  }
+
+  /* ── PANELS ── */
+  .panels-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5mm;
+    margin-bottom: 2mm;
+  }
+  .panel {
+    background: white;
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid var(--light);
+    display: flex;
+    flex-direction: column;
+  }
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2mm 2mm;
+  }
+  .panel-number {
+    font-size: 8px;
+    font-weight: 800;
+    color: white;
+    line-height: 1;
+  }
+  .panel-timecode {
+    font-size: 5.5px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+  .panel-image {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: var(--panel-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    gap: 1.5mm;
+  }
+  .ph-icon { font-size: 14px; opacity: 0.3; }
+  .ph-label {
+    font-size: 6px;
+    color: var(--mid);
+    text-align: center;
+    padding: 0 2mm;
+    line-height: 1.4;
+    font-style: italic;
+  }
+  .phase-tag {
+    position: absolute;
+    top: 1.5mm;
+    left: 1.5mm;
+    background: var(--orange);
+    color: white;
+    font-size: 5.5px;
+    font-weight: 800;
+    padding: 1px 4px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .panel-body {
+    padding: 1.5mm 2mm 2mm;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1mm;
+  }
+  .panel-scene-name {
+    font-size: 7.5px;
+    font-weight: 800;
+    color: var(--charcoal);
+    line-height: 1.1;
+  }
+  .panel-desc {
+    font-size: 6.5px;
+    color: var(--mid);
+    line-height: 1.4;
+    flex: 1;
+  }
+  .panel-vo {
+    font-size: 6px;
+    color: var(--azure);
+    font-style: italic;
+    border-top: 1px solid var(--light);
+    padding-top: 1mm;
+    line-height: 1.35;
+  }
+
+  /* ── PACKSHOT PANEL ── */
+  .panel.packshot .panel-image {
+    background: #0a0a0a;
+    padding: 2mm;
+    gap: 1.5mm;
+  }
+  .pack-logo {
+    font-size: 13px;
+    font-weight: 900;
+    color: var(--orange);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    text-align: center;
+  }
+  .pack-tagline {
+    font-size: 6.5px;
+    color: rgba(255,255,255,0.75);
+    text-align: center;
+    font-style: italic;
+    line-height: 1.3;
+  }
+  .pack-sub {
+    font-size: 5.5px;
+    color: var(--orange);
+    text-align: center;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── FOOTER ── */
+  .page-footer {
+    margin-top: 3.5mm;
+    padding-top: 2.5mm;
+    border-top: 1px solid var(--light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-audio {
+    font-size: 6.5px;
+    color: var(--mid);
+    font-style: italic;
+  }
+  .footer-guardrails {
+    font-size: 6px;
+    color: #aaa;
+    text-align: right;
+    line-height: 1.5;
+  }
+  .footer-logo {
+    font-size: 8px;
+    font-weight: 900;
+    color: var(--azure);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── FILE MEDIA LOADING ── */
+
+  /* Empty panel — clickable */
+  .panel-image:not(.has-media) {
+    cursor: pointer;
+  }
+  .panel-image:not(.has-media):hover {
+    background: #e4ddd0;
+  }
+  .panel-image:not(.has-media):hover .ph-icon { opacity: 0.5; }
+  .panel-image:not(.has-media)::after {
+    content: "click to browse files";
+    position: absolute;
+    bottom: 2mm;
+    left: 0; right: 0;
+    text-align: center;
+    font-size: 5.5px;
+    color: var(--azure);
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.15s;
+    pointer-events: none;
+  }
+  .panel-image:not(.has-media):hover::after { opacity: 1; }
+
+  /* Loaded media state */
+  .panel-image.has-media {
+    cursor: default;
+    background: #000;
+  }
+  .panel-image.has-media img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+  .panel-image.has-media video {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    background: #000;
+  }
+
+  /* Change button — hover only */
+  .media-change-btn {
+    position: absolute;
+    top: 1.5mm; right: 1.5mm;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    border: none;
+    font-size: 5.5px;
+    font-weight: 700;
+    padding: 2px 5px;
+    border-radius: 2px;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.15s;
+    font-family: inherit;
+  }
+  .panel-image:hover .media-change-btn { opacity: 1; }
+  .media-change-btn:hover { background: rgba(244,121,32,0.9) !important; }
+
+  @media print {
+    .media-change-btn { display: none !important; }
+    .panel-image::after { display: none !important; }
+  }
+
+  /* ── CONTENTEDITABLE TEXT ── */
+  [contenteditable] {
+    outline: none;
+    border-radius: 2px;
+    transition: background 0.12s;
+    cursor: text;
+  }
+  [contenteditable]:hover {
+    background: rgba(244,121,32,0.08);
+  }
+  [contenteditable]:focus {
+    background: rgba(244,121,32,0.15);
+    box-shadow: 0 0 0 1.5px var(--orange);
+  }
+  @media print {
+    [contenteditable]:focus,
+    [contenteditable]:hover {
+      background: none;
+      box-shadow: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <button class="orange" onclick="window.print()">⬇ Save as PDF</button>
+  <span class="nav-label">Jump to:</span>
+  <button onclick="document.getElementById('s05').scrollIntoView({behavior:'smooth'})">05 · Baraka</button>
+  <button onclick="document.getElementById('s06').scrollIntoView({behavior:'smooth'})">06 · Otis</button>
+  <button onclick="document.getElementById('s07').scrollIntoView({behavior:'smooth'})">07 · Kamau</button>
+  <button onclick="document.getElementById('s08').scrollIntoView({behavior:'smooth'})">08 · Juma</button>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     STORY 05 — BARAKA: THE LAST MATATU
+═══════════════════════════════════════════ -->
+<div class="page" id="s05">
+
+  <div class="page-header">
+    <div class="header-left">
+      <div class="brand-line">Shalina Healthcare · Ibucap Kenya · FY2026/27 · Stories 05–08</div>
+      <div class="story-title">BARAKA — THE LAST MATATU</div>
+      <div class="story-sub">Ibucap Kenya &nbsp;|&nbsp; Neck Pain &nbsp;|&nbsp; 45 Seconds · Double-Loop &nbsp;|&nbsp; Jua-kali yard, Nairobi · Late afternoon</div>
+    </div>
+    <div class="header-right">
+      <span class="story-badge">STORY 05 / 08</span>
+      <span class="page-badge">PAGE 1 / 4</span>
+      <span class="format-badge">45 SEC</span>
+    </div>
+  </div>
+
+  <div class="exec-summary">
+    <div class="es-label">What the story is about</div>
+    <div class="es-text">
+      <strong>Baraka is deep in a matatu repair — neck seizing after hours bent over the engine — when the driver needs the vehicle on the road in twenty minutes.</strong>
+      &nbsp;The jua-kali yard is one of the most recognised working environments in urban Kenya; every informal-economy worker knows the driver who cannot earn without this vehicle. Neck pain is specific and honest — hours in one position, building quietly, announcing at the worst moment. The tension is doubled: Baraka's pain AND the driver's income ride on the same bolt.
+      &nbsp;<strong>What the brand gets:</strong> Ibucap in jua-kali / informal trades. Male, 30s. The brand event is a thumbs-up through the matatu window — small, earned, complete. Cross-cuts class and region across all 11 Shalina markets.
+    </div>
+  </div>
+
+  <!-- LOOP 1 -->
+  <div class="loop-divider">
+    <span class="loop-label">Loop 1 · Establish</span>
+    <span class="loop-line"></span>
+    <span class="loop-time">0:00 → ~0:20</span>
+  </div>
+
+  <div class="panels-grid">
+
+    <!-- P01 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--azure)">
+        <span class="panel-number">01</span>
+        <span class="panel-timecode">0–5s &nbsp; RELATE</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag">Relate</span>
+        <span class="ph-icon">🔧</span>
+        <span class="ph-label">Wide pan — jua-kali yard at full afternoon volume. Baraka under a matatu on jacks, sparks, tools, city beyond corrugated fence.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Baraka's Yard</div>
+        <div class="panel-desc">Wide establishing. Baraka under the chassis — sparks fly, the yard is alive around him. He moves with the ease of a man who has done this ten thousand times. His tools know where they are. The city hums just beyond the fence.</div>
+        <div class="panel-vo">VO: "Baraka's yard. Nairobi runs because of men like this."</div>
+      </div>
+    </div>
+
+    <!-- P02 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--red)">
+        <span class="panel-number">02</span>
+        <span class="panel-timecode">5–10s &nbsp; CONFLICT</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:var(--red)">Conflict</span>
+        <span class="ph-icon">😣</span>
+        <span class="ph-label">Close-up — Baraka straightens from chassis. Slow neck roll, jaw tight. The catch. He goes back down.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">The Neck Catches</div>
+        <div class="panel-desc">He straightens and the neck catches hard — burning stiffness from hours bent. Close on his face: jaw tight, the slow controlled roll. Not new. He looks at what's left. Goes back under. Stays quiet.</div>
+        <div class="panel-vo">VO: [Silent — the neck roll, the jaw, the decision to keep going]</div>
+      </div>
+    </div>
+
+    <!-- P03 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--amber)">
+        <span class="panel-number">03</span>
+        <span class="panel-timecode">10–14s &nbsp; TIMING</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:var(--amber)">Timing</span>
+        <span class="ph-icon">⏱</span>
+        <span class="ph-label">Cut: clock on yard wall — 5:40. Driver leans from window. Close on remaining job. Close on Baraka's hands.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Five-Forty</div>
+        <div class="panel-desc">Clock on the yard wall: 5:40. The driver leans out: "Baraka — bado?" Two other mechanics glance over. Route starts at 6. Twenty minutes. Neck burning. Last bolt still in hand. Cut between clock / driver's face / Baraka's face — one second each.</div>
+        <div class="panel-vo">VO: "Five-forty. The route starts at six."</div>
+      </div>
+    </div>
+
+    <!-- P04 -->
+    <div class="panel">
+      <div class="panel-header" style="background:#27ae60">
+        <span class="panel-number">04</span>
+        <span class="panel-timecode">14–20s &nbsp; PARTIAL RES.</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:#27ae60">Partial Resolution</span>
+        <span class="ph-icon">💊</span>
+        <span class="ph-label">Medium shot — toolbox opens. Hands reach past wrenches. Two-shot: Ibucap in palm, pack visible. He takes them, rolls neck once, goes back under.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">From the Toolbox</div>
+        <div class="panel-desc">He sits back on his heels. Opens the toolbox — reaches past the wrenches. Ibucap. Two capsules in palm. Pack clearly visible. Water from bottle by the wheel. Takes them. Rolls neck: still tight, manageable. Picks up the wrench. Back under.</div>
+        <div class="panel-vo">VO: "He knows his body. He knows what works."</div>
+      </div>
+    </div>
+
+  </div><!-- /loop 1 -->
+
+  <!-- LOOP 2 -->
+  <div class="loop-divider">
+    <span class="loop-label">Loop 2 · Escalate &amp; Resolve</span>
+    <span class="loop-line"></span>
+    <span class="loop-time">~0:20 → 0:45</span>
+  </div>
+
+  <div class="panels-grid">
+
+    <!-- P05 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--azure)">
+        <span class="panel-number">05</span>
+        <span class="panel-timecode">20–26s &nbsp; RE-RELATE</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag">Re-Relate</span>
+        <span class="ph-icon">🔍</span>
+        <span class="ph-label">Tight tracking shot under chassis — close on hands working. Two more jobs queued on a whiteboard. Driver's weight shifting in the seat above.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Still Under</div>
+        <div class="panel-desc">Back under the chassis, frame tighter now. Neck still talking. Close on hands: steady, working. Whiteboard by the gate: two more jobs. A schoolbus. A private car. He can feel the driver shifting above him. The yard won't empty until he does.</div>
+        <div class="panel-vo">VO: "Two more jobs after this. The yard doesn't sleep early."</div>
+      </div>
+    </div>
+
+    <!-- P06 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--red)">
+        <span class="panel-number">06</span>
+        <span class="panel-timecode">26–32s &nbsp; ESCALATES</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:var(--red)">Conflict Escalates</span>
+        <span class="ph-icon">🔥</span>
+        <span class="ph-label">Extreme close-up on Baraka's face under chassis — jaw set, eyes on the job. Clock cuts: 5:52. Driver: "Saa mbili yangu inaenda boss."</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Full Extension</div>
+        <div class="panel-desc">Final section — awkward angle, full arm extension. Burning spreads to shoulder. Driver from above: "Saa mbili yangu inaenda boss." Clock: 5:52. Eight minutes. Close on Baraka's face under the chassis — controlled, not alarmed, not stopping. This is the one the pain chose.</div>
+        <div class="panel-vo">VO: "Eight minutes. The pain doesn't care."</div>
+      </div>
+    </div>
+
+    <!-- P07 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--amber)">
+        <span class="panel-number">07</span>
+        <span class="panel-timecode">32–37s &nbsp; TIGHTENS</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:var(--amber)">Timing Tightens</span>
+        <span class="ph-icon">⚡</span>
+        <span class="ph-label">Close on the wrench turning clean — full arm extension, no compensation. Close on the bolt seating. Neck free. The body returns.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Three in One</div>
+        <div class="panel-desc">The bolt is almost home. Ibucap at full work — triple-action reaching neck tissue, inflammation unwinding, burning releasing. Arm extends fully. No compensation. The wrench turns clean. He feels it seat. Close on his arm: the full extension he couldn't make twenty minutes ago.</div>
+        <div class="panel-vo">VO: "Three in one. So he can finish."</div>
+      </div>
+    </div>
+
+    <!-- P08 PACKSHOT -->
+    <div class="panel packshot">
+      <div class="panel-header" style="background:var(--charcoal)">
+        <span class="panel-number">08</span>
+        <span class="panel-timecode">37–45s &nbsp; BRAND RES.</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:var(--orange)">Brand Event</span>
+        <div class="pack-logo">IBUCAP</div>
+        <div class="pack-sub">Power of 3-in-1</div>
+        <div class="pack-tagline">Always with you...<br>to Beat Pain.</div>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">The Thumbs-Up</div>
+        <div class="panel-desc">He rolls out. Stands — full height, neck free. Wipes his hands. Nods to driver. Matatu pulls off jacks, rolls out of yard. Driver's hand through the window: thumbs-up. Baraka watches it go. Close on his face: quiet, complete. Triple-beat: face / hands on the gate / Ibucap Kenya Mono Pack.</div>
+        <div class="panel-vo">VO: "Ibucap. Power of 3-in-1. Always with you... to Beat Pain."</div>
+      </div>
+    </div>
+
+  </div><!-- /loop 2 -->
+
+  <div class="page-footer">
+    <div class="footer-audio">AUDIO: Steady low-key yard ambience builds through Loop 1. Resolves to warm end-chorus: "Ibucap... Power of 3-in-1... Always with you... to Beat Pain."</div>
+    <div class="footer-logo">Shalina</div>
+    <div class="footer-guardrails">PPB guardrails: No HCPs · Product incidental · No "cure" · No before/after · Claim only at outro · Two capsules visible · Colour: Azure + Orange throughout</div>
+  </div>
+
+</div><!-- /story 05 -->
+
+
+<!-- ═══════════════════════════════════════════
+     STORY 06 — OTIS: THE SHOW MUST GO ON
+═══════════════════════════════════════════ -->
+<div class="page" id="s06">
+
+  <div class="page-header">
+    <div class="header-left">
+      <div class="brand-line">Shalina Healthcare · Ibucap Kenya · FY2026/27 · Stories 05–08</div>
+      <div class="story-title">OTIS — THE SHOW MUST GO ON</div>
+      <div class="story-sub">Ibucap Kenya &nbsp;|&nbsp; Toothache &nbsp;|&nbsp; 45 Seconds · Double-Loop &nbsp;|&nbsp; Nairobi street event, late afternoon</div>
+    </div>
+    <div class="header-right">
+      <span class="story-badge">STORY 06 / 08</span>
+      <span class="page-badge">PAGE 2 / 4</span>
+      <span class="format-badge">45 SEC</span>
+    </div>
+  </div>
+
+  <div class="exec-summary">
+    <div class="es-label">What the story is about</div>
+    <div class="es-text">
+      <strong>Otis is MC-ing a street event and racing to post his reel when a toothache hits mid-performance — jaw-locking, sharp — right as the trend window peaks at 5PM.</strong>
+      &nbsp;The toothache lives in the part of the body performers use most: the face, the smile, the voice. The trend window closing is pressure the social-media generation feels in their chest. The creative tension is doubled: he's on stage AND the internet at the same time, both fires need feeding. The brand event is the reel going live and the crowd roaring — two dopamine hits in one frame.
+      &nbsp;<strong>What the brand gets:</strong> Ibucap in the creator economy. Male, early 20s, digital-native. Dental pain is uncontested creative territory in this market. High shareability — creators will recognise the exact window pressure Otis is under.
+    </div>
+  </div>
+
+  <!-- LOOP 1 -->
+  <div class="loop-divider">
+    <span class="loop-label">Loop 1 · Establish</span>
+    <span class="loop-line"></span>
+    <span class="loop-time">0:00 → ~0:20</span>
+  </div>
+
+  <div class="panels-grid">
+
+    <!-- P01 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--azure)">
+        <span class="panel-number">01</span>
+        <span class="panel-timecode">0–5s &nbsp; RELATE</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag">Relate</span>
+        <span class="ph-icon">🎤</span>
+        <span class="ph-label">Wide tracking shot — Otis on mic at street event, crowd in full response, phone-rig rolling. Energy everywhere at once.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">The Hustle Since 5AM</div>
+        <div class="panel-desc">Nairobi street event. Wide shot into medium — Otis working the mic, crowd responding, his guy repositioning the phone-rig on his signal. He's everywhere at once: crowd, frame, check, flag. Built from nothing, one post at a time. Every young creator in the audience is watching themselves.</div>
+        <div class="panel-vo">VO: "Otis has been building this since 5AM."</div>
+      </div>
+    </div>
+
+    <!-- P02 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--red)">
+        <span class="panel-number">02</span>
+        <span class="panel-timecode">5–10s &nbsp; CONFLICT</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:var(--red)">Conflict</span>
+        <span class="ph-icon">😣</span>
+        <span class="ph-label">Close-up — mid-performance, hand goes to cheek. One second. The mask goes back on. His guy behind the camera catches it.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">The Jaw Lights Up</div>
+        <div class="panel-desc">Mid-set. Sharp, specific toothache — been threatening since morning. Hand to cheek for one second. He presses it, keeps talking. Crowd doesn't see it. But his guy behind the camera does. Close on Otis's face: the half-second, then the mask snaps back. Cut to his guy's eyes noting it.</div>
+        <div class="panel-vo">VO: [Silent — hand to cheek, the half-second, the mask goes back on]</div>
+      </div>
+    </div>
+
+    <!-- P03 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--amber)">
+        <span class="panel-number">03</span>
+        <span class="panel-timecode">10–14s &nbsp; TIMING</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:var(--amber)">Timing</span>
+        <span class="ph-icon">⏱</span>
+        <span class="ph-label">Phone screen close-up — 4:47PM, trending audio notification. Cut to Otis between tracks, jaw burning, scrolling fast.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">The Window Is Now</div>
+        <div class="panel-desc">Between tracks — he checks his phone. Trending audio notification, the window live. Close on screen: 4:47PM. Trend peaks at 5. He has to edit, caption, post — and he's still on stage, jaw burning. Quick cuts: phone screen / crowd waiting / clock / his face calculating.</div>
+        <div class="panel-vo">VO: "The trend peaks at five. The window is closing."</div>
+      </div>
+    </div>
+
+    <!-- P04 -->
+    <div class="panel">
+      <div class="panel-header" style="background:#27ae60">
+        <span class="panel-number">04</span>
+        <span class="panel-timecode">14–20s &nbsp; PARTIAL RES.</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:#27ae60">Partial Resolution</span>
+        <span class="ph-icon">💊</span>
+        <span class="ph-label">Short break — Otis opens bag, Ibucap in hand, pack visible. Ninety seconds on the phone editing. Upload starts. He stands. Back to the stage.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">He Doesn't Stop</div>
+        <div class="panel-desc">Short break between acts. Bag open — Ibucap. Two capsules, pack visible. Water. Takes them fast, barely a pause. Ninety seconds: best clip selected, quick cut, upload starts. Jaw still tight but quieter. He can work with this. Stands. Checks the stage. His turn.</div>
+        <div class="panel-vo">VO: "He doesn't stop. He prepares."</div>
+      </div>
+    </div>
+
+  </div><!-- /loop 1 -->
+
+  <!-- LOOP 2 -->
+  <div class="loop-divider">
+    <span class="loop-label">Loop 2 · Escalate &amp; Resolve</span>
+    <span class="loop-line"></span>
+    <span class="loop-time">~0:20 → 0:45</span>
+  </div>
+
+  <div class="panels-grid">
+
+    <!-- P05 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--azure)">
+        <span class="panel-number">05</span>
+        <span class="panel-timecode">20–26s &nbsp; RE-RELATE</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag">Re-Relate</span>
+        <span class="ph-icon">🔍</span>
+        <span class="ph-label">Tight on Otis's face performing — the grin held, every hard consonant costing. Phone in pocket, reel uploading. The gap between what the crowd sees and what he's managing.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Performing Through It</div>
+        <div class="panel-desc">Back on mic. Crowd warm, energy building. Phone in pocket, reel uploading. But the toothache finds him again — every hard consonant, every wide grin for camera, the jaw reminding him. Close on his face: performing, fully present, managing something real underneath. Tight frame — the audience inside him now.</div>
+        <div class="panel-vo">VO: "The crowd sees the energy. Not what it costs."</div>
+      </div>
+    </div>
+
+    <!-- P06 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--red)">
+        <span class="panel-number">06</span>
+        <span class="panel-timecode">26–32s &nbsp; ESCALATES</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:var(--red)">Conflict Escalates</span>
+        <span class="ph-icon">🔥</span>
+        <span class="ph-label">Split tension — notification: another creator just posted. Toothache spikes. Close on jaw tight. Close on hands on mic: steady. Sixty seconds to upload.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Someone Else Just Posted</div>
+        <div class="panel-desc">His guy signals: sixty seconds to upload. Toothache spikes — worst hit since morning. A notification: another creator just dropped a similar reel. Window live right now. Reel still processing. He needs to be on stage AND online AND pain-free. Close on jaw: tight. Close on hands on mic: steady. He won't let this be the moment.</div>
+        <div class="panel-vo">VO: "Someone else just posted. The window is now."</div>
+      </div>
+    </div>
+
+    <!-- P07 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--amber)">
+        <span class="panel-number">07</span>
+        <span class="panel-timecode">32–37s &nbsp; TIGHTENS</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:var(--amber)">Timing Tightens</span>
+        <span class="ph-icon">⚡</span>
+        <span class="ph-label">Phone buzzes: "Upload complete." He hits post. Close on the full grin — no pain behind it. The jaw released. The moment is his.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">The Grin Costs Nothing</div>
+        <div class="panel-desc">Phone buzzes: "Upload complete." He hits post. And the Ibucap is at full work — triple-action, nerve signal quieting, jaw releasing, pain stepping back. He breathes. He grins. Close on the full grin: no cost behind it. Both fires feeding. The moment is his.</div>
+        <div class="panel-vo">VO: "Three in one. The moment is his."</div>
+      </div>
+    </div>
+
+    <!-- P08 PACKSHOT -->
+    <div class="panel packshot">
+      <div class="panel-header" style="background:var(--charcoal)">
+        <span class="panel-number">08</span>
+        <span class="panel-timecode">37–45s &nbsp; BRAND RES.</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:var(--orange)">Brand Event</span>
+        <div class="pack-logo">IBUCAP</div>
+        <div class="pack-sub">Power of 3-in-1</div>
+        <div class="pack-tagline">Always with you...<br>to Beat Pain.</div>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">On Stage and Online</div>
+        <div class="panel-desc">Back on stage. Crowd lifts. Phone lights up in pocket — likes, comments, shares, the reel running. He's on the mic and on the internet, both fires burning. Close on his face: full grin, no pain, completely present. Triple-beat: face / lit phone screen / Ibucap Kenya Mono Pack.</div>
+        <div class="panel-vo">VO: "Ibucap. Power of 3-in-1. Always with you... to Beat Pain."</div>
+      </div>
+    </div>
+
+  </div><!-- /loop 2 -->
+
+  <div class="page-footer">
+    <div class="footer-audio">AUDIO: Street-event crowd energy throughout, live mic ambience. Resolves: "Ibucap... Power of 3-in-1... Always with you... to Beat Pain."</div>
+    <div class="footer-logo">Shalina</div>
+    <div class="footer-guardrails">PPB guardrails: No HCPs · Product incidental · No "cure" · No before/after · Claim only at outro · Two capsules visible · Colour: Azure + Orange throughout</div>
+  </div>
+
+</div><!-- /story 06 -->
+
+
+<!-- ═══════════════════════════════════════════
+     STORY 07 — KAMAU: THE HARVEST
+═══════════════════════════════════════════ -->
+<div class="page" id="s07">
+
+  <div class="page-header">
+    <div class="header-left">
+      <div class="brand-line">Shalina Healthcare · Ibucap Kenya · FY2026/27 · Stories 05–08</div>
+      <div class="story-title">KAMAU — THE HARVEST</div>
+      <div class="story-sub">Ibucap Kenya &nbsp;|&nbsp; Lower Back Pain &nbsp;|&nbsp; 45 Seconds · Double-Loop &nbsp;|&nbsp; Rift Valley tea fields, dawn into morning</div>
+    </div>
+    <div class="header-right">
+      <span class="story-badge">STORY 07 / 08</span>
+      <span class="page-badge">PAGE 3 / 4</span>
+      <span class="format-badge">45 SEC</span>
+    </div>
+  </div>
+
+  <div class="exec-summary">
+    <div class="es-label">What the story is about</div>
+    <div class="es-text">
+      <strong>Kamau walks his tea rows at dawn — a man who knows his land the way most people know their own name — when his lower back burns mid-harvest with the collection truck due at noon.</strong>
+      &nbsp;Kamau is the oldest character in the cast at 52, and he carries a different weight: not hustling for the future, protecting something already built. The harvest pressure is existential — miss the truck and the crop loses value. Lower back pain in sustained field work is universally understood across the older demographic, and across both male and female farmers. The brand event is the weight ticket in his hand — not a trophy, just a number that says: he made it.
+      &nbsp;<strong>What the brand gets:</strong> Ibucap in the agricultural economy. The 45–55 demographic: higher pain frequency, higher product loyalty. Kamau makes Ibucap feel like a trusted working tool. Breaks the youth skew of the full cast.
+    </div>
+  </div>
+
+  <!-- LOOP 1 -->
+  <div class="loop-divider">
+    <span class="loop-label">Loop 1 · Establish</span>
+    <span class="loop-line"></span>
+    <span class="loop-time">0:00 → ~0:20</span>
+  </div>
+
+  <div class="panels-grid">
+
+    <!-- P01 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--azure)">
+        <span class="panel-number">01</span>
+        <span class="panel-timecode">0–5s &nbsp; RELATE</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag">Relate</span>
+        <span class="ph-icon">🌿</span>
+        <span class="ph-label">Wide dawn shot — Kamau walks the tea rows in first light. Rift Valley hills behind him, mist still on the valley. Harvest team arriving at the gate.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Thirty Years in Every Row</div>
+        <div class="panel-desc">Before the sun is fully up. Wide shot down the tea rows — Kamau walking, checking the new flush, reading the leaves the way only thirty years of mornings can teach. Rift Valley hills behind him, valley mist not lifted yet. Harvest team arrives at the gate. He raises a hand. This morning is his to run.</div>
+        <div class="panel-vo">VO: "Kamau's shamba. Thirty years in every row."</div>
+      </div>
+    </div>
+
+    <!-- P02 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--red)">
+        <span class="panel-number">02</span>
+        <span class="panel-timecode">5–10s &nbsp; CONFLICT</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:var(--red)">Conflict</span>
+        <span class="ph-icon">😣</span>
+        <span class="ph-label">Mid-morning. Kamau straightens from the rows — slow, hand to lower back. The deep burn. He looks at the rows ahead. Keeps moving.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">The Back Announces Itself</div>
+        <div class="panel-desc">The picking is underway, basket after basket. Mid-morning — the lower back announces itself with that deep spreading burn from hours bent. Kamau straightens slowly. Hand to his lower back. He looks at what's left. Looks at his team. Keeps moving. The audience — every farmer — knows this pause.</div>
+        <div class="panel-vo">VO: [Silent — the slow straighten, the hand at his back, the rows ahead]</div>
+      </div>
+    </div>
+
+    <!-- P03 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--amber)">
+        <span class="panel-number">03</span>
+        <span class="panel-timecode">10–14s &nbsp; TIMING</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:var(--amber)">Timing</span>
+        <span class="ph-icon">⏱</span>
+        <span class="ph-label">Worker calls from field edge. Cut: close on baskets — not full enough. Wide: rows remaining. The truck is coming once.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Noon. The Truck Doesn't Wait.</div>
+        <div class="panel-desc">A worker calls from the edge: "Bwana — truck inakuja saa sita." Noon. Quick cuts — close on the rows remaining / baskets not full enough / Kamau's face registering the calculation. Six weeks of growth on the line. The truck comes once. Back burning. He cannot miss this.</div>
+        <div class="panel-vo">VO: "Noon. The truck doesn't wait for anyone."</div>
+      </div>
+    </div>
+
+    <!-- P04 -->
+    <div class="panel">
+      <div class="panel-header" style="background:#27ae60">
+        <span class="panel-number">04</span>
+        <span class="panel-timecode">14–20s &nbsp; PARTIAL RES.</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:#27ae60">Partial Resolution</span>
+        <span class="ph-icon">💊</span>
+        <span class="ph-label">Shirt pocket — Ibucap in weathered hand, pack visible. Flask water. One careful stretch. He calls to the team. Back into the rows.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">He Knows What Gets Him Through</div>
+        <div class="panel-desc">He steps to the row's edge. Reaches into his shirt pocket — Ibucap. Two capsules in a weathered palm. Pack visible. Water from his flask — the quiet of a man who has learned what works. He stretches once, carefully. Calls to the team to pick up the pace. Back into the rows.</div>
+        <div class="panel-vo">VO: "He's done this before. He knows what gets him through."</div>
+      </div>
+    </div>
+
+  </div><!-- /loop 1 -->
+
+  <!-- LOOP 2 -->
+  <div class="loop-divider">
+    <span class="loop-label">Loop 2 · Escalate &amp; Resolve</span>
+    <span class="loop-line"></span>
+    <span class="loop-time">~0:20 → 0:45</span>
+  </div>
+
+  <div class="panels-grid">
+
+    <!-- P05 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--azure)">
+        <span class="panel-number">05</span>
+        <span class="panel-timecode">20–26s &nbsp; RE-RELATE</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag">Re-Relate</span>
+        <span class="ph-icon">🔍</span>
+        <span class="ph-label">Close on Kamau's hands in the tea bushes — sure, knowing. The team works around him. He works harder. The sun is fully up now.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">He Carries the Harvest</div>
+        <div class="panel-desc">The team works. Kamau works harder than any of them. Back settled into dull ache — he manages it with his stance, the way he bends, thirty years of learning to protect what keeps him working. Rows long, sun higher. Close on his hands in the tea bushes: sure, steady, knowing. He is the pace.</div>
+        <div class="panel-vo">VO: "He carries the whole harvest in his body."</div>
+      </div>
+    </div>
+
+    <!-- P06 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--red)">
+        <span class="panel-number">06</span>
+        <span class="panel-timecode">26–32s &nbsp; ESCALATES</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:var(--red)">Conflict Escalates</span>
+        <span class="ph-icon">🔥</span>
+        <span class="ph-label">Dust on the road — the truck visible early. Worker at gate calls out. Wide shot: rows left, baskets, Kamau's face registering both at once.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">The Truck's Dust</div>
+        <div class="panel-desc">Last stretch. Back burns hard — the cumulative morning pressing in. A worker shouts from the gate: the truck's dust is visible on the road, coming early. Wide shot catches Kamau registering it across the field. He looks at the rows left. Calls out. Everyone moves. This is the moment.</div>
+        <div class="panel-vo">VO: "The truck's dust. Ten minutes."</div>
+      </div>
+    </div>
+
+    <!-- P07 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--amber)">
+        <span class="panel-number">07</span>
+        <span class="panel-timecode">32–37s &nbsp; TIGHTENS</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:var(--amber)">Timing Tightens</span>
+        <span class="ph-icon">⚡</span>
+        <span class="ph-label">Last row. Hands moving fast. Then: full straighten — no compensation. The back released. He leads the team to the sacks.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Full Height</div>
+        <div class="panel-desc">Last row, hands fast. Ibucap through his system — triple-action in the lower back, inflammation releasing, the deep ache quieting. He straightens — full height, no compensation, the back fully his. Leads the team to the sacks. The truck pulling through the gate.</div>
+        <div class="panel-vo">VO: "Three in one. Enough to finish."</div>
+      </div>
+    </div>
+
+    <!-- P08 PACKSHOT -->
+    <div class="panel packshot">
+      <div class="panel-header" style="background:var(--charcoal)">
+        <span class="panel-number">08</span>
+        <span class="panel-timecode">37–45s &nbsp; BRAND RES.</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:var(--orange)">Brand Event</span>
+        <div class="pack-logo">IBUCAP</div>
+        <div class="pack-sub">Power of 3-in-1</div>
+        <div class="pack-tagline">Always with you...<br>to Beat Pain.</div>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">The Weight Ticket</div>
+        <div class="panel-desc">Last sack onto the truck. Driver weighs the load. Kamau takes the weight ticket — a good number. He stands at the field edge, watches the truck pull away down the valley road. Close on his face: quiet, complete, earned. Triple-beat: face / the weight ticket in his hand / Ibucap Kenya Mono Pack.</div>
+        <div class="panel-vo">VO: "Ibucap. Power of 3-in-1. Always with you... to Beat Pain."</div>
+      </div>
+    </div>
+
+  </div><!-- /loop 2 -->
+
+  <div class="page-footer">
+    <div class="footer-audio">AUDIO: Pre-dawn birdsong and field ambience. Gentle build through harvest. Resolves: "Ibucap... Power of 3-in-1... Always with you... to Beat Pain."</div>
+    <div class="footer-logo">Shalina</div>
+    <div class="footer-guardrails">PPB guardrails: No HCPs · Product incidental · No "cure" · No before/after · Claim only at outro · Two capsules visible · Colour: Azure + Orange throughout</div>
+  </div>
+
+</div><!-- /story 07 -->
+
+
+<!-- ═══════════════════════════════════════════
+     STORY 08 — JUMA: THE POUR
+═══════════════════════════════════════════ -->
+<div class="page" id="s08">
+
+  <div class="page-header">
+    <div class="header-left">
+      <div class="brand-line">Shalina Healthcare · Ibucap Kenya · FY2026/27 · Stories 05–08</div>
+      <div class="story-title">JUMA — THE POUR</div>
+      <div class="story-sub">Ibucap Kenya &nbsp;|&nbsp; Full-Body Ache &nbsp;|&nbsp; 45 Seconds · Double-Loop &nbsp;|&nbsp; Nairobi high-rise construction site, afternoon</div>
+    </div>
+    <div class="header-right">
+      <span class="story-badge">STORY 08 / 08</span>
+      <span class="page-badge">PAGE 4 / 4</span>
+      <span class="format-badge">45 SEC</span>
+    </div>
+  </div>
+
+  <div class="exec-summary">
+    <div class="es-label">What the story is about</div>
+    <div class="es-text">
+      <strong>Juma is managing a high-rise concrete pour on a double shift when his full body aches from the weight and the heat — and the foreman needs the slab finished before the concrete sets at sundown.</strong>
+      &nbsp;Construction is the most physically demanding setting in the full Ibucap cast, and Juma is the youngest doing the hardest physical work. Full-body ache is distinct from targeted pain — it's the honest exhaustion of sustained high-output labour. The concrete deadline is one of the most unforgiving in any industry: it doesn't negotiate. The brand event is the foreman's nod — not applause, the acknowledgement of someone who has seen a thousand jobs and knows when one was done right.
+      &nbsp;<strong>What the brand gets:</strong> Ibucap in construction — fastest-growing sector across Shalina's East African markets. Young male workers in physical trades. "Full-body" pain is the broadest territory in the cast. The hardest note to end on: makes the endline land with maximum weight.
+    </div>
+  </div>
+
+  <!-- LOOP 1 -->
+  <div class="loop-divider">
+    <span class="loop-label">Loop 1 · Establish</span>
+    <span class="loop-line"></span>
+    <span class="loop-time">0:00 → ~0:20</span>
+  </div>
+
+  <div class="panels-grid">
+
+    <!-- P01 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--azure)">
+        <span class="panel-number">01</span>
+        <span class="panel-timecode">0–5s &nbsp; RELATE</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag">Relate</span>
+        <span class="ph-icon">🏗️</span>
+        <span class="ph-label">Wide scaffolding shot — Juma hauling rebar, Nairobi skyline spread behind him. Cranes moving, site at full volume. He signals the crew below.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Building the City</div>
+        <div class="panel-desc">Nairobi high-rise, mid-afternoon. Wide from the scaffolding level — Juma hauling rebar, the city spread out behind him. Cranes moving in background, site noise at full volume. He calls to the crew below, checks the next section, moves without hesitation. The audience: every labourer, every physical worker — watching themselves.</div>
+        <div class="panel-vo">VO: "Juma is building the city. With his hands."</div>
+      </div>
+    </div>
+
+    <!-- P02 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--red)">
+        <span class="panel-number">02</span>
+        <span class="panel-timecode">5–10s &nbsp; CONFLICT</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:var(--red)">Conflict</span>
+        <span class="ph-icon">😣</span>
+        <span class="ph-label">Concrete mixer arrives. Juma everywhere — hauling, guiding. Then: arms shaken out, the full-body ache announcing. He keeps going.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Everything at Once</div>
+        <div class="panel-desc">Concrete mixer pulls in — the pour starts. Juma is everywhere: hauling, guiding, checking the mix. His body has been at this since morning. The ache is full — back, arms, legs, the accumulated weight of a double shift hitting all at once. Close on his arms: he shakes them out. Breathes. Returns. He doesn't stop.</div>
+        <div class="panel-vo">VO: [Silent — the arm shake, the breath, the return to work]</div>
+      </div>
+    </div>
+
+    <!-- P03 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--amber)">
+        <span class="panel-number">03</span>
+        <span class="panel-timecode">10–14s &nbsp; TIMING</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:var(--amber)">Timing</span>
+        <span class="ph-icon">⏱</span>
+        <span class="ph-label">Foreman gives the order. Wide: slab half done. Cut to sky — sun already lower. Close on concrete beginning to flow and set.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Once It Starts Setting</div>
+        <div class="panel-desc">The foreman: "Before sundown — once it starts setting, there's no second pour." Slab half done. Wide shot: concrete spreading. Cut to sky — sun already lower than it should be. They are behind. The concrete doesn't care about tired arms. Quick cuts: foreman / sky / slab / Juma's face calculating.</div>
+        <div class="panel-vo">VO: "Once it starts setting — no second chance."</div>
+      </div>
+    </div>
+
+    <!-- P04 -->
+    <div class="panel">
+      <div class="panel-header" style="background:#27ae60">
+        <span class="panel-number">04</span>
+        <span class="panel-timecode">14–20s &nbsp; PARTIAL RES.</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:#27ae60">Partial Resolution</span>
+        <span class="ph-icon">💊</span>
+        <span class="ph-label">Water point — vest pocket, Ibucap in hand, pack visible. Takes them fast, rolls shoulders. Turns to crew, signals. They go again.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">He Knows the Job</div>
+        <div class="panel-desc">Short pause at the water point. Vest pocket — Ibucap. Two capsules, pack visible. Water. Takes them fast — no ceremony. Rolls his shoulders. Ache still there but something has reset. He turns back. Signals the crew. They go again. The pour is still moving.</div>
+        <div class="panel-vo">VO: "He knows what keeps him on the job."</div>
+      </div>
+    </div>
+
+  </div><!-- /loop 1 -->
+
+  <!-- LOOP 2 -->
+  <div class="loop-divider">
+    <span class="loop-label">Loop 2 · Escalate &amp; Resolve</span>
+    <span class="loop-line"></span>
+    <span class="loop-time">~0:20 → 0:45</span>
+  </div>
+
+  <div class="panels-grid">
+
+    <!-- P05 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--azure)">
+        <span class="panel-number">05</span>
+        <span class="panel-timecode">20–26s &nbsp; RE-RELATE</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag">Re-Relate</span>
+        <span class="ph-icon">🔍</span>
+        <span class="ph-label">Tight: Juma's hands gripping the guide rail — knuckles, the weight of work in every tendon. The crew follows his pace. Close on the slab spreading.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">His Crew Follows Him</div>
+        <div class="panel-desc">Pour continues. Crew working hard — Juma working harder. He sets the pace. His body sending every signal it has. Close on hands gripping the guide rail: knuckles, the weight of a double shift in every tendon. Close on the slab: spreading, filling, getting there. The city being built under his hands.</div>
+        <div class="panel-vo">VO: "His crew follows his pace. He cannot slow down."</div>
+      </div>
+    </div>
+
+    <!-- P06 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--red)">
+        <span class="panel-number">06</span>
+        <span class="panel-timecode">26–32s &nbsp; ESCALATES</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:var(--red)">Conflict Escalates</span>
+        <span class="ph-icon">🔥</span>
+        <span class="ph-label">Last section — ache peaks. Sundown sky behind the site. Foreman watching from the edge. Extreme close on Juma's face: jaw set, eyes on the slab.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">The Body Votes to Stop</div>
+        <div class="panel-desc">Final section of the pour. The ache peaks — the hardest moment of a double shift, every muscle voting for stopping. Concrete moving into the last bay. Sundown light behind the site. Foreman watching from the edge, arms crossed. Close on Juma's face: jaw set, eyes fixed on the slab. He goes through the wall.</div>
+        <div class="panel-vo">VO: "The body votes to stop. He doesn't."</div>
+      </div>
+    </div>
+
+    <!-- P07 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--amber)">
+        <span class="panel-number">07</span>
+        <span class="panel-timecode">32–37s &nbsp; TIGHTENS</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:var(--amber)">Timing Tightens</span>
+        <span class="ph-icon">⚡</span>
+        <span class="ph-label">Ibucap full work — Juma stands straight, arms free. Moves crew into final position. The last push. Wide: the slab nearly done.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">The Last Push</div>
+        <div class="panel-desc">In the final bay. Ibucap through his system — triple-action spreading through muscle and joint, inflammation backing off, the full-body ache releasing its grip. He stands straight. Arms free. Moves the crew into position. Close on his full height — the posture of someone whose body is back. The slab: almost done.</div>
+        <div class="panel-vo">VO: "Three in one. The last push."</div>
+      </div>
+    </div>
+
+    <!-- P08 PACKSHOT -->
+    <div class="panel packshot">
+      <div class="panel-header" style="background:var(--charcoal)">
+        <span class="panel-number">08</span>
+        <span class="panel-timecode">37–45s &nbsp; BRAND RES.</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:var(--orange)">Brand Event</span>
+        <div class="pack-logo">IBUCAP</div>
+        <div class="pack-sub">Power of 3-in-1</div>
+        <div class="pack-tagline">Always with you...<br>to Beat Pain.</div>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">The Foreman's Nod</div>
+        <div class="panel-desc">Slab done — smooth, level, complete. Foreman walks it, checks it. Nods. That nod is everything. Juma watches from the edge, Nairobi skyline rising behind him. Close on his hands — worn, strong, capable. He is part of this city. He built this. Triple-beat: face / hands / Ibucap Kenya Mono Pack against the skyline.</div>
+        <div class="panel-vo">VO: "Ibucap. Power of 3-in-1. Always with you... to Beat Pain."</div>
+      </div>
+    </div>
+
+  </div><!-- /loop 2 -->
+
+  <div class="page-footer">
+    <div class="footer-audio">AUDIO: Construction site ambience, concrete mixer, rebar. Resolves clean: "Ibucap... Power of 3-in-1... Always with you... to Beat Pain."</div>
+    <div class="footer-logo">Shalina</div>
+    <div class="footer-guardrails">PPB guardrails: No HCPs · Product incidental · No "cure" · No before/after · Claim only at outro · Two capsules visible · Colour: Azure + Orange throughout</div>
+  </div>
+
+</div><!-- /story 08 -->
+
+<script>
+(function () {
+
+  // One hidden file input shared across all panels
+  var fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = 'image/*,video/*';
+  fileInput.style.display = 'none';
+  document.body.appendChild(fileInput);
+
+  var activePanel = null;
+
+  // ── FILE INPUT HANDLER ────────────────────────────────────
+
+  fileInput.addEventListener('change', function () {
+    var file = fileInput.files[0];
+    if (!file || !activePanel) return;
+
+    var objectURL = URL.createObjectURL(file);
+    var isVideo = file.type.startsWith('video/');
+
+    loadMedia(activePanel, objectURL, isVideo);
+
+    // Reset so same file can be re-picked
+    fileInput.value = '';
+  });
+
+  // ── LOAD MEDIA ────────────────────────────────────────────
+
+  function loadMedia(panel, objectURL, isVideo) {
+    // Release previous blob URL if any
+    if (panel._objectURL) URL.revokeObjectURL(panel._objectURL);
+    panel._objectURL = objectURL;
+
+    panel.innerHTML = '';
+    panel.classList.add('has-media');
+
+    var media;
+    if (isVideo) {
+      media = document.createElement('video');
+      media.src = objectURL;
+      media.controls = true;
+      media.playsInline = true;
+    } else {
+      media = document.createElement('img');
+      media.src = objectURL;
+      media.alt = 'Storyboard frame';
+    }
+    panel.appendChild(media);
+
+    // Change button
+    var btn = document.createElement('button');
+    btn.className = 'media-change-btn';
+    btn.textContent = '✎ Change';
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      activePanel = panel;
+      fileInput.click();
+    });
+    panel.appendChild(btn);
+  }
+
+  // ── CLEAR / RESET ─────────────────────────────────────────
+
+  function clearMedia(panel) {
+    if (panel._objectURL) { URL.revokeObjectURL(panel._objectURL); panel._objectURL = null; }
+    panel.classList.remove('has-media');
+    panel.innerHTML = panel._placeholder || '';
+  }
+
+  // ── MAKE TEXT EDITABLE ───────────────────────────────────
+
+  var EDITABLE_SELECTORS = [
+    '.panel-scene-name',
+    '.panel-desc',
+    '.panel-vo',
+    '.ph-label',
+    '.panel-timecode',
+    '.es-text',
+    '.pack-tagline',
+    '.pack-logo',
+    '.pack-sub',
+    '.footer-audio',
+    '.footer-guardrails',
+    '.story-title',
+    '.story-sub',
+    '.brand-line',
+    '.loop-label',
+    '.loop-time',
+    '.footer-logo'
+  ].join(',');
+
+  function makeEditable() {
+    document.querySelectorAll(EDITABLE_SELECTORS).forEach(function (el) {
+      el.setAttribute('contenteditable', 'true');
+      el.setAttribute('spellcheck', 'false');
+      // Prevent Enter creating block elements
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          document.execCommand('insertLineBreak');
+        }
+      });
+    });
+  }
+
+  // ── INIT ──────────────────────────────────────────────────
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // Make all text editable
+    makeEditable();
+
+    // Bind file picker to panel images
+    document.querySelectorAll('.panel-image').forEach(function (panel) {
+      panel._placeholder = panel.innerHTML;
+
+      panel.addEventListener('click', function () {
+        if (panel.classList.contains('has-media')) return;
+        activePanel = panel;
+        fileInput.click();
+      });
+    });
+  });
+
+})();
+</script>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

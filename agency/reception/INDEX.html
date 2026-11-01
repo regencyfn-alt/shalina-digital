@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reception · CENTREFREE Agency</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;0,900;1,400&family=Source+Sans+3:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --forest:#19281F; --forest-2:#20342a; --gold:#C68A1E; --gold-2:#D49A2A; --cream:#F3E8C8;
+    --border:rgba(255,255,255,.10); --subtle:rgba(255,255,255,.05); --ease:cubic-bezier(.22,.61,.36,1);
+    --display:'Playfair Display',serif; --text:'Source Sans 3',sans-serif; --mono:'IBM Plex Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--forest);color:#fff;font-family:var(--text);min-height:100vh}
+  .wrap{max-width:760px;margin:0 auto;padding:32px 28px 60px}
+  .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .wordmark{font-family:var(--display);font-weight:900;font-size:16px}.wordmark span{color:var(--gold)}
+  .back{color:rgba(255,255,255,.4);font-size:11px;text-decoration:none;font-family:var(--mono)}
+  .back:hover{color:var(--gold)}
+  .eyebrow{font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin:34px 0 14px}
+  h1{font-family:var(--display);font-weight:900;font-size:52px;line-height:1;letter-spacing:-.02em;margin-bottom:16px}
+  h1 em{font-style:italic;color:rgba(255,255,255,.25)}
+  .lede{font-size:16px;color:rgba(255,255,255,.5);max-width:520px;line-height:1.6;margin-bottom:32px}
+
+  .greeter{display:flex;align-items:center;gap:16px;background:var(--forest-2);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:30px}
+  .greeter .av{width:52px;height:52px;border-radius:50%;background:var(--gold);color:var(--forest);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:900;font-size:24px;flex-shrink:0}
+  .greeter .who{font-family:var(--display);font-size:18px;font-weight:700}
+  .greeter .role{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+  .greeter .quote{font-size:13px;color:rgba(255,255,255,.55);margin-top:3px;font-style:italic}
+  .speak{margin-left:auto;background:transparent;border:1px solid var(--border);color:#fff;border-radius:20px;padding:6px 15px;font-size:12px;cursor:pointer;flex-shrink:0}
+  .speak:hover{border-color:var(--gold);color:var(--gold)}
+  .speak.playing{border-color:var(--cream);color:var(--cream)}
+
+  .desk{background:var(--forest-2);border:1px solid var(--border);border-radius:14px;padding:24px}
+  .desk h2{font-family:var(--display);font-weight:800;font-size:22px;margin-bottom:4px}
+  .desk p{font-size:13px;color:rgba(255,255,255,.45);margin-bottom:18px;line-height:1.6}
+  label.fl{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin:14px 0 6px}
+  select,textarea{width:100%;background:var(--forest);border:1px solid var(--border);color:#fff;border-radius:8px;padding:11px 13px;font-family:var(--text);font-size:14px}
+  textarea{min-height:96px;resize:vertical}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .go{margin-top:16px;background:var(--gold);color:var(--forest);border:none;border-radius:8px;padding:12px 26px;font-weight:800;font-size:13px;letter-spacing:.4px;cursor:pointer}
+  .go:hover{background:var(--gold-2)}
+  .queue{margin-top:24px;border-top:1px solid var(--border);padding-top:16px}
+  .queue h4{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:12px}
+  .req{background:var(--forest);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:11px 13px;margin-bottom:8px;font-size:13px}
+  .req .meta{font-size:10.5px;color:rgba(255,255,255,.35);margin-top:4px;font-family:var(--mono)}
+  .empty{color:rgba(255,255,255,.35);font-size:13px;font-style:italic}
+  .note{font-size:11.5px;color:rgba(255,255,255,.3);line-height:1.6;margin-top:18px;border-left:2px solid var(--gold);padding-left:12px}
+</style>
+  <link rel="stylesheet" href="/estate.css">
+  <script defer src="/estate-theme.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="wordmark">CENTRE<span>FREE</span> · Reception</div>
+    <a class="back" href="../INDEX.html">← agency</a>
+  </div>
+
+  <div class="eyebrow">Hand off a task</div>
+  <h1>Reception.<br><em>Where the work comes in.</em></h1>
+  <p class="lede">Describe what you need — a piece of writing, a design, a production job — and it enters the agency through Niamh, who dispatches it to the right director.</p>
+
+  <div class="greeter">
+    <div class="av">N</div>
+    <div>
+      <div class="who">Niamh</div>
+      <div class="role">Agency Head · AI Gateway</div>
+      <div class="quote">"Tell me what you need made. I'll take it from here."</div>
+    </div>
+    <button class="speak" id="sp" onclick="speak()">▶ hear Niamh</button>
+  </div>
+
+  <div class="desk">
+    <h2>Brief the agency</h2>
+    <p>Every brief enters here and is logged. (Prototype: requests are captured this session; live dispatch to the directors wires in next.)</p>
+    <div class="row">
+      <div>
+        <label class="fl">Type of work</label>
+        <select id="type">
+          <option>Writing — copy, article, script</option>
+          <option>Design — identity, layout, asset</option>
+          <option>Production — video, storyboard, edit</option>
+          <option>Strategy — brief, positioning</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div>
+        <label class="fl">Brand / account</label>
+        <select id="brand">
+          <option>— none / new —</option>
+          <option>Shal'Artem</option><option>Shaltoux</option><option>Ibucap</option>
+          <option>Germol</option><option>ACO Pine Gel</option><option>Flodent</option><option>Polygel</option>
+        </select>
+      </div>
+    </div>
+    <label class="fl">The task</label>
+    <textarea id="task" placeholder="e.g. Write the 6 Ibucap Kenya hustler captions in the Beat Pain voice, 40 words each…"></textarea>
+    <button class="go" onclick="submitTask()">Hand it off →</button>
+
+    <div class="queue"><h4>Today's hand-offs</h4><div id="q"></div></div>
+    <div class="note">Niamh speaks in her real ElevenLabs voice via the MySanctum synthesis endpoint when served with the API; a browser voice stands in offline. Hand-offs enter Niamh's design system; the skilled directors make the work — including full film and video — using the real production tools.</div>
+  </div>
+
+  <div class="eyebrow" style="margin:32px 0 12px">Where the work goes</div>
+  <div style="display:grid;gap:10px">
+    <a href="../niamh/design-system/INDEX.html" style="display:block;background:var(--forest-2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:#fff">
+      <b style="font-family:var(--display);font-size:16px;color:var(--gold)">Design System &rarr;</b>
+      <span style="display:block;font-size:12.5px;color:rgba(255,255,255,.5);margin-top:3px">All agency knowledge &mdash; 107 tokens, 8 brand worlds, design laws. The dense source of truth.</span></a>
+    <a href="../agents/INDEX.html" style="display:block;background:var(--forest-2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:#fff">
+      <b style="font-family:var(--display);font-size:16px;color:var(--gold)">The Directors &rarr;</b>
+      <span style="display:block;font-size:12.5px;color:rgba(255,255,255,.5);margin-top:3px">The skilled staff who make the work &mdash; writing, design, and full production.</span></a>
+    <a href="https://centrefree.com/studio/" style="display:block;background:var(--forest-2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:#fff">
+      <b style="font-family:var(--display);font-size:16px;color:var(--gold)">The Studio &rarr;</b>
+      <span style="display:block;font-size:12.5px;color:rgba(255,255,255,.5);margin-top:3px">The real production toolset &mdash; where the directors make films and video.</span></a>
+  </div>
+</div>
+
+<script>
+  var NIAMH_VOICE = "g5HCs320E9atGOUOkEKO";
+  var NIAMH_LINE = "Niamh here. Tell me what you need made — writing, design, production — and I'll take it from here.";
+  var VOICE_ENDPOINT = "https://api.mysanctum.app/voice/synthesize";
+  var reqs = [];
+  function esc(s){return (s||"").replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+  function speak(){
+    var btn=document.getElementById('sp'); btn.classList.add('playing'); btn.textContent='… speaking';
+    var done=function(){btn.classList.remove('playing');btn.textContent='▶ hear Niamh';};
+    fetch(VOICE_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:NIAMH_LINE,voiceId:NIAMH_VOICE})})
+      .then(function(r){if(!r.ok)throw 0;return r.blob();})
+      .then(function(b){var a=new Audio(URL.createObjectURL(b));a.onended=done;a.play();})
+      .catch(function(){try{var u=new SpeechSynthesisUtterance(NIAMH_LINE);u.onend=done;speechSynthesis.speak(u);}catch(e){done();}});
+  }
+  function submitTask(){
+    var type=document.getElementById('type').value, brand=document.getElementById('brand').value;
+    var task=(document.getElementById('task').value||'').trim(); if(!task)return;
+    reqs.unshift({type:type,brand:brand,task:task,at:new Date().toLocaleString()});
+    document.getElementById('task').value=''; render();
+  }
+  function render(){
+    var q=document.getElementById('q');
+    if(!reqs.length){q.innerHTML='<div class="empty">No hand-offs yet today.</div>';return;}
+    q.innerHTML=reqs.map(function(r){
+      var b=(r.brand.indexOf('none')>-1)?'':' · '+esc(r.brand);
+      return '<div class="req">'+esc(r.task)+'<div class="meta">'+esc(r.type.split(' — ')[0])+b+' · '+esc(r.at)+'</div></div>';
+    }).join('');
+  }
+  render();
+</script>
+</body>
+</html>

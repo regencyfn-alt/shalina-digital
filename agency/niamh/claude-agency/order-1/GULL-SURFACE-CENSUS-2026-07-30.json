@@ -1,0 +1,3042 @@
+[
+ {
+  "type": "html",
+  "path": "INDEX.html",
+  "room": "(root)",
+  "title": "CENTREFREE Agency",
+  "bytes": 7633,
+  "scripts": {
+   "total": 3,
+   "inline": 0,
+   "src": 3
+  },
+  "estate_wiring": {
+   "estate.css": true,
+   "estate-theme.js": true,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "agents/INDEX.html",
+  "room": "agents",
+  "title": "Agents · CENTREFREE",
+  "bytes": 12891,
+  "scripts": {
+   "total": 4,
+   "inline": 1,
+   "src": 3
+  },
+  "estate_wiring": {
+   "estate.css": true,
+   "estate-theme.js": true,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "design-system/INDEX.html",
+  "room": "design-system",
+  "title": "Shalina Design System · CENTREFREE Agency",
+  "bytes": 650,
+  "scripts": {
+   "total": 2,
+   "inline": 0,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/Ibucap Kenya Hustler Board (shareable) 2.html",
+  "room": "niamh",
+  "title": "Ibucap Kenya — Hustler Animations + Podcasts · Production Board",
+  "bytes": 13870346,
+  "scripts": {
+   "total": 9,
+   "inline": 6,
+   "src": 3
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com",
+   "www.w3.org"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/_templates/shalina-story-template.html",
+  "room": "niamh",
+  "title": "Shalina Story Template",
+  "bytes": 29004,
+  "scripts": {
+   "total": 2,
+   "inline": 0,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/analytics/FLUX-ANALYTICS-NIAMH-2026-07-09.html",
+  "room": "niamh",
+  "title": "Flux Analytics — The Board",
+  "bytes": 24035,
+  "scripts": {
+   "total": 4,
+   "inline": 1,
+   "src": 3
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "cdnjs.cloudflare.com",
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4",
+  "zone_basis": "keyword 'flux' in path/title"
+ },
+ {
+  "type": "html",
+  "path": "niamh/analytics/PHOENIX-KPI-DASHBOARD-2026-07-28.html",
+  "room": "niamh",
+  "title": "Flux Analytics — Phoenix KPI Board",
+  "bytes": 16740,
+  "scripts": {
+   "total": 0,
+   "inline": 0,
+   "src": 0
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": false,
+   "wired": false
+  },
+  "menu": false,
+  "menu_signature": null,
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4",
+  "zone_basis": "keyword 'flux' in path/title"
+ },
+ {
+  "type": "html",
+  "path": "niamh/campaign-docs/AGENCY-ROOM.html",
+  "room": "niamh",
+  "title": "The Agency · CENTREFREE",
+  "bytes": 9655,
+  "scripts": {
+   "total": 1,
+   "inline": 0,
+   "src": 1
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/campaign-docs/INDEX.html",
+  "room": "niamh",
+  "title": "Campaign Docs · Shalina Healthcare · CENTREFREE Agency",
+  "bytes": 9315,
+  "scripts": {
+   "total": 1,
+   "inline": 0,
+   "src": 1
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "docs.google.com",
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/campaign-plans/CAMPAIGN-PLANS-INTERACTIVE-2026-07-09.html",
+  "room": "niamh",
+  "title": "CENTREFREE Agency — Campaign Plans · July 2026",
+  "bytes": 27790,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/design-system/INDEX.html",
+  "room": "niamh",
+  "title": "Shalina Design System · CENTREFREE Agency",
+  "bytes": 71852,
+  "scripts": {
+   "total": 4,
+   "inline": 1,
+   "src": 3
+  },
+  "estate_wiring": {
+   "estate.css": true,
+   "estate-theme.js": true,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/design-system/pages/BENTO-NODES-TEMPLATE-2026-07-08.html",
+  "room": "niamh",
+  "title": "CENTREFREE — Bento + Node Overlay Template (v3)",
+  "bytes": 11699,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": true,
+  "uploader_basis": [
+   "input[type=file]"
+  ],
+  "external_hosts": [
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/design-system/pages/BRAND-GUIDES.html",
+  "room": "niamh",
+  "title": "Shalina Healthcare · Brand Guides FY2026/27 · CENTREFREE Agency",
+  "bytes": 14882,
+  "scripts": {
+   "total": 2,
+   "inline": 0,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/design-system/pages/COG-SURFACE-PICKER.html",
+  "room": "niamh",
+  "title": "Cog surface picker",
+  "bytes": 8320,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": true,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/design-system/pages/FLEXIMAX-IMAGE-TEMPLATE-2026-07-08.html",
+  "room": "niamh",
+  "title": "CENTREFREE — Fleximax Image Template (bento, transparent slots)",
+  "bytes": 7320,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/design-system/pages/FLODENT-BEAT-BOARD.html",
+  "room": "niamh",
+  "title": "Flodent — Beat Board",
+  "bytes": 25700,
+  "scripts": {
+   "total": 1,
+   "inline": 1,
+   "src": 0
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": false,
+   "wired": false
+  },
+  "menu": false,
+  "menu_signature": null,
+  "picker": false,
+  "uploader": true,
+  "uploader_basis": [
+   "input[type=file]"
+  ],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com",
+   "www.w3.org"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/design-system/pages/FLODENT-OUTRO.html",
+  "room": "niamh",
+  "title": "Flodent — Outro (fixed bolt-on asset)",
+  "bytes": 6796,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/design-system/pages/FLODENT-STORY-001-SIGNOFF.html",
+  "room": "niamh",
+  "title": "June Flodent Story Ideation",
+  "bytes": 15497,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/design-system/pages/FLODENT-STORYBOARD-ZIMKHITA.html",
+  "room": "niamh",
+  "title": "Flodent — Fresh Start Club Storyboards",
+  "bytes": 30200,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/design-system/pages/FLODENT-TRIPLE-ACTION-BRANDGUIDE.html",
+  "room": "niamh",
+  "title": "Flodent Triple Action — Brand Guide (for sign-off)",
+  "bytes": 10345,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/design-system/pages/GERMOL-STORIES-CONFLICT-2026-07-29.html",
+  "room": "niamh",
+  "title": "Germol SA — Updated Stories (Conflict Rev A) · CENTREFREE",
+  "bytes": 42822,
+  "scripts": {
+   "total": 2,
+   "inline": 0,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/design-system/pages/GERMOL-STORIES-SIGNOFF.html",
+  "room": "niamh",
+  "title": "Germol SA Updated Stories — Sign-off",
+  "bytes": 22395,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/design-system/pages/IBUCAP-BEAT-BOARD.html",
+  "room": "niamh",
+  "title": "Ibucap — Beat Board",
+  "bytes": 26447,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": true,
+  "uploader_basis": [
+   "input[type=file]"
+  ],
+  "external_hosts": [
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/design-system/pages/IBUCAP-STORYBOARD-STACK.html",
+  "room": "niamh",
+  "title": "Ibucap Kenya — Storyboards 05–08",
+  "bytes": 60929,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/design-system/pages/IBUCAP-STORYBOARDS-05-08.html",
+  "room": "niamh",
+  "title": "Ibucap Kenya — Storyboards 05–08",
+  "bytes": 60929,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/design-system/pages/IMAGE-GRID-TEMPLATE-2026-07-08.html",
+  "room": "niamh",
+  "title": "CENTREFREE — Image Grid Template (3×3, 1920×1080)",
+  "bytes": 3073,
+  "scripts": {
+   "total": 2,
+   "inline": 0,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/design-system/pages/PRACTICE-AGENCY-ROOM-2026-07-08.html",
+  "room": "niamh",
+  "title": "CENTREFREE — Fleximax Practice: ACO Agency Room",
+  "bytes": 6670,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/design-system/pages/WRITING-GUIDE.html",
+  "room": "niamh",
+  "title": "Shalina Healthcare · Writing Guide · CENTREFREE Agency",
+  "bytes": 10626,
+  "scripts": {
+   "total": 2,
+   "inline": 0,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/design-system/pages/brand-assets.html",
+  "room": "niamh",
+  "title": "Shalina · Brand Asset Hub — CENTREFREE",
+  "bytes": 22697,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": true,
+  "uploader_basis": [
+   "input[type=file]",
+   "drag/drop-handler"
+  ],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/design-system/pages/ibucap-storyboards.html",
+  "room": "niamh",
+  "title": "Ibucap Kenya — Storyboards 05–08",
+  "bytes": 60929,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/design-system/pages/shalina-story-template.html",
+  "room": "niamh",
+  "title": "Shalina Story Template",
+  "bytes": 29004,
+  "scripts": {
+   "total": 2,
+   "inline": 0,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/beat-boards/flodent-beat-board.html",
+  "room": "niamh",
+  "title": "Flodent — Beat Board",
+  "bytes": 30157,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": true,
+  "uploader_basis": [
+   "input[type=file]"
+  ],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com",
+   "www.w3.org"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/beat-boards/ibucap-beat-board.html",
+  "room": "niamh",
+  "title": "Ibucap — Beat Board",
+  "bytes": 26051,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": true,
+  "uploader_basis": [
+   "input[type=file]"
+  ],
+  "external_hosts": [
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/brand-matrix/1783516353227.html",
+  "room": "niamh",
+  "title": "Shalina Brand Matrix",
+  "bytes": 13253,
+  "scripts": {
+   "total": 4,
+   "inline": 2,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/brand-matrix/1783518140907.html",
+  "room": "niamh",
+  "title": "Shalina Brand Matrix",
+  "bytes": 13382,
+  "scripts": {
+   "total": 4,
+   "inline": 2,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/brand-matrix/1783518455144.html",
+  "room": "niamh",
+  "title": "Shalina Brand Matrix",
+  "bytes": 13489,
+  "scripts": {
+   "total": 4,
+   "inline": 2,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/brand-matrix/1783518773973.html",
+  "room": "niamh",
+  "title": "Shalina Brand Matrix",
+  "bytes": 13574,
+  "scripts": {
+   "total": 4,
+   "inline": 2,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/brand-matrix/1783519345522.html",
+  "room": "niamh",
+  "title": "Shalina Brand Matrix",
+  "bytes": 15254,
+  "scripts": {
+   "total": 4,
+   "inline": 2,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/brand-matrix/1783519649122.html",
+  "room": "niamh",
+  "title": "Shalina Brand Matrix",
+  "bytes": 15271,
+  "scripts": {
+   "total": 4,
+   "inline": 2,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/brand-matrix/1783521296644.html",
+  "room": "niamh",
+  "title": "Shalina Brand Matrix",
+  "bytes": 15370,
+  "scripts": {
+   "total": 4,
+   "inline": 2,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/brand-matrix/1783522480967.html",
+  "room": "niamh",
+  "title": "Shalina Brand Matrix",
+  "bytes": 15230,
+  "scripts": {
+   "total": 4,
+   "inline": 2,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/brand-matrix/1783523108491.html",
+  "room": "niamh",
+  "title": "Shalina Brand Matrix",
+  "bytes": 17173,
+  "scripts": {
+   "total": 4,
+   "inline": 2,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/brand-matrix/1783523381935.html",
+  "room": "niamh",
+  "title": "Shalina Brand Matrix",
+  "bytes": 17360,
+  "scripts": {
+   "total": 4,
+   "inline": 2,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/brand-matrix/1783523566152.html",
+  "room": "niamh",
+  "title": "Shalina Brand Matrix",
+  "bytes": 17363,
+  "scripts": {
+   "total": 4,
+   "inline": 2,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/brand-matrix/1783524023280.html",
+  "room": "niamh",
+  "title": "Shalina Brand Matrix",
+  "bytes": 17460,
+  "scripts": {
+   "total": 4,
+   "inline": 2,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/estate-front/SYSTEM-GALLERY.html",
+  "room": "niamh",
+  "title": "System Gallery — the whole estate, one wall",
+  "bytes": 14154,
+  "scripts": {
+   "total": 2,
+   "inline": 0,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com",
+   "infocube-command.pages.dev"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/estate-front/centre-free-island.html",
+  "room": "niamh",
+  "title": "Centre Free",
+  "bytes": 22940,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "d8j0ntlcm91z4.cloudfront.net"
+  ],
+  "cdn_residue": {
+   "flag": true,
+   "patterns": [
+    "higgsfield",
+    "cloudfront"
+   ],
+   "lines": {
+    "higgsfield": [
+     327,
+     415
+    ],
+    "cloudfront": [
+     329,
+     331
+    ]
+   }
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/estate-front/centrefree-index-NEW.html",
+  "room": "niamh",
+  "title": "Centre Free — the free space for emergent design",
+  "bytes": 6923,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/estate-front/centrefree-index-STAGED.html",
+  "room": "niamh",
+  "title": "Centre Free — the free space for emergent design",
+  "bytes": 7646,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/storyboards/IBUCAP-STORYBOARDS-05-08.html",
+  "room": "niamh",
+  "title": "Ibucap Kenya — Storyboards 05–08",
+  "bytes": 60929,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/storyboards/ibucap-storyboards.html",
+  "room": "niamh",
+  "title": "Ibucap Kenya — Storyboards 05–08",
+  "bytes": 60929,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/studio/studio-cockpit-flux.html",
+  "room": "niamh",
+  "title": "Studio Cockpit — InfoCube",
+  "bytes": 39404,
+  "scripts": {
+   "total": 1,
+   "inline": 1,
+   "src": 0
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": false,
+   "wired": false
+  },
+  "menu": false,
+  "menu_signature": null,
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com",
+   "infocube-api.vouch4us.workers.dev",
+   "www.w3.org"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z1",
+  "zone_basis": "keyword 'infocube' in path/title"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/studio/studio-cockpit-live.html",
+  "room": "niamh",
+  "title": "Studio Cockpit — InfoCube",
+  "bytes": 41410,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com",
+   "infocube-api.vouch4us.workers.dev",
+   "www.w3.org"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z1",
+  "zone_basis": "keyword 'infocube' in path/title"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/studio/studio-cockpit.html",
+  "room": "niamh",
+  "title": "Studio Cockpit — InfoCube · design system",
+  "bytes": 26597,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com",
+   "www.w3.org"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z1",
+  "zone_basis": "keyword 'infocube' in path/title"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/studio/studio-staff.html",
+  "room": "niamh",
+  "title": "Studio · Staff — InfoCube",
+  "bytes": 32609,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": true,
+  "uploader_basis": [
+   "input[type=file]"
+  ],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com",
+   "www.w3.org"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z1",
+  "zone_basis": "keyword 'infocube' in path/title"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/studio/studio.html",
+  "room": "niamh",
+  "title": "Studio — InfoCube",
+  "bytes": 14773,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "infocube-api.vouch4us.workers.dev"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z1",
+  "zone_basis": "keyword 'infocube' in path/title"
+ },
+ {
+  "type": "html",
+  "path": "niamh/recovered-2026-07-20/studio/voice-bank.html",
+  "room": "niamh",
+  "title": "Voice Bank — InfoCube",
+  "bytes": 30067,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "api.elevenlabs.io",
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z1",
+  "zone_basis": "keyword 'infocube' in path/title"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/aco/ACO-CALENDAR.html",
+  "room": "niamh",
+  "title": "ACO · Campaign Calendar · You Only Need One (Angola) · CENTREFREE",
+  "bytes": 10727,
+  "scripts": {
+   "total": 2,
+   "inline": 0,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "docs.google.com",
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/aco/ACO-STORY-ARCS-HANDOVER-2026-07-10.html",
+  "room": "niamh",
+  "title": "ACO · Story Arc Treatments — Regency Flux Estate",
+  "bytes": 24414,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4",
+  "zone_basis": "keyword 'flux' in path/title"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/aco/ACO-STORY-ARCS-HANDOVER-PT-2026-07-10.html",
+  "room": "niamh",
+  "title": "ACO · Tratamentos de Arcos — Regency Flux Estate",
+  "bytes": 24628,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4",
+  "zone_basis": "keyword 'flux' in path/title"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/aco/aco-live/index.html",
+  "room": "niamh",
+  "title": "ACO — You Only Need One · Scrolling Presentation · RegencyFlux",
+  "bytes": 1111489,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": true,
+  "uploader_basis": [
+   "drag/drop-handler"
+  ],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com",
+   "i.ytimg.com",
+   "link-to-your-image.jpg",
+   "www.youtube.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4",
+  "zone_basis": "keyword 'flux' in path/title"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/aco/storyboards/ACO-STORY-01-THE-CUPBOARD-EN.html",
+  "room": "niamh",
+  "title": "ACO Pine Gel — Story 01: The Cupboard | Creative Storyboard",
+  "bytes": 810337,
+  "scripts": {
+   "total": 2,
+   "inline": 0,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/aco/storyboards/ACO-STORY-01-THE-CUPBOARD.html",
+  "room": "niamh",
+  "title": "ACO Angola — Story 01 · O Armário",
+  "bytes": 5037417,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": true,
+  "uploader_basis": [
+   "drag/drop-handler"
+  ],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/aco/storyboards/ACO-STORY-02-THE-GREASE-TEST.html",
+  "room": "niamh",
+  "title": "ACO Pine Gel — Story 02: The Grease Test | Creative Storyboard",
+  "bytes": 34120,
+  "scripts": {
+   "total": 2,
+   "inline": 0,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": true,
+   "patterns": [
+    "higgsfield"
+   ],
+   "lines": {
+    "higgsfield": [
+     680,
+     685
+    ]
+   }
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/aco/storyboards/ACO-STORY-07-A-VIAGEM-AS-COMPRAS-PT.html",
+  "room": "niamh",
+  "title": "ACO Pine Gel — História 07: A Viagem às Compras | Storyboard Criativo",
+  "bytes": 36007,
+  "scripts": {
+   "total": 2,
+   "inline": 0,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": true,
+   "patterns": [
+    "higgsfield"
+   ],
+   "lines": {
+    "higgsfield": [
+     558,
+     929,
+     947,
+     960,
+     1029,
+     1065
+    ]
+   }
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/aco/storyboards/ACO-STORY-07-THE-SHOPPING-TRIP-EN.html",
+  "room": "niamh",
+  "title": "ACO Pine Gel — Story 07: The Shopping Trip | Creative Storyboard",
+  "bytes": 35790,
+  "scripts": {
+   "total": 2,
+   "inline": 0,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": true,
+   "patterns": [
+    "higgsfield"
+   ],
+   "lines": {
+    "higgsfield": [
+     238,
+     565,
+     885,
+     937,
+     955,
+     968,
+     "..."
+    ]
+   }
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/flodent/FLODENT-MKHIZE-AUGUST-STRUCTURE-v2.html",
+  "room": "niamh",
+  "title": "untitled",
+  "bytes": 16407,
+  "scripts": {
+   "total": 0,
+   "inline": 0,
+   "src": 0
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": false,
+   "wired": false
+  },
+  "menu": false,
+  "menu_signature": null,
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/flodent/storyboards/FLODENT-STORYBOARD-ZIMKHITA.html",
+  "room": "niamh",
+  "title": "Flodent — Fresh Start Club Storyboards",
+  "bytes": 30200,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/germol/GERMOL-CALENDAR.html",
+  "room": "niamh",
+  "title": "Germol · Campaign Calendar · Shielded Freedom (SA) · CENTREFREE",
+  "bytes": 9212,
+  "scripts": {
+   "total": 2,
+   "inline": 0,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "docs.google.com",
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/ibucap/IBUCAP-CALENDAR.html",
+  "room": "niamh",
+  "title": "IBUCAP · Campaign Calendar · Season 1 Reboost (NG) · CENTREFREE",
+  "bytes": 8025,
+  "scripts": {
+   "total": 2,
+   "inline": 0,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "docs.google.com",
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/ibucap/storyboards/IBUCAP-STORYBOARD-STACK.html",
+  "room": "niamh",
+  "title": "Ibucap Kenya — Storyboards 05–08",
+  "bytes": 60929,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/ibucap/storyboards/IBUCAP-STORYBOARDS-05-08.html",
+  "room": "niamh",
+  "title": "Ibucap Kenya — Storyboards 05–08",
+  "bytes": 61119,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/shalartem/BOUNCE-BACK-BRAND-KIT.html",
+  "room": "niamh",
+  "title": "Bounce Back — Brand Kit (Close-out + Brand ID)",
+  "bytes": 9769,
+  "scripts": {
+   "total": 1,
+   "inline": 1,
+   "src": 0
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": false,
+   "wired": false
+  },
+  "menu": false,
+  "menu_signature": null,
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "www.w3.org"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/shalartem/BOUNCE-BACK-CAMPAIGN-BRIEF.html",
+  "room": "niamh",
+  "title": "BOUNCE BACK — Campaign Brief · Shal'Artem Nigeria",
+  "bytes": 36897,
+  "scripts": {
+   "total": 0,
+   "inline": 0,
+   "src": 0
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": false,
+   "wired": false
+  },
+  "menu": false,
+  "menu_signature": null,
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/shalartem/BOUNCE-BACK-CAMPAIGN-PAGE.html",
+  "room": "niamh",
+  "title": "BOUNCE BACK — The Competition · Shal'Artem Nigeria",
+  "bytes": 71989,
+  "scripts": {
+   "total": 0,
+   "inline": 0,
+   "src": 0
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": false,
+   "wired": false
+  },
+  "menu": false,
+  "menu_signature": null,
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/shalartem/BOUNCE-BACK-CAMPAIGN-SHEET.html",
+  "room": "niamh",
+  "title": "BOUNCE BACK — Campaign Sheet (interactive)",
+  "bytes": 20424,
+  "scripts": {
+   "total": 1,
+   "inline": 1,
+   "src": 0
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": false,
+   "wired": false
+  },
+  "menu": false,
+  "menu_signature": null,
+  "picker": false,
+  "uploader": true,
+  "uploader_basis": [
+   "input[type=file]"
+  ],
+  "external_hosts": [
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/shalartem/BOUNCE-BACK-CAPCUT-EDITOR.html",
+  "room": "niamh",
+  "title": "Bounce Back — CapCut Editor (mock)",
+  "bytes": 47295,
+  "scripts": {
+   "total": 1,
+   "inline": 1,
+   "src": 0
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": false,
+   "wired": false
+  },
+  "menu": false,
+  "menu_signature": null,
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/shalartem/PASS-THE-MOMENT-concept.html",
+  "room": "niamh",
+  "title": "Shal'Artem — Pass the Moment",
+  "bytes": 9516,
+  "scripts": {
+   "total": 0,
+   "inline": 0,
+   "src": 0
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": false,
+   "wired": false
+  },
+  "menu": true,
+  "menu_signature": "plain-<nav>",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com",
+   "www.w3.org"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/shalartem/SHALARTEM-BRAND-PAGE.html",
+  "room": "niamh",
+  "title": "Shal'Artem — Brand Reference",
+  "bytes": 16918,
+  "scripts": {
+   "total": 0,
+   "inline": 0,
+   "src": 0
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": false,
+   "wired": false
+  },
+  "menu": false,
+  "menu_signature": null,
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/shalartem/SHALARTEM-CALENDAR.html",
+  "room": "niamh",
+  "title": "Shal'Artem · Campaign Calendar · Knockout Generation · WMD (NG) · CENTREFREE",
+  "bytes": 7331,
+  "scripts": {
+   "total": 2,
+   "inline": 0,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "docs.google.com",
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/shalartem/SHALARTEM-FY2627-STRATEGY.html",
+  "room": "niamh",
+  "title": "Shal'Artem — FY2026/27",
+  "bytes": 3010900,
+  "scripts": {
+   "total": 0,
+   "inline": 0,
+   "src": 0
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": false,
+   "wired": false
+  },
+  "menu": true,
+  "menu_signature": "plain-<nav>",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com",
+   "www.w3.org",
+   "youtube.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/shalartem/THE-MOMENT-MAKER-concept.html",
+  "room": "niamh",
+  "title": "Shal'Artem — The Moment Maker",
+  "bytes": 9876,
+  "scripts": {
+   "total": 0,
+   "inline": 0,
+   "src": 0
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": false,
+   "wired": false
+  },
+  "menu": true,
+  "menu_signature": "plain-<nav>",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com",
+   "www.w3.org"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/shalartem/_pdf_tmp.html",
+  "room": "niamh",
+  "title": "BOUNCE BACK — Campaign Brief · Shal'Artem Nigeria",
+  "bytes": 36693,
+  "scripts": {
+   "total": 0,
+   "inline": 0,
+   "src": 0
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": false,
+   "wired": false
+  },
+  "menu": false,
+  "menu_signature": null,
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/shalina/shaltoux/SHALTOUX-CALENDAR.html",
+  "room": "niamh",
+  "title": "SHALTOUX · Campaign Calendar · Language of Confidence (NG) · CENTREFREE",
+  "bytes": 10236,
+  "scripts": {
+   "total": 2,
+   "inline": 0,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "docs.google.com",
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/skills/scroll-deck/starter.html",
+  "room": "niamh",
+  "title": "[Brand] — [Deck Title]",
+  "bytes": 7473,
+  "scripts": {
+   "total": 0,
+   "inline": 0,
+   "src": 0
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": false,
+   "wired": false
+  },
+  "menu": true,
+  "menu_signature": "plain-<nav>",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com",
+   "www.w3.org"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "niamh/tools/HIGGSFIELD-SEEDANCE-PROMPT-STUDIO.html",
+  "room": "niamh",
+  "title": "Seedance Prompt Studio — CENTREFREE",
+  "bytes": 33342,
+  "scripts": {
+   "total": 1,
+   "inline": 1,
+   "src": 0
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": false,
+   "wired": false
+  },
+  "menu": false,
+  "menu_signature": null,
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [],
+  "cdn_residue": {
+   "flag": true,
+   "patterns": [
+    "higgsfield"
+   ],
+   "lines": {
+    "higgsfield": [
+     82,
+     97,
+     145,
+     227,
+     267,
+     273,
+     "..."
+    ]
+   }
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "production/ibucap-ke/KAMAU-HARVEST-SYNTHESIZER.html",
+  "room": "production",
+  "title": "KAMAU — THE HARVEST · Ibucap KE · Synthesizer",
+  "bytes": 39446,
+  "scripts": {
+   "total": 3,
+   "inline": 1,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": true,
+  "uploader_basis": [
+   "drag/drop-handler"
+  ],
+  "external_hosts": [
+   "d8j0ntlcm91z4.cloudfront.net",
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": true,
+   "patterns": [
+    "cloudfront"
+   ],
+   "lines": {
+    "cloudfront": [
+     455,
+     464,
+     473,
+     482,
+     491
+    ]
+   }
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ },
+ {
+  "type": "html",
+  "path": "proof/INDEX.html",
+  "room": "proof",
+  "title": "Client Proof Gallery — Regency Flux Estate",
+  "bytes": 6159,
+  "scripts": {
+   "total": 2,
+   "inline": 0,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4",
+  "zone_basis": "keyword 'flux' in path/title"
+ },
+ {
+  "type": "html",
+  "path": "proof/proof-gallery.html",
+  "room": "proof",
+  "title": "Client Proof Gallery — Regency Flux Estate",
+  "bytes": 7032,
+  "scripts": {
+   "total": 2,
+   "inline": 0,
+   "src": 2
+  },
+  "estate_wiring": {
+   "estate.css": false,
+   "estate-theme.js": false,
+   "estate-menu.js": true,
+   "wired": true
+  },
+  "menu": true,
+  "menu_signature": "estate-menu.js",
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "fonts.googleapis.com",
+   "fonts.gstatic.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4",
+  "zone_basis": "keyword 'flux' in path/title"
+ },
+ {
+  "type": "html",
+  "path": "reception/INDEX.html",
+  "room": "reception",
+  "title": "Reception · CENTREFREE Agency",
+  "bytes": 10158,
+  "scripts": {
+   "total": 2,
+   "inline": 1,
+   "src": 1
+  },
+  "estate_wiring": {
+   "estate.css": true,
+   "estate-theme.js": true,
+   "estate-menu.js": false,
+   "wired": true
+  },
+  "menu": false,
+  "menu_signature": null,
+  "picker": false,
+  "uploader": false,
+  "uploader_basis": [],
+  "external_hosts": [
+   "api.mysanctum.app",
+   "centrefree.com",
+   "fonts.googleapis.com"
+  ],
+  "cdn_residue": {
+   "flag": false,
+   "patterns": [],
+   "lines": {}
+  },
+  "zone_guess": "Z4?",
+  "zone_basis": "agency default guess (agency work-surfaces presumed Flux Agency); unverified"
+ }
+]

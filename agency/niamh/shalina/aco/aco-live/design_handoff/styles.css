@@ -1,0 +1,19 @@
+/* ============================================================================
+   SHALINA HEALTHCARE — DESIGN SYSTEM ROOT STYLESHEET
+   styles.css  ·  single global entry point for consumers
+
+   This is the one stylesheet a consuming project should link. It pulls in the
+   canonical design tokens (colour, type, space, elevation, motion) and the
+   opt-in semantic element styles.
+
+       <link rel="stylesheet" href="styles.css">
+
+   The other stylesheets in this project are deliberately NOT imported here —
+   they are surface-scoped and would leak chrome into every consumer:
+     • monthly-posts/template.css      — the editable post-calendar engine
+     • preview/_card.css               — Design-System-tab specimen card chrome
+     • ui_kits/shalartem/kit.css       — the Shal'Artem brand-site kit
+   Link those directly only on the surface that needs them.
+   ============================================================================ */
+
+@import url('colors_and_type.css');

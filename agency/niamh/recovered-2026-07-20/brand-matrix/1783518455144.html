@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Shalina Brand Matrix",
+  "schemaVersion": 1,
+  "description": "Live previewer over the Shalina Focus Brands 2026 Airtable (Brand Matrix table) — sortable columns with show/hide chips, inline cell editing, add and delete records, funded-cell totals. Data pulls fresh from Airtable on each open.",
+  "mcpTools": [
+    "mcp__97f1c3ba-ee21-4171-addb-bb5937faf9c2__list_records_for_table",
+    "mcp__97f1c3ba-ee21-4171-addb-bb5937faf9c2__create_records_for_table",
+    "mcp__97f1c3ba-ee21-4171-addb-bb5937faf9c2__update_records_for_table",
+    "mcp__97f1c3ba-ee21-4171-addb-bb5937faf9c2__delete_records_for_table"
+  ],
+  "mcpServerNames": [
+    "Airtable",
+    "Airtable",
+    "Airtable",
+    "Airtable"
+  ]
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Shalina Brand Matrix</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:16px; background:#fbfcfe; color:#1d2b36; font:14px/1.45 "Segoe UI", system-ui, sans-serif; }
+  h1 { font-size:18px; margin:0 0 2px; color:#0b3c5d; }
+  .sub { font-size:12px; color:#5a6b78; margin-bottom:12px; }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+  .chip { border:1px solid #c9d8e4; background:#fff; border-radius:14px; padding:3px 11px; font-size:12px; cursor:pointer; user-select:none; color:#5a6b78; }
+  .chip.on { background:#0b3c5d; border-color:#0b3c5d; color:#fff; }
+  table { border-collapse:collapse; width:100%; background:#fff; box-shadow:0 1px 4px rgba(11,60,93,.10); }
+  th { background:#0b3c5d; color:#fff; font-size:12px; text-align:left; padding:7px 9px; white-space:nowrap; position:sticky; top:0; cursor:pointer; }
+  th .arr { opacity:.7; font-size:10px; }
+  td { border-bottom:1px solid #e8eff5; padding:6px 9px; white-space:nowrap; }
+  td.num { text-align:right; font-variant-numeric:tabular-nums; }
+  tr.dormant td { color:#9aa8b3; background:#f6f8fa; }
+  tr:hover td { background:#eef5fb; }
+  tr.dormant:hover td { background:#eef1f4; }
+  td.editable { cursor:text; }
+  td.editing { outline:2px solid #d9822b; background:#fff8ef; }
+  td.saved { background:#e7f4e8 !important; transition:background .3s; }
+  td.err { background:#fbe6e6 !important; }
+  tfoot td { font-weight:600; border-top:2px solid #0b3c5d; background:#eaf2f8; }
+  .del { color:#b23b3b; cursor:pointer; border:none; background:none; font-size:14px; padding:0 4px; }
+  .bar { display:flex; gap:8px; align-items:center; margin:12px 0; }
+  button.act { background:#0b3c5d; color:#fff; border:none; border-radius:6px; padding:6px 14px; font-size:13px; cursor:pointer; }
+  button.act.sec { background:#fff; color:#0b3c5d; border:1px solid #0b3c5d; }
+  #status { font-size:12px; color:#5a6b78; }
+  #addForm { display:none; background:#fff; border:1px solid #c9d8e4; border-radius:8px; padding:12px; margin-bottom:12px; }
+  #addForm .grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:10px; }
+  #addForm label { font-size:11px; color:#5a6b78; display:block; }
+  #addForm input, #addForm select { width:100%; padding:5px 7px; border:1px solid #c9d8e4; border-radius:5px; font-size:13px; }
+  .hint { font-size:11px; color:#8a99a5; margin-top:10px; }
+</style>
+</head>
+<body>
+  <h1>Shalina Focus Brands 2026 — Brand Matrix</h1>
+  <div class="sub">Live from Airtable · Rate card: Static $20 · 5s $50 · 15s $150 · 45s $450 · Rulings applied: F1 as contracted, F3 fixed, FY = 9 delivery months. Double-click any cell to edit — writes go straight to the base.</div>
+
+  <div class="chips" id="chips"></div>
+
+  <div class="bar">
+    <button class="act" id="btnAdd">+ Add row</button>
+    <button class="act sec" id="btnDormant">Show dormant</button>
+    <span id="status">Loading…</span>
+  </div>
+
+  <div id="addForm">
+    <div class="grid" id="addGrid"></div>
+    <button class="act" id="btnCreate">Create in Airtable</button>
+    <button class="act sec" id="btnCancel">Cancel</button>
+  </div>
+
+  <div style="overflow:auto; max-height:70vh;">
+    <table id="tbl"><thead></thead><tbody></tbody><tfoot></tfoot></table>
+  </div>
+  <div class="hint">Columns hide/show per the chips (remembered on this machine). Hiding a column never touches Airtable; ✕ deletes the record after a confirm. Adding an Airtable-side field (a real new column) — ask Phoenix in chat.</div>
+
+<script>
+const BASE = "apphSQ5vLGcZtdaBx", TABLE = "tblfrcat7sLWvM7MF";
+const T = "mcp__97f1c3ba-ee21-4171-addb-bb5937faf9c2__";
+// field map — verified against list_tables_for_base this session
+const FIELDS = [
+  { id:"fldtCP8bPcG9iMEJu", name:"Cell",               type:"text",   edit:true  },
+  { id:"fldMBUmm4sthWbsyU", name:"Tier",               type:"select", edit:true  },
+  { id:"fldbPM6IBPB1gj0Ht", name:"Media budget FY26",  type:"cur",    edit:true  },
+  { id:"fldNgw0FtlqW7tNYg", name:"Brand contribution /q (fixed)", type:"cur", edit:true },
+  { id:"fldm2j7ZOx06VSvDH", name:"Country allocation /q", type:"cur", edit:true },
+  { id:"fld5R7ynVTWTT0dv5", name:"Posts /mo",          type:"num",    edit:true  },
+  { id:"fld8cL5ZsRpw09HVs", name:"Static /mo",         type:"num",    edit:true  },
+  { id:"fld4MeW531W45gVbS", name:"5s /mo",             type:"num",    edit:true  },
+  { id:"fldoejJbXzHa4WGo0", name:"15s /mo",            type:"num",    edit:true  },
+  { id:"fldCnZFZlZiQPripi", name:"45s /mo",            type:"num",    edit:true  },
+  { id:"fldqFqRcEl2xY0eyZ", name:"Production /mo",     type:"cur",    edit:true  },
+  { id:"fldiu5ncXrBjxHZR4", name:"Platform /mo",       type:"cur",    edit:true  },
+  { id:"fldrrd7dxVv7m6cI7", name:"Profit /mo",         type:"cur",    edit:true  },
+  { id:"fld9OxZQ2fcxicgOj", name:"Production Jul–Dec", type:"cur",    edit:true  },
+  { id:"fldb8LWPNgtxCHXrV", name:"Production FY26 (9mo)", type:"cur", edit:true  },
+  { id:"fldyxiyBlSd8EG258", name:"Notes",              type:"text",   edit:true  },
+];
+const DEFAULT_ON = ["Cell","Tier","Media budget FY26","Brand contribution /q (fixed)","Country allocation /q","Posts /mo","45s /mo","Production /mo","Production Jul–Dec","Production FY26 (9mo)"];
+let visible = JSON.parse(localStorage.getItem("smx_cols_v3") || "null") || DEFAULT_ON.slice();
+let showDormant = localStorage.getItem("smx_dorm") === "1";
+let records = [], sortKey = "Media budget FY26", sortDir = -1;
+
+const $ = s => document.querySelector(s);
+const fmt = (f,v) => v==null||v==="" ? "" : (f.type==="cur" ? "$"+Number(v).toLocaleString("en-US",{maximumFractionDigits:2}) : (f.type==="select" ? (v.name||v) : v));
+const raw = (f,v) => v==null ? "" : (f.type==="select" ? (v.name||v) : v);
+
+function unwrap(r){ if(r.isError) throw new Error((r.content&&r.content[0]&&r.content[0].text)||"tool error");
+  return r.structuredContent ?? JSON.parse(r.content[0].text); }
+
+async function call(tool, args){ return unwrap(await window.cowork.callMcpTool(T+tool, args)); }
+
+async function load(){
+  $("#status").textContent = "Loading…";
+  try {
+    const d = await call("list_records_for_table", { baseId:BASE, tableId:TABLE });
+    records = d.records.map(r => ({ id:r.id, v:r.cellValuesByFieldId||{} }));
+    $("#status").textContent = records.length + " records · loaded " + new Date().toLocaleTimeString();
+    render();
+  } catch(e){ $("#status").textContent = "Load failed: " + e.message; }
+}
+
+function isDormant(r){ const t=r.v["fldMBUmm4sthWbsyU"]; return (t&&(t.name||t))==="Dormant"; }
+
+function render(){
+  // chips
+  $("#chips").innerHTML = FIELDS.map(f =>
+    `<span class="chip ${visible.includes(f.name)?"on":""}" data-c="${f.name}">${f.name}</span>`).join("");
+  document.querySelectorAll(".chip").forEach(ch => ch.onclick = () => {
+    const n = ch.dataset.c;
+    visible = visible.includes(n) ? visible.filter(x=>x!==n) : FIELDS.filter(f=>visible.includes(f.name)||f.name===n).map(f=>f.name);
+    localStorage.setItem("smx_cols_v3", JSON.stringify(visible)); render();
+  });
+  const cols = FIELDS.filter(f => visible.includes(f.name));
+  // head
+  $("#tbl thead").innerHTML = "<tr>" + cols.map(f =>
+    `<th data-s="${f.name}">${f.name}${sortKey===f.name?` <span class="arr">${sortDir>0?"▲":"▼"}</span>`:""}</th>`).join("") + "<th></th></tr>";
+  document.querySelectorAll("th[data-s]").forEach(th => th.onclick = () => {
+    const n = th.dataset.s; sortDir = (sortKey===n) ? -sortDir : -1; sortKey = n; render();
+  });
+  // rows
+  const sf = FIELDS.find(f=>f.name===sortKey);
+  const rows = records.filter(r => showDormant || !isDormant(r)).slice().sort((a,b) => {
+    let x = raw(sf, a.v[sf.id]), y = raw(sf, b.v[sf.id]);
+    if (x===""&&y!=="") return 1; if (y===""&&x!=="") return -1;
+    return (typeof x==="number"&&typeof y==="number" ? x-y : String(x).localeCompare(String(y))) * sortDir;
+  });
+  $("#tbl tbody").innerHTML = rows.map(r => `<tr class="${isDormant(r)?"dormant":""}" data-r="${r.id}">` +
+    cols.map(f => `<td class="${f.type==="cur"||f.type==="num"?"num ":""}${f.edit?"editable":""}" data-f="${f.id}">${fmt(f, r.v[f.id])}</td>`).join("") +
+    `<td><button class="del" title="Delete record">✕</button></td></tr>`).join("");
+  // totals (funded rows only)
+  const funded = records.filter(r => !isDormant(r));
+  $("#tbl tfoot").innerHTML = "<tr>" + cols.map((f,i) => {
+    if (i===0) return `<td>TOTAL · ${funded.length} funded</td>`;
+    if (f.type==="cur"||f.type==="num") {
+      const s = funded.reduce((a,r)=> a + (Number(raw(f,r.v[f.id]))||0), 0);
+      return `<td class="num">${f.type==="cur" ? "$"+s.toLocaleString("en-US",{maximumFractionDigits:2}) : s}</td>`;
+    } return "<td></td>";
+  }).join("") + "<td></td></tr>";
+  // edit + delete wiring
+  document.querySelectorAll("td.editable").forEach(td => td.ondblclick = () => startEdit(td));
+  document.querySelectorAll(".del").forEach(b => b.onclick = async ev => {
+    const tr = ev.target.closest("tr"), id = tr.dataset.r;
+    const rec = records.find(r=>r.id===id), nm = raw(FIELDS[0], rec.v[FIELDS[0].id]) || id;
+    if (!confirm(`Delete "${nm}" from Airtable? This removes the record itself.`)) return;
+    try { await call("delete_records_for_table", { baseId:BASE, tableId:TABLE, recordIds:[id] });
+      records = records.filter(r=>r.id!==id); render();
+    } catch(e){ alert("Delete failed: " + e.message); }
+  });
+}
+
+function startEdit(td){
+  if (td.classList.contains("editing")) return;
+  const tr = td.closest("tr"), recId = tr.dataset.r, fid = td.dataset.f;
+  const f = FIELDS.find(x=>x.id===fid), rec = records.find(r=>r.id===recId);
+  const orig = raw(f, rec.v[fid]);
+  td.classList.add("editing"); td.contentEditable = "true"; td.textContent = orig; td.focus();
+  document.execCommand && document.execCommand("selectAll", false, null);
+  const finish = async commit => {
+    td.contentEditable = "false"; td.classList.remove("editing");
+    const txt = td.textContent.trim();
+    if (!commit || txt === String(orig)) { td.textContent = fmt(f, rec.v[fid]); return; }
+    let val = txt;
+    if (f.type==="cur"||f.type==="num") { val = parseFloat(txt.replace(/[$,\s]/g,"")); if (isNaN(val)) { td.classList.add("err"); setTimeout(()=>{td.classList.remove("err"); td.textContent=fmt(f,rec.v[fid]);},900); return; } }
+    try {
+      await call("update_records_for_table", { baseId:BASE, tableId:TABLE, typecast:true,
+        records:[{ id:recId, fields:{ [fid]: val } }] });
+      rec.v[fid] = (f.type==="select") ? { name: val } : val;
+      td.textContent = fmt(f, rec.v[fid]); td.classList.add("saved"); setTimeout(()=>td.classList.remove("saved"), 800);
+      render();
+    } catch(e){ td.classList.add("err"); td.textContent = fmt(f, rec.v[fid]); alert("Save failed: " + e.message); }
+  };
+  td.onblur = () => finish(true);
+  td.onkeydown = ev => { if (ev.key==="Enter"){ ev.preventDefault(); td.blur(); } if (ev.key==="Escape"){ td.onblur=null; finish(false); } };
+}
+
+// add row
+const ADD_FIELDS = FIELDS.filter(f => f.name!=="Notes");
+$("#btnAdd").onclick = () => {
+  $("#addGrid").innerHTML = ADD_FIELDS.map(f =>
+    `<div><label>${f.name}</label>${f.name==="Tier"
+      ? `<select data-af="${f.id}"><option></option><option>T1</option><option>T2</option><option>Dormant</option></select>`
+      : `<input data-af="${f.id}" placeholder="${f.type==="cur"?"$":""}">`}</div>`).join("");
+  $("#addForm").style.display = "block";
+};
+$("#btnCancel").onclick = () => $("#addForm").style.display = "none";
+$("#btnCreate").onclick = async () => {
+  const fields = {};
+  document.querySelectorAll("[data-af]").forEach(el => {
+    let v = el.value.trim(); if (!v) return;
+    const f = FIELDS.find(x=>x.id===el.dataset.af);
+    fields[el.dataset.af] = (f.type==="cur"||f.type==="num") ? parseFloat(v.replace(/[$,\s]/g,"")) : v;
+  });
+  if (!fields["fldtCP8bPcG9iMEJu"]) { alert("Cell name is required (Brand · Market)."); return; }
+  try {
+    await call("create_records_for_table", { baseId:BASE, tableId:TABLE, typecast:true, records:[{ fields }] });
+    $("#addForm").style.display = "none"; await load();
+  } catch(e){ alert("Create failed: " + e.message); }
+};
+
+$("#btnDormant").onclick = () => { showDormant = !showDormant; localStorage.setItem("smx_dorm", showDormant?"1":"0");
+  $("#btnDormant").textContent = showDormant ? "Hide dormant" : "Show dormant"; render(); };
+$("#btnDormant").textContent = showDormant ? "Hide dormant" : "Show dormant";
+
+load();
+</script>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CENTREFREE — Bento + Node Overlay Template (v3)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100vw; height: 100vh; background: #000; overflow: hidden;
+    font-family: 'Roboto Mono', monospace;
+  }
+
+  /* ===== BASE STAGE — three columns: LHS third-stack / MID hero-stack / RHS node rail ===== */
+  .stage { display: flex; width: 100vw; height: 100vh; }
+
+  .lhs { flex: 1; display: flex; flex-direction: column; height: 100%; }
+  .lhs .cell { flex: 1; }
+
+  .mid { flex: 2; display: flex; flex-direction: column; height: 100%; }
+  .mid .cell.tall   { flex: 2; }
+  .mid .cell.normal { flex: 1; }
+  body.merge-bottom .mid { flex-direction: column-reverse; }
+
+  .lhs, .mid { border-right: 1px solid rgba(255,255,255,0.07); }
+
+  /* ===== NODE RAIL — the new right-hand column. Each node = one board.
+     Clicking a node opens THAT board's 9-block overlay; clicking the same
+     node again closes it. Reversible, no page nav, one file. ===== */
+  .rail {
+    flex: 1; display: flex; flex-direction: column;
+    background: #050505; padding: 18px 14px; gap: 8px;
+    overflow-y: auto;
+  }
+  .rail-title {
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.35); margin-bottom: 10px;
+  }
+  .node {
+    appearance: none; border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.02); color: rgba(255,255,255,0.6);
+    font-family: 'Roboto Mono', monospace; font-size: 11px;
+    letter-spacing: 0.04em; text-align: left;
+    padding: 12px 12px; border-radius: 8px; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: border-color .15s ease-out, color .15s ease-out, background .15s ease-out;
+  }
+  .node:hover { border-color: rgba(255,255,255,0.35); color: #fff; }
+  .node.active { border-color: #E6B87D; color: #E6B87D; background: rgba(230,184,125,0.08); }
+  .node .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.2); }
+  .node.active .dot { background: #E6B87D; }
+  .node .n { opacity: .4; font-size: 10px; }
+
+  /* ===== CELL — swap unit, shared by base slots and overlay slots.
+     Empty = transparent scaffold (border + label). Filled = image, chrome
+     hides itself ("grid disappears" once a slot is actually carrying art),
+     and a small × appears on hover to clear it back to empty (reversible). ===== */
+  .cell {
+    position: relative; overflow: hidden; cursor: pointer;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    background-size: cover; background-position: center; background-color: transparent;
+  }
+  .cell:last-child { border-bottom: none; }
+  .cell .label {
+    position: absolute; inset: 0; z-index: 1;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: rgba(255,255,255,0.28);
+    border: 1px dashed rgba(255,255,255,0.12);
+    margin: 6px; pointer-events: none;
+    transition: opacity .15s ease-out;
+  }
+  .cell.filled .label { opacity: 0; }
+  .cell.filled { border-style: solid; }
+  .cell .clear {
+    position: absolute; top: 8px; right: 8px; z-index: 2;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(0,0,0,0.55); color: #fff; border: none;
+    font-size: 12px; line-height: 22px; text-align: center; cursor: pointer;
+    opacity: 0; transition: opacity .15s ease-out;
+  }
+  .cell.filled:hover .clear { opacity: 1; }
+
+  /* ===== OVERLAY — the 9-block detail grid per board. Fixed, full-screen,
+     reversible (node toggle or × or Escape). ===== */
+  .overlay-root {
+    position: fixed; inset: 0; z-index: 20;
+    background: rgba(0,0,0,0.86); backdrop-filter: blur(4px);
+    display: none; flex-direction: column;
+  }
+  .overlay-root.open { display: flex; }
+  .overlay-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 22px; border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .overlay-head .name { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #E6B87D; }
+  .overlay-close {
+    appearance: none; border: 1px solid rgba(255,255,255,0.2); background: transparent;
+    color: #fff; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 14px;
+  }
+  .overlay-close:hover { border-color: #fff; }
+  .overlay-grid {
+    flex: 1; display: grid;
+    grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr);
+  }
+  .overlay-grid .cell { border-right: 1px solid rgba(255,255,255,0.07); }
+  .overlay-grid .cell:nth-child(3n) { border-right: none; }
+
+  input[type="file"] { display: none; }
+</style>
+</head>
+<body>
+
+  <div class="stage">
+    <div class="lhs">
+      <div class="cell" data-scope="base" data-slot="1"><span class="label">Slot 1</span><button class="clear">×</button></div>
+      <div class="cell" data-scope="base" data-slot="2"><span class="label">Slot 2</span><button class="clear">×</button></div>
+      <div class="cell" data-scope="base" data-slot="3"><span class="label">Slot 3</span><button class="clear">×</button></div>
+    </div>
+    <div class="mid">
+      <div class="cell tall"   data-scope="base" data-slot="4"><span class="label">Slot 4 · tall</span><button class="clear">×</button></div>
+      <div class="cell normal" data-scope="base" data-slot="5"><span class="label">Slot 5</span><button class="clear">×</button></div>
+    </div>
+    <div class="rail">
+      <div class="rail-title">Boards</div>
+      <button class="node" data-board="a"><span>Board A</span><span class="n">9</span></button>
+      <button class="node" data-board="b"><span>Board B</span><span class="n">9</span></button>
+      <button class="node" data-board="c"><span>Board C</span><span class="n">9</span></button>
+      <button class="node" data-board="d"><span>Board D</span><span class="n">9</span></button>
+      <button class="node" data-board="e"><span>Board E</span><span class="n">9</span></button>
+    </div>
+  </div>
+
+  <div class="overlay-root" id="overlayRoot">
+    <div class="overlay-head">
+      <span class="name" id="overlayName">Board A</span>
+      <button class="overlay-close" id="overlayClose">×</button>
+    </div>
+    <div class="overlay-grid" id="overlayGrid"><!-- 9 cells injected --></div>
+  </div>
+
+  <input type="file" id="fileInput" accept="image/*">
+
+  <script>
+    var STORE_PREFIX = 'fleximax_v3:';
+    var fileInput = document.getElementById('fileInput');
+    var pendingCell = null;
+
+    // ---- shrinker: longest edge capped, aspect preserved, webp 0.85 ----
+    // same law as the estate's board downsizer: scale-only, no crop, no reshape.
+    function shrinkImage(file, maxEdge, cb) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        var img = new Image();
+        img.onload = function () {
+          var w = img.width, h = img.height;
+          var scale = Math.min(1, maxEdge / Math.max(w, h));
+          var cw = Math.round(w * scale), ch = Math.round(h * scale);
+          var canvas = document.createElement('canvas');
+          canvas.width = cw; canvas.height = ch;
+          canvas.getContext('2d').drawImage(img, 0, 0, cw, ch);
+          var dataUrl;
+          try { dataUrl = canvas.toDataURL('image/webp', 0.85); }
+          catch (err) { dataUrl = canvas.toDataURL('image/png'); }
+          cb(dataUrl);
+        };
+        img.onerror = function () { cb(null); };
+        img.src = e.target.result;
+      };
+      reader.onerror = function () { cb(null); };
+      reader.readAsDataURL(file);
+    }
+
+    function keyFor(cell) {
+      var scope = cell.getAttribute('data-scope');
+      var slot = cell.getAttribute('data-slot');
+      return STORE_PREFIX + scope + ':' + slot;
+    }
+
+    function applyFill(cell, dataUrl) {
+      cell.style.backgroundImage = "url('" + dataUrl + "')";
+      cell.classList.add('filled');
+    }
+    function clearFill(cell) {
+      cell.style.backgroundImage = '';
+      cell.classList.remove('filled');
+    }
+
+    function hydrateCell(cell) {
+      var saved = localStorage.getItem(keyFor(cell));
+      if (saved) applyFill(cell, saved);
+    }
+
+    function wireCell(cell) {
+      hydrateCell(cell);
+      cell.addEventListener('click', function (ev) {
+        if (ev.target.classList.contains('clear')) return; // handled separately
+        pendingCell = cell;
+        fileInput.click();
+      });
+      var clearBtn = cell.querySelector('.clear');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', function (ev) {
+          ev.stopPropagation();
+          localStorage.removeItem(keyFor(cell));
+          clearFill(cell);
+        });
+      }
+    }
+
+    fileInput.addEventListener('change', function () {
+      var file = fileInput.files && fileInput.files[0];
+      fileInput.value = '';
+      if (!file || !pendingCell) return;
+      var cell = pendingCell;
+      shrinkImage(file, 1600, function (dataUrl) {
+        if (!dataUrl) return; // load/shrink failed — nothing saved, nothing changed
+        localStorage.setItem(keyFor(cell), dataUrl); // saves only once the image actually loaded
+        applyFill(cell, dataUrl);
+      });
+    });
+
+    // ---- base 5 slots ----
+    document.querySelectorAll('.cell[data-scope="base"]').forEach(wireCell);
+
+    // ---- node rail + per-board 9-block overlay ----
+    var overlayRoot = document.getElementById('overlayRoot');
+    var overlayGrid = document.getElementById('overlayGrid');
+    var overlayName = document.getElementById('overlayName');
+    var boardNames = { a: 'Board A', b: 'Board B', c: 'Board C', d: 'Board D', e: 'Board E' };
+    var activeBoard = null;
+
+    function buildOverlayGrid(boardId) {
+      overlayGrid.innerHTML = '';
+      for (var i = 1; i <= 9; i++) {
+        var cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.setAttribute('data-scope', 'board:' + boardId);
+        cell.setAttribute('data-slot', String(i));
+        var label = document.createElement('span');
+        label.className = 'label';
+        label.textContent = i;
+        var clearBtn = document.createElement('button');
+        clearBtn.className = 'clear';
+        clearBtn.textContent = '×';
+        cell.appendChild(label);
+        cell.appendChild(clearBtn);
+        overlayGrid.appendChild(cell);
+        wireCell(cell);
+      }
+    }
+
+    function openBoard(boardId) {
+      document.querySelectorAll('.node').forEach(function (n) { n.classList.remove('active'); });
+      document.querySelector('.node[data-board="' + boardId + '"]').classList.add('active');
+      overlayName.textContent = boardNames[boardId];
+      buildOverlayGrid(boardId);
+      overlayRoot.classList.add('open');
+      activeBoard = boardId;
+    }
+    function closeOverlay() {
+      overlayRoot.classList.remove('open');
+      document.querySelectorAll('.node').forEach(function (n) { n.classList.remove('active'); });
+      activeBoard = null;
+    }
+
+    document.querySelectorAll('.node').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var id = btn.getAttribute('data-board');
+        if (activeBoard === id) { closeOverlay(); } else { openBoard(id); }
+      });
+    });
+    document.getElementById('overlayClose').addEventListener('click', closeOverlay);
+    document.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Escape' && activeBoard) closeOverlay();
+    });
+  </script>
+
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

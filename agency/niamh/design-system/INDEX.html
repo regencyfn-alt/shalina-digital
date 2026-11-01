@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shalina Design System · CENTREFREE Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;0,900;1,400&family=Source+Sans+3:wght@300;400;600;700&family=Archivo+Black&family=Archivo:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue:#1F4598; --blue-900:#15306B; --blue-500:#2F5BBE; --blue-200:#B9C8E8; --blue-050:#EAF0FB;
+  --orange:#F17025; --orange-700:#C9531A; --orange-200:#FBD3BB; --orange-050:#FDEDE2;
+  --sky:#55B8ED; --neutral:#CCCCCC; --parchment:#F7EFE0; --charcoal:#1A1A1A;
+  --gold:#C68A1E; --cream:#F3E8C8; --forest:#19281F;
+  --shaltoux-green:#006633; --shaltoux-yellow:#FFD338; --shaltoux-orange:#EB921E; --shaltoux-cream:#F3F5F4;
+  --ibucap-orange:#F07D1A; --ibucap-blue:#1F4598; --ibucap-azure:#1E86D6;
+  --germol-red:#C8102E; --aco-green:#1A7A4A;
+  --germol-blue:#0091D0; --germol-safe-green:#0C9748;
+  --flodent-blue:#1B6CA8; --flodent-fresh:#00A878; --flodent-warm:#F47920;
+  --polygel-navy:#2A4A8A;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-text:'Source Sans 3',Calibri,sans-serif;
+  --font-mono:'IBM Plex Mono',monospace;
+  --shadow-card:0 10px 30px rgba(31,48,107,.10);
+  --shadow-md:0 8px 22px rgba(26,26,26,.10);
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --r:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-text);background:#F0EDE6;color:var(--charcoal);font-size:15px;line-height:1.6}
+
+/* LAYOUT */
+.shell{display:flex;min-height:100vh}
+.sidebar{width:260px;flex-shrink:0;background:var(--forest);position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100;display:flex;flex-direction:column}
+.main{margin-left:260px;flex:1;min-height:100vh}
+
+/* SIDEBAR */
+.agency-mark{padding:28px 24px 20px;border-bottom:1px solid rgba(255,255,255,.08)}
+.agency-mark .logo-row{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.agency-badge{width:36px;height:36px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:900;font-size:18px;color:white}
+.agency-name{font-size:15px;font-weight:700;color:white;letter-spacing:.3px}
+.agency-sub{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:1.5px;text-transform:uppercase}
+
+.nav-section{padding:16px 0 8px}
+.nav-label{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.3);padding:0 20px 8px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;transition:background var(--ease) 140ms;border-left:3px solid transparent;text-decoration:none}
+.nav-item:hover{background:rgba(255,255,255,.06)}
+.nav-item.active{background:rgba(255,255,255,.09);border-left-color:var(--gold)}
+.nav-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.nav-item-label{font-size:13px;color:rgba(255,255,255,.75);font-weight:500}
+.nav-item.active .nav-item-label{color:white}
+
+.brand-chips{padding:16px 20px;display:flex;flex-direction:column;gap:6px}
+.brand-chip{padding:8px 12px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background 140ms var(--ease);border:1px solid rgba(255,255,255,.07)}
+.brand-chip:hover{background:rgba(255,255,255,.06)}
+.brand-chip.active{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.15)}
+.bc-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.bc-name{font-size:12.5px;color:rgba(255,255,255,.8);font-weight:600}
+.bc-cat{font-size:10.5px;color:rgba(255,255,255,.35)}
+
+/* TOP BAR */
+.topbar{background:white;border-bottom:1px solid #E8E4DC;padding:14px 36px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar-title{font-family:var(--font-display);font-size:18px;font-weight:800;color:var(--blue)}
+.topbar-meta{font-size:12px;color:#888;letter-spacing:.5px}
+.topbar-pills{display:flex;gap:8px}
+.pill{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.5px}
+.pill-green{background:#E8F5EE;color:#1A7A4A}
+.pill-blue{background:var(--blue-050);color:var(--blue)}
+
+/* CONTENT */
+.content{padding:36px 36px 80px}
+.section{margin-bottom:56px}
+.section-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#888;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid #E8E4DC}
+.section-title{font-family:var(--font-display);font-size:28px;font-weight:800;color:var(--charcoal);margin-bottom:6px}
+.section-sub{font-size:15px;color:#666;margin-bottom:28px}
+
+/* BRAND CARDS GRID */
+.brands-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.brand-card{background:white;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-card);cursor:pointer;transition:transform 200ms var(--ease),box-shadow 200ms var(--ease)}
+.brand-card:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(31,48,107,.14)}
+.bc-header{height:80px;display:flex;align-items:center;justify-content:center;padding:16px}
+.bc-header img{max-height:48px;max-width:100%;object-fit:contain;filter:brightness(0) invert(1)}
+.bc-header.has-logo img{filter:none}
+.bc-body{padding:14px 16px 16px}
+.bc-brand-name{font-size:14px;font-weight:800;color:var(--charcoal);margin-bottom:2px}
+.bc-category{font-size:11.5px;color:#888;margin-bottom:10px}
+.bc-claim{font-size:12px;font-style:italic;color:#555;line-height:1.5;border-left:3px solid var(--neutral);padding-left:10px}
+.bc-status{margin-top:10px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.bc-status.full{color:var(--shaltoux-green)}.bc-status.logo{color:var(--orange)}
+
+/* PALETTE */
+.palette-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:20px}
+.swatch{border-radius:10px;overflow:hidden;box-shadow:var(--shadow-md)}
+.swatch-color{height:64px}
+.swatch-info{background:white;padding:9px 10px}
+.swatch-name{font-size:10.5px;font-weight:700;color:var(--charcoal)}
+.swatch-hex{font-family:var(--font-mono);font-size:10px;color:#888}
+.swatch-token{font-family:var(--font-mono);font-size:9px;color:#AAA}
+
+/* TYPOGRAPHY */
+.type-specimen{background:white;border-radius:var(--r);padding:32px 36px;box-shadow:var(--shadow-card);margin-bottom:16px}
+.ts-label{font-size:9.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#AAA;margin-bottom:12px}
+.type-row{display:flex;align-items:baseline;gap:24px;padding:14px 0;border-bottom:1px solid #F0EDE6}
+.type-row:last-child{border-bottom:none}
+.tr-meta{width:160px;flex-shrink:0}
+.tr-name{font-size:10px;font-weight:700;color:#888;letter-spacing:1px;text-transform:uppercase}
+.tr-spec{font-size:10px;color:#BBB;font-family:var(--font-mono)}
+.tr-sample{flex:1;color:var(--charcoal)}
+
+/* TOKENS TABLE */
+.tokens-table{width:100%;border-collapse:collapse;background:white;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-card)}
+.tokens-table th{background:var(--charcoal);color:white;font-size:9.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 16px;text-align:left}
+.tokens-table td{padding:10px 16px;font-size:12.5px;border-bottom:1px solid #F0EDE6;vertical-align:middle}
+.tokens-table tr:last-child td{border-bottom:none}
+.tokens-table td:first-child{font-family:var(--font-mono);color:var(--blue);font-size:11.5px}
+.tokens-table td:nth-child(2){font-family:var(--font-mono);color:#888;font-size:11px}
+.token-preview{display:inline-block;width:20px;height:20px;border-radius:4px;border:1px solid rgba(0,0,0,.08);vertical-align:middle;margin-right:8px}
+
+/* ASSETS */
+.assets-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.asset-card{background:white;border-radius:10px;overflow:hidden;box-shadow:var(--shadow-md)}
+.asset-thumb{height:120px;display:flex;align-items:center;justify-content:center;padding:16px;background:#F8F6F2}
+.asset-thumb img{max-height:90px;max-width:100%;object-fit:contain}
+.asset-info{padding:10px 12px}
+.asset-name{font-size:12px;font-weight:700;color:var(--charcoal)}
+.asset-path{font-size:10px;color:#AAA;font-family:var(--font-mono);margin-top:2px}
+
+/* LOGOS STRIP */
+.logos-strip{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.logo-card{background:white;border-radius:10px;padding:18px 24px;box-shadow:var(--shadow-md);display:flex;flex-direction:column;align-items:center;gap:8px;min-width:100px}
+.logo-card img{height:40px;object-fit:contain}
+.logo-name{font-size:10px;font-weight:700;letter-spacing:1px;color:#888;text-transform:uppercase}
+
+/* DESIGN LAWS */
+.laws-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.law-card{background:white;border-radius:10px;padding:20px 22px;box-shadow:var(--shadow-md);display:flex;gap:14px}
+.law-icon{font-size:22px;flex-shrink:0;margin-top:2px}
+.law-title{font-size:14px;font-weight:800;color:var(--charcoal);margin-bottom:4px}
+.law-text{font-size:13px;color:#666;line-height:1.55}
+.law-card.warn{border-left:4px solid var(--germol-red)}.law-card.ok{border-left:4px solid var(--shaltoux-green)}
+
+/* BRAND WORLD PANELS */
+.brand-world{background:white;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-card);margin-bottom:20px}
+.bw-header{padding:24px 28px;display:flex;align-items:center;justify-content:space-between}
+.bw-title{font-size:22px;font-weight:800}
+.bw-claim{font-size:13px;opacity:.7;margin-top:4px}
+.bw-body{padding:24px 28px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.bw-section-title{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(0,0,0,.4);margin-bottom:10px}
+.bw-palette{display:flex;gap:6px;flex-wrap:wrap}
+.bw-swatch{height:36px;border-radius:6px;flex:1;min-width:40px;position:relative}
+.bw-swatch span{position:absolute;bottom:-16px;left:0;font-size:9px;color:#888;font-family:var(--font-mono);white-space:nowrap}
+.reg-flags{display:flex;flex-direction:column;gap:6px;margin-top:4px}
+.flag{display:flex;align-items:center;gap:8px;font-size:12.5px}
+.flag-icon{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
+.flag.no .flag-icon{background:#FEE2E2;color:var(--germol-red)}.flag.yes .flag-icon{background:#D1FAE5;color:#065F46}
+
+/* PAGES LIST */
+.pages-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.page-card{background:white;border-radius:10px;padding:18px 20px;box-shadow:var(--shadow-md);display:flex;flex-direction:column;gap:8px;text-decoration:none;transition:transform 140ms var(--ease)}
+.page-card:hover{transform:translateY(-2px)}
+.page-brand{font-size:9.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange)}
+.page-name{font-size:14px;font-weight:800;color:var(--charcoal)}
+.page-meta{font-size:11.5px;color:#888}
+.page-arrow{margin-top:auto;color:var(--blue);font-size:13px;font-weight:700}
+
+/* TABS */
+.tabs{display:flex;gap:4px;margin-bottom:28px;background:white;padding:6px;border-radius:10px;box-shadow:var(--shadow-md);width:fit-content}
+.tab{padding:8px 18px;border-radius:7px;cursor:pointer;font-size:13px;font-weight:600;color:#888;transition:all 140ms var(--ease)}
+.tab.active{background:var(--blue);color:white}
+.tab:hover:not(.active){background:#F0EDE6;color:var(--charcoal)}
+
+/* SCOPE BADGE */
+.scope{display:inline-flex;align-items:center;gap:6px;background:var(--parchment);border:1px solid var(--orange-200);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;color:var(--orange-700)}
+
+/* BRAND WORLD SECTIONS */
+.bw-col-label{font-size:9.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#AAA;margin-bottom:10px}
+.bw-sw{border-radius:6px;overflow:hidden;min-width:48px;flex:1;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.bw-sw-c{height:36px}
+.bw-sw-b{background:#F8F6F2;padding:5px 7px}
+.bw-sw-n{font-size:9.5px;font-weight:700;color:#333}
+.bw-sw-h{font-family:var(--font-mono);font-size:8px;color:#888}
+.bw-type-row{padding:8px 0;border-bottom:1px solid #F0EDE6}
+.bw-type-row:last-child{border-bottom:none}
+.bw-type-spec{font-size:9px;color:#AAA;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px}
+.bw-rule-item{font-size:11.5px;color:#555;padding-left:14px;position:relative;line-height:1.5}
+.bw-rule-item::before{content:"→";position:absolute;left:0;color:#CCC;font-size:10px}
+.bw-status{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:16px}
+.bw-tag-wip{background:#FEF3C7;color:#92400E;padding:5px 12px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.5px}
+.bw-tag-hold{background:#E5E7EB;color:#374151;padding:5px 12px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.5px}
+.bw-link{font-size:11.5px;color:var(--blue);text-decoration:none;font-weight:600}
+.bw-link:hover{text-decoration:underline}
+</style>
+  <link rel="stylesheet" href="/estate.css">
+  <script defer src="/estate-theme.js"></script>
+</head>
+<body>
+<div class="shell">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="agency-mark">
+    <a class="logo-row" href="../../INDEX.html" title="Back to Agency Portal" style="text-decoration:none;color:inherit">
+      <div class="agency-badge">C</div>
+      <div>
+        <div class="agency-name">CENTREFREE</div>
+        <div class="agency-sub">← InfoCube Agency</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">System</div>
+    <a class="nav-item active" href="#overview"><div class="nav-dot" style="background:var(--gold)"></div><span class="nav-item-label">Overview</span></a>
+    <a class="nav-item" href="#palette"><div class="nav-dot" style="background:var(--blue)"></div><span class="nav-item-label">Colour Tokens</span></a>
+    <a class="nav-item" href="#typography"><div class="nav-dot" style="background:var(--orange)"></div><span class="nav-item-label">Typography</span></a>
+    <a class="nav-item" href="#spacing"><div class="nav-dot" style="background:var(--sky)"></div><span class="nav-item-label">Spacing & Motion</span></a>
+    <a class="nav-item" href="#assets"><div class="nav-dot" style="background:var(--shaltoux-green)"></div><span class="nav-item-label">Asset Library</span></a>
+    <a class="nav-item" href="#laws"><div class="nav-dot" style="background:var(--germol-red)"></div><span class="nav-item-label">Design Laws</span></a>
+    <a class="nav-item" href="#pages"><div class="nav-dot" style="background:var(--neutral)"></div><span class="nav-item-label">Live Pages</span></a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Brand Worlds</div>
+    <div class="brand-chips">
+      <div class="brand-chip" onclick="scrollTo('#shalartem')">
+        <div class="bc-dot" style="background:#1F4598"></div>
+        <div><div class="bc-name">Shal'Artem</div><div class="bc-cat">Anti-malarial · NG · GH</div></div>
+      </div>
+      <div class="brand-chip" onclick="scrollTo('#shaltoux')">
+        <div class="bc-dot" style="background:#006633"></div>
+        <div><div class="bc-name">Shaltoux</div><div class="bc-cat">Cough · Throat · Lozenges</div></div>
+      </div>
+      <div class="brand-chip" onclick="scrollTo('#ibucap')">
+        <div class="bc-dot" style="background:#F07D1A"></div>
+        <div><div class="bc-name">Ibucap</div><div class="bc-cat">Pain &amp; Cold Relief</div></div>
+      </div>
+      <div class="brand-chip" onclick="scrollTo('#germol')">
+        <div class="bc-dot" style="background:#0091D0"></div>
+        <div><div class="bc-name">Germol</div><div class="bc-cat">Antiseptic · Wound Care</div></div>
+      </div>
+      <div class="brand-chip" onclick="scrollTo('#aco')">
+        <div class="bc-dot" style="background:#1A7A4A"></div>
+        <div><div class="bc-name">ACO Pine Gel</div><div class="bc-cat">All-Purpose Cleaner · AO</div></div>
+      </div>
+      <div class="brand-chip" onclick="scrollTo('#flodent')">
+        <div class="bc-dot" style="background:#1B6CA8"></div>
+        <div><div class="bc-name">Flodent</div><div class="bc-cat">Oral Care · ZA · AO</div></div>
+      </div>
+      <div class="brand-chip" onclick="scrollTo('#polygel')">
+        <div class="bc-dot" style="background:#2A4A8A"></div>
+        <div><div class="bc-name">Polygel</div><div class="bc-cat">Pharmaceutical · Brief pending</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding:20px;margin-top:auto;border-top:1px solid rgba(255,255,255,.07)">
+    <div style="font-size:10px;color:rgba(255,255,255,.25);line-height:1.7">Shalina Healthcare FY2026/27<br>Director of Art: Niamh<br>Built by Regency Flux</div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="topbar-title">Shalina Design System</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:16px">
+      <span class="topbar-meta">115 tokens · 8 brands · 8 brand worlds</span>
+      <div class="topbar-pills">
+        <span class="pill pill-green">v2026.07</span>
+        <span class="pill pill-blue">CENTREFREE</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- OVERVIEW -->
+    <div class="section" id="overview">
+      <div class="section-label">Brand Portfolio</div>
+      <div class="section-title">Eight Brands. One System.</div>
+      <div class="section-sub">West + East Africa · FY2026/27 Digital-first marketing</div>
+      <div class="brands-grid">
+
+        <div class="brand-card">
+          <div class="bc-header" style="background:#1F4598">
+            <img src="assets/logos/shalartem.png" alt="Shal'Artem">
+          </div>
+          <div class="bc-body">
+            <div class="bc-brand-name">Shal'Artem</div>
+            <div class="bc-category">Anti-malarial (AL)</div>
+            <div class="bc-claim">"Never miss your moment."</div>
+            <div class="bc-status full">● Full brand world</div>
+          </div>
+        </div>
+
+        <div class="brand-card">
+          <div class="bc-header" style="background:#006633">
+            <img src="assets/logos/shaltoux.png" alt="Shaltoux">
+          </div>
+          <div class="bc-body">
+            <div class="bc-brand-name">Shaltoux</div>
+            <div class="bc-category">Cough &amp; Throat Lozenges</div>
+            <div class="bc-claim">"Sound Like Yourself."</div>
+            <div class="bc-status full">● Full brand world</div>
+          </div>
+        </div>
+
+        <div class="brand-card">
+          <div class="bc-header" style="background:#F07D1A">
+            <img src="assets/logos/ibucap.png" alt="Ibucap">
+          </div>
+          <div class="bc-body">
+            <div class="bc-brand-name">Ibucap</div>
+            <div class="bc-category">Pain &amp; Cold Relief (OTX)</div>
+            <div class="bc-claim">"The Power of Three in One."</div>
+            <div class="bc-status full">● Full brand world</div>
+          </div>
+        </div>
+
+        <div class="brand-card">
+          <div class="bc-header" style="background:#E8F0E8">
+            <img src="assets/logos/germol.png" alt="Germol" style="filter:none">
+          </div>
+          <div class="bc-body">
+            <div class="bc-brand-name">Germol</div>
+            <div class="bc-category">Antiseptic / Wound Care</div>
+            <div class="bc-claim">Brand world in development</div>
+            <div class="bc-status logo">◐ Logo only · Brief pending</div>
+          </div>
+        </div>
+
+        <div class="brand-card">
+          <div class="bc-header" style="background:#1A7A4A">
+            <img src="assets/logos/aco.png" alt="ACO">
+          </div>
+          <div class="bc-body">
+            <div class="bc-brand-name">ACO Pine Gel</div>
+            <div class="bc-category">All-Purpose Cleaner · Angola</div>
+            <div class="bc-claim">"Só Precisas de Um."</div>
+            <div class="bc-status full">● Story 07 in production</div>
+          </div>
+        </div>
+
+        <div class="brand-card">
+          <div class="bc-header" style="background:#1A3A6A">
+            <img src="assets/logos/flodent.png" alt="Flodent">
+          </div>
+          <div class="bc-body">
+            <div class="bc-brand-name">Flodent</div>
+            <div class="bc-category">Oral Care</div>
+            <div class="bc-claim">Zimkhita series in production</div>
+            <div class="bc-status full">● Series bible live</div>
+          </div>
+        </div>
+
+        <div class="brand-card">
+          <div class="bc-header" style="background:#2A4A8A">
+            <img src="assets/logos/polygel.png" alt="Polygel">
+          </div>
+          <div class="bc-body">
+            <div class="bc-brand-name">Polygel</div>
+            <div class="bc-category">Pharmaceutical</div>
+            <div class="bc-claim">Portfolio asset</div>
+            <div class="bc-status logo">◐ Logo only</div>
+          </div>
+        </div>
+
+        <div class="brand-card">
+          <div class="bc-header" style="background:#1A2A5A">
+            <img src="assets/logos/shalina-corp.png" alt="Shalina">
+          </div>
+          <div class="bc-body">
+            <div class="bc-brand-name">Shalina Healthcare</div>
+            <div class="bc-category">Corporate Master Brand</div>
+            <div class="bc-claim">Parent organisation mark</div>
+            <div class="bc-status full">● Corporate mark</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- COLOUR -->
+    <div class="section" id="palette">
+      <div class="section-label">Colour System</div>
+      <div class="section-title">Tokens · Never raw hex</div>
+      <div class="section-sub">All values are CSS custom properties. Use var(--name) only.</div>
+
+      <div style="margin-bottom:20px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px">Shal'Artem Corporate Palette</div>
+        <div class="palette-grid">
+          <div class="swatch"><div class="swatch-color" style="background:#1F4598"></div><div class="swatch-info"><div class="swatch-name">Blue</div><div class="swatch-hex">#1F4598</div><div class="swatch-token">--blue</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#F17025"></div><div class="swatch-info"><div class="swatch-name">Orange</div><div class="swatch-hex">#F17025</div><div class="swatch-token">--orange</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#F7EFE0"></div><div class="swatch-info"><div class="swatch-name">Parchment</div><div class="swatch-hex">#F7EFE0</div><div class="swatch-token">--parchment</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#C68A1E"></div><div class="swatch-info"><div class="swatch-name">Gold</div><div class="swatch-hex">#C68A1E</div><div class="swatch-token">--gold</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#19281F"></div><div class="swatch-info"><div class="swatch-name">Forest</div><div class="swatch-hex">#19281F</div><div class="swatch-token">--forest</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#55B8ED"></div><div class="swatch-info"><div class="swatch-name">Sky</div><div class="swatch-hex">#55B8ED</div><div class="swatch-token">--sky</div></div></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px">Shaltoux Palette</div>
+        <div class="palette-grid">
+          <div class="swatch"><div class="swatch-color" style="background:#006633"></div><div class="swatch-info"><div class="swatch-name">Green</div><div class="swatch-hex">#006633</div><div class="swatch-token">--shaltoux-green</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#FFD338"></div><div class="swatch-info"><div class="swatch-name">Yellow</div><div class="swatch-hex">#FFD338</div><div class="swatch-token">--shaltoux-yellow</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#EB921E"></div><div class="swatch-info"><div class="swatch-name">Orange</div><div class="swatch-hex">#EB921E</div><div class="swatch-token">--shaltoux-orange</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#F3F5F4"></div><div class="swatch-info"><div class="swatch-name">Cream</div><div class="swatch-hex">#F3F5F4</div><div class="swatch-token">--shaltoux-cream</div></div></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px">Ibucap Palette</div>
+        <div class="palette-grid">
+          <div class="swatch"><div class="swatch-color" style="background:#F07D1A"></div><div class="swatch-info"><div class="swatch-name">Orange NG/GH</div><div class="swatch-hex">#F07D1A</div><div class="swatch-token">--ibucap-orange</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#1F4598"></div><div class="swatch-info"><div class="swatch-name">Blue NG/GH</div><div class="swatch-hex">#1F4598</div><div class="swatch-token">--ibucap-blue</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#1E86D6"></div><div class="swatch-info"><div class="swatch-name">Azure KE</div><div class="swatch-hex">#1E86D6</div><div class="swatch-token">--ibucap-azure</div></div></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px">Germol Palette</div>
+        <div class="palette-grid">
+          <div class="swatch"><div class="swatch-color" style="background:#0091D0"></div><div class="swatch-info"><div class="swatch-name">Germol Blue</div><div class="swatch-hex">#0091D0</div><div class="swatch-token">--germol-blue</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#0C9748"></div><div class="swatch-info"><div class="swatch-name">Safety Green</div><div class="swatch-hex">#0C9748</div><div class="swatch-token">--germol-safe-green</div></div></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px">ACO Pine Gel Palette</div>
+        <div class="palette-grid">
+          <div class="swatch"><div class="swatch-color" style="background:#1A7A4A"></div><div class="swatch-info"><div class="swatch-name">Pine Green</div><div class="swatch-hex">#1A7A4A</div><div class="swatch-token">--aco-green</div></div></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px">Flodent Palette</div>
+        <div class="palette-grid">
+          <div class="swatch"><div class="swatch-color" style="background:#1B6CA8"></div><div class="swatch-info"><div class="swatch-name">Azure Blue</div><div class="swatch-hex">#1B6CA8</div><div class="swatch-token">--flodent-blue</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#00A878"></div><div class="swatch-info"><div class="swatch-name">Fresh Green</div><div class="swatch-hex">#00A878</div><div class="swatch-token">--flodent-fresh</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#F47920"></div><div class="swatch-info"><div class="swatch-name">Warm Orange</div><div class="swatch-hex">#F47920</div><div class="swatch-token">--flodent-warm</div></div></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px">Polygel Palette (Holding)</div>
+        <div class="palette-grid">
+          <div class="swatch"><div class="swatch-color" style="background:#2A4A8A"></div><div class="swatch-info"><div class="swatch-name">Navy</div><div class="swatch-hex">#2A4A8A</div><div class="swatch-token">--polygel-navy</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TYPOGRAPHY -->
+    <div class="section" id="typography">
+      <div class="section-label">Typography</div>
+      <div class="section-title">Three font families. Zero effects.</div>
+
+      <div class="tabs">
+        <div class="tab active">Shal'Artem · Flodent</div>
+        <div class="tab">Shaltoux</div>
+        <div class="tab">Ibucap</div>
+      </div>
+
+      <div class="type-specimen">
+        <div class="ts-label">Playfair Display + Source Sans 3 · Shal'Artem / Flodent</div>
+        <div class="type-row">
+          <div class="tr-meta"><div class="tr-name">Display</div><div class="tr-spec">6rem / 800 / −0.015em</div></div>
+          <div class="tr-sample" style="font-family:'Playfair Display',serif;font-size:48px;font-weight:800;line-height:1;color:#1F4598">Never Miss</div>
+        </div>
+        <div class="type-row">
+          <div class="tr-meta"><div class="tr-name">H1</div><div class="tr-spec">4.2rem / 800</div></div>
+          <div class="tr-sample" style="font-family:'Playfair Display',serif;font-size:36px;font-weight:800">Knock out Malaria in 3 Days.</div>
+        </div>
+        <div class="type-row">
+          <div class="tr-meta"><div class="tr-name">H2</div><div class="tr-spec">2.9rem / 700</div></div>
+          <div class="tr-sample" style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700">Never miss your moment.</div>
+        </div>
+        <div class="type-row">
+          <div class="tr-meta"><div class="tr-name">H3</div><div class="tr-spec">2rem / 600</div></div>
+          <div class="tr-sample" style="font-family:'Playfair Display',serif;font-size:22px;font-weight:600">NMA-endorsed · GMA-endorsed</div>
+        </div>
+        <div class="type-row">
+          <div class="tr-meta"><div class="tr-name">Eyebrow</div><div class="tr-spec">0.72rem / 700 / 0.22em</div></div>
+          <div class="tr-sample" style="font-family:'Source Sans 3',sans-serif;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#F17025">BRAND STORY · CONTENT PILLARS</div>
+        </div>
+        <div class="type-row">
+          <div class="tr-meta"><div class="tr-name">Body</div><div class="tr-spec">1.0625rem / 400</div></div>
+          <div class="tr-sample" style="font-family:'Source Sans 3',sans-serif;font-size:15px;color:#555">Trust before sell. Protect the moment, don't push the pill. Plain and neighbourly.</div>
+        </div>
+        <div class="type-row">
+          <div class="tr-meta"><div class="tr-name">Shaltoux Display</div><div class="tr-spec">Archivo Black / UPPERCASE</div></div>
+          <div class="tr-sample" style="font-family:'Archivo Black',sans-serif;font-size:28px;text-transform:uppercase;color:#006633;letter-spacing:-.01em">SOUND LIKE YOURSELF</div>
+        </div>
+        <div class="type-row">
+          <div class="tr-meta"><div class="tr-name">Ibucap Display</div><div class="tr-spec">Plus Jakarta Sans / 800</div></div>
+          <div class="tr-sample" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;color:#F07D1A">The Power of Three in One.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPACING & MOTION -->
+    <div class="section" id="spacing">
+      <div class="section-label">Spacing · Radii · Motion</div>
+      <div class="section-title">The structural grid</div>
+      <table class="tokens-table">
+        <tr><th>Token</th><th>Value</th><th>Use</th></tr>
+        <tr><td>--space-1 → --space-10</td><td>4px → 128px</td><td>4px base, multiples throughout</td></tr>
+        <tr><td>--radius-sm / md / lg / xl</td><td>6 / 12 / 18 / 26px</td><td>sm=inputs, md=panels, lg=cards, xl=modals</td></tr>
+        <tr><td>--radius-pill</td><td>999px</td><td>Badges, tags, CTAs</td></tr>
+        <tr><td>--radius-editorial</td><td>0px</td><td>Campaign / full-bleed frames — ALWAYS square</td></tr>
+        <tr><td>--ease</td><td>cubic-bezier(.22,.61,.36,1)</td><td>All transitions — calm ease-out, no bounces</td></tr>
+        <tr><td>--dur-fast / dur / dur-slow</td><td>140 / 240 / 420ms</td><td>Micro / standard / entrance</td></tr>
+        <tr><td>--shadow-card</td><td>0 10px 30px rgba(31,48,107,.10)</td><td>Product cards — faint blue cast</td></tr>
+        <tr><td>--shadow-md</td><td>0 8px 22px rgba(26,26,26,.10)</td><td>Panels and surfaces</td></tr>
+      </table>
+    </div>
+
+    <!-- ASSETS -->
+    <div class="section" id="assets">
+      <div class="section-label">Asset Library</div>
+      <div class="section-title">Logos · Packaging · Cast · Campaign</div>
+
+      <div style="margin-bottom:28px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:14px">Brand Logos</div>
+        <div class="logos-strip">
+          <div class="logo-card"><img src="assets/logos/shalina-corp.png" alt="Shalina Corp"><span class="logo-name">Shalina</span></div>
+          <div class="logo-card" style="background:#1F4598"><img src="assets/logos/shalartem.png" alt="Shal'Artem" style="filter:brightness(0) invert(1)"><span class="logo-name" style="color:rgba(255,255,255,.5)">Shal'Artem</span></div>
+          <div class="logo-card" style="background:#006633"><img src="assets/logos/shaltoux.png" alt="Shaltoux" style="filter:brightness(0) invert(1)"><span class="logo-name" style="color:rgba(255,255,255,.5)">Shaltoux</span></div>
+          <div class="logo-card"><img src="assets/logos/ibucap.png" alt="Ibucap"><span class="logo-name">Ibucap</span></div>
+          <div class="logo-card"><img src="assets/logos/germol.png" alt="Germol"><span class="logo-name">Germol</span></div>
+          <div class="logo-card"><img src="assets/logos/aco.png" alt="ACO"><span class="logo-name">ACO</span></div>
+          <div class="logo-card"><img src="assets/logos/flodent.png" alt="Flodent"><span class="logo-name">Flodent</span></div>
+          <div class="logo-card"><img src="assets/logos/polygel.png" alt="Polygel"><span class="logo-name">Polygel</span></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:28px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:14px">Shal'Artem Packaging</div>
+        <div class="assets-grid">
+          <div class="asset-card"><div class="asset-thumb"><img src="assets/packaging/shalartem-dt.png" alt="DT Pack"></div><div class="asset-info"><div class="asset-name">Dispersible Tablet Pack</div><div class="asset-path">packaging/shalartem-dt.png</div></div></div>
+          <div class="asset-card"><div class="asset-thumb"><img src="assets/packaging/shalartem-12t.png" alt="12T Pack"></div><div class="asset-info"><div class="asset-name">12-Tablet Pack</div><div class="asset-path">packaging/shalartem-12t.png</div></div></div>
+          <div class="asset-card"><div class="asset-thumb"><img src="assets/packaging/shalartem-18t.png" alt="18T Pack"></div><div class="asset-info"><div class="asset-name">18-Tablet Pack</div><div class="asset-path">packaging/shalartem-18t.png</div></div></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:28px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:14px">Campaign Photography · Shal'Artem Bounce-Back</div>
+        <div class="assets-grid">
+          <div class="asset-card"><div class="asset-thumb" style="background:#1A1A1A"><img src="assets/campaign/bounce-back-firststeps.png" alt="First Steps"></div><div class="asset-info"><div class="asset-name">First Steps</div><div class="asset-path">campaign/bounce-back-firststeps.png</div></div></div>
+          <div class="asset-card"><div class="asset-thumb" style="background:#1A1A1A"><img src="assets/campaign/bounce-back-stadium.png" alt="Stadium"></div><div class="asset-info"><div class="asset-name">Stadium Moment</div><div class="asset-path">campaign/bounce-back-stadium.png</div></div></div>
+          <div class="asset-card"><div class="asset-thumb" style="background:#1A1A1A"><img src="assets/campaign/bounce-back-graduation.png" alt="Graduation"></div><div class="asset-info"><div class="asset-name">Graduation</div><div class="asset-path">campaign/bounce-back-graduation.png</div></div></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:28px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:14px">Cast Photography</div>
+        <div class="assets-grid">
+          <div class="asset-card"><div class="asset-thumb" style="background:#19281F"><img src="assets/cast/doctor-bayo.png" alt="Dr Bayo"></div><div class="asset-info"><div class="asset-name">Dr. Bayo</div><div class="asset-path">cast/doctor-bayo.png</div></div></div>
+          <div class="asset-card"><div class="asset-thumb" style="background:#19281F"><img src="assets/cast/pharmacist-ngozi.png" alt="Pharm Ngozi"></div><div class="asset-info"><div class="asset-name">Pharm. Ngozi</div><div class="asset-path">cast/pharmacist-ngozi.png</div></div></div>
+          <div class="asset-card"><div class="asset-thumb" style="background:#19281F"><img src="assets/cast/teacher-accra.jpeg" alt="Teacher Accra"></div><div class="asset-info"><div class="asset-name">Teacher · Accra</div><div class="asset-path">cast/teacher-accra.jpeg</div></div></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:14px">Shaltoux Photography</div>
+        <div class="assets-grid">
+          <div class="asset-card"><div class="asset-thumb"><img src="assets/shaltoux/sachet-green.png" alt="Green Sachet"></div><div class="asset-info"><div class="asset-name">Sachet · Honey &amp; Ginger</div><div class="asset-path">shaltoux/sachet-green.png</div></div></div>
+          <div class="asset-card"><div class="asset-thumb"><img src="assets/shaltoux/sachet-orange.png" alt="Orange Sachet"></div><div class="asset-info"><div class="asset-name">Sachet · Orange</div><div class="asset-path">shaltoux/sachet-orange.png</div></div></div>
+          <div class="asset-card"><div class="asset-thumb"><img src="assets/shaltoux/sachet-honey.png" alt="Honey Sachet"></div><div class="asset-info"><div class="asset-name">Sachet · Honey</div><div class="asset-path">shaltoux/sachet-honey.png</div></div></div>
+          <div class="asset-card"><div class="asset-thumb" style="background:#1A1A1A"><img src="assets/shaltoux/voice-studio-man.png" alt="Voice Studio"></div><div class="asset-info"><div class="asset-name">Voice Studio · Man</div><div class="asset-path">shaltoux/voice-studio-man.png</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESIGN LAWS -->
+    <div class="section" id="laws">
+      <div class="section-label">Design Laws</div>
+      <div class="section-title">Inviolable. Every build. Every brand.</div>
+      <div class="laws-grid">
+        <div class="law-card warn"><div class="law-icon">🚫</div><div><div class="law-title">No type effects. Ever.</div><div class="law-text">No text-shadow, no gradient text, no stroke on type. Display type is roman by default. Italic only for cast role lines.</div></div></div>
+        <div class="law-card warn"><div class="law-icon">🚫</div><div><div class="law-title">No raw hex values in code.</div><div class="law-text">Every colour is a CSS token. <code>var(--blue)</code> not <code>#1F4598</code>. Token names are the source of truth.</div></div></div>
+        <div class="law-card warn"><div class="law-icon">🚫</div><div><div class="law-title">No coloured shadows.</div><div class="law-text">Shadows are soft, cool-grey. Only <code>--shadow-card</code> has a faint blue cast (product cards only). Never coloured.</div></div></div>
+        <div class="law-card warn"><div class="law-icon">🚫</div><div><div class="law-title">No bounces. No infinite loops.</div><div class="law-text">All motion uses <code>--ease</code> (calm ease-out). Duration: 140–420ms. No springs, no looping animations, no bounces.</div></div></div>
+        <div class="law-card ok"><div class="law-icon">✅</div><div><div class="law-title">Documentary photography only.</div><div class="law-text">No SVG illustration. No mascots. Real people, real moments. Credibility comes from authenticity.</div></div></div>
+        <div class="law-card ok"><div class="law-icon">✅</div><div><div class="law-title">Square corners on campaign frames.</div><div class="law-text"><code>border-radius: 0</code> on all editorial/full-bleed campaign frames. Only product cards round at <code>--radius-lg</code> (18px).</div></div></div>
+        <div class="law-card warn"><div class="law-icon">⚠️</div><div><div class="law-title">Ibucap: zero medical figures.</div><div class="law-text">No doctors, nurses, pharmacists — real or illustrated. No superheroes. No mascots. PPB / NAFDAC compliance. Claim: "The Power of Three in One." Only.</div></div></div>
+        <div class="law-card ok"><div class="law-icon">✅</div><div><div class="law-title">Eyebrow → Headline → Support. Always.</div><div class="law-text">Wide-tracked UPPERCASE eyebrow first. Serif headline. Source Sans body. This hierarchy never breaks. Orange or blue eyebrow only.</div></div></div>
+      </div>
+    </div>
+
+    <!-- LIVE PAGES -->
+    <div class="section" id="pages">
+      <div class="section-label">Live Pages</div>
+      <div class="section-title">Current executions</div>
+      <div class="pages-grid">
+        <a class="page-card" href="pages/BRAND-GUIDES.html" target="_blank">
+          <div class="page-brand">System</div>
+          <div class="page-name">Brand Guides FY2026/27</div>
+          <div class="page-meta">Written canon · all five brand worlds</div>
+          <div class="page-arrow">Open →</div>
+        </a>
+        <a class="page-card" href="pages/WRITING-GUIDE.html" target="_blank">
+          <div class="page-brand">System</div>
+          <div class="page-name">Writing Guide</div>
+          <div class="page-meta">Voice, locked lines, claim discipline</div>
+          <div class="page-arrow">Open →</div>
+        </a>
+        <a class="page-card" href="pages/IBUCAP-STORYBOARD-STACK.html" target="_blank">
+          <div class="page-brand">Ibucap</div>
+          <div class="page-name">Storyboard Stack 01–04</div>
+          <div class="page-meta">Nigeria · NG Flagship · $30K</div>
+          <div class="page-arrow">Open →</div>
+        </a>
+        <a class="page-card" href="pages/IBUCAP-STORYBOARDS-05-08.html" target="_blank">
+          <div class="page-brand">Ibucap</div>
+          <div class="page-name">Storyboard Stack 05–08</div>
+          <div class="page-meta">Kenya · KE Flagship · $30K</div>
+          <div class="page-arrow">Open →</div>
+        </a>
+        <a class="page-card" href="pages/FLODENT-STORYBOARD-ZIMKHITA.html" target="_blank">
+          <div class="page-brand">Flodent</div>
+          <div class="page-name">Zimkhita Storyboard</div>
+          <div class="page-meta">Series character introduction</div>
+          <div class="page-arrow">Open →</div>
+        </a>
+        <a class="page-card" href="../shalina/aco/storyboards/ACO-STORY-07-THE-SHOPPING-TRIP-EN.html" target="_blank">
+          <div class="page-brand">ACO Pine Gel</div>
+          <div class="page-name">Story 07: The Shopping Trip</div>
+          <div class="page-meta">Angola · English</div>
+          <div class="page-arrow">Open →</div>
+        </a>
+        <a class="page-card" href="../shalina/aco/storyboards/ACO-STORY-07-A-VIAGEM-AS-COMPRAS-PT.html" target="_blank">
+          <div class="page-brand">ACO Pine Gel</div>
+          <div class="page-name">História 07: A Viagem às Compras</div>
+          <div class="page-meta">Angola · Português</div>
+          <div class="page-arrow">Open →</div>
+        </a>
+        <a class="page-card" href="pages/shalina-story-template.html" target="_blank">
+          <div class="page-brand">System</div>
+          <div class="page-name">Story Template</div>
+          <div class="page-meta">Base template for all story builds</div>
+          <div class="page-arrow">Open →</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- ================================================
+         BRAND WORLDS — Individual deep-dives, all 8 brands
+         ================================================ -->
+
+    <!-- BRAND WORLD: SHAL'ARTEM -->
+    <div class="section" id="shalartem">
+      <div class="section-label">Brand World</div>
+      <div class="section-title">Shal'Artem</div>
+      <div class="section-sub">"Never miss your moment." · Anti-malarial (AL) · Nigeria · Ghana</div>
+      <div class="brand-world">
+        <div class="bw-header" style="background:#1F4598">
+          <div><div class="bw-title" style="color:white">Shal'Artem</div><div class="bw-claim" style="color:rgba(255,255,255,.65)">"Never miss your moment."</div></div>
+          <img src="assets/logos/shalartem.png" alt="Shal'Artem" style="height:44px;filter:brightness(0) invert(1);opacity:.9">
+        </div>
+        <div class="bw-body" style="grid-template-columns:1fr 1fr 1fr">
+          <div>
+            <div class="bw-col-label">Palette</div>
+            <div class="bw-palette">
+              <div class="bw-sw"><div class="bw-sw-c" style="background:#1F4598"></div><div class="bw-sw-b"><div class="bw-sw-n">Blue</div><div class="bw-sw-h">#1F4598</div></div></div>
+              <div class="bw-sw"><div class="bw-sw-c" style="background:#F17025"></div><div class="bw-sw-b"><div class="bw-sw-n">Orange</div><div class="bw-sw-h">#F17025</div></div></div>
+              <div class="bw-sw"><div class="bw-sw-c" style="background:#C68A1E"></div><div class="bw-sw-b"><div class="bw-sw-n">Gold</div><div class="bw-sw-h">#C68A1E</div></div></div>
+              <div class="bw-sw"><div class="bw-sw-c" style="background:#19281F"></div><div class="bw-sw-b"><div class="bw-sw-n">Forest</div><div class="bw-sw-h">#19281F</div></div></div>
+              <div class="bw-sw"><div class="bw-sw-c" style="background:#F7EFE0"></div><div class="bw-sw-b"><div class="bw-sw-n">Parchment</div><div class="bw-sw-h">#F7EFE0</div></div></div>
+            </div>
+            <div style="margin-top:14px;font-size:10px;color:#AAA">Products: AL tablets · DT / 12T / 18T packs</div>
+          </div>
+          <div>
+            <div class="bw-col-label">Typography</div>
+            <div>
+              <div class="bw-type-row"><div class="bw-type-spec">Display · Playfair Display 800</div><div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:800;color:#1F4598;line-height:1.2;margin-top:4px">Never Miss</div></div>
+              <div class="bw-type-row"><div class="bw-type-spec">Eyebrow · Source Sans 3 700</div><div style="font-family:'Source Sans 3',sans-serif;font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#F17025;margin-top:4px">BRAND STORY</div></div>
+              <div class="bw-type-row"><div class="bw-type-spec">Body · Source Sans 3 400</div><div style="font-family:'Source Sans 3',sans-serif;font-size:12px;color:#555;margin-top:4px">Trust before sell. Protect the moment.</div></div>
+            </div>
+          </div>
+          <div>
+            <div class="bw-col-label">Brand Rules</div>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:7px">
+              <li class="bw-rule-item">Trust before sell — never push the pill</li>
+              <li class="bw-rule-item">Real people, real moments — no stock photography</li>
+              <li class="bw-rule-item">Eyebrow → Headline → Support hierarchy always holds</li>
+              <li class="bw-rule-item">Orange eyebrow only — no exceptions</li>
+              <li class="bw-rule-item">NMA-endorsed (NG) · GMA-endorsed (GH) messaging</li>
+              <li class="bw-rule-item">DT / 12T / 18T packaging visible in all touchpoints</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="bw-status">
+        <span class="pill pill-green">● Full Brand World</span>
+        <span class="bw-tag-wip">◐ Bounce Back · 8-video sprint pending</span>
+        <a class="bw-link" href="assets/campaign/bounce-back-firststeps.png" target="_blank">Campaign assets →</a>
+        <a class="bw-link" href="assets/packaging/shalartem-dt.png" target="_blank">Packaging →</a>
+      </div>
+    </div>
+
+    <!-- BRAND WORLD: SHALTOUX -->
+    <div class="section" id="shaltoux">
+      <div class="section-label">Brand World</div>
+      <div class="section-title">Shaltoux</div>
+      <div class="section-sub">"Sound Like Yourself." · Cough &amp; Throat Lozenges · West Africa</div>
+      <div class="brand-world">
+        <div class="bw-header" style="background:#006633">
+          <div><div class="bw-title" style="color:white">Shaltoux</div><div class="bw-claim" style="color:rgba(255,255,255,.65)">"Sound Like Yourself."</div></div>
+          <img src="assets/logos/shaltoux.png" alt="Shaltoux" style="height:44px;filter:brightness(0) invert(1);opacity:.9">
+        </div>
+        <div class="bw-body" style="grid-template-columns:1fr 1fr 1fr">
+          <div>
+            <div class="bw-col-label">Palette</div>
+            <div class="bw-palette">
+              <div class="bw-sw"><div class="bw-sw-c" style="background:#006633"></div><div class="bw-sw-b"><div class="bw-sw-n">Green</div><div class="bw-sw-h">#006633</div></div></div>
+              <div class="bw-sw"><div class="bw-sw-c" style="background:#FFD338"></div><div class="bw-sw-b"><div class="bw-sw-n">Yellow</div><div class="bw-sw-h">#FFD338</div></div></div>
+              <div class="bw-sw"><div class="bw-sw-c" style="background:#EB921E"></div><div class="bw-sw-b"><div class="bw-sw-n">Orange</div><div class="bw-sw-h">#EB921E</div></div></div>
+              <div class="bw-sw" style="border:1px solid #DDD"><div class="bw-sw-c" style="background:#F3F5F4"></div><div class="bw-sw-b"><div class="bw-sw-n">Cream</div><div class="bw-sw-h">#F3F5F4</div></div></div>
+            </div>
+            <div style="margin-top:14px;font-size:10px;color:#AAA">3 SKUs: Honey &amp; Ginger · Orange · Classic</div>
+          </div>
+          <div>
+            <div class="bw-col-label">Typography</div>
+            <div>
+              <div class="bw-type-row"><div class="bw-type-spec">Display · Archivo Black / UPPERCASE</div><div style="font-family:'Archivo Black',sans-serif;text-transform:uppercase;color:#006633;font-size:18px;line-height:1.2;margin-top:4px">SOUND LIKE YOURSELF</div></div>
+              <div class="bw-type-row"><div class="bw-type-spec">Body · Archivo 400–600</div><div style="font-family:'Archivo',sans-serif;font-size:12px;color:#555;margin-top:4px">Every flavour, every voice.</div></div>
+            </div>
+          </div>
+          <div>
+            <div class="bw-col-label">Brand Rules</div>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:7px">
+              <li class="bw-rule-item">Voice as identity — the lozenge restores your authentic sound</li>
+              <li class="bw-rule-item">Archivo Black UPPERCASE for all headline text — always</li>
+              <li class="bw-rule-item">Green (#006633) is always the dominant colour</li>
+              <li class="bw-rule-item">Show all 3 SKUs — Honey &amp; Ginger, Orange, Classic — as a range</li>
+              <li class="bw-rule-item">Voice studio characters anchor all digital content</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="bw-status">
+        <span class="pill pill-green">● Full Brand World</span>
+        <span class="bw-tag-hold">3 SKUs · Sachet format</span>
+        <a class="bw-link" href="assets/shaltoux/sachet-green.png" target="_blank">Sachets →</a>
+      </div>
+    </div>
+
+    <!-- BRAND WORLD: IBUCAP -->
+    <div class="section" id="ibucap">
+      <div class="section-label">Brand World</div>
+      <div class="section-title">Ibucap</div>
+      <div class="section-sub">"The Power of Three in One." · Pain &amp; Cold Relief (OTX) · Nigeria · Ghana · Kenya</div>
+      <div class="brand-world">
+        <div class="bw-header" style="background:linear-gradient(135deg,#F07D1A 0%,#1F4598 100%)">
+          <div><div class="bw-title" style="color:white">Ibucap</div><div class="bw-claim" style="color:rgba(255,255,255,.65)">"The Power of Three in One."</div></div>
+          <img src="assets/logos/ibucap.png" alt="Ibucap" style="height:44px;filter:none">
+        </div>
+        <div class="bw-body" style="grid-template-columns:1fr 1fr 1fr">
+          <div>
+            <div class="bw-col-label">Palette</div>
+            <div class="bw-palette">
+              <div class="bw-sw"><div class="bw-sw-c" style="background:#F07D1A"></div><div class="bw-sw-b"><div class="bw-sw-n">Orange NG/GH</div><div class="bw-sw-h">#F07D1A</div></div></div>
+              <div class="bw-sw"><div class="bw-sw-c" style="background:#1F4598"></div><div class="bw-sw-b"><div class="bw-sw-n">Blue NG/GH</div><div class="bw-sw-h">#1F4598</div></div></div>
+              <div class="bw-sw"><div class="bw-sw-c" style="background:#1E86D6"></div><div class="bw-sw-b"><div class="bw-sw-n">Azure KE</div><div class="bw-sw-h">#1E86D6</div></div></div>
+            </div>
+            <div style="margin-top:14px;font-size:10px;color:#AAA">Ibuprofen · Paracetamol · Caffeine (3-in-1)</div>
+            <div style="margin-top:10px;font-size:11.5px;color:#555;line-height:1.6"><strong style="color:#333">8 Characters:</strong> Brayo · Cheptoo · Wairimu · Zawadi · Baraka · Otis · Kamau · Juma</div>
+          </div>
+          <div>
+            <div class="bw-col-label">Typography</div>
+            <div>
+              <div class="bw-type-row"><div class="bw-type-spec">Display · Plus Jakarta Sans 800</div><div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:#F07D1A;line-height:1.2;margin-top:4px">The Power of Three.</div></div>
+              <div class="bw-type-row"><div class="bw-type-spec">Format</div><div style="font-size:11.5px;color:#555;margin-top:4px">15-second social film · 8 shots · Hustler framework</div></div>
+            </div>
+          </div>
+          <div>
+            <div class="bw-col-label">Brand Rules</div>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:7px">
+              <li class="bw-rule-item">Zero medical figures — no doctors, nurses, pharmacists</li>
+              <li class="bw-rule-item">No superheroes or mascots — PPB / NAFDAC compliant</li>
+              <li class="bw-rule-item">Claim: "The Power of Three in One." — these words only</li>
+              <li class="bw-rule-item">KE market: azure (#1E86D6) palette, not NG/GH orange</li>
+              <li class="bw-rule-item">Wide Establishing → Pain → 3-in-1 Explainer → Relief → Packshot</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="bw-status">
+        <span class="pill pill-green">● Full Brand World</span>
+        <span class="pill pill-green">● 8 KE storyboards confirmed</span>
+        <span class="bw-tag-wip">◐ Video production pending Kartik sign-off</span>
+        <a class="bw-link" href="pages/IBUCAP-STORYBOARD-STACK.html" target="_blank">NG/GH 01–04 →</a>
+        <a class="bw-link" href="pages/IBUCAP-STORYBOARDS-05-08.html" target="_blank">KE 05–08 →</a>
+      </div>
+    </div>
+
+    <!-- BRAND WORLD: GERMOL -->
+    <div class="section" id="germol">
+      <div class="section-label">Brand World</div>
+      <div class="section-title">Germol</div>
+      <div class="section-sub">"Shields with Love and Care" · Antiseptic &amp; Wound Care · South Africa · Angola</div>
+      <div class="brand-world">
+        <div class="bw-header" style="background:#0091D0">
+          <div><div class="bw-title" style="color:white;font-family:var(--font-text);font-weight:700">Germol</div><div class="bw-claim" style="color:rgba(255,255,255,.65)">"Shields with Love and Care"</div></div>
+          <img src="assets/logos/germol.png" alt="Germol" style="height:44px;filter:none">
+        </div>
+        <div class="bw-body" style="grid-template-columns:1fr 1fr 1fr">
+          <div>
+            <div class="bw-col-label">Palette</div>
+            <div class="bw-palette">
+              <div class="bw-sw"><div class="bw-sw-c" style="background:#0091D0"></div><div class="bw-sw-b"><div class="bw-sw-n">Germol Blue</div><div class="bw-sw-h">#0091D0</div></div></div>
+              <div class="bw-sw"><div class="bw-sw-c" style="background:#0C9748"></div><div class="bw-sw-b"><div class="bw-sw-n">Safety Green</div><div class="bw-sw-h">#0C9748</div></div></div>
+              <div class="bw-sw" style="border:1px solid #E0E0E0"><div class="bw-sw-c" style="background:#FFFFFF"></div><div class="bw-sw-b"><div class="bw-sw-n">White</div><div class="bw-sw-h">#FFFFFF</div></div></div>
+            </div>
+            <div style="margin-top:14px;font-size:10px;color:#AAA">Products: ASL (Antiseptic Liquid) · Soap</div>
+          </div>
+          <div>
+            <div class="bw-col-label">Creative Direction</div>
+            <div>
+              <div class="bw-type-row"><div class="bw-type-spec">Display · Rubik Bold 700</div><div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:700;color:#0091D0;line-height:1.2;margin-top:4px">Shields with Love</div></div>
+              <div class="bw-type-row"><div class="bw-type-spec">Film Grade</div><div style="font-size:11.5px;color:#555;margin-top:4px">Kodak Vision3 500T — warm shadows, cool highlights, fine grain</div></div>
+              <div class="bw-type-row"><div class="bw-type-spec">Format</div><div style="font-size:11.5px;color:#555;margin-top:4px">9:16 · Seedance 2.0 · Drama · Audio on · 22.5 credits/video</div></div>
+            </div>
+          </div>
+          <div>
+            <div class="bw-col-label">Brand Rules</div>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:7px">
+              <li class="bw-rule-item">Child's imagination is the lens — protection made visible through magic</li>
+              <li class="bw-rule-item">Fantasy: electric blue-green shimmer, glowing shields, scattering germs</li>
+              <li class="bw-rule-item">Always return to warm domestic reality after the fantasy beat</li>
+              <li class="bw-rule-item">Anchor relationship: mother + child — family is the shield</li>
+              <li class="bw-rule-item">Diegetic audio only — household sounds, no music tracks</li>
+              <li class="bw-rule-item">End card: product hero + "Shields with Love and Care" Rubik Bold</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="bw-status">
+        <span class="bw-tag-wip">◐ Brand World in Development</span>
+        <span class="pill pill-green">● Jul 2026 · 8-video sprint · 1 generated</span>
+        <span class="bw-tag-hold">CentreFree Island · Scale plan · 22.5 cr/video</span>
+      </div>
+    </div>
+
+    <!-- BRAND WORLD: ACO PINE GEL -->
+    <div class="section" id="aco">
+      <div class="section-label">Brand World</div>
+      <div class="section-title">ACO Pine Gel</div>
+      <div class="section-sub">"Só Precisas de Um." · All-Purpose Cleaner · Angola</div>
+      <div class="brand-world">
+        <div class="bw-header" style="background:#1A7A4A">
+          <div><div class="bw-title" style="color:white">ACO Pine Gel</div><div class="bw-claim" style="color:rgba(255,255,255,.65)">"Só Precisas de Um." · "You Only Need One."</div></div>
+          <img src="assets/logos/aco.png" alt="ACO" style="height:44px;filter:brightness(0) invert(1);opacity:.9">
+        </div>
+        <div class="bw-body" style="grid-template-columns:1fr 1fr 1fr">
+          <div>
+            <div class="bw-col-label">Palette</div>
+            <div class="bw-palette">
+              <div class="bw-sw"><div class="bw-sw-c" style="background:#1A7A4A"></div><div class="bw-sw-b"><div class="bw-sw-n">Pine Green</div><div class="bw-sw-h">#1A7A4A</div></div></div>
+              <div class="bw-sw" style="border:1px solid #E0E0E0"><div class="bw-sw-c" style="background:#FFFFFF"></div><div class="bw-sw-b"><div class="bw-sw-n">White</div><div class="bw-sw-h">#FFFFFF</div></div></div>
+            </div>
+            <div style="margin-top:14px">
+              <div style="font-size:9px;color:#AAA;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px">Cast</div>
+              <div style="font-size:11.5px;color:#555;line-height:1.7"><strong style="color:#333">Gloria</strong> — Late 30s · Gold-burgundy wax kaftan · The relatable chaos<br><strong style="color:#333">Ana</strong> — Early 30s · Natural afro · Quiet confidence · The secret keeper</div>
+            </div>
+          </div>
+          <div>
+            <div class="bw-col-label">Emotional Arc</div>
+            <div>
+              <div class="bw-type-row"><div class="bw-type-spec">Recognition</div><div style="font-size:11.5px;color:#555;margin-top:4px">"That's me. I have that cupboard." — Gloria's chaos mirrors the audience</div></div>
+              <div class="bw-type-row"><div class="bw-type-spec">Curiosity</div><div style="font-size:11.5px;color:#555;margin-top:4px">"Wait — she only has one thing?" — Ana's reveal lands the claim</div></div>
+              <div class="bw-type-row"><div class="bw-type-spec">Belief → Desire</div><div style="font-size:11.5px;color:#555;margin-top:4px">Proof: Kitchen · Bathroom · Floors. One tub. Case closed.</div></div>
+            </div>
+          </div>
+          <div>
+            <div class="bw-col-label">Brand Rules</div>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:7px">
+              <li class="bw-rule-item">Simplicity is the truth — one tub, every surface, every time</li>
+              <li class="bw-rule-item">Always bilingual: Portuguese primary, English secondary (Angola)</li>
+              <li class="bw-rule-item">ACO tub visible and label-readable in every product scene</li>
+              <li class="bw-rule-item">Warm, not slapstick — humour from recognition, not mockery</li>
+              <li class="bw-rule-item">40 seconds · 4 scenes × 10s · 9:16 vertical</li>
+              <li class="bw-rule-item">Gloria ≠ villain. She is us. Play warm, never dismissive.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="bw-status">
+        <span class="pill pill-green">● Stories 01 &amp; 07 in production</span>
+        <span class="bw-tag-hold">Market: Angola · Budget: $609</span>
+        <a class="bw-link" href="../shalina/aco/storyboards/ACO-STORY-07-THE-SHOPPING-TRIP-EN.html" target="_blank">Story 07 EN →</a>
+        <a class="bw-link" href="../shalina/aco/storyboards/ACO-STORY-07-A-VIAGEM-AS-COMPRAS-PT.html" target="_blank">Story 07 PT →</a>
+      </div>
+    </div>
+
+    <!-- BRAND WORLD: FLODENT -->
+    <div class="section" id="flodent">
+      <div class="section-label">Brand World</div>
+      <div class="section-title">Flodent</div>
+      <div class="section-sub">"Flodent. Fresh Start." · Oral Care · South Africa · Angola</div>
+      <div class="brand-world">
+        <div class="bw-header" style="background:#1B6CA8">
+          <div><div class="bw-title" style="color:white">Flodent</div><div class="bw-claim" style="color:rgba(255,255,255,.65)">"Flodent. Fresh Start." · Fresh Start Club series</div></div>
+          <img src="assets/logos/flodent.png" alt="Flodent" style="height:44px;filter:brightness(0) invert(1);opacity:.9">
+        </div>
+        <div class="bw-body" style="grid-template-columns:1fr 1fr 1fr">
+          <div>
+            <div class="bw-col-label">Palette</div>
+            <div class="bw-palette">
+              <div class="bw-sw"><div class="bw-sw-c" style="background:#1B6CA8"></div><div class="bw-sw-b"><div class="bw-sw-n">Azure Blue</div><div class="bw-sw-h">#1B6CA8</div></div></div>
+              <div class="bw-sw"><div class="bw-sw-c" style="background:#00A878"></div><div class="bw-sw-b"><div class="bw-sw-n">Fresh Green</div><div class="bw-sw-h">#00A878</div></div></div>
+              <div class="bw-sw"><div class="bw-sw-c" style="background:#F47920"></div><div class="bw-sw-b"><div class="bw-sw-n">Warm Orange</div><div class="bw-sw-h">#F47920</div></div></div>
+            </div>
+            <div style="margin-top:14px">
+              <div style="font-size:9px;color:#AAA;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px">Mkhize Family (SA)</div>
+              <div style="font-size:11.5px;color:#555;line-height:1.7"><strong style="color:#333">Zimkhita</strong> — The Fixer · Mum · Managerial secretary<br><strong style="color:#333">Gudi</strong> — Son · Musician<br><strong style="color:#333">Angola Family</strong> — Cast TBC</div>
+            </div>
+          </div>
+          <div>
+            <div class="bw-col-label">The 4-Beat Engine</div>
+            <div style="display:flex;flex-direction:column">
+              <div style="padding:7px 0;border-bottom:1px solid #F0EDE6;display:flex;gap:10px"><div style="width:64px;flex-shrink:0;font-size:8.5px;color:#AAA;text-transform:uppercase;letter-spacing:1px;padding-top:2px">01 RELATE</div><div style="font-size:11.5px;color:#555;line-height:1.4">We feel the character before we know their name</div></div>
+              <div style="padding:7px 0;border-bottom:1px solid #F0EDE6;display:flex;gap:10px"><div style="width:64px;flex-shrink:0;font-size:8.5px;color:#AAA;text-transform:uppercase;letter-spacing:1px;padding-top:2px">02 CONFLICT</div><div style="font-size:11.5px;color:#555;line-height:1.4">A real, human weight — the gap they need to cross</div></div>
+              <div style="padding:7px 0;border-bottom:1px solid #F0EDE6;display:flex;gap:10px"><div style="width:64px;flex-shrink:0;font-size:8.5px;color:#00A878;text-transform:uppercase;letter-spacing:1px;font-weight:700;padding-top:2px">03 TIME</div><div style="font-size:11.5px;color:#555;line-height:1.4"><strong style="color:#00A878">Flodent is here. Beat 02. Locked.</strong> The thing they reach for before they step into it.</div></div>
+              <div style="padding:7px 0;display:flex;gap:10px"><div style="width:64px;flex-shrink:0;font-size:8.5px;color:#AAA;text-transform:uppercase;letter-spacing:1px;padding-top:2px">04 RESOLUTION</div><div style="font-size:11.5px;color:#555;line-height:1.4">Brand value lands as a feeling. Fresh start delivered.</div></div>
+            </div>
+          </div>
+          <div>
+            <div class="bw-col-label">Brand Rules</div>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:7px">
+              <li class="bw-rule-item">Flodent is the hinge — remove it and the arc breaks</li>
+              <li class="bw-rule-item">One permanent family per market — no rotating ensembles</li>
+              <li class="bw-rule-item">No dialogue explaining the product — brush, step forward, done</li>
+              <li class="bw-rule-item">Tube visible, label readable, in-use at Beat 02 always</li>
+              <li class="bw-rule-item">30–40 seconds max · One location per beat · No subplots</li>
+              <li class="bw-rule-item">One beat of lightness per episode — never the centre</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="bw-status">
+        <span class="pill pill-green">● Series Bible v1.2 live</span>
+        <span class="pill pill-green">● Story 01 (Zimkhita) storyboard live</span>
+        <span class="bw-tag-wip">◐ Story 02 (Angola family) in development</span>
+        <a class="bw-link" href="pages/FLODENT-STORYBOARD-ZIMKHITA.html" target="_blank">Zimkhita Storyboard →</a>
+        <a class="bw-link" href="pages/FLODENT-BEAT-BOARD.html" target="_blank">Beat Board →</a>
+      </div>
+    </div>
+
+    <!-- BRAND WORLD: POLYGEL -->
+    <div class="section" id="polygel">
+      <div class="section-label">Brand World</div>
+      <div class="section-title">Polygel</div>
+      <div class="section-sub">Pharmaceutical · Portfolio Asset · Brief Pending</div>
+      <div class="brand-world">
+        <div class="bw-header" style="background:#2A4A8A">
+          <div><div class="bw-title" style="color:white">Polygel</div><div class="bw-claim" style="color:rgba(255,255,255,.5)">Brand brief not yet received</div></div>
+          <img src="assets/logos/polygel.png" alt="Polygel" style="height:44px;filter:brightness(0) invert(1);opacity:.9">
+        </div>
+        <div class="bw-body" style="grid-template-columns:1fr 1fr 1fr">
+          <div>
+            <div class="bw-col-label">Palette (Holding)</div>
+            <div class="bw-palette">
+              <div class="bw-sw"><div class="bw-sw-c" style="background:#2A4A8A"></div><div class="bw-sw-b"><div class="bw-sw-n">Navy</div><div class="bw-sw-h">#2A4A8A</div></div></div>
+            </div>
+            <div style="margin-top:10px;font-size:10px;color:#AAA">Full palette pending brief</div>
+          </div>
+          <div>
+            <div class="bw-col-label">Status</div>
+            <div style="background:#F8F6F2;border-radius:var(--r);padding:20px;text-align:center;margin-top:6px">
+              <div style="font-size:26px;margin-bottom:8px">📋</div>
+              <div style="font-size:12px;color:#888;line-height:1.7">Brief not yet received<br>Logo asset available in system<br>Production holds until brief approved</div>
+            </div>
+          </div>
+          <div>
+            <div class="bw-col-label">What We Know</div>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:7px">
+              <li class="bw-rule-item">Shalina Healthcare portfolio pharmaceutical brand</li>
+              <li class="bw-rule-item">Logo asset confirmed (polygel.png)</li>
+              <li class="bw-rule-item">Navy #2A4A8A as holding colour — brief will override</li>
+              <li class="bw-rule-item">No content production until brief received and approved</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="bw-status">
+        <span class="bw-tag-hold">◐ Logo Only · Brief Pending</span>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /shell -->
+
+<script>
+// Smooth scroll nav
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    a.classList.add('active');
+  });
+});
+// Brand chip scroll
+function scrollTo(id){ const t=document.querySelector(id); if(t) t.scrollIntoView({behavior:'smooth'}); }
+// Tab switcher (visual only)
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    tab.closest('.tabs').querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+  });
+});
+</script>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

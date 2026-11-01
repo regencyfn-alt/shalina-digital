@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flodent — Fresh Start Club Storyboards</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --azure: #1B6CA8;
+    --orange: #F47920;
+    --cream: #FDF8F0;
+    --charcoal: #1C1C1C;
+    --mid: #5A5A5A;
+    --light: #E8E0D0;
+    --panel-bg: #F0EBE0;
+    --fresh: #00A878;
+    --red: #c0392b;
+    --amber: #e67e22;
+    --green: #27ae60;
+    --page-w: 210mm;
+    --page-h: 297mm;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+    background: #c8c4bc;
+    color: var(--charcoal);
+    font-size: 10px;
+  }
+
+  [contenteditable] {
+    outline: none;
+    border-radius: 2px;
+    transition: background 0.15s;
+  }
+  [contenteditable]:hover { background: rgba(244,121,32,0.08); }
+  [contenteditable]:focus {
+    background: rgba(244,121,32,0.15);
+    box-shadow: 0 0 0 1.5px var(--orange);
+  }
+  @media print {
+    [contenteditable]:focus, [contenteditable]:hover { background: none; box-shadow: none; }
+  }
+
+  .page {
+    width: var(--page-w);
+    min-height: var(--page-h);
+    background: var(--cream);
+    margin: 12mm auto;
+    padding: 8mm 8mm 10mm;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+    page-break-after: always;
+    position: relative;
+  }
+
+  @media print {
+    body { background: white; }
+    .page { margin: 0; box-shadow: none; padding: 6mm 7mm 8mm; }
+    .controls { display: none !important; }
+  }
+
+  /* ── HEADER ── */
+  .page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    border-bottom: 2.5px solid var(--fresh);
+    padding-bottom: 3.5mm;
+    margin-bottom: 4mm;
+  }
+  .header-left .brand-line {
+    font-size: 7.5px; font-weight: 600;
+    color: var(--fresh); letter-spacing: 0.08em;
+    text-transform: uppercase; margin-bottom: 1mm;
+  }
+  .header-left .story-title {
+    font-size: 18px; font-weight: 900;
+    color: var(--charcoal); letter-spacing: -0.01em; line-height: 1;
+  }
+  .header-left .story-sub {
+    font-size: 8px; color: var(--mid);
+    margin-top: 1mm; font-weight: 500;
+  }
+  .header-right {
+    display: flex; flex-direction: column;
+    align-items: flex-end; gap: 1.5mm;
+  }
+  .page-badge {
+    background: var(--fresh); color: white;
+    font-size: 7px; font-weight: 700;
+    padding: 2px 7px; border-radius: 3px; letter-spacing: 0.05em;
+  }
+  .format-badge {
+    background: var(--orange); color: white;
+    font-size: 7px; font-weight: 700;
+    padding: 2px 7px; border-radius: 3px; letter-spacing: 0.05em;
+  }
+
+  /* ── EXECUTIVE SUMMARY ── */
+  .exec-summary {
+    background: white;
+    border-left: 3px solid var(--fresh);
+    padding: 3mm 4mm;
+    margin-bottom: 4mm;
+    border-radius: 0 3px 3px 0;
+  }
+  .exec-summary .es-label {
+    font-size: 6px; font-weight: 800;
+    color: var(--fresh); text-transform: uppercase;
+    letter-spacing: 0.12em; margin-bottom: 1.5mm;
+  }
+  .exec-summary .es-text {
+    font-size: 8.5px; color: var(--charcoal); line-height: 1.5;
+  }
+  .exec-summary .es-text strong { color: var(--azure); }
+
+  /* ── ACT DIVIDER ── */
+  .act-divider {
+    display: flex; align-items: center;
+    gap: 3mm; margin: 2mm 0 1.5mm;
+  }
+  .act-divider .act-label {
+    font-size: 6.5px; font-weight: 800;
+    color: var(--fresh); text-transform: uppercase;
+    letter-spacing: 0.1em; white-space: nowrap;
+  }
+  .act-divider .act-line { flex: 1; height: 1px; background: var(--light); }
+  .act-divider .act-time {
+    font-size: 6px; color: var(--mid); white-space: nowrap;
+  }
+
+  /* ── PANELS ── */
+  .panels-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5mm;
+    margin-bottom: 2mm;
+  }
+  .panel {
+    background: white; border-radius: 3px;
+    overflow: hidden; border: 1px solid var(--light);
+    display: flex; flex-direction: column;
+  }
+  .panel-header {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    padding: 1.2mm 2mm;
+    background: var(--azure);
+  }
+  .panel-number {
+    font-size: 8px; font-weight: 800;
+    color: white; line-height: 1;
+  }
+  .panel-timecode {
+    font-size: 6.5px; font-weight: 600;
+    color: rgba(255,255,255,0.85);
+  }
+  .panel-image {
+    width: 100%; aspect-ratio: 16/9;
+    background: var(--panel-bg);
+    display: flex; align-items: center;
+    justify-content: center;
+    position: relative; overflow: hidden;
+    cursor: pointer;
+  }
+  .panel-image img, .panel-image video {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .panel-image.placeholder { flex-direction: column; gap: 1.5mm; }
+  .panel-image.placeholder .ph-icon { font-size: 14px; opacity: 0.3; }
+  .panel-image.placeholder .ph-label {
+    font-size: 6px; color: var(--mid);
+    text-align: center; padding: 0 2mm;
+    line-height: 1.4; font-style: italic;
+  }
+  .panel-image:hover::after {
+    content: '📎 Load media';
+    position: absolute; bottom: 3px; right: 4px;
+    font-size: 5.5px; font-weight: 700;
+    color: white; background: rgba(0,0,0,0.55);
+    padding: 1px 4px; border-radius: 2px;
+    pointer-events: none;
+  }
+  .phase-tag {
+    position: absolute; top: 1.5mm; left: 1.5mm;
+    background: var(--orange); color: white;
+    font-size: 5.5px; font-weight: 800;
+    padding: 1px 4px; border-radius: 2px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .clear-btn {
+    position: absolute; top: 2px; right: 2px;
+    background: rgba(0,0,0,0.55); color: white;
+    border: none; border-radius: 3px;
+    padding: 1px 5px; cursor: pointer;
+    font-size: 11px; z-index: 10; line-height: 1.2;
+  }
+  .panel-body {
+    padding: 1.5mm 2mm 2mm; flex: 1;
+    display: flex; flex-direction: column; gap: 1mm;
+  }
+  .panel-scene-name {
+    font-size: 7.5px; font-weight: 800;
+    color: var(--charcoal); line-height: 1.1;
+  }
+  .panel-desc {
+    font-size: 6.5px; color: var(--mid);
+    line-height: 1.4; flex: 1;
+  }
+  .panel-vo {
+    font-size: 6px; color: var(--azure);
+    font-style: italic; border-top: 1px solid var(--light);
+    padding-top: 1mm; line-height: 1.35;
+  }
+
+  /* ── PACKSHOT ── */
+  .panel.packshot .panel-header { background: var(--charcoal); }
+  .panel.packshot .panel-image {
+    background: #0a0a0a;
+    flex-direction: column; gap: 2mm; padding: 3mm;
+  }
+  .pack-logo {
+    font-size: 16px; font-weight: 900;
+    color: var(--fresh); letter-spacing: 0.03em;
+    line-height: 1; text-align: center;
+  }
+  .pack-tagline {
+    font-size: 7px; color: rgba(255,255,255,0.8);
+    text-align: center; font-style: italic; line-height: 1.4;
+  }
+  .pack-sub {
+    font-size: 5.5px; color: var(--orange);
+    text-align: center; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+  }
+
+  /* ── FOOTER ── */
+  .page-footer {
+    margin-top: 3.5mm; padding-top: 2.5mm;
+    border-top: 1px solid var(--light);
+    display: flex; align-items: center;
+    justify-content: space-between;
+  }
+  .footer-audio { font-size: 6.5px; color: var(--mid); font-style: italic; }
+  .footer-guardrails { font-size: 6px; color: #aaa; text-align: right; line-height: 1.5; }
+  .footer-logo { font-size: 8px; font-weight: 900; color: var(--fresh); letter-spacing: 0.05em; }
+
+  /* ── CONTROLS ── */
+  .controls {
+    width: var(--page-w); margin: 0 auto 6mm;
+    display: flex; gap: 3mm; align-items: center;
+  }
+  .controls button {
+    background: var(--azure); color: white; border: none;
+    padding: 6px 14px; border-radius: 4px;
+    font-size: 11px; font-weight: 600; cursor: pointer;
+  }
+  .controls button:hover { background: #155a8a; }
+  .controls button.green { background: var(--fresh); }
+  .controls button.green:hover { background: #008860; }
+  .controls button.orange { background: var(--orange); }
+  .controls button.orange:hover { background: #d9650f; }
+</style>
+</head>
+<body>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <button class="orange" onclick="window.print()">⬇ Save as PDF</button>
+  <button onclick="document.getElementById('zimkhita').scrollIntoView()">Zimkhita — Story 1</button>
+  <button onclick="document.getElementById('carlos').scrollIntoView()">Carlos — Story 2</button>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     STORY 1 — ZIMKHITA / FRESH START CLUB (SA)
+════════════════════════════════════════════ -->
+<div class="page" id="zimkhita">
+
+  <div class="page-header">
+    <div class="header-left">
+      <div class="brand-line">Shalina Healthcare · Flodent · Fresh Start Club · South Africa · FY2026/27</div>
+      <div class="story-title">Zimkhita — Her Fresh Start</div>
+      <div class="story-sub">Flodent Fresh Start Club &nbsp;|&nbsp; Story 01 &nbsp;|&nbsp; 30–40 Seconds · Linear</div>
+    </div>
+    <div class="header-right">
+      <span class="page-badge">STORY 1 / 2</span>
+      <span class="format-badge">30–40 SEC</span>
+    </div>
+  </div>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <div class="exec-summary">
+    <div class="es-label">What this story is about · Why it works</div>
+    <div class="es-text">
+      <strong>A mother watches her son play and feels two things at once — pride and helplessness. Then Flodent changes the morning.</strong>
+      &nbsp;Zimkhita doesn't have a plan. She has a feeling. The freshness hits, she says it to herself — "today is my day for a fresh start" — and from that moment she moves. She bakes, she goes to the stokvel, she wins the pot. She comes home and hands it to Gudi. Simple line, no detours, two characters. <strong>Flodent = the moment a feeling becomes a decision.</strong>
+      &nbsp;Brand gets: emotional truth without sentimentality, product at the exact turning point, Zimkhita as a mother audiences will follow across the series.
+    </div>
+  </div>
+
+  <!-- STORY FLOW -->
+  <div class="act-divider">
+    <span class="act-label">Linear · 6 Beats · 30–40 Seconds</span>
+    <span class="act-line"></span>
+    <span class="act-time">0:00 → 0:40</span>
+  </div>
+
+  <div class="panels-grid" style="grid-template-columns: repeat(3, 1fr);">
+
+    <!-- P01 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--azure)">
+        <span class="panel-number">01</span>
+        <span class="panel-timecode">0–7s · THE FEELING</span>
+      </div>
+      <div class="panel-image placeholder" onclick="openPicker(this)">
+        <span class="phase-tag">Proud & Sad</span>
+        <span class="ph-icon">🎵</span>
+        <span class="ph-label">Early morning. Gudi practices — beautiful, unforced. Zimkhita watches from the doorway. Her face holds both: so proud of him, and so aware of what she can't give him yet.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Gudi Plays. She Watches.</div>
+        <div class="panel-desc">No dialogue. The music, her face. Gudi doesn't know she's there. Just him and his gift. Just her and the weight of loving someone that talented.</div>
+        <div class="panel-vo">VO: [Music only — his instrument]</div>
+      </div>
+    </div>
+
+    <!-- P02 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--fresh)">
+        <span class="panel-number">02</span>
+        <span class="panel-timecode">7–14s · FRESH START</span>
+      </div>
+      <div class="panel-image placeholder" onclick="openPicker(this)">
+        <span class="phase-tag" style="background:var(--fresh)">Product Moment</span>
+        <span class="ph-icon">🦷</span>
+        <span class="ph-label">Bathroom. She reaches for Flodent. Brushes. The freshness lands. She looks at herself in the mirror — something shifts. She says it quietly: "Today is my day for a fresh start."</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">The Freshness Decides It</div>
+        <div class="panel-desc">PRODUCT ON SCREEN — tube visible, in use. She doesn't have a plan yet. The freshness gives her one. She straightens up. This is the moment the story turns.</div>
+        <div class="panel-vo">ZIMKHITA: "Today is my day for a fresh start."</div>
+      </div>
+    </div>
+
+    <!-- P03 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--amber)">
+        <span class="panel-number">03</span>
+        <span class="panel-timecode">14–22s · SHE MOVES</span>
+      </div>
+      <div class="panel-image placeholder" onclick="openPicker(this)">
+        <span class="phase-tag" style="background:var(--amber)">Action</span>
+        <span class="ph-icon">🎂</span>
+        <span class="ph-label">Quick cuts: she bakes. Cakes come out right. She's dressed, cakes in hand, out the door. Energy forward — she's decided something.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">She Bakes. She Goes.</div>
+        <div class="panel-desc">Montage — no extra characters, no chaos. Just Zimkhita in motion. Bake → dress → stokvel. One continuous decision playing out.</div>
+        <div class="panel-vo">VO: [Upbeat music, forward energy]</div>
+      </div>
+    </div>
+
+    <!-- P04 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--green)">
+        <span class="panel-number">04</span>
+        <span class="panel-timecode">22–29s · THE WIN</span>
+      </div>
+      <div class="panel-image placeholder" onclick="openPicker(this)">
+        <span class="phase-tag" style="background:var(--green)">She Wins</span>
+        <span class="ph-icon">🏆</span>
+        <span class="ph-label">The stokvel draw. Her name. The room cheers. She holds the envelope — ecstatic, disbelieving, then instantly knowing exactly what this is for.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Her Name Gets Called</div>
+        <div class="panel-desc">She wins the stokvel pot. The moment lands — she doesn't celebrate for herself. You can see her thinking of Gudi immediately. The money was always going somewhere.</div>
+        <div class="panel-vo">VO: [Cheers — her reaction is the VO]</div>
+      </div>
+    </div>
+
+    <!-- P05 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--fresh)">
+        <span class="panel-number">05</span>
+        <span class="panel-timecode">29–36s · HIS FRESH START</span>
+      </div>
+      <div class="panel-image placeholder" onclick="openPicker(this)">
+        <span class="phase-tag" style="background:var(--fresh)">The Gift</span>
+        <span class="ph-icon">🎓</span>
+        <span class="ph-label">Home. Gudi still at his instrument. Zimkhita walks in, sits beside him, puts the money down. Scholarship. His face when he understands.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">She Hands It to Gudi</div>
+        <div class="panel-desc">Quiet scene. Just them. No explanation needed — the money, the scholarship enrolment, his face. This is why she decided this morning. This is the fresh start.</div>
+        <div class="panel-vo">VO: "A fresh start for him."</div>
+      </div>
+    </div>
+
+    <!-- P06 PACKSHOT -->
+    <div class="panel packshot">
+      <div class="panel-header">
+        <span class="panel-number">06</span>
+        <span class="panel-timecode">36–40s · OUTRO</span>
+      </div>
+      <div class="panel-image" onclick="openPicker(this)">
+        <span class="phase-tag" style="background:var(--orange)">Packshot</span>
+        <div class="pack-logo">FLODENT</div>
+        <div class="pack-sub">Fresh Start Club</div>
+        <div class="pack-tagline">It starts with<br>a fresh mouth.</div>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Packshot + Endline</div>
+        <div class="panel-desc">Flodent product clean on cream. Zimkhita's mirror moment as a flash — then product. Logo lock-up.</div>
+        <div class="panel-vo">ENDLINE: "Flodent. Fresh Start Club."</div>
+      </div>
+    </div>
+
+  </div><!-- /6 panels -->
+
+  <div class="page-footer">
+    <div class="footer-audio">AUDIO: Gudi's instrument opens. Music builds through P03. Warm resolution on P05. Clean on packshot.</div>
+    <div class="footer-logo">Flodent · Shalina</div>
+    <div class="footer-guardrails">PPB guardrails: No HCPs · No "cure" · No before/after · Product visible P02 · Claim only at outro · Two characters throughout</div>
+  </div>
+
+</div><!-- /zimkhita -->
+
+
+<!-- ═══════════════════════════════════════════
+     STORY 2 — CARLOS / ANGOLA (Flodent Fest)
+════════════════════════════════════════════ -->
+<div class="page" id="carlos">
+
+  <div class="page-header">
+    <div class="header-left">
+      <div class="brand-line">Shalina Healthcare · Flodent · Flodent Fest · Angola · FY2026/27</div>
+      <div class="story-title">Carlos — Flodent Fest</div>
+      <div class="story-sub">Flodent Angola &nbsp;|&nbsp; Story 02 &nbsp;|&nbsp; 45–60 Seconds</div>
+    </div>
+    <div class="header-right">
+      <span class="page-badge">STORY 2 / 2</span>
+      <span class="format-badge">45–60 SEC</span>
+    </div>
+  </div>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <div class="exec-summary">
+    <div class="es-label">What this story is about · Why it works</div>
+    <div class="es-text">
+      <strong>A Nigerian dancer arrives in Angola with nothing but a photograph and a scribbled address — and finds the one thing that connects them all.</strong>
+      &nbsp;Carlos follows music across a border. He's welcomed into an Angolan home, joins the braai, slips away to brush his teeth — and finds four labelled Flodent tubes waiting on the shelf. The laugh he has alone in that bathroom is the moment: the brand is already there, already theirs, already shared. <strong>Flodent = the common language across the continent.</strong>
+      &nbsp;Brand gets: pan-African unity, Angolan hospitality (Acolhedor) as a proud cultural frame, Kuduro vs Nigerian dance exchange as the shareable social moment, the bathroom reveal as an earned comedy beat with product truth.
+    </div>
+  </div>
+
+  <!-- ACT 1 -->
+  <div class="act-divider">
+    <span class="act-label">Act 1 · Arrival</span>
+    <span class="act-line"></span>
+    <span class="act-time">0:00 → ~0:25</span>
+  </div>
+
+  <div class="panels-grid">
+
+    <!-- P01 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--charcoal)">
+        <span class="panel-number">01</span>
+        <span class="panel-timecode">0–8s · ON THE BUS</span>
+      </div>
+      <div class="panel-image placeholder" onclick="openPicker(this)">
+        <span class="phase-tag" style="background:var(--charcoal)">The Journey</span>
+        <span class="ph-icon">🚌</span>
+        <span class="ph-label">Carlos on a coach into Luanda. A Flodent billboard rolls past the window. He clocks it — grins. In his hand: a photo, a scribbled address.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Carlos Arrives</div>
+        <div class="panel-desc">Nigerian dancer, travelling. The billboard registers — familiar, from home. He smiles. He has a photograph of the Angolan dancers and an address someone gave him. He knows where he's going.</div>
+        <div class="panel-vo">VO: [No VO — music in, bus sounds]</div>
+      </div>
+    </div>
+
+    <!-- P02 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--azure)">
+        <span class="panel-number">02</span>
+        <span class="panel-timecode">8–16s · WELCOME</span>
+      </div>
+      <div class="panel-image placeholder" onclick="openPicker(this)">
+        <span class="phase-tag">Acolhedor</span>
+        <span class="ph-icon">🤝</span>
+        <span class="ph-label">He finds the house. Angolan dancers at the door — arms open, pure welcome. No awkwardness. He's family before he's said a word.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Angolan Welcome</div>
+        <div class="panel-desc">The famous Angolan Acolhedor — hospitality without condition. He shows the photograph. They recognize themselves in it. He's in.</div>
+        <div class="panel-vo">VO: "Angola doesn't make strangers."</div>
+      </div>
+    </div>
+
+    <!-- P03 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--amber)">
+        <span class="panel-number">03</span>
+        <span class="panel-timecode">16–24s · THE BRAAI</span>
+      </div>
+      <div class="panel-image placeholder" onclick="openPicker(this)">
+        <span class="phase-tag" style="background:var(--amber)">Community</span>
+        <span class="ph-icon">🔥</span>
+        <span class="ph-label">Everyone around the fire. Food, music, laughter. Carlos is in the middle of it — pure pan-African warmth at the Marginal.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Around the Fire</div>
+        <div class="panel-desc">The braai. Music, meat, drinks. He belongs here. You wouldn't know he crossed a border this morning. That's what this story is about.</div>
+        <div class="panel-vo">VO: [Music and laughter only]</div>
+      </div>
+    </div>
+
+    <!-- P04 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--fresh)">
+        <span class="panel-number">04</span>
+        <span class="panel-timecode">24–32s · THE BATHROOM</span>
+      </div>
+      <div class="panel-image placeholder" onclick="openPicker(this)">
+        <span class="phase-tag" style="background:var(--fresh)">Product Moment</span>
+        <span class="ph-icon">🦷</span>
+        <span class="ph-label">Carlos in the bathroom — he sees FOUR Flodent tubes on the shelf, each labelled with a family member's name. His face breaks into a grin.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Four Flodent Tubes</div>
+        <div class="panel-desc">PRODUCT ON SCREEN. He came here to brush his teeth. There are four Flodent tubes — labelled, one per family member. He reads them. He laughs to himself. He already has one in his bag.</div>
+        <div class="panel-vo">VO: [Silent — his expression is the joke]</div>
+      </div>
+    </div>
+
+  </div><!-- /act 1 panels -->
+
+  <!-- ACT 2 -->
+  <div class="act-divider">
+    <span class="act-label">Act 2 · The Fest</span>
+    <span class="act-line"></span>
+    <span class="act-time">~0:32 → 0:58</span>
+  </div>
+
+  <div class="panels-grid">
+
+    <!-- P05 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--green)">
+        <span class="panel-number">05</span>
+        <span class="panel-timecode">32–38s · THE LINE</span>
+      </div>
+      <div class="panel-image placeholder" onclick="openPicker(this)">
+        <span class="phase-tag" style="background:var(--green)">The Reveal</span>
+        <span class="ph-icon">😁</span>
+        <span class="ph-label">Carlos walks back out to the group — that big Fresh Start smile — and says the line. Everyone gets it immediately.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">"One Thing in Common"</div>
+        <div class="panel-desc">He comes back out with the biggest smile. "I see we all have one thing in common." He doesn't explain. They know. Fresh Start smiles everywhere.</div>
+        <div class="panel-vo">CARLOS: "I see we all have one thing in common."</div>
+      </div>
+    </div>
+
+    <!-- P06 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--charcoal)">
+        <span class="panel-number">06</span>
+        <span class="panel-timecode">38–46s · MARGINAL STAGE</span>
+      </div>
+      <div class="panel-image placeholder" onclick="openPicker(this)">
+        <span class="phase-tag" style="background:var(--charcoal)">Flodent Fest</span>
+        <span class="ph-icon">🎤</span>
+        <span class="ph-label">The Marginal stage. Beach bonfire. Carlos drops the trending Nigerian dance (Unavailable). The crowd loses it.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Carlos Drops In</div>
+        <div class="panel-desc">Luanda Marginal. Carlos hits the stage — the trending Nigerian dance move. Full energy. The Angolan crowd recognises it and goes wild.</div>
+        <div class="panel-vo">VO: [Music peaks — Afrobeats up]</div>
+      </div>
+    </div>
+
+    <!-- P07 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--azure)">
+        <span class="panel-number">07</span>
+        <span class="panel-timecode">46–53s · KUDURO</span>
+      </div>
+      <div class="panel-image placeholder" onclick="openPicker(this)">
+        <span class="phase-tag">Dance Exchange</span>
+        <span class="ph-icon">💃🏾</span>
+        <span class="ph-label">The Angolan kids answer with Kuduro. Back and forth — Nigerian and Angolan moves trading. Everyone follows. This is the Fest.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Kuduro Answers Back</div>
+        <div class="panel-desc">The local dancers bring the Kuduro. Trade. The kids all follow — Nigerian steps, Angolan steps, both. This is what Flodent Fest is: one continent, one dance floor.</div>
+        <div class="panel-vo">VO: [Music, energy — no VO needed]</div>
+      </div>
+    </div>
+
+    <!-- P08 PACKSHOT -->
+    <div class="panel packshot">
+      <div class="panel-header">
+        <span class="panel-number">08</span>
+        <span class="panel-timecode">53–60s · OUTRO</span>
+      </div>
+      <div class="panel-image" onclick="openPicker(this)">
+        <span class="phase-tag" style="background:var(--orange)">Packshot</span>
+        <div class="pack-logo">FLODENT</div>
+        <div class="pack-sub">Flodent Fest · Fresh Start</div>
+        <div class="pack-tagline">One continent.<br>One Fresh Start.</div>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name">Packshot + Endline</div>
+        <div class="panel-desc">Flodent product. The four labelled tubes as a memory flash. Carlos smiling. Logo lock-up.</div>
+        <div class="panel-vo">ENDLINE: "Flodent Fest. Fresh Start."</div>
+      </div>
+    </div>
+
+  </div><!-- /act 2 panels -->
+
+  <div class="page-footer">
+    <div class="footer-audio">AUDIO: Afrobeats into Kuduro blend. P06 peak energy. Upbeat resolution on packshot. No lyrics — instrumental throughout.</div>
+    <div class="footer-logo">Flodent · Shalina</div>
+    <div class="footer-guardrails">PPB guardrails: No HCPs · No "cure" · No before/after · Product visible in P04 · Claim only at outro</div>
+  </div>
+
+</div><!-- /carlos -->
+
+
+<script>
+// ── FILE PICKER ──────────────────────────────────────────────
+var fileInput = document.createElement('input');
+fileInput.type = 'file';
+fileInput.accept = 'image/*,video/*';
+fileInput.style.display = 'none';
+document.body.appendChild(fileInput);
+
+var activePanelImage = null;
+
+function openPicker(el) {
+  activePanelImage = el;
+  fileInput.value = '';
+  fileInput.click();
+}
+
+fileInput.addEventListener('change', function () {
+  var file = fileInput.files[0];
+  if (!file || !activePanelImage) return;
+  var url = URL.createObjectURL(file);
+  var isVideo = file.type.startsWith('video/');
+  loadMedia(activePanelImage, url, isVideo);
+});
+
+function loadMedia(imageDiv, src, isVideo) {
+  imageDiv.innerHTML = '';
+  imageDiv.classList.remove('placeholder');
+  if (isVideo) {
+    var v = document.createElement('video');
+    v.src = src; v.controls = true;
+    v.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+    imageDiv.appendChild(v);
+  } else {
+    var img = document.createElement('img');
+    img.src = src;
+    img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+    imageDiv.appendChild(img);
+  }
+  var btn = document.createElement('button');
+  btn.className = 'clear-btn';
+  btn.textContent = '×';
+  btn.onclick = function(e) {
+    e.stopPropagation();
+    clearPanel(imageDiv);
+  };
+  imageDiv.appendChild(btn);
+}
+
+function clearPanel(imageDiv) {
+  var icon = imageDiv.getAttribute('data-icon') || '🎬';
+  var label = imageDiv.getAttribute('data-label') || 'Click to load image or video';
+  imageDiv.className = 'panel-image placeholder';
+  imageDiv.innerHTML =
+    '<span class="ph-icon">' + icon + '</span>' +
+    '<span class="ph-label">' + label + '</span>';
+}
+
+// ── MAKE ALL TEXT EDITABLE ───────────────────────────────────
+var EDITABLE = [
+  '.panel-scene-name', '.panel-desc', '.panel-vo',
+  '.ph-label', '.panel-timecode', '.es-text',
+  '.pack-tagline', '.pack-logo', '.pack-sub',
+  '.footer-audio', '.footer-guardrails', '.footer-logo',
+  '.story-title', '.story-sub', '.brand-line',
+  '.act-label', '.act-time'
+].join(',');
+
+document.querySelectorAll(EDITABLE).forEach(function (el) {
+  el.setAttribute('contenteditable', 'true');
+  el.setAttribute('spellcheck', 'false');
+  el.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      document.execCommand('insertLineBreak');
+    }
+  });
+});
+
+// Store original icon+label on each placeholder for clear/reset
+document.querySelectorAll('.panel-image.placeholder').forEach(function(div) {
+  var icon = div.querySelector('.ph-icon');
+  var label = div.querySelector('.ph-label');
+  if (icon) div.setAttribute('data-icon', icon.textContent);
+  if (label) div.setAttribute('data-label', label.textContent);
+});
+</script>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

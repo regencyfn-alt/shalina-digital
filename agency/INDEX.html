@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CENTREFREE Agency</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;0,900;1,400&family=Source+Sans+3:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --forest:#19281F; --gold:#C68A1E; --cream:#F3E8C8; --parchment:#F7EFE0;
+  --blue:#1F4598; --orange:#F17025; --charcoal:#1A1A1A;
+  --border:rgba(255,255,255,.08); --subtle:rgba(255,255,255,.05);
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--forest);color:white;font-family:'Source Sans 3',sans-serif;min-height:100vh;overflow-x:hidden}
+
+/* FULL HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;padding:32px 40px 48px;position:relative}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 70% 40%,rgba(198,138,30,.06) 0%,transparent 70%);pointer-events:none}
+
+.nav{display:flex;align-items:center;justify-content:space-between;position:relative}
+.wordmark{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:white;letter-spacing:.5px}
+.wordmark span{color:var(--gold)}
+.nav-right{font-size:11px;color:rgba(255,255,255,.3);font-family:'IBM Plex Mono',monospace;letter-spacing:.5px}
+
+.hero-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px 0}
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:22px}
+.hero-title{font-family:'Playfair Display',serif;font-size:72px;font-weight:900;line-height:.97;margin-bottom:28px;letter-spacing:-.02em}
+.hero-title em{font-style:italic;color:rgba(255,255,255,.22)}
+.hero-claim{font-size:18px;color:rgba(255,255,255,.45);max-width:480px;line-height:1.65;margin-bottom:44px}
+
+.hero-ctas{display:flex;gap:14px;align-items:center}
+.cta-primary{display:inline-block;padding:13px 28px;background:var(--gold);color:var(--forest);font-weight:800;font-size:13px;letter-spacing:.5px;border-radius:8px;text-decoration:none;transition:background 140ms var(--ease)}
+.cta-primary:hover{background:#D49A2A}
+.cta-ghost{display:inline-block;padding:13px 28px;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);font-size:13px;font-weight:600;border-radius:8px;text-decoration:none;transition:border-color 140ms,color 140ms}
+.cta-ghost:hover{border-color:rgba(255,255,255,.35);color:white}
+
+/* STAT ROW */
+.stat-row{display:flex;gap:40px;padding-top:40px;border-top:1px solid var(--border)}
+.stat{display:flex;flex-direction:column;gap:3px}
+.stat-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:white}
+.stat-label{font-size:11px;color:rgba(255,255,255,.3);letter-spacing:1px}
+
+/* SECTION GRID */
+.section-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0;border-top:1px solid var(--border)}
+.section-card{padding:36px 32px;border-right:1px solid var(--border);cursor:pointer;text-decoration:none;display:block;transition:background 180ms var(--ease);position:relative;overflow:hidden}
+.section-card:last-child{border-right:none}
+.section-card:hover{background:rgba(255,255,255,.04)}
+.section-card::after{content:'→';position:absolute;top:32px;right:28px;font-size:18px;color:rgba(255,255,255,.15);transition:color 180ms,transform 180ms var(--ease)}
+.section-card:hover::after{color:var(--gold);transform:translateX(4px)}
+
+.sc-label{font-size:9.5px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.sc-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:800;color:white;margin-bottom:10px;line-height:1.1}
+.sc-desc{font-size:13px;color:rgba(255,255,255,.35);line-height:1.65;margin-bottom:20px}
+.sc-meta{font-size:11px;font-family:'IBM Plex Mono',monospace;color:rgba(255,255,255,.2)}
+
+.sc-icon{font-size:32px;margin-bottom:18px;color:white}
+
+/* ACTIVE INDICATOR */
+.active-dot{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;color:rgba(255,255,255,.3);margin-top:12px}
+.dot{width:5px;height:5px;border-radius:50%;background:#4ADE80;display:inline-block;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+</style>
+  <link rel="stylesheet" href="/estate.css">
+  <script defer src="/estate-theme.js"></script>
+</head>
+<body>
+
+<div class="hero">
+  <nav class="nav">
+    <div class="wordmark">CENTRE<span>FREE</span></div>
+    <div class="nav-right">01°40'S · 29°14'E · AGENCY LIVE</div>
+  </nav>
+
+  <div class="hero-body">
+    <div class="eyebrow">InfoCube · Regency Flux · CENTREFREE</div>
+    <h1 class="hero-title">The Agency.<br><em>On the Island.</em></h1>
+    <p class="hero-claim">AI-human creative production studio. West + East Africa. Seven directors, one AI gateway. Building brands that matter.</p>
+    <div class="hero-ctas">
+      <a href="agents/INDEX.html" class="cta-primary">Enter the Agency</a>
+      <a href="reception/INDEX.html" class="cta-ghost">Reception · hand off a task</a>
+      <a href="design-system/INDEX.html" class="cta-ghost">Design System</a>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="stat-num">8</div><div class="stat-label">Brand Worlds</div></div>
+      <div class="stat"><div class="stat-num">7</div><div class="stat-label">Directors</div></div>
+      <div class="stat"><div class="stat-num">107</div><div class="stat-label">Design Tokens</div></div>
+      <div class="stat"><div class="stat-num">4</div><div class="stat-label">Mkts Active</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-grid">
+
+  <a href="agents/INDEX.html" class="section-card">
+    <div class="sc-icon">⬡</div>
+    <div class="sc-label">Layer 01</div>
+    <div class="sc-title">Agents</div>
+    <div class="sc-desc">The director layer. Human + AI. All briefs enter here. Niamh is the gateway to all downstream tools.</div>
+    <div class="sc-meta">7 DIRECTORS · 1 AI AGENT</div>
+    <div class="active-dot"><span class="dot"></span> Niamh active</div>
+  </a>
+
+  <a href="design-system/INDEX.html" class="section-card">
+    <div class="sc-icon">◈</div>
+    <div class="sc-label">Layer 02</div>
+    <div class="sc-title">Design System</div>
+    <div class="sc-desc">107 tokens. 8 brand worlds. Typography, colour, motion, spacing. The single source of truth for every build.</div>
+    <div class="sc-meta">CSS TOKENS · AGENTS.md · ASSETS</div>
+    <div class="active-dot"><span class="dot"></span> v2026.07 live</div>
+  </a>
+
+  <a href="design-rooms/INDEX.html" class="section-card">
+    <div class="sc-icon">▣</div>
+    <div class="sc-label">Layer 03</div>
+    <div class="sc-title">Design Rooms</div>
+    <div class="sc-desc">One room per brand. Storyboards, production assets, campaign briefs, and shoot references — all in one place per world.</div>
+    <div class="sc-meta">SHALARTEM · SHALTOUX · IBUCAP · GERMOL · ACO</div>
+  </a>
+
+  <a href="production/INDEX.html" class="section-card">
+    <div class="sc-icon">◎</div>
+    <div class="sc-label">Layer 04</div>
+    <div class="sc-title">Production</div>
+    <div class="sc-desc">Live storyboards, video manifests, audio assets, edit orders. Everything that ships to client.</div>
+    <div class="sc-meta">ACO STORY 07 · SHAL'ARTEM SPRINT</div>
+    <div class="active-dot"><span class="dot"></span> ACO 07 in post</div>
+  </a>
+
+</div>
+
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

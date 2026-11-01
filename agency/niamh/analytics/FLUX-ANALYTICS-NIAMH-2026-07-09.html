@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flux Analytics — The Board</title>
+<!--
+  FLUX ANALYTICS — NIAMH VINTAGE PASS · 2026-07-09
+  Base architecture: Cairenn seat 03 (SPEC-FLUX-ANALYTICS-DESIGN.md) — her file untouched, this is the
+  brand-pass sibling per Shane's routing. FluxFeeds seam PRESERVED; BrandFeeds seam ADDED (for Mira):
+    BrandFeeds.getBrandSummary(brand, market, mode)  -> {reach, engagement, videoViews, deltas, budget, fetched_at}
+    BrandFeeds.getBrandSeries(brand, market, metric) -> [{date, value}]
+  Data: REAL where marked (Flodent FY25 actuals + FY26/27 budgets from client deck; Germol SA July flight
+  from finalized consumer schedule 07-07). Everything else DIRECTIONAL MOCK, badged, never silent.
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Outfit:wght@300;400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F7FB; --white:#FFFFFF; --tungsten:#0F172A; --ink:#111827; --grey:#6B7280;
+  --hairline:#E5E7EB; --cerise:#DE3163; --teal:#0F5E63; --mint:#A9FFD4; --amber:#E6B87D; --steel:#8FA5B8; --blue:#2B5CB8;
+  --ok:#0F5E63; --warn:#B8860B; --bad:#DE3163;
+  --display:'Cormorant Garamond',Georgia,serif; --body:'Outfit',system-ui,sans-serif; --mono:'Roboto Mono',monospace;
+  --shadow:0 1px 2px rgba(15,23,42,.05),0 6px 20px rgba(15,23,42,.07);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--white);color:var(--ink);font:14px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--grey)}
+
+/* ── EDGE-TO-EDGE HEADER ── */
+header{background:var(--tungsten);color:var(--paper);padding:28px 40px 0}
+.h-top{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between}
+h1{font-family:var(--display);font-weight:600;font-size:38px;line-height:1;letter-spacing:.01em}
+h1 span{color:var(--paper)}
+.h-sub{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--steel);margin-top:6px}
+.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.rbtn{background:transparent;border:1px solid rgba(250,248,244,.25);color:var(--steel);padding:7px 14px;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;transition:all .18s ease-out}
+.rbtn.active{background:var(--paper);color:var(--tungsten);border-color:var(--paper)}
+.poll{font-family:var(--mono);font-size:10px;color:var(--steel)}
+/* brand rail */
+.brands{display:flex;gap:0;margin-top:22px;overflow-x:auto}
+.brand-tab{appearance:none;background:none;border:none;cursor:pointer;padding:14px 22px 12px;border-bottom:3px solid transparent;color:var(--steel);text-align:left;white-space:nowrap;transition:color .18s ease-out}
+.brand-tab .b-name{font-family:var(--display);font-size:19px;font-weight:600;display:block;line-height:1.1}
+.brand-tab .b-slug{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;opacity:.7}
+.brand-tab.on{color:var(--paper);border-bottom-color:var(--acc)}
+.brand-tab.on .b-name{color:var(--acc)}
+.brand-tab:hover{color:var(--paper)}
+
+/* ── SUB-BAR: markets + mode + freshness ── */
+.subbar{background:var(--white);border-bottom:1px solid var(--hairline);padding:12px 40px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;position:sticky;top:0;z-index:9}
+.chip{appearance:none;border:1px solid var(--hairline);background:var(--white);cursor:pointer;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:6px 13px;color:var(--grey);transition:all .16s ease-out}
+.chip.on{background:var(--tungsten);color:var(--paper);border-color:var(--tungsten)}
+.mode{display:flex;border:1px solid var(--hairline)}
+.mode .chip{border:none}
+.divider{width:1px;height:22px;background:var(--hairline)}
+.fresh{margin-left:auto;display:flex;gap:14px;font-family:var(--mono);font-size:10px;color:var(--grey);flex-wrap:wrap}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px}
+.dot.ok{background:var(--ok)}.dot.warn{background:var(--warn)}.dot.bad{background:var(--bad)}.dot.none{background:var(--hairline)}
+.badge{font-family:var(--mono);font-size:9px;letter-spacing:.1em;padding:3px 8px;text-transform:uppercase}
+.badge.real{border:1px solid var(--teal);color:var(--teal)}
+.badge.mock{border:1px dashed var(--amber);color:#8a6510}
+
+/* ── BOARD ── */
+main{padding:26px 40px 60px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-bottom:16px}
+.kpi{background:var(--white);border:1px solid var(--hairline);box-shadow:var(--shadow);padding:16px 18px 12px;overflow:hidden}
+.kpi .label{background:var(--teal);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin:-16px -18px 10px;padding:9px 18px}
+.kpi:nth-child(even) .label{background:var(--cerise)}
+.kpi .value{font-family:var(--display);font-size:40px;font-weight:600;color:var(--tungsten);line-height:1.05;margin:4px 0 0}
+.kpi .delta{font-family:var(--mono);font-size:11px}
+.delta.up{color:var(--ok)}.delta.down{color:var(--bad)}
+.kpi canvas{width:100%!important;height:34px!important;margin-top:8px}
+.card{background:var(--white);border:1px solid var(--hairline);box-shadow:var(--shadow);padding:20px 22px;margin-bottom:16px}
+.card h2{font-family:var(--display);font-size:22px;font-weight:600;color:var(--tungsten);margin-bottom:2px}
+.card .sub{font-size:12.5px;color:var(--grey);margin-bottom:12px}
+.row2{display:grid;grid-template-columns:1.5fr 1fr;gap:16px}
+.row2p{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:1000px){.row2,.row2p{grid-template-columns:1fr}main,header,.subbar{padding-left:16px;padding-right:16px}}
+.chartbox{position:relative;height:230px}
+.chartbox.tall{height:280px}
+
+/* predictor */
+.pred{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:6px}
+.pcell{border:1px dashed var(--steel);padding:12px 14px;background:var(--paper)}
+.pcell .label{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--grey)}
+.pcell .v{font-family:var(--display);font-size:26px;font-weight:600;color:var(--teal)}
+.pcell .m{font-size:11px;color:var(--grey)}
+
+/* budget */
+.budget-row{display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid var(--hairline)}
+.budget-row:last-child{border-bottom:none}
+.budget-row .bname{width:150px;font-family:var(--display);font-size:17px;font-weight:600;color:var(--tungsten)}
+.bar{flex:1;height:18px;background:var(--paper);border:1px solid var(--hairline);position:relative}
+.bar>i{position:absolute;inset:0 auto 0 0;background:var(--acc,var(--teal));opacity:.85}
+.bar>b{position:absolute;right:8px;top:0;line-height:18px;font-family:var(--mono);font-size:10px;color:var(--ink);font-weight:500}
+.bstat{width:190px;font-family:var(--mono);font-size:10.5px;color:var(--grey);text-align:right}
+
+/* platform tiles */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:12px}
+.tile{background:var(--paper);border:1px solid var(--hairline);padding:10px 12px}
+.tile .t-label{font-family:var(--mono);font-size:9.5px;color:var(--grey);text-transform:uppercase;letter-spacing:.08em}
+.tile .t-value{font-family:var(--display);font-size:22px;font-weight:600;color:var(--tungsten);margin-top:1px}
+.tile.absent{opacity:.6}.tile.absent .t-value{font-family:var(--body);font-size:11px;color:var(--grey);font-weight:400;line-height:1.35;margin-top:4px}
+.platbar{height:3px;margin:-20px -22px 14px}
+footer{border-top:1px solid var(--hairline);padding:20px 40px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-top">
+    <div>
+      <h1>Flux <span>Analytics</span></h1>
+      <div class="h-sub">Facebook · Instagram · YouTube · TikTok — all history + real time · six brands, one board</div>
+    </div>
+    <div class="controls">
+      <div id="ranges"></div>
+      <span class="poll" id="pollstamp">poll: —</span>
+    </div>
+  </div>
+  <nav class="brands" id="brandRail"></nav>
+</header>
+
+<div class="subbar">
+  <div id="markets" style="display:flex;gap:8px"></div>
+  <span class="divider"></span>
+  <div class="mode" id="modeToggle">
+    <button class="chip on" data-mode="always">Always-On · Monthly</button>
+    <button class="chip" data-mode="campaign">Campaign · Sprint</button>
+  </div>
+  <span class="divider"></span>
+  <span class="badge" id="dataBadge"></span>
+  <div class="fresh" id="freshstrip"></div>
+</div>
+
+<main>
+  <div class="kpis" id="kpis"></div>
+
+  <div class="row2">
+    <div class="card">
+      <h2>Trajectory</h2>
+      <div class="sub" id="trajSub">Reach · engagement · video views over the selected range</div>
+      <div class="chartbox tall"><canvas id="trajChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h2>KPI Predictor</h2>
+      <div class="sub">Next-period projection · FY25 actuals × 1.20 uplift where actuals exist (deck methodology) · <span class="badge mock">directional</span></div>
+      <div class="pred" id="predictor"></div>
+      <div class="chartbox" style="height:120px;margin-top:14px"><canvas id="predChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Budget Allocation — all six brands</h2>
+    <div class="sub">Allocated vs spent, FY26/27 · bars scale to the largest allocation · <span class="badge real">real where marked</span></div>
+    <div id="budgets"></div>
+  </div>
+
+  <div class="row2p" id="platforms"></div>
+</main>
+
+<footer>
+  <span>Flux Analytics · Niamh vintage pass on Cairenn's architecture · FluxFeeds seam preserved · BrandFeeds seam added for Mira</span>
+  <span>Mock data badged amber · real data badged teal · absence rendered, never faked</span>
+</footer>
+
+<script>
+'use strict';
+/* ═══════ NAMING CONVENTIONS — the estate brand registry (the missing understanding) ═══════ */
+const BRANDS = {
+  germol:   { name:'Germol',     slug:'germol',    acc:'#DE3163', markets:['SA','AO'],
+              budget:{alloc:9600, spent:800, real:'July SA flight $800 real (finalized schedule 07-07); annual PENDING client sheet', isReal:false},
+              campaign:'Wash & Brush · 8 reels + 4 statics · July' },
+  flodent:  { name:'Flodent',    slug:'flodent',   acc:'#0F5E63', markets:['SA','AO'],
+              budget:{alloc:36000, spent:9100, real:'FY26/27 $36,000 REAL (client deck): SA $20k/112 posts/$179 · AO $16k/58 posts/$276', isReal:true},
+              campaign:'Mkhize Family Universe · Q2 Sprint 1 · Drop the Mic' },
+  aco:      { name:'ACO',        slug:'aco',       acc:'#B8860B', markets:['AO'],
+              budget:{alloc:12000, spent:3400, real:'Flight structure real (P1/P2/P3); values PENDING client sheet', isReal:false},
+              campaign:'You Only Need One · Ana & Glória · Proof→Conversion' },
+  ibucap:   { name:'Ibucap',     slug:'ibucap',    acc:'#8FA5B8', markets:['KE','GH'],
+              budget:{alloc:8000, spent:2100, real:'PENDING client sheet — synthesizer production live', isReal:false},
+              campaign:'The Power of Three in One · Kamau' },
+  shalartem:{ name:"Shal'Artem", slug:'shalartem', acc:'#DE3163', markets:['NG','GH'],
+              budget:{alloc:15000, spent:0, real:'PENDING — brand doc done, campaign not launched', isReal:false},
+              campaign:'Never Miss Your Moment · Bounce-Back (pre-launch)' },
+  shaltoux: { name:'Shaltoux',   slug:'shaltoux',  acc:'#0F5E63', markets:['NG'],
+              budget:{alloc:10000, spent:0, real:'PENDING — Sound Like Yourself (pre-launch)', isReal:false},
+              campaign:'Sound Like Yourself (pre-launch)' }
+};
+/* Flodent FY25 actuals — REAL, from client deck slide 4 */
+const FLODENT_FY25 = [
+  {p:'May–Jun', reach:1820000, imp:5180000, views:2290000, eng:727000},
+  {p:'Jul',     reach:590000,  imp:1450000, views:375000,  eng:220000},
+  {p:'Aug',     reach:1620000, imp:3810000, views:946000,  eng:334000},
+  {p:'Sep–Oct', reach:2280000, imp:5460000, views:531000,  eng:247000},
+  {p:'Nov–Dec', reach:2110000, imp:5880000, views:977000,  eng:257000}
+];
+const PLATFORMS = {
+  fb:{name:'Facebook',color:'#1877F2',tiles:[['Followers',1],['Page views',1],['Post reach',1],['Reactions',1]],absent:['Deprecated Meta metrics (Jun-2026) excluded']},
+  ig:{name:'Instagram',color:'#E4405F',tiles:[['Followers',1],['Accounts engaged',1],['Reels plays',1],['Stories (24h)',1]],absent:['Non-Reels video_views not provided','>90d user metrics: not captured']},
+  yt:{name:'YouTube',color:'#FF0000',tiles:[['Subscribers',1],['Watch hours',1],['Avg duration',1],['Impressions CTR',1]],absent:[]},
+  tt:{name:'TikTok',color:'#FE2C55',tiles:[['Followers',1],['Likes',1],['Comments',1],['Shares',1]],absent:['Watch-time not provided (commercial API)','FYP metrics not provided']}
+};
+const RANGES=[['7d',7],['30d',30],['90d',90],['1y',365],['ALL',1460]];
+let state={brand:'flodent',market:'SA',mode:'always',range:30};
+let charts={};
+
+/* ═══════ BrandFeedsMock — deterministic; Mira's /api/analytics/* implements same shape ═══════ */
+function seedRand(s){return function(){s=Math.imul(48271,s)%2147483647;return (s&0x7fffffff)/2147483647}}
+function hashStr(x){let h=9;for(const c of x)h=Math.imul(h^c.charCodeAt(0),387420489);return Math.abs(h)%100000+7}
+const BrandFeeds={
+  getBrandSummary(brand,market,mode){
+    const r=seedRand(hashStr(brand+market+mode));
+    const base= brand==='flodent'? {reach:2280000,eng:334000,views:977000} :
+                brand==='germol'?  {reach:640000, eng:88000, views:410000} :
+                brand==='aco'?     {reach:520000, eng:71000, views:365000} :
+                brand==='ibucap'?  {reach:390000, eng:46000, views:290000} : {reach:0,eng:0,views:0};
+    const m=mode==='campaign'?1.33:1;
+    const f=market==='AO'?0.55:market==='GH'?0.6:1;
+    return {reach:Math.round(base.reach*m*f*(0.9+r()*0.2)), engagement:Math.round(base.eng*m*f*(0.9+r()*0.2)),
+            videoViews:Math.round(base.views*m*f*(0.9+r()*0.2)),
+            dReach:(r()*24-6).toFixed(1), dEng:(r()*20-5).toFixed(1), dViews:(r()*30-8).toFixed(1),
+            launched: base.reach>0};
+  },
+  getBrandSeries(brand,market,metric,days){
+    const r=seedRand(hashStr(brand+market+metric)); const out=[]; let v=50+r()*50;
+    for(let i=days;i>0;i--){v=Math.max(8,v+(r()*16-7.6)); out.push({d:i,value:Math.round(v*1000)});}
+    return out;
+  },
+  getFreshness(){return {fb:'2m',ig:'4m',yt:'1m',tt:'12m'}}
+};
+const fmt=n=>n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?(n/1e3).toFixed(0)+'K':n;
+
+/* ═══════ RENDER ═══════ */
+function build(){
+  const rail=document.getElementById('brandRail'); rail.innerHTML='';
+  Object.values(BRANDS).forEach(b=>{
+    const t=document.createElement('button'); t.className='brand-tab'+(b.slug===state.brand?' on':'');
+    t.style.setProperty('--acc',b.acc);
+    t.innerHTML=`<span class="b-name">${b.name}</span><span class="b-slug">${b.slug} · ${b.markets.join(' / ')}</span>`;
+    t.onclick=()=>{state.brand=b.slug;state.market=b.markets[0];build();render();};
+    rail.appendChild(t);
+  });
+  const rg=document.getElementById('ranges'); rg.innerHTML='';
+  RANGES.forEach(([l,d])=>{const x=document.createElement('button');x.className='rbtn'+(d===state.range?' active':'');x.textContent=l;
+    x.onclick=()=>{state.range=d;build();render();};rg.appendChild(x);});
+  const mk=document.getElementById('markets'); mk.innerHTML='';
+  BRANDS[state.brand].markets.forEach(m=>{const c=document.createElement('button');c.className='chip'+(m===state.market?' on':'');c.textContent=m;
+    c.onclick=()=>{state.market=m;build();render();};mk.appendChild(c);});
+  document.querySelectorAll('#modeToggle .chip').forEach(c=>{
+    c.classList.toggle('on',c.dataset.mode===state.mode);
+    c.onclick=()=>{state.mode=c.dataset.mode;build();render();};
+  });
+}
+function spark(id,data,color){
+  if(charts[id])charts[id].destroy();
+  charts[id]=new Chart(document.getElementById(id),{type:'line',
+    data:{labels:data.map(x=>x.d),datasets:[{data:data.map(x=>x.value),borderColor:color,borderWidth:1.6,pointRadius:0,tension:.35,fill:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}}}});
+}
+function render(){
+  const B=BRANDS[state.brand], S=BrandFeeds.getBrandSummary(state.brand,state.market,state.mode);
+  const isFlod=state.brand==='flodent';
+  document.getElementById('dataBadge').className='badge '+(isFlod?'real':'mock');
+  document.getElementById('dataBadge').textContent=isFlod?'FY25 actuals real · live feed pending':'directional mock · live feed pending';
+  const fr=BrandFeeds.getFreshness();
+  document.getElementById('freshstrip').innerHTML=Object.entries({FB:fr.fb,IG:fr.ig,YT:fr.yt,TT:fr.tt})
+    .map(([k,v])=>`<span><i class="dot ${parseInt(v)<6?'ok':'warn'}"></i>${k} ${v}</span>`).join('');
+  document.getElementById('pollstamp').textContent='poll: 60s ui · 15min collector';
+
+  /* KPI row — Reach / Engagement / Video Views / Budget */
+  const kp=document.getElementById('kpis');
+  kp.innerHTML='';
+  const cells=[['Reach',fmt(S.reach),S.dReach,'reach'],['Engagement',fmt(S.engagement),S.dEng,'eng'],['Video Views',fmt(S.videoViews),S.dViews,'views']];
+  cells.forEach(([l,v,d,m],i)=>{
+    const el=document.createElement('div');el.className='kpi';el.style.setProperty('--acc',B.acc);
+    el.innerHTML=`<div class="label">${l} · ${state.market} · ${state.mode==='always'?'always-on':'campaign'}</div>
+      <div class="value">${S.launched?v:'—'}</div>
+      <div class="delta ${d>=0?'up':'down'}">${S.launched?(d>=0?'▲ +':'▼ ')+d+'% vs prior period':'pre-launch'}</div>
+      <canvas id="sp${i}"></canvas>`;
+    kp.appendChild(el);
+  });
+  const bu=document.createElement('div');bu.className='kpi';bu.style.setProperty('--acc','#0F172A');
+  bu.innerHTML=`<div class="label">Budget · FY26/27 ${B.budget.isReal?'· REAL':'· PENDING'}</div>
+    <div class="value">$${(B.budget.alloc/1000).toFixed(0)}K</div>
+    <div class="delta">spent $${fmt(B.budget.spent)} · ${B.budget.alloc?Math.round(B.budget.spent/B.budget.alloc*100):0}% paced</div>
+    <div style="font-size:10.5px;color:var(--grey);margin-top:8px;line-height:1.4">${B.budget.real}</div>`;
+  kp.appendChild(bu);
+  cells.forEach(([,,,m],i)=>spark('sp'+i,BrandFeeds.getBrandSeries(state.brand,state.market,m,state.range),B.acc));
+
+  /* trajectory */
+  document.getElementById('trajSub').textContent=`${B.name} · ${B.campaign}`;
+  const days=Math.min(state.range,120);
+  const mkset=m=>BrandFeeds.getBrandSeries(state.brand,state.market,m,days);
+  if(charts.traj)charts.traj.destroy();
+  charts.traj=new Chart(document.getElementById('trajChart'),{type:'line',
+    data:{labels:mkset('reach').map((x,i)=>i),datasets:[
+      {label:'Reach',data:mkset('reach').map(x=>x.value),borderColor:B.acc,backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:.35},
+      {label:'Engagement',data:mkset('eng').map(x=>x.value),borderColor:'#0F172A',backgroundColor:'transparent',borderWidth:1.4,pointRadius:0,tension:.35},
+      {label:'Video views',data:mkset('views').map(x=>x.value),borderColor:'#8FA5B8',backgroundColor:'transparent',borderWidth:1.4,pointRadius:0,tension:.35,borderDash:[5,4]}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{family:'Roboto Mono',size:10},boxWidth:12}}},
+      scales:{x:{display:false},y:{ticks:{font:{family:'Roboto Mono',size:10},callback:v=>fmt(v)},grid:{color:'#EFEBE3'}}}}});
+
+  /* predictor — FY25 × 1.20 where actuals exist */
+  const pr=document.getElementById('predictor'); pr.innerHTML='';
+  if(isFlod){
+    const last=FLODENT_FY25[FLODENT_FY25.length-1];
+    [['Reach',last.reach*1.2],['Engagement',last.eng*1.2],['Video Views',last.views*1.2]].forEach(([l,v])=>{
+      pr.innerHTML+=`<div class="pcell"><div class="label">${l} · next period</div><div class="v">${fmt(Math.round(v))}</div><div class="m">FY25 ${l==='Reach'?fmt(last.reach):l==='Engagement'?fmt(last.eng):fmt(last.views)} × 1.20</div></div>`;});
+  } else {
+    ['Reach','Engagement','Video Views'].forEach(l=>{
+      pr.innerHTML+=`<div class="pcell"><div class="label">${l} · next period</div><div class="v">—</div><div class="m">awaits first captured period (no baseline, no invented number)</div></div>`;});
+  }
+  if(charts.pred)charts.pred.destroy();
+  if(isFlod){
+    charts.pred=new Chart(document.getElementById('predChart'),{type:'bar',
+      data:{labels:FLODENT_FY25.map(x=>x.p),datasets:[{label:'FY25 reach (real)',data:FLODENT_FY25.map(x=>x.reach),backgroundColor:'#0F5E63'},
+        {label:'FY26 projected',data:FLODENT_FY25.map(x=>x.reach*1.2),backgroundColor:'#A9FFD4'}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{family:'Roboto Mono',size:9},boxWidth:10}}},
+        scales:{x:{ticks:{font:{family:'Roboto Mono',size:9}},grid:{display:false}},y:{display:false}}}});
+  }
+
+  /* budget allocation — all six, always visible */
+  const maxA=Math.max(...Object.values(BRANDS).map(b=>b.budget.alloc));
+  document.getElementById('budgets').innerHTML=Object.values(BRANDS).map(b=>`
+    <div class="budget-row">
+      <div class="bname">${b.name}</div>
+      <div class="bar" style="--acc:${b.acc}"><i style="width:${b.budget.alloc/maxA*100}%"></i><b>$${(b.budget.alloc/1000).toFixed(0)}K ${b.budget.isReal?'· REAL':'· PENDING'}</b></div>
+      <div class="bstat">spent $${fmt(b.budget.spent)} · ${b.budget.alloc?Math.round(b.budget.spent/b.budget.alloc*100):0}%</div>
+    </div>`).join('');
+
+  /* per-platform panels (Cairenn's §3 truth, reskinned) */
+  const pf=document.getElementById('platforms'); pf.innerHTML='';
+  Object.entries(PLATFORMS).forEach(([k,p])=>{
+    const card=document.createElement('div');card.className='card';
+    card.innerHTML=`<div class="platbar" style="background:${p.color}"></div>
+      <h2>${p.name}</h2><div class="sub">daily series · ${state.range}d · <span style="font-family:var(--mono);font-size:10px">fetched ${BrandFeeds.getFreshness()[k]} ago</span></div>
+      <div class="chartbox" style="height:150px"><canvas id="pc-${k}"></canvas></div>
+      <div class="tiles">${p.tiles.map(([l])=>`<div class="tile"><div class="t-label">${l}</div><div class="t-value">${fmt(Math.round(20000+seedRand(hashStr(k+l+state.brand))()*800000))}</div></div>`).join('')}
+      ${p.absent.map(a=>`<div class="tile absent"><div class="t-label">absent</div><div class="t-value">${a}</div></div>`).join('')}</div>`;
+    pf.appendChild(card);
+    const s=BrandFeeds.getBrandSeries(state.brand+k,state.market,'reach',Math.min(state.range,90));
+    if(charts['pc'+k])charts['pc'+k].destroy();
+    charts['pc'+k]=new Chart(card.querySelector('#pc-'+k),{type:'line',
+      data:{labels:s.map((x,i)=>i),datasets:[{data:s.map(x=>x.value),borderColor:p.color,borderWidth:1.6,pointRadius:0,tension:.35}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{ticks:{font:{family:'Roboto Mono',size:9},callback:v=>fmt(v)},grid:{color:'#EFEBE3'}}}}});
+  });
+}
+build(); render();
+setInterval(()=>{document.getElementById('pollstamp').textContent='poll: '+new Date().toLocaleTimeString()},60000);
+</script>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

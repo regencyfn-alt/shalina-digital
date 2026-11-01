@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CENTREFREE — Image Grid Template (3×3, 1920×1080)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 1920px;
+    height: 1080px;
+    background: #000;
+    overflow: hidden;
+  }
+
+  .canvas {
+    width: 1920px;
+    height: 1080px;
+    display: grid;
+    grid-template-columns: repeat(3, 640px);
+    grid-template-rows: repeat(3, 360px);
+    background: #000;
+  }
+
+  .cell {
+    position: relative;
+    width: 640px;
+    height: 360px;
+    /* swap law: replace the background-color below with a
+       background-image (or drop an <img> inside this div,
+       object-fit: cover, width/height 100%) to fill the slot.
+       No other cell needs to change. */
+  }
+
+  /* nine-step grayscale ramp — each tone reads distinct against
+     pure black and against its neighbours, left-to-right / top-to-bottom */
+  .c1 { background: #0d0d0d; }
+  .c2 { background: #161616; }
+  .c3 { background: #1f1f1f; }
+  .c4 { background: #282828; }
+  .c5 { background: #313131; }
+  .c6 { background: #3a3a3a; }
+  .c7 { background: #434343; }
+  .c8 { background: #4c4c4c; }
+  .c9 { background: #555555; }
+
+  .cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .label {
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+  .grid-lines {
+    position: absolute;
+    inset: 0;
+    width: 1920px;
+    height: 1080px;
+    pointer-events: none;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: 640px 360px;
+  }
+
+  .wrap { position: relative; width: 1920px; height: 1080px; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="canvas">
+      <div class="cell c1"><span class="label">1 · row1 col1 · 640×360</span></div>
+      <div class="cell c2"><span class="label">2 · row1 col2 · 640×360</span></div>
+      <div class="cell c3"><span class="label">3 · row1 col3 · 640×360</span></div>
+      <div class="cell c4"><span class="label">4 · row2 col1 · 640×360</span></div>
+      <div class="cell c5"><span class="label">5 · row2 col2 · 640×360</span></div>
+      <div class="cell c6"><span class="label">6 · row2 col3 · 640×360</span></div>
+      <div class="cell c7"><span class="label">7 · row3 col1 · 640×360</span></div>
+      <div class="cell c8"><span class="label">8 · row3 col2 · 640×360</span></div>
+      <div class="cell c9"><span class="label">9 · row3 col3 · 640×360</span></div>
+    </div>
+    <div class="grid-lines"></div>
+  </div>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

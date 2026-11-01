@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cog surface picker</title>
+<style>
+  :root{
+    --page-bg:#0d0d10;
+    --panel-bg:#17171b;
+    --border:#2a2a30;
+    --border-active:#f3f7f6;
+    --text-primary:#f3f7f6;
+    --text-secondary:#9a9aa2;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    min-height:100vh;
+    background:var(--page-bg);
+    color:var(--text-primary);
+    font-family:'Outfit','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px 20px;
+  }
+  .panel{
+    width:100%;
+    max-width:520px;
+    background:var(--panel-bg);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:28px;
+  }
+  .eyebrow{
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--text-secondary);
+    margin:0 0 4px;
+  }
+  h1{
+    font-size:18px;
+    font-weight:600;
+    margin:0 0 20px;
+  }
+  .swatches{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin-bottom:14px;
+  }
+  .swatch-btn{
+    border:1.5px solid var(--border);
+    background:transparent;
+    border-radius:10px;
+    padding:6px;
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+    transition:border-color 0.15s;
+  }
+  .swatch-btn:hover{border-color:#4a4a52;}
+  .swatch-btn.active{border-color:var(--border-active);}
+  .swatch-preview{
+    width:100%;
+    height:20px;
+    border-radius:5px;
+  }
+  .swatch-label{
+    font-size:10px;
+    color:var(--text-secondary);
+  }
+  .dir-toggle{
+    display:flex;
+    gap:8px;
+    margin-bottom:26px;
+  }
+  .dir-btn{
+    flex:1;
+    border:1.5px solid var(--border);
+    background:transparent;
+    color:var(--text-primary);
+    border-radius:10px;
+    padding:9px 6px;
+    font-size:12.5px;
+    cursor:pointer;
+    font-family:inherit;
+    transition:border-color 0.15s;
+  }
+  .dir-btn:hover{border-color:#4a4a52;}
+  .dir-btn.active{border-color:var(--border-active);}
+  .stage-wrap{
+    display:flex;
+    justify-content:center;
+    margin-bottom:16px;
+  }
+  #stage{
+    width:200px;
+    height:200px;
+    border-radius:24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:background 0.25s;
+    cursor:pointer;
+  }
+  #disc{
+    width:60%;
+    aspect-ratio:1;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:background 0.25s, box-shadow 0.25s;
+  }
+  #label{
+    text-align:center;
+    font-size:12.5px;
+    color:var(--text-secondary);
+  }
+  #label strong{
+    color:var(--text-primary);
+    font-weight:600;
+  }
+  #hexes{
+    text-align:center;
+    font-size:10.5px;
+    color:var(--text-secondary);
+    margin-top:6px;
+    font-family:'Roboto Mono', monospace;
+  }
+</style>
+</head>
+<body>
+
+<div class="panel">
+  <p class="eyebrow">Cog · settings surface</p>
+  <h1>Pick a surface</h1>
+
+  <div class="swatches" id="picker"></div>
+
+  <div class="dir-toggle">
+    <button class="dir-btn active" id="dirA">Rich bg → light raised</button>
+    <button class="dir-btn" id="dirB">Reverse</button>
+  </div>
+
+  <div class="stage-wrap">
+    <div id="stage" role="button" aria-label="Cog surface preview, click to open settings">
+      <div id="disc">
+        <svg width="44%" height="44%" viewBox="0 0 24 24" fill="none">
+          <path d="M12 8a4 4 0 100 8 4 4 0 000-8z" id="iconPath" stroke-width="1.7"/>
+          <path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.55 1.55M17.55 17.55l1.55 1.55M2 12h2.2M19.8 12H22M4.9 19.1l1.55-1.55M17.55 6.45l1.55-1.55" id="iconRays" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div id="label"></div>
+  <div id="hexes"></div>
+</div>
+
+<script>
+const combos = [
+  {name:'Cobalt Ember',
+    A:{bg:'linear-gradient(155deg,#ee3e1b,#bc1610 55%,#a2162d)', disc:'#fdf0d5', icon:'#3a3335', glow:'0 8px 16px rgba(58,51,53,0.4)', hexes:'bg ee3e1b→bc1610→a2162d · disc fdf0d5 · icon 3a3335'},
+    B:{bg:'linear-gradient(155deg,#fdf0d5,#f3f7f6)', disc:'linear-gradient(155deg,#ee3e1b,#a2162d)', icon:'#f3f7f6', glow:'0 8px 16px rgba(58,51,53,0.25)', hexes:'bg fdf0d5→f3f7f6 · disc ee3e1b→a2162d · icon f3f7f6'}},
+  {name:'Forest Bloom',
+    A:{bg:'linear-gradient(155deg,#17840b,#003d05 65%,#201d1e)', disc:'#ebebeb', icon:'#201d1e', glow:'0 8px 16px rgba(0,20,2,0.45)', hexes:'bg 17840b→003d05→201d1e · disc ebebeb · icon 201d1e'},
+    B:{bg:'linear-gradient(155deg,#ebebeb,#d8d8d8)', disc:'linear-gradient(155deg,#17840b,#003d05)', icon:'#ebebeb', glow:'0 8px 16px rgba(32,29,30,0.3)', hexes:'bg ebebeb→d8d8d8 · disc 17840b→003d05 · icon ebebeb'}},
+  {name:'Onyx Aqua',
+    A:{bg:'linear-gradient(155deg,#005a66,#211f1c 65%,#151314)', disc:'#85f1ff', icon:'#151314', glow:'0 0 22px rgba(133,241,255,0.35), 0 8px 16px rgba(0,0,0,0.5)', hexes:'bg 005a66→211f1c→151314 · disc 85f1ff · icon 151314'},
+    B:{bg:'linear-gradient(155deg,#ffffff,#f2f2f2)', disc:'linear-gradient(155deg,#005a66,#151314)', icon:'#85f1ff', glow:'0 8px 16px rgba(0,0,0,0.25)', hexes:'bg ffffff→f2f2f2 · disc 005a66→151314 · icon 85f1ff'}},
+  {name:'Alice Thistle',
+    A:{bg:'linear-gradient(155deg,#b7adcf,#4f646f 60%,#535657)', disc:'#f4faff', icon:'#535657', glow:'0 8px 16px rgba(46,42,55,0.4)', hexes:'bg b7adcf→4f646f→535657 · disc f4faff · icon 535657'},
+    B:{bg:'linear-gradient(155deg,#f4faff,#dee7e7)', disc:'linear-gradient(155deg,#4f646f,#535657)', icon:'#f4faff', glow:'0 8px 16px rgba(79,100,111,0.3)', hexes:'bg f4faff→dee7e7 · disc 4f646f→535657 · icon f4faff'}},
+  {name:'Coral Gold',
+    A:{bg:'linear-gradient(155deg,#f25f5c,#247ba0 75%)', disc:'#ffe066', icon:'#50514f', glow:'0 8px 16px rgba(36,42,55,0.4)', hexes:'bg f25f5c→247ba0 · disc ffe066 · icon 50514f'},
+    B:{bg:'linear-gradient(155deg,#ffe066,#fff2b8)', disc:'linear-gradient(155deg,#247ba0,#50514f)', icon:'#70c1b3', glow:'0 8px 16px rgba(80,81,79,0.3)', hexes:'bg ffe066→fff2b8 · disc 247ba0→50514f · icon 70c1b3'}},
+  {name:'Black White',
+    A:{bg:'linear-gradient(155deg,#33343a,#0b0814 55%,#000000)', disc:'#ffffff', icon:'#000000', glow:'0 10px 20px rgba(0,0,0,0.65)', hexes:'bg 33343a→0b0814→000000 · disc ffffff · icon 000000'},
+    B:{bg:'#ffffff', disc:'linear-gradient(155deg,#33343a,#000000)', icon:'#ffffff', glow:'0 8px 16px rgba(0,0,0,0.2)', hexes:'bg ffffff · disc 33343a→000000 · icon ffffff'}}
+];
+
+let activeCombo = 0;
+let activeDir = 'A';
+
+const picker = document.getElementById('picker');
+combos.forEach((c, i) => {
+  const b = document.createElement('button');
+  b.className = 'swatch-btn' + (i === 0 ? ' active' : '');
+  b.id = 'swatch' + i;
+  b.innerHTML = '<span class="swatch-preview" style="background:' + c.A.bg + '"></span><span class="swatch-label">' + c.name + '</span>';
+  b.addEventListener('click', () => { activeCombo = i; render(); });
+  picker.appendChild(b);
+});
+
+document.getElementById('dirA').addEventListener('click', () => { activeDir = 'A'; render(); });
+document.getElementById('dirB').addEventListener('click', () => { activeDir = 'B'; render(); });
+
+function render() {
+  const c = combos[activeCombo][activeDir];
+  document.getElementById('stage').style.background = c.bg;
+  document.getElementById('disc').style.background = c.disc;
+  document.getElementById('disc').style.boxShadow = 'inset 0 3px 0 rgba(255,255,255,0.6), inset 0 -4px 8px rgba(0,0,0,0.25), ' + c.glow;
+  document.getElementById('iconPath').setAttribute('stroke', c.icon);
+  document.getElementById('iconRays').setAttribute('stroke', c.icon);
+  document.getElementById('label').innerHTML = '<strong>' + combos[activeCombo].name + '</strong> — ' + (activeDir === 'A' ? 'rich bg, light raised' : 'reverse');
+  document.getElementById('hexes').textContent = c.hexes;
+  combos.forEach((_, i) => {
+    document.getElementById('swatch' + i).classList.toggle('active', i === activeCombo);
+  });
+  document.getElementById('dirA').classList.toggle('active', activeDir === 'A');
+  document.getElementById('dirB').classList.toggle('active', activeDir === 'B');
+}
+render();
+</script>
+
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

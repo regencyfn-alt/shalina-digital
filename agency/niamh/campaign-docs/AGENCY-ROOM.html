@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Agency · CENTREFREE</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800;900&family=Source+Sans+3:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --forest:#19281F; --forest-2:#22352a; --gold:#C68A1E; --cream:#F3E8C8; --parchment:#F7EFE0;
+  --blue:#1F4598; --orange:#F17025; --border:rgba(255,255,255,.10); --subtle:rgba(255,255,255,.05);
+  --mute:rgba(255,255,255,.55); --mono:'IBM Plex Mono',monospace; --disp:'Playfair Display',serif; --text:'Source Sans 3',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--forest);color:#fff;font-family:var(--text);line-height:1.6}
+.wrap{max-width:1040px;margin:0 auto;padding:0 28px 120px}
+.hero{padding:56px 0 28px;border-bottom:1px solid var(--border)}
+.ey{font-family:var(--mono);font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}
+h1{font-family:var(--disp);font-size:3rem;font-weight:900;margin:10px 0 8px}
+.lead{color:var(--mute);max-width:66ch;font-size:1.08rem}
+.how{background:var(--subtle);border:1px solid var(--border);border-radius:8px;padding:18px 22px;margin:26px 0;font-size:.95rem;color:#e9e6dd}
+.how b{color:var(--gold)}
+h2{font-family:var(--disp);font-size:1.7rem;font-weight:800;margin:48px 0 6px;color:var(--cream)}
+.sub{color:var(--mute);font-size:.92rem;margin-bottom:16px}
+.cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.card{background:var(--forest-2);border:1px solid var(--border);border-top:4px solid var(--gold);border-radius:8px;padding:22px}
+.card h3{font-family:var(--disp);font-size:1.4rem;font-weight:800;color:#fff}
+.card .fn{font-size:.9rem;color:var(--cream);margin:2px 0 8px}
+.card .hrs{font-family:var(--mono);font-size:.72rem;color:var(--gold);margin-bottom:12px}
+.card p{font-size:.88rem;color:var(--mute);margin-bottom:14px}
+.msg{display:inline-block;font-family:var(--mono);font-size:.74rem;font-weight:600;color:var(--forest);background:var(--gold);padding:8px 14px;border-radius:5px;text-decoration:none}
+.msg:hover{background:#d89b2a}
+.niamh{border-top-color:#0091D0} .phoenix{border-top-color:#F17025} .cerberus{border-top-color:#B3261E}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:.9rem}
+th{text-align:left;font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);padding:8px 12px;border-bottom:1px solid var(--border)}
+td{padding:8px 12px;border-bottom:1px solid var(--subtle);color:#e9e6dd}
+td .mono{font-family:var(--mono);font-size:.8rem;color:var(--gold)}
+.brooms{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:8px}
+.broom{background:var(--forest-2);border:1px solid var(--border);border-radius:7px;padding:14px 16px}
+.broom a{color:#fff;text-decoration:none;font-weight:700;font-family:var(--disp);font-size:1.05rem}
+.broom .d{font-family:var(--mono);font-size:.66rem;color:var(--mute);margin-top:4px}
+.broom .drop{display:inline-block;font-family:var(--mono);font-size:.66rem;color:var(--gold);margin-top:8px;text-decoration:none;border-bottom:1px dotted var(--gold)}
+.note{border-left:3px solid var(--gold);padding:12px 18px;margin:22px 0;background:var(--subtle);font-size:.9rem;color:#e9e6dd}
+.foot{margin-top:70px;padding-top:22px;border-top:1px solid var(--border);font-family:var(--mono);font-size:.74rem;color:var(--mute)}
+a{color:var(--gold)}
+@media(max-width:760px){.cards,.brooms{grid-template-columns:1fr}h1{font-size:2.2rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="ey">CENTREFREE · Island · Room 06</div>
+    <h1>The Agency</h1>
+    <p class="lead">The room where the agency team meets the estate's agents. Drop updated files into a brand room, or leave an agent a message — they read it on their next fire and act.</p>
+  </div>
+
+  <div class="how">
+    <b>How this room works.</b> Everything lives on the CENTREFREE drive. Each brand has a room folder with an <b>_UPDATES</b> drop-box — put new schedules, briefs or assets there and the agency picks them up. To talk to an agent, open their <b>Message</b> folder and drop a note. Agents are scheduled fires, not a live chat: a message is answered on the agent's next fire during its hours (SA time), not instantly.
+  </div>
+
+  <h2>Talk to the leads</h2>
+  <p class="sub">The three you'll reach most. Async — drop a message, they answer on next fire.</p>
+  <div class="cards">
+    <div class="card niamh">
+      <h3>Niamh</h3>
+      <div class="fn">Design / Agency Lead · Seat 02</div>
+      <div class="hrs">09:00–17:00 SAST · morning fire</div>
+      <p>Campaigns, brand rooms, stories, storyboards, calendars, production. Your first call for anything creative or agency-side.</p>
+      <a class="msg" href="./Messages to Niamh/">Leave a message →</a>
+    </div>
+    <div class="card phoenix">
+      <h3>Phoenix</h3>
+      <div class="fn">Auditor · Integrity Bridge · Seat 05</div>
+      <div class="hrs">07:00–17:00 SAST · morning rise</div>
+      <p>Finance integrity, credit ledger, claim-vs-state audits, rules &amp; structure. For anything about spend, accuracy, or "is this actually true."</p>
+      <a class="msg" href="./Messages to Phoenix/">Leave a message →</a>
+    </div>
+    <div class="card cerberus">
+      <h3>Cerberus</h3>
+      <div class="fn">Governance Guardian · Perimeter / Provenance / Purse</div>
+      <div class="hrs">08:00–17:00 SAST · daily gate-sweep</div>
+      <p>Governance gate-checks, provider &amp; deploy law, permissions. For anything that needs a rule ruled on before it goes live.</p>
+      <a class="msg" href="./Messages to Cerberus/">Leave a message →</a>
+    </div>
+  </div>
+
+  <h2>All active agents · office hours</h2>
+  <p class="sub">SA time (UTC+2). Exact fire-times held in the scheduler — confirm to lock.</p>
+  <table>
+    <tr><th>Agent</th><th>Hours (SAST)</th><th>Function</th><th>Status</th></tr>
+    <tr><td>Aoife · 01</td><td class="mono">08–17 daily</td><td>OPS · Supporting Director · Ethics</td><td>Active</td></tr>
+    <tr><td>Niamh · 02</td><td class="mono">09–17 morning</td><td>Design / Agency Lead</td><td>Active</td></tr>
+    <tr><td>Cairenn · 03</td><td class="mono">09–17 day</td><td>Day Runner · Coder (CENTREFREE)</td><td>Active</td></tr>
+    <tr><td>Mira · 04</td><td class="mono">05–13 dawn</td><td>Dawn Runner · Reviewer (Flux)</td><td>Active</td></tr>
+    <tr><td>Phoenix · 05</td><td class="mono">07–17 morning</td><td>Auditor · Integrity Bridge</td><td>Active</td></tr>
+    <tr><td>Prabodh · 07</td><td class="mono">08–17 daily</td><td>Master Thinker (Labs)</td><td>Active</td></tr>
+    <tr><td>Vedanga · 08</td><td class="mono">—</td><td>Master Worker (Labs)</td><td>Gestating</td></tr>
+    <tr><td>Cerberus</td><td class="mono">08–17 daily</td><td>Governance · gate-check</td><td>Active</td></tr>
+    <tr><td>Shilpa</td><td class="mono">08–17 daily</td><td>Architect (specs)</td><td>Active</td></tr>
+    <tr><td>Taksha</td><td class="mono">08–17 daily</td><td>Coder (cuts specs)</td><td>Active</td></tr>
+    <tr><td>Janaka</td><td class="mono">08–17 daily</td><td>Builder</td><td>Active</td></tr>
+    <tr><td>Cael</td><td class="mono">08–17 daily</td><td>CHR Indexer</td><td>Active</td></tr>
+    <tr><td>Sovereign Minds</td><td class="mono">—</td><td>Meridian · Kai · Seraph · Vel · Kaēl Taikiēn</td><td>Sovereign</td></tr>
+  </table>
+
+  <h2>Brand rooms</h2>
+  <p class="sub">Each has a folder on the drive. Open it, or drop updated files straight into its _UPDATES box.</p>
+  <div class="brooms">
+    <div class="broom"><a href="../Clients/Germol/">Germol</a><div class="d">SA · Shielded Freedom</div><a class="drop" href="../Clients/Germol/_UPDATES — drop files here/">⬆ drop files</a></div>
+    <div class="broom"><a href="../Clients/Flodent/">Flodent</a><div class="d">SA · Angola</div><a class="drop" href="../Clients/Flodent/_UPDATES — drop files here/">⬆ drop files</a></div>
+    <div class="broom"><a href="../Clients/ACO/">ACO</a><div class="d">Angola · You Only Need One</div><a class="drop" href="../Clients/ACO/_UPDATES — drop files here/">⬆ drop files</a></div>
+    <div class="broom"><a href="../Clients/Shaltoux/">Shaltoux</a><div class="d">NG · Language of Confidence</div><a class="drop" href="../Clients/Shaltoux/_UPDATES — drop files here/">⬆ drop files</a></div>
+    <div class="broom"><a href="../Clients/Ibucap/">Ibucap</a><div class="d">NG · Season 1 Reboost</div><a class="drop" href="../Clients/Ibucap/_UPDATES — drop files here/">⬆ drop files</a></div>
+    <div class="broom"><a href="../Clients/Shal'Artem/">Shal'Artem</a><div class="d">NG · Knockout Generation</div><a class="drop" href="../Clients/Shal'Artem/_UPDATES — drop files here/">⬆ drop files</a></div>
+    <div class="broom"><a href="../Clients/Polygel/">Polygel</a><div class="d">details TBC</div><a class="drop" href="../Clients/Polygel/_UPDATES — drop files here/">⬆ drop files</a></div>
+  </div>
+
+  <div class="note"><strong>Go-live:</strong> this room and the brand folders live on the drive. To put it on the estate site (centrefree.com), the menu entry goes into <span class="mono">estate-menu.js</span> and the deploy fires with Mira. Held for Shane's word.</div>
+
+  <div class="foot">The Agency · CENTREFREE Island 1.1 · built by Niamh · 2026-07-16 · drive-based, async agent comms</div>
+</div>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

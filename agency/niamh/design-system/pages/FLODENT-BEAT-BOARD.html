@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flodent — Beat Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,500;1,9..144,900&family=Archivo:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --brand:    #D11317;
+  --sprint:   #8E1418;
+  --charcoal: #141414;
+  --mid:      #5A5A5A;
+  --muted:    #8A8A8A;
+  --line:     #ECECEC;
+  --bg:       #FFFFFF;
+  --display:  'Fraunces', serif;
+  --body:     'Archivo', sans-serif;
+  --page-w:   297mm;
+  --page-h:   210mm;
+}
+
+body {
+  font-family: var(--body);
+  background: #f5ecec;
+  color: var(--charcoal);
+  font-size: 10px;
+  -webkit-font-smoothing: antialiased;
+}
+/* film-grain texture — Flodent's signature body::before */
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 80; opacity: .04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── TOOLBAR ── */
+.toolbar {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--charcoal);
+  display: flex; align-items: center;
+  gap: 6px; padding: 8px 14px;
+  flex-wrap: wrap;
+  border-bottom: 3px solid var(--brand);
+}
+.toolbar-sep { width: 1px; height: 20px; background: rgba(255,255,255,.12); margin: 0 2px; }
+.tb-btn {
+  font-family: var(--body);
+  font-size: 10px; font-weight: 700;
+  padding: 5px 10px; border-radius: 2px;
+  border: none; cursor: pointer; white-space: nowrap;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  transition: opacity 0.15s;
+}
+.tb-btn:hover { opacity: 0.82; }
+.tb-btn.primary { background: var(--brand); color: white; }
+.tb-btn.accent  { background: var(--sprint); color: white; }
+.tb-btn.ghost   { background: rgba(255,255,255,.08); color: rgba(255,255,255,.75); }
+.tb-btn.ghost:hover { background: rgba(255,255,255,.14); color: white; }
+.tb-layout-group { display: flex; gap: 2px; }
+.tb-btn.layout  { background: rgba(255,255,255,.06); color: rgba(255,255,255,.45); font-size: 9px; }
+.tb-btn.layout.active { background: var(--brand); color: white; }
+.tb-right { margin-left: auto; }
+.brand-wordmark {
+  font-family: var(--display);
+  font-weight: 900; font-style: italic;
+  font-size: 14px; color: var(--brand); letter-spacing: -.01em;
+}
+
+/* ── PAGE ── */
+@page { size: A4 landscape; margin: 0; }
+@media print {
+  body { background: white; }
+  body::before { display: none; }
+  .toolbar { display: none !important; }
+  .page { margin: 0; box-shadow: none; padding: 6mm 7mm 7mm; zoom: 1; }
+  [contenteditable]:hover, [contenteditable]:focus { background: none !important; outline: none !important; }
+  .panel-delete, .add-beat-btn, .clear-btn { display: none !important; }
+}
+@media screen {
+  .page { zoom: 1.45; }
+  .tb-btn { font-size: 11px; padding: 6px 12px; }
+  .brand-wordmark { font-size: 16px; }
+  .story-title { font-size: 20px; }
+  .panel-beat-name { font-size: 8.5px; }
+  .panel-desc { font-size: 7px; }
+  .panel-vo { font-size: 6.5px; }
+  .es-text { font-size: 9.5px; }
+  .panel-num { font-size: 11px; }
+  .phase-tag { font-size: 6px; }
+}
+
+.page {
+  width: var(--page-w);
+  min-height: var(--page-h);
+  background: var(--bg);
+  margin: 10mm auto;
+  padding: 7mm 8mm 7mm;
+  box-shadow: 0 10px 42px rgba(209,19,23,.1), 0 2px 8px rgba(0,0,0,.1);
+  page-break-after: always;
+  position: relative;
+}
+
+/* ── EDITABLE ── */
+[contenteditable] { outline: none; border-radius: 1px; transition: background 0.12s; }
+[contenteditable]:hover { background: rgba(209,19,23,.04); }
+[contenteditable]:focus {
+  background: rgba(209,19,23,.06);
+  outline: 1px solid rgba(209,19,23,.35);
+}
+
+/* ── HEADER ── */
+.page-header {
+  display: flex; align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 2.5px solid var(--charcoal);
+  padding-bottom: 3mm; margin-bottom: 3.5mm;
+}
+.header-left { display: flex; align-items: flex-start; gap: 4mm; }
+.flodent-logo {
+  font-family: var(--display);
+  font-weight: 900; font-style: italic;
+  font-size: 14px; color: var(--brand);
+  letter-spacing: -0.01em; line-height: 1;
+  white-space: nowrap; flex-shrink: 0;
+}
+.header-meta { display: flex; flex-direction: column; gap: 1mm; }
+.story-title {
+  font-family: var(--display);
+  font-size: 16px; font-weight: 900;
+  color: var(--charcoal); letter-spacing: -0.02em; line-height: 1;
+}
+.story-sub {
+  font-family: var(--body);
+  font-size: 6px; color: var(--charcoal);
+  font-weight: 700; letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 1.5mm; }
+.badge {
+  font-family: var(--body);
+  font-size: 6.5px; font-weight: 800; padding: 2px 8px;
+  border-radius: 20px; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.badge-brand  { background: var(--brand); color: white; }
+.badge-sprint { background: var(--sprint); color: white; }
+.header-info  { font-size: 6px; color: var(--muted); text-align: right; line-height: 1.7; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.header-info strong { color: var(--charcoal); }
+
+/* ── EXEC SUMMARY — red-left-border + blush gradient (Flodent .note pattern) ── */
+.exec-summary {
+  border-left: 3px solid var(--brand);
+  padding: 2mm 4mm;
+  margin-bottom: 3mm;
+  background: linear-gradient(180deg, rgba(209,19,23,.05), rgba(209,19,23,0));
+}
+.exec-summary .es-label {
+  font-family: var(--body);
+  font-size: 6px; font-weight: 700;
+  color: var(--charcoal); text-transform: uppercase;
+  letter-spacing: 0.2em; margin-bottom: 1.5mm;
+  display: flex; align-items: center; gap: 6px;
+}
+/* Flodent .lbl::before — the red tick mark */
+.exec-summary .es-label::before {
+  content: ""; width: 16px; height: 2.5px;
+  background: var(--brand); flex-shrink: 0;
+}
+.exec-summary .es-text {
+  font-family: var(--body);
+  font-size: 7.5px; color: var(--charcoal); line-height: 1.55;
+}
+.exec-summary .es-text strong { color: var(--brand); font-weight: 700; }
+
+/* ── LEGEND ── */
+.legend {
+  display: flex; gap: 5mm; align-items: center;
+  margin-bottom: 2mm;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1.5mm;
+}
+.legend-item { display: flex; align-items: center; gap: 1.5mm; font-size: 6px; color: var(--muted); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.legend-dot  { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── BEATS GRID ── */
+.beats-row {
+  display: flex; gap: 2.5mm;
+  align-items: stretch;
+}
+.beats-row.count-6 { gap: 2mm; }
+.beats-row.count-7 { gap: 1.5mm; }
+.beats-row.count-8 { gap: 1mm; }
+
+/* ── PANEL — white card, red top border (Flodent qcard pattern) ── */
+.panel {
+  flex: 1 1 0; min-width: 0;
+  background: white;
+  border: 1px solid var(--line);
+  border-top: 5px solid var(--brand);
+  box-shadow: 0 8px 22px rgba(209,19,23,.06);
+  display: flex; flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+/* End card = sprint crimson top (darker, heavier) */
+.panel.endcard { border-top-color: var(--sprint); }
+
+/* Delete btn */
+.panel-delete {
+  position: absolute; top: 3px; right: 3px;
+  width: 14px; height: 14px;
+  background: rgba(0,0,0,.55); color: white;
+  border: none; border-radius: 2px; cursor: pointer;
+  font-size: 9px; line-height: 14px; text-align: center;
+  z-index: 20; opacity: 0; transition: opacity 0.15s; font-weight: 700;
+}
+.panel:hover .panel-delete { opacity: 1; }
+
+/* Panel-meta: number + timecode */
+.panel-meta {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.5mm 2mm 1mm;
+  flex-shrink: 0;
+}
+.panel-num {
+  font-family: var(--display);
+  font-size: 9px; font-weight: 900; font-style: italic;
+  /* Flodent .qhead .qn = crimson on white */
+  color: var(--brand); line-height: 1;
+}
+.panel-tc {
+  font-family: var(--body);
+  font-size: 5.5px; font-weight: 700;
+  color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase;
+}
+
+/* ── Media frame — red-tinted gradient (Flodent .fcard .media / .vplayer.ph) ── */
+.panel-image {
+  width: 100%;
+  aspect-ratio: 9/16;
+  /* the KEY nuance: warm red blush, not grey */
+  background: linear-gradient(160deg, rgba(209,19,23,.12), rgba(209,19,23,.16));
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 1.5mm;
+  position: relative; overflow: hidden;
+  cursor: pointer; flex-shrink: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.panel-image img, .panel-image video {
+  width: 100%; height: 100%; object-fit: cover;
+}
+/* Flodent .play button style */
+.ph-play {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(209,19,23,.92);
+  box-shadow: 0 3px 12px rgba(0,0,0,.25);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.ph-play::after {
+  content: "";
+  border-style: solid;
+  border-width: 7px 0 7px 11px;
+  border-color: transparent transparent transparent #fff;
+  margin-left: 2px;
+}
+.ph-label {
+  font-family: var(--body);
+  font-size: 5.5px; color: var(--brand); text-align: center;
+  padding: 0 2mm; line-height: 1.4; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+}
+/* phase tag = Flodent .fcard .beat style — red pill */
+.phase-tag {
+  position: absolute; top: 1.5mm; left: 1.5mm;
+  background: var(--brand); color: white;
+  font-family: var(--display); font-style: italic;
+  font-size: 5px; font-weight: 700;
+  padding: 1.5px 6px; border-radius: 3px;
+  letter-spacing: 0.04em;
+}
+.clear-btn {
+  position: absolute; bottom: 2px; right: 2px;
+  background: rgba(0,0,0,.55); color: white;
+  border: none; border-radius: 2px;
+  padding: 1px 5px; cursor: pointer;
+  font-size: 9px; z-index: 10; line-height: 1.3;
+}
+
+/* ── Panel body ── */
+.panel-body {
+  padding: 1.5mm 2mm 2mm; flex: 1;
+  display: flex; flex-direction: column; gap: 1mm;
+}
+/* beat name = Fraunces italic — like .mvl in the source */
+.panel-beat-name {
+  font-family: var(--display);
+  font-size: 7px; font-weight: 900; font-style: italic;
+  color: var(--brand); line-height: 1.15;
+  min-height: 8px;
+}
+/* desc = Archivo, mid grey (#5A5A5A = var(--mid)) */
+.panel-desc {
+  font-family: var(--body);
+  font-size: 6px; color: var(--mid);
+  line-height: 1.45; flex: 1; min-height: 12px;
+}
+/* VO = Fraunces italic, brand red — like .claim in source */
+.panel-vo {
+  font-family: var(--display);
+  font-size: 5.5px; color: var(--brand);
+  font-style: italic; font-weight: 500;
+  border-top: 1px solid var(--line);
+  padding-top: 1mm; line-height: 1.4;
+  min-height: 10px;
+}
+
+/* ── Prompt fields ── */
+.panel-prompts {
+  border-top: 1.5px solid var(--brand);
+  margin-top: 1mm;
+  padding-top: 1.5mm;
+  display: flex; flex-direction: column; gap: 1mm;
+}
+.prompt-label {
+  font-family: var(--body);
+  font-size: 5px; font-weight: 800;
+  color: var(--charcoal); letter-spacing: 0.18em;
+  text-transform: uppercase;
+  display: flex; align-items: center; gap: 4px;
+  flex-shrink: 0;
+}
+.prompt-label::before {
+  content: ""; width: 10px; height: 1.5px;
+  background: var(--brand); flex-shrink: 0;
+}
+.panel-img-prompt {
+  font-family: var(--body);
+  font-size: 5.5px; color: var(--mid);
+  line-height: 1.4; min-height: 10px;
+}
+.panel-img-prompt:empty::before {
+  content: attr(data-ph); color: var(--muted); font-style: italic;
+}
+.panel-motion-prompt {
+  font-family: var(--display);
+  font-size: 5.5px; color: var(--sprint);
+  font-style: italic; font-weight: 500;
+  line-height: 1.4; min-height: 8px;
+}
+.panel-motion-prompt:empty::before {
+  content: attr(data-ph); color: var(--muted); font-style: italic; font-family: var(--body);
+}
+
+/* ── End card image area ── */
+.panel.endcard .panel-image {
+  background: var(--charcoal);
+  align-items: center; justify-content: center;
+  flex-direction: column; gap: 2.5mm;
+}
+.pack-logo  {
+  font-family: var(--display);
+  font-size: 14px; font-weight: 900; font-style: italic;
+  color: var(--brand); text-align: center; line-height: 1;
+}
+.pack-claim {
+  font-family: var(--display);
+  font-size: 6px; font-style: italic; font-weight: 500;
+  color: rgba(255,255,255,.75); text-align: center; line-height: 1.4;
+}
+.pack-rule  {
+  font-size: 5px; color: var(--muted); text-align: center;
+  font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+}
+
+/* ── Add beat ── */
+.add-beat-btn {
+  align-self: center; background: none;
+  border: 1.5px dashed var(--brand); color: var(--brand);
+  border-radius: 2px; cursor: pointer;
+  font-size: 18px; font-weight: 300;
+  flex-shrink: 0; width: 26px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+  aspect-ratio: 9/16;
+}
+.add-beat-btn:hover { background: rgba(209,19,23,.06); }
+
+/* ── Footer ── */
+.page-footer {
+  margin-top: 3mm; padding-top: 2mm;
+  border-top: 2.5px solid var(--charcoal);
+  display: flex; align-items: center;
+  justify-content: space-between;
+}
+.footer-claim  {
+  font-size: 6px; color: var(--muted);
+  font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.footer-brand  {
+  font-family: var(--display);
+  font-size: 9px; font-weight: 900; font-style: italic;
+  color: var(--brand);
+}
+.footer-rules  {
+  font-size: 5.5px; color: var(--muted);
+  text-align: right; line-height: 1.6; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+
+<!-- ── TOOLBAR ── -->
+<div class="toolbar">
+  <div class="brand-wordmark">Flodent</div>
+  <div class="toolbar-sep"></div>
+  <button class="tb-btn primary" onclick="window.print()">PRINT / PDF</button>
+  <div class="toolbar-sep"></div>
+  <div class="tb-layout-group">
+    <button class="tb-btn layout active" id="btn-landscape" onclick="setLayout('landscape')">LANDSCAPE</button>
+    <button class="tb-btn layout" id="btn-portrait" onclick="setLayout('portrait')">PORTRAIT</button>
+  </div>
+  <div class="toolbar-sep"></div>
+  <div class="tb-layout-group">
+    <button class="tb-btn layout active" id="btn-916" onclick="setAspect('9:16')">9:16</button>
+    <button class="tb-btn layout" id="btn-45"  onclick="setAspect('4:5')">4:5</button>
+    <button class="tb-btn layout" id="btn-11"  onclick="setAspect('1:1')">1:1</button>
+    <button class="tb-btn layout" id="btn-169" onclick="setAspect('16:9')">16:9</button>
+  </div>
+  <div class="toolbar-sep"></div>
+  <button class="tb-btn ghost" onclick="saveProjectFile()">SAVE PROJECT</button>
+  <button class="tb-btn ghost" onclick="importJSON()">IMPORT</button>
+  <button class="tb-btn accent" onclick="newProject()">NEW</button>
+</div>
+
+<input type="file" id="singleMediaInput" accept="image/*,video/*" style="display:none">
+<input type="file" id="jsonInput" accept=".json" style="display:none">
+
+<!-- ── PAGE ── -->
+<div class="page" id="story-page">
+
+  <div class="page-header">
+    <div class="header-left">
+      <div class="flodent-logo">Flodent</div>
+      <div class="header-meta">
+        <div class="story-title" contenteditable="true" id="story-title">Zimkhita &#8212; The First Smile</div>
+        <div class="story-sub" contenteditable="true" id="story-sub">Flodent &middot; Story 01 &middot; Beat Board &middot; 15 sec</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="badge badge-brand" contenteditable="true">FLODENT</span>
+      <span class="badge badge-sprint" contenteditable="true">15 SEC</span>
+      <div class="header-info">
+        <strong>FORMAT:</strong> 9:16 &nbsp;&middot;&nbsp;
+        <strong>MARKET:</strong> <span contenteditable="true">South Africa</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXEC SUMMARY -->
+  <div class="exec-summary">
+    <div class="es-label">What this story is about</div>
+    <div class="es-text" contenteditable="true">
+      <strong>Zimkhita is about to walk into the biggest interview of her career &#8212; and she catches herself covering her mouth when she laughs.</strong>
+      That hesitation is the whole story. She brushes with Flodent in the office bathroom, steps out, and the next time she laughs it&#8217;s full and open. She gets the job.
+      <strong>Flodent = the confidence you stop noticing because it&#8217;s already there.</strong>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--brand)"></div> Beat phase</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--charcoal)"></div> Beat name</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--mid)"></div> Scene action</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--brand);opacity:.5"></div> V/O</div>
+    <div style="margin-left:auto; font-size:5.5px; color:var(--muted); font-weight:700; letter-spacing:0.12em; text-transform:uppercase;">
+      Click any field to edit &middot; click frame to load media &middot; hover for delete
+    </div>
+  </div>
+
+  <!-- BEATS ROW -->
+  <div class="beats-row" id="beats-row"></div>
+
+  <div class="page-footer">
+    <div class="footer-claim">Authentic everyday moments &middot; No healthcare workers &middot; Shalina Healthcare</div>
+    <div class="footer-brand">Flodent</div>
+    <div class="footer-rules">FY2026/27 &middot; &copy; Shalina Healthcare</div>
+  </div>
+
+</div>
+
+<script>
+var beats = [
+  { id:1, tc:’0:00–0:03’, phase:’HOOK’, name:’The Laugh She Hides’,
+    desc:’Bright office lobby. Zimkhita mid-conversation — she laughs then immediately covers her mouth. She notices herself doing it.’,
+    vo:’Every room. Same move.’,
+    imgPrompt:’A: Zimkhita (S.African woman, late 20s, warm brown skin, low bun, white blazer, black blouse, charcoal trousers, gold hoops) corporate lobby JHB — mid-laugh, open, head back. B: hand covers mouth reflexively, laugh swallowed behind it. C: tight on eyes — warmth still there, jaw closed. Canon R5 35mm f/1.8 warm clean grade –no readable text’,
+    motionPrompt:’Camera holds. Zimkhita\’s hand rises slowly to cover mouth mid-laugh. Eyes warm, jaw closes. Colleague\’s expression stays open. No lip-sync.’,
+    media:null },
+  { id:2, tc:’0:03–0:06’, phase:’MOMENT’, name:’Two Minutes’,
+    desc:’She excuses herself. Office bathroom. Pulls Flodent from her bag — she brought it. Quick, purposeful brush. Close on product. No drama.’,
+    vo:’Two minutes. That\’s all it takes.’,
+    imgPrompt:’A: Zimkhita (repeat full desc) walks purposefully toward office bathroom, bag over one shoulder. B: at mirror mid-brush, red+white Flodent tube on white ledge beside her — product visible, label unreadable. C: product beauty close — Flodent tube on white marble ledge, warm side light, no readable text. Canon R5 50mm f/1.8 –no readable text’,
+    motionPrompt:’Camera holds counter-level. Brush strokes in natural small rhythm. Eyes steady in mirror, calm. Flodent tube sits still on ledge. No lip-sync.’,
+    media:null },
+  { id:3, tc:’0:06–0:10’, phase:’FLODENT’, name:’She\’s Ready’,
+    desc:’Looks in the mirror. Runs tongue across teeth. Small nod. Tucks Flodent back. Smooths jacket. Steps out.’,
+    vo:’Fluoride. Fresh. Confident.’,
+    imgPrompt:’A: Zimkhita (repeat full desc) in bathroom mirror, lips pressed, eyes assessing — honest not vain. B: small nod to reflection, shoulders settle back, barely-perceptible smile. C: she tucks Flodent into bag, bag on shoulder, turning to leave. Canon R5 35mm f/1.8 warm clean grade –no readable text’,
+    motionPrompt:’Camera holds. Posture shifts — shoulders back, chin lifts a fraction. Small nod to reflection. She picks up bag from ledge. No lip-sync.’,
+    media:null },
+  { id:4, tc:’0:10–0:13’, phase:’PAYOFF’, name:’The Full Smile’,
+    desc:’Back in the interview. Same funny moment — this time she laughs fully, no hand, no hesitation. The interviewer laughs with her. Connection made.’,
+    vo:’When you\’re not thinking about your smile, you\’re free to use it.’,
+    imgPrompt:’A: Zimkhita (repeat full desc) in meeting room — laughing at something, mouth fully open, head slightly back, NO hand. Across from: S.African woman 40s, grey-streaked locs, dark blazer. B: both women laughing, eye contact, hands still in laps. C: tight two-shot — shared warmth, mid-laugh, open. Canon R5 35mm f/1.8 warm –no readable text no visible documents’,
+    motionPrompt:’Camera holds or very slow push in. Zimkhita laughs fully — hand does not rise. She and interviewer make eye contact, warmth settles. No lip-sync.’,
+    media:null },
+  { id:5, tc:’0:13–0:15’, phase:’CLOSE’, name:’END CARD’,
+    desc:’Pack shot + claim lock-up on clean white.’,
+    vo:’Flodent. Fresh every time.’,
+    imgPrompt:’A: Red+white Flodent tube upright on white marble surface, warm side light, soft clean shadow — no readable text. B: tight on Zimkhita\’s smile, chin-to-cheeks crop, natural teeth, full confident — clean white bg. C: clean white frame — minimal, confident, no text elements. Canon R5 85mm f/2.0 bright neutral grade’,
+    motionPrompt:’Camera holds on product. Very slow push in toward tube. Soft light holds steady. No text animation. Clean out.’,
+    media:null, endcard:true }
+];
+
+var currentAspect = '9/16';
+var MAX_BEATS = 8;
+var MIN_BEATS = 1;
+
+function render() {
+  var row = document.getElementById('beats-row');
+  var count = beats.length;
+  row.innerHTML = '';
+  row.className = 'beats-row count-' + count;
+  beats.forEach(function(b, i) { row.appendChild(makePanelEl(b, i)); });
+  if (count < MAX_BEATS) {
+    var btn = document.createElement('button');
+    btn.className = 'add-beat-btn'; btn.title = 'Add beat'; btn.textContent = '+';
+    btn.addEventListener('click', addBeat);
+    row.appendChild(btn);
+  }
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function makePanelEl(b, i) {
+  var panel = document.createElement('div');
+  panel.className = 'panel' + (b.endcard ? ' endcard' : '');
+  panel.dataset.idx = i;
+
+  var delBtn = document.createElement('button');
+  delBtn.className = 'panel-delete'; delBtn.title = 'Remove'; delBtn.textContent = '✕';
+  delBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (beats.length <= MIN_BEATS) return;
+    beats.splice(i, 1);
+    beats.forEach(function(b2, j) { b2.id = j + 1; });
+    render();
+  });
+  panel.appendChild(delBtn);
+
+  var meta = document.createElement('div');
+  meta.className = 'panel-meta';
+  meta.innerHTML =
+    '<span class="panel-num">0' + (i + 1) + '</span>' +
+    '<span class="panel-tc" contenteditable="true">' + escHtml(b.tc || '') + '</span>';
+  panel.appendChild(meta);
+
+  if (b.endcard) {
+    var ec = document.createElement('div');
+    ec.className = 'panel-image';
+    ec.innerHTML =
+      '<div class="pack-logo">Flodent</div>' +
+      '<div class="pack-claim">Fresh every time.</div>' +
+      '<div class="pack-rule">Shalina Healthcare</div>';
+    panel.appendChild(ec);
+  } else {
+    var imgWrap = document.createElement('div');
+    imgWrap.className = 'panel-image';
+    imgWrap.style.aspectRatio = currentAspect;
+
+    var phaseTag = document.createElement('div');
+    phaseTag.className = 'phase-tag';
+    phaseTag.contentEditable = 'true';
+    phaseTag.textContent = b.phase || '';
+    imgWrap.appendChild(phaseTag);
+
+    if (b.media) {
+      var isVideo = b.media.indexOf('data:video') === 0;
+      if (isVideo) {
+        var vid = document.createElement('video');
+        vid.src = b.media; vid.muted = true; vid.loop = true;
+        vid.style.cssText = 'width:100%;height:100%;object-fit:cover;position:absolute;inset:0;';
+        imgWrap.appendChild(vid);
+      } else {
+        var imgEl = document.createElement('img');
+        imgEl.src = b.media;
+        imgEl.style.cssText = 'width:100%;height:100%;object-fit:cover;position:absolute;inset:0;';
+        imgWrap.appendChild(imgEl);
+      }
+      var clr = document.createElement('button');
+      clr.className = 'clear-btn'; clr.textContent = '✕';
+      clr.addEventListener('click', function(e) { e.stopPropagation(); b.media = null; render(); });
+      imgWrap.appendChild(clr);
+    } else {
+      var play = document.createElement('div'); play.className = 'ph-play';
+      var lbl  = document.createElement('div'); lbl.className  = 'ph-label'; lbl.textContent = 'Load media';
+      imgWrap.appendChild(play);
+      imgWrap.appendChild(lbl);
+      imgWrap.addEventListener('click', function() {
+        var fi = document.getElementById('singleMediaInput');
+        fi._target = b; fi.click();
+      });
+    }
+    panel.appendChild(imgWrap);
+  }
+
+  var body = document.createElement('div');
+  body.className = 'panel-body';
+  body.innerHTML =
+    '<div class="panel-beat-name" contenteditable="true">' + escHtml(b.name) + '</div>' +
+    '<div class="panel-desc"      contenteditable="true">' + escHtml(b.desc) + '</div>' +
+    '<div class="panel-vo"        contenteditable="true">' + escHtml(b.vo)   + '</div>' +
+    '<div class="panel-prompts">' +
+      '<div class="prompt-label">Image A·B·C</div>' 

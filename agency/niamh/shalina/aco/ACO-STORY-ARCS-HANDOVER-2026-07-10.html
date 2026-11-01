@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACO · Story Arc Treatments — Regency Flux Estate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Estate ground + ink */
+    --parchment:#E9EDF4;
+    --parchment-2:#FFFFFF;
+    --charcoal:#111827;
+    --ink-600:#475569;
+    --ink-300:#94A3B8;
+    --line:#E5E7EB;
+    /* Estate dark + match */
+    --tungsten:#0F172A;
+    --cerise:#DE3163;
+    /* Estate blue */
+    --blue:#2B5CB8;
+    --blue-050:#EAF0FB;
+    /* ACO pine accent — used with restraint */
+    --pine:#1E6B3F;
+    --pine-050:#E7F1EA;
+    --amber:#C68A1E;
+    /* type */
+    --font-display:'Cormorant Garamond',Georgia,serif;
+    --font-text:'Outfit',system-ui,sans-serif;
+    --font-mono:'Roboto Mono',monospace;
+    --tracking-eyebrow:0.22em;
+    --shadow-md:0 8px 22px rgba(26,26,26,.10);
+    --shadow-sm:0 2px 6px rgba(26,26,26,.07);
+    --space-4:16px; --space-5:24px; --space-6:32px; --space-7:48px; --space-8:64px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--parchment);
+    color:var(--charcoal);
+    font-family:var(--font-text);
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1200px;margin:0 auto;padding:var(--space-8) var(--space-6) var(--space-7);}
+
+  /* ── Estate header (edge-to-edge, KPI-doc style) ── */
+  .estatehead{background:var(--tungsten);border-bottom:3px solid var(--cerise);}
+  .eh-inner{max-width:1200px;margin:0 auto;padding:34px var(--space-6) 30px;
+    display:flex;justify-content:space-between;align-items:flex-end;gap:var(--space-6);flex-wrap:wrap;}
+  .eh-eyebrow{font-family:var(--font-mono);font-size:.7rem;letter-spacing:var(--tracking-eyebrow);
+    text-transform:uppercase;color:#8FA5B8;margin-bottom:16px;}
+  .estatehead h1{font-family:var(--font-display);font-weight:400;font-size:3.5rem;line-height:1;
+    letter-spacing:.005em;color:#fff;margin:0;}
+  .estatehead h1 span{color:#fff;opacity:.5;}
+  .eh-sub{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.12em;
+    text-transform:uppercase;color:#8FA5B8;margin-top:14px;}
+  .eh-meta{display:flex;flex-direction:column;align-items:flex-end;gap:5px;
+    font-family:var(--font-mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+    color:#8FA5B8;text-align:right;padding-bottom:6px;}
+
+  /* ── Meta strip (4 equal cells — symmetry) ── */
+  .meta{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+    border:1px solid var(--line);margin:var(--space-7) 0;
+  }
+  .meta div{background:var(--parchment-2);padding:var(--space-5);text-align:center;}
+  .meta .k{font-family:var(--font-mono);font-size:.66rem;letter-spacing:var(--tracking-eyebrow);
+    text-transform:uppercase;color:var(--ink-300);display:block;margin-bottom:6px;}
+  .meta .v{font-family:var(--font-display);font-weight:600;font-size:1.15rem;}
+
+  /* ── Legend ── */
+  .legend{display:flex;justify-content:center;gap:var(--space-6);flex-wrap:wrap;
+    margin:0 0 var(--space-7);font-size:.9rem;color:var(--ink-600);}
+  .legend span{display:inline-flex;align-items:center;gap:8px;}
+  .dot{width:10px;height:10px;display:inline-block;}
+  .dot.primary{background:var(--pine);}
+  .dot.floor{background:transparent;border:1.5px dashed var(--ink-300);}
+
+  /* ── Arc grid (2 equal columns — symmetry) ── */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);}
+  @media(max-width:820px){.grid{grid-template-columns:1fr;} .estatehead h1{font-size:2.3rem;} .meta{grid-template-columns:repeat(2,1fr);}}
+
+  .arc{
+    background:var(--parchment-2);border:1px solid var(--line);
+    box-shadow:var(--shadow-sm);padding:var(--space-6);display:flex;flex-direction:column;
+  }
+  .arc.floor{background:var(--parchment);border-top:3px dashed var(--ink-300);}
+  .arc-head{display:flex;justify-content:space-between;align-items:baseline;
+    border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:var(--space-4);}
+  .arc-code{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--blue);}
+  .tag{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+    padding:4px 9px;border:1px solid var(--pine);color:var(--pine);white-space:nowrap;}
+  .tag.floor{border-color:var(--ink-300);color:var(--ink-300);}
+
+  .arc h2{font-family:var(--font-display);font-weight:600;font-size:1.85rem;line-height:1.08;
+    margin:0 0 4px;letter-spacing:-0.01em;}
+  .arc .pt{font-family:var(--font-display);font-style:italic;font-weight:500;color:var(--ink-600);
+    font-size:1rem;margin:0 0 var(--space-4);}
+  .arc .logline{font-size:1.02rem;color:var(--charcoal);margin:0 0 var(--space-5);}
+
+  .beats-label,.panel-label{font-family:var(--font-mono);font-size:.64rem;letter-spacing:var(--tracking-eyebrow);
+    text-transform:uppercase;color:var(--ink-300);margin:0 0 10px;}
+  ol.beats{list-style:none;margin:0 0 var(--space-5);padding:0;counter-reset:b;}
+  ol.beats li{display:grid;grid-template-columns:56px 1fr;gap:12px;padding:8px 0;
+    border-bottom:1px solid var(--line);font-size:.96rem;}
+  ol.beats li:last-child{border-bottom:none;}
+  ol.beats .tc{font-family:var(--font-mono);font-size:.74rem;color:var(--pine);padding-top:2px;}
+
+  /* Truth / Emotion / CTA — 3 equal cells, symmetric */
+  .tri{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
+    border:1px solid var(--line);margin:auto 0 var(--space-4);}
+  .tri div{background:var(--parchment-2);padding:14px 12px;text-align:center;}
+  .arc.floor .tri div{background:var(--parchment);}
+  .tri .k{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--ink-300);display:block;margin-bottom:6px;}
+  .tri .v{font-size:.9rem;font-weight:600;line-height:1.25;}
+  .tri .v.cta{color:var(--pine);text-transform:uppercase;letter-spacing:.04em;font-size:.82rem;}
+
+  .why{border-top:1px solid var(--line);padding-top:var(--space-4);font-size:.92rem;color:var(--ink-600);}
+  .why b{color:var(--charcoal);font-weight:700;}
+
+  /* ── Footer ── */
+  .foot{margin-top:var(--space-8);padding-top:var(--space-6);border-top:1px solid var(--line);}
+  .foot h3{font-family:var(--font-mono);font-size:.7rem;letter-spacing:var(--tracking-eyebrow);
+    text-transform:uppercase;color:var(--blue);margin:0 0 var(--space-4);text-align:center;}
+  .holds{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-4) var(--space-6);
+    max-width:900px;margin:0 auto var(--space-6);font-size:.9rem;color:var(--ink-600);}
+  @media(max-width:820px){.holds{grid-template-columns:1fr;}}
+  .holds p{margin:0;padding-left:16px;border-left:2px solid var(--line);}
+  .holds b{color:var(--charcoal);}
+  .sig{text-align:center;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.1em;
+    color:var(--ink-300);text-transform:uppercase;}
+
+  /* Download PDF button (screen) + print rules */
+  .dl{position:fixed;right:22px;bottom:22px;z-index:60;background:var(--cerise);color:#fff;border:none;
+    font-family:var(--font-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    padding:12px 18px;cursor:pointer;box-shadow:0 8px 22px rgba(15,23,42,.22);}
+  .dl:hover{background:#c62a58;}
+  @media print{
+    @page{margin:14mm;}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .dl{display:none!important;}
+    body{background:#fff;}
+    .arc,.tri,.meta,ol.beats li{break-inside:avoid;}
+    .grid{gap:18px;}
+  }
+</style>
+</head>
+<body>
+<header class="estatehead">
+  <div class="eh-inner">
+    <div class="eh-main">
+      <div class="eh-eyebrow">Regency Flux Estate · CENTREFREE Agency</div>
+      <h1>ACO — Story Arc <span>Treatments</span></h1>
+      <div class="eh-sub">Eight arcs · ACO Pine Gel funnel · treatments only, no visuals</div>
+    </div>
+    <div class="eh-meta">
+      <span>Story Document</span>
+      <span>Angola · PT · 10 Jul 2026</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- META -->
+  <section class="meta">
+    <div><span class="k">Brand</span><span class="v">ACO Pine Gel</span></div>
+    <div><span class="k">Market</span><span class="v">Angola · PT</span></div>
+    <div><span class="k">Arcs</span><span class="v">6 + 2 floor</span></div>
+    <div><span class="k">Filed</span><span class="v">10 Jul 2026</span></div>
+  </section>
+
+  <div class="legend">
+    <span><i class="dot primary"></i> Primary arc — for production</span>
+    <span><i class="dot floor"></i> Cutting floor — spare / expendable option</span>
+  </div>
+
+  <!-- ARC GRID -->
+  <main class="grid">
+
+    <!-- ARC 01 -->
+    <article class="arc">
+      <div class="arc-head"><span class="arc-code">RFE · ACO · Arc 01</span><span class="tag">Primary · Air 14 Jul</span></div>
+      <h2>Why Are You Always Ready?</h2>
+      <p class="pt">Working PT: <i>Porque Estás Sempre Pronta?</i> — Elvis's pass before anything ships</p>
+      <p class="logline">Two homes, one afternoon, cut against each other. The whole film is a contrast of <i>time</i>: while Glória is still cleaning, Ana is already living.</p>
+      <p class="beats-label">The thirty seconds</p>
+      <ol class="beats">
+        <li><span class="tc">0–6s</span><span>Split rhythm opens. Glória scrubs the kitchen with one product; hard cut — Ana, done, teaching her kids at the table.</span></li>
+        <li><span class="tc">6–14s</span><span>Glória moves to the bathroom, another bottle; cut — Ana on the sofa, feet up, her soap opera on.</span></li>
+        <li><span class="tc">14–22s</span><span>Glória works through the cupboard, still going; cut — Ana already finished, unhurried.</span></li>
+        <li><span class="tc">22–28s</span><span>They meet. Glória, half-laughing: how do you find the time for all of this? Ana lifts one tub — one diluted bowl, the whole home.</span></li>
+        <li><span class="tc">28–30s</span><span>End card. The hours handed back.</span></li>
+      </ol>
+      <div class="tri">
+        <div><span class="k">Truth</span><span class="v">Fewer products = time</span></div>
+        <div><span class="k">Emotion</span><span class="v">Admiration / curiosity</span></div>
+        <div><span class="k">CTA</span><span class="v cta">Discover the ACO Advantage</span></div>
+      </div>
+      <p class="why"><b>Why it works:</b> the intercut makes the benefit visible instead of stated — the audience counts the time gap themselves, so the claim is theirs, not ours.</p>
+    </article>
+
+    <!-- ARC 02 -->
+    <article class="arc">
+      <div class="arc-head"><span class="arc-code">RFE · ACO · Arc 02</span><span class="tag">Primary · with Tshwari</span></div>
+      <h2>The One Bucket Challenge</h2>
+      <p class="pt">Working PT: <i>O Desafio do Balde</i> — Elvis's pass; developed with Tshwari</p>
+      <p class="logline">A mechanic, not a monologue. One bucket, one measure, one home — Ana dares Glória to clean the entire flat from a single diluted bucket, and Glória takes the bet.</p>
+      <p class="beats-label">The thirty seconds</p>
+      <ol class="beats">
+        <li><span class="tc">0–5s</span><span>Challenge framed to camera / to Glória: everything you need for the whole home is in this one bucket. One bucket. Prove me wrong.</span></li>
+        <li><span class="tc">5–10s</span><span>The measure, named aloud and shown: the diluted bowl mixed once. This is the only thing that refills.</span></li>
+        <li><span class="tc">10–24s</span><span>Montage against a soft clock — kitchen, bathroom, floor, glass — same bucket, room after room, no second product ever enters frame.</span></li>
+        <li><span class="tc">24–30s</span><span>Bucket set down, still one. Glória concedes with a grin. End card + challenge prompt to the audience.</span></li>
+      </ol>
+      <div class="tri">
+        <div><span class="k">Truth</span><span class="v">One dilution does it all</span></div>
+        <div><span class="k">Emotion</span><span class="v">Playful proof</span></div>
+        <div><span class="k">CTA</span><span class="v cta">Take the One Bucket Challenge</span></div>
+      </div>
+      <p class="why"><b>Why it works:</b> a named, repeatable challenge is a Phase-3 UGC engine — the film hands social teams a format real users can film themselves, so the ad becomes a template.</p>
+    </article>
+
+    <!-- ARC 03 -->
+    <article class="arc">
+      <div class="arc-head"><span class="arc-code">RFE · ACO · Arc 03</span><span class="tag">Primary · Air 21 Jul</span></div>
+      <h2>Unexpected Guests</h2>
+      <p class="pt">Working PT: <i>Visitas Inesperadas</i> — Elvis's pass before anything ships</p>
+      <p class="logline">The clock starts on a phone call. Guests in twenty minutes; Glória panics and grabs product after product. Ana arrives calm and teaches the fast way — she doesn't rescue, she shows.</p>
+      <p class="beats-label">The thirty seconds</p>
+      <ol class="beats">
+        <li><span class="tc">0–6s</span><span>The call. Twenty minutes. Glória's face; the pile of bottles she reaches for; rising stress.</span></li>
+        <li><span class="tc">6–12s</span><span>Ana steps in, unhurried. Mixes the ready-bowl on screen and names the measure aloud: two teaspoons of ACO in one litre of water.</span></li>
+        <li><span class="tc">12–24s</span><span>One solution, carried room to room — kitchen counter, bathroom, floors. The panic drains out of the frame as she goes.</span></li>
+        <li><span class="tc">24–30s</span><span>Doorbell. Home is ready; Glória is ready. End card.</span></li>
+      </ol>
+      <div class="tri">
+        <div><span class="k">Truth</span><span class="v">Speed + versatility</span></div>
+        <div><span class="k">Emotion</span><span class="v">Stress → relief</span></div>
+        <div><span class="k">CTA</span><span class="v cta">Be Ready Anytime</span></div>
+      </div>
+      <p class="why"><b>Why it works:</b> teaching the dilution — not doing it for her — is the exact beat that moves Glória a step closer to switching; the audience learns the measure they can use tonight.</p>
+    </article>
+
+    <!-- ARC 04 -->
+    <article class="arc">
+      <div class="arc-head"><span class="arc-code">RFE · ACO · Arc 04</span><span class="tag">Primary · Conversion</span></div>
+      <h2>The Cupboard Clean-Out</h2>
+      <p class="pt">Working PT: <i>A Arrumação do Armário</i> — Elvis's pass before anything ships</p>
+      <p class="logline">Glória, now converted, opens the cupboard crammed with half-used bottles and, one by one, lets them go — until a single tub is all that's left, and all that's needed.</p>
+      <p class="beats-label">The thirty seconds</p>
+      <ol class="beats">
+        <li><span class="tc">0–7s</span><span>The overloaded cupboard: eight bottles, sticky rings, chaos. Glória surveys it with new eyes.</span></li>
+        <li><span class="tc">7–20s</span><span>The clear-out rhythm — bottle, bottle, bottle into the crate. Each one a small relief. Space opens on the shelf.</span></li>
+        <li><span class="tc">20–27s</span><span>What remains: one ACO tub, alone, centred. The shelf breathes. She leaves the door open — nothing to hide.</span></li>
+        <li><span class="tc">27–30s</span><span>End card. Room made for one.</span></li>
+      </ol>
+      <div class="tri">
+        <div><span class="k">Truth</span><span class="v">One replaces the shelf</span></div>
+        <div><span class="k">Emotion</span><span class="v">Relief / liberation</span></div>
+        <div><span class="k">CTA</span><span class="v cta">Make Room for One</span></div>
+      </div>
+      <p class="why"><b>Why it works:</b> the physical act of removal dramatises money and space saved without a single cost claim — the empty shelf is the argument, and it's undeniable.</p>
+    </article>
+
+    <!-- ARC 05 -->
+    <article class="arc">
+      <div class="arc-head"><span class="arc-code">RFE · ACO · Arc 05</span><span class="tag">Primary · Conversion</span></div>
+      <h2>The Maths on the Counter</h2>
+      <p class="pt">Working PT: <i>As Contas no Balcão</i> — Elvis's pass before anything ships</p>
+      <p class="logline">No lecture — just arithmetic you can see. The many bottles line up on one side of the counter; one ACO tub on the other. The counter does the talking.</p>
+      <p class="beats-label">The thirty seconds</p>
+      <ol class="beats">
+        <li><span class="tc">0–8s</span><span>Hands set down the usual haul — floor cleaner, glass, bathroom, kitchen — a row of separate bottles across the counter.</span></li>
+        <li><span class="tc">8–18s</span><span>Beside them, one tub placed down. The visual weight tips; the row suddenly looks like a lot for what one jar covers.</span></li>
+        <li><span class="tc">18–27s</span><span>Quick cuts: the one tub doing each job the row promised — same result, one purchase.</span></li>
+        <li><span class="tc">27–30s</span><span>End card. Do the maths.</span></li>
+      </ol>
+      <div class="tri">
+        <div><span class="k">Truth</span><span class="v">Cheaper per clean</span></div>
+        <div><span class="k">Emotion</span><span class="v">Quiet realisation</span></div>
+        <div><span class="k">CTA</span><span class="v cta">Do the Maths</span></div>
+      </div>
+      <p class="why"><b>Why it works:</b> a value film that never states a price — the composition itself carries the cost argument, which keeps it credible and market-flexible.</p>
+    </article>
+
+    <!-- ARC 06 -->
+    <article class="arc">
+      <div class="arc-head"><span class="arc-code">RFE · ACO · Arc 06</span><span class="tag">Primary · Loyalty</span></div>
+      <h2>Pass It On</h2>
+      <p class="pt">Working PT: <i>Passa a Palavra</i> — Elvis's pass before anything ships</p>
+      <p class="logline">The convert becomes the teacher. Glória shows a newcomer the one gesture — the diluted bowl — and the ritual moves one household further, the way real habits actually spread.</p>
+      <p class="beats-label">The thirty seconds</p>
+      <ol class="beats">
+        <li><span class="tc">0–7s</span><span>A newcomer's kitchen, first day in a new place, surrounded by too many products she bought out of habit.</span></li>
+        <li><span class="tc">7–18s</span><span>Glória, unhurried, mixes the bowl and names the measure — the same lesson Ana once gave her, now in her hands.</span></li>
+        <li><span class="tc">18–27s</span><span>The newcomer tries it; it works; the surplus bottles get quietly set aside. A knowing look between them.</span></li>
+        <li><span class="tc">27–30s</span><span>End card. Pass it on.</span></li>
+      </ol>
+      <div class="tri">
+        <div><span class="k">Truth</span><span class="v">Simple enough to teach</span></div>
+        <div><span class="k">Emotion</span><span class="v">Warmth / pride</span></div>
+        <div><span class="k">CTA</span><span class="v cta">Pass It On</span></div>
+      </div>
+      <p class="why"><b>Why it works:</b> closes the funnel by making advocacy the story — the film models the exact word-of-mouth behaviour the brand wants, and a taught gesture is the most shareable asset in the set.</p>
+    </article>
+
+    <!-- ARC 07 — CUTTING FLOOR -->
+    <article class="arc floor">
+      <div class="arc-head"><span class="arc-code">RFE · ACO · Arc 07</span><span class="tag floor">Cutting Floor</span></div>
+      <h2>The Sceptic</h2>
+      <p class="pt">Working PT: <i>O Céptico</i> — spare option; tone check needed</p>
+      <p class="logline">Someone in the household insists one product can't possibly do the bathroom <i>and</i> the kitchen. The film proves them wrong across the cuts — gently, and without a word of triumph.</p>
+      <p class="beats-label">The thirty seconds</p>
+      <ol class="beats">
+        <li><span class="tc">0–7s</span><span>The doubt, said out loud: one bottle for everything? That's marketing. Arms crossed.</span></li>
+        <li><span class="tc">10–24s</span><span>Ana simply proceeds — glass, tile, floor, greasy hob — the same tub, cut to cut, no argument offered.</span></li>
+        <li><span class="tc">24–30s</span><span>The sceptic runs a finger along a clean surface, out of things to say. Small nod. End card.</span></li>
+      </ol>
+      <div class="tri">
+        <div><span class="k">Truth</span><span class="v">Versatility silences doubt</span></div>
+        <div><span class="k">Emotion</span><span class="v">Wry vindication</span></div>
+        <div><span class="k">CTA</span><span class="v cta">See for Yourself</span></div>
+      </div>
+      <p class="why"><b>Why it's on the floor:</b> strong hook, but the "doubter" register risks tipping combative — keep as a spare unless we want an edge. Cast of the sceptic waits on ratification.</p>
+    </article>
+
+    <!-- ARC 08 — CUTTING FLOOR -->
+    <article class="arc floor">
+      <div class="arc-head"><span class="arc-code">RFE · ACO · Arc 08</span><span class="tag floor">Cutting Floor</span></div>
+      <h2>Market Day</h2>
+      <p class="pt">Working PT: <i>Dia de Mercado</i> — spare option; may overlap Shopping Trip</p>
+      <p class="logline">Ana walks the market. Everyone else loads a trolley of cleaning products; she passes the whole aisle with a small, certain smile and one tub in the basket.</p>
+      <p class="beats-label">The thirty seconds</p>
+      <ol class="beats">
+        <li><span class="tc">0–8s</span><span>Busy market rhythm; baskets and trolleys filling with bottle after bottle.</span></li>
+        <li><span class="tc">8–20s</span><span>Ana moves through it, unbothered, reaching past the crowded shelf for a single tub — one reach, done.</span></li>
+        <li><span class="tc">20–27s</span><span>At the till her basket is almost empty next to the overflowing ones. The certain smile.</span></li>
+        <li><span class="tc">27–30s</span><span>End card. One is enough.</span></li>
+      </ol>
+      <div class="tri">
+        <div><span class="k">Truth</span><span class="v">One purchase, not a trolley</span></div>
+        <div><span class="k">Emotion</span><span class="v">Confident simplicity</span></div>
+        <div><span class="k">CTA</span><span class="v cta">One Is Enough</span></div>
+      </div>
+      <p class="why"><b>Why it's on the floor:</b> clean idea but treads close to the Shopping Trip (W7) beat — hold as an alternate cut or a stills-only mechanic rather than a second market film.</p>
+    </article>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="foot">
+    <h3>Holds &amp; House Rules — before anything ships</h3>
+    <div class="holds">
+      <p><b>PT is held.</b> Every title and line above is a working English draft. Portuguese titles and dialogue wait on Elvis's POR pass — nothing is lettered until he rules.</p>
+      <p><b>Cast is held.</b> Only Ana and Glória are established. Newcomers, sceptic and market faces stay unnamed until the Angola family cast ratification.</p>
+      <p><b>Packshot law.</b> The ACO tub is only ever the real pack — the reference media is the label. It is never described, re-lettered or invented in any downstream prompt.</p>
+      <p><b>No visuals here, by design.</b> These are treatments — the source of truth. Storyboards, VO and any generation are cut from the story, not around it, and only on your go.</p>
+    </div>
+    <p class="sig">Regency Flux Estate · CENTREFREE Agency · Niamh, Seat 02 · 10 Jul 2026 · No generations fired</p>
+  </footer>
+
+</div>
+
+<button class="dl" onclick="window.print()">Download PDF ↓</button>
+<script>
+  if(location.search.indexOf('print')>-1){window.addEventListener('load',function(){setTimeout(function(){window.print();},450);});}
+</script>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

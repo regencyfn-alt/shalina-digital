@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACO Pine Gel — Story 02: The Grease Test | Creative Storyboard</title>
+<style>
+  :root {
+    --green: #1A7A4A;
+    --lime: #5BB84A;
+    --orange: #F47920;
+    --cream: #FAFAF5;
+    --dark: #1C1C1C;
+    --mid: #555;
+    --light: #888;
+    --rule: #E0E8DC;
+    --r: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #EDEEE8;
+    color: var(--dark);
+    font-size: 16px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .page { width: 1240px; margin: 0 auto; padding: 0 0 80px; }
+
+  /* HEADER */
+  .hdr {
+    background: var(--green); color: white;
+    padding: 30px 52px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .hdr-left { display: flex; align-items: center; gap: 20px; }
+  .hdr-dot {
+    width: 48px; height: 48px; background: var(--lime);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 20px;
+  }
+  .hdr-brand { font-size: 24px; font-weight: 900; letter-spacing: 0.3px; }
+  .hdr-sub { font-size: 13px; opacity: 0.7; margin-top: 3px; }
+  .hdr-right { text-align: right; font-size: 13px; opacity: 0.8; line-height: 1.8; }
+  .hdr-right strong { font-size: 18px; font-weight: 900; display: block; opacity: 1; }
+
+  /* ORANGE BAR */
+  .arc-bar {
+    background: var(--orange); color: white;
+    padding: 13px 52px;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 36px;
+  }
+  .arc-tagline { font-size: 22px; font-weight: 900; letter-spacing: 0.5px; }
+  .arc-meta { font-size: 13px; opacity: 0.85; }
+
+  /* SECTION LABELS */
+  .sec {
+    margin: 0 52px 16px;
+    font-size: 10.5px; font-weight: 700; letter-spacing: 2.5px;
+    text-transform: uppercase; color: var(--light);
+    padding-bottom: 9px; border-bottom: 2px solid var(--rule);
+  }
+
+  /* STORY BRIEF */
+  .story-brief {
+    margin: 0 52px 36px; background: white;
+    border-radius: var(--r);
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+  .brief-col { padding: 22px 24px; border-right: 1px solid #F0F0EC; }
+  .brief-col:last-child { border-right: none; }
+  .brief-col-label {
+    font-size: 9.5px; font-weight: 700; letter-spacing: 2.5px;
+    text-transform: uppercase; color: var(--light); margin-bottom: 10px;
+  }
+  .brief-col-title { font-size: 18px; font-weight: 900; color: var(--green); margin-bottom: 8px; line-height: 1.2; }
+  .brief-col p { font-size: 14px; line-height: 1.65; color: var(--mid); }
+  .brief-col p strong { color: var(--dark); }
+
+  /* RATIO CALLOUT */
+  .ratio-callout {
+    margin: 0 52px 36px;
+    background: var(--dark); border-radius: var(--r);
+    padding: 26px 36px;
+    display: flex; align-items: center; gap: 40px;
+  }
+  .ratio-pill {
+    background: var(--green); color: white;
+    font-size: 42px; font-weight: 900;
+    padding: 18px 36px; border-radius: var(--r);
+    flex-shrink: 0; letter-spacing: -1px;
+  }
+  .ratio-body { color: white; }
+  .ratio-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    color: var(--lime); text-transform: uppercase; margin-bottom: 8px;
+  }
+  .ratio-title { font-size: 24px; font-weight: 900; margin-bottom: 8px; line-height: 1.2; }
+  .ratio-desc { font-size: 14px; line-height: 1.65; color: rgba(255,255,255,0.6); }
+  .ratio-line {
+    font-style: italic; font-size: 16px; color: var(--lime);
+    font-weight: 700; margin-top: 10px;
+  }
+
+  /* ARC OVERVIEW */
+  .arc-overview {
+    margin: 0 52px 40px; background: var(--dark);
+    border-radius: var(--r); padding: 26px 30px;
+    display: grid; grid-template-columns: repeat(3, 1fr) 180px;
+    gap: 0; overflow: hidden;
+  }
+  .arc-step {
+    padding: 16px 20px; border-right: 1px solid rgba(255,255,255,0.08); position: relative;
+  }
+  .arc-step:last-child { border-right: none; }
+  .arc-step-num { font-size: 10px; font-weight: 700; letter-spacing: 2px; color: var(--lime); margin-bottom: 6px; }
+  .arc-step-beat { font-size: 15px; font-weight: 800; color: white; margin-bottom: 6px; }
+  .arc-step-desc { font-size: 12.5px; line-height: 1.55; color: rgba(255,255,255,0.55); }
+  .arc-arrow { position: absolute; right: -10px; top: 50%; transform: translateY(-50%); color: var(--lime); font-size: 16px; z-index: 2; }
+
+  /* SCENE PANELS */
+  .panels { margin: 0 52px 44px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .panels-3 { margin: 0 52px 44px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; }
+
+  .panel {
+    background: white; border-radius: var(--r); overflow: hidden;
+    box-shadow: 0 3px 16px rgba(0,0,0,0.09);
+    display: flex; flex-direction: column;
+  }
+  .panel-hdr {
+    padding: 13px 18px; display: flex;
+    align-items: center; justify-content: space-between;
+  }
+  .panel-hdr.setup { background: #2D1B00; }
+  .panel-hdr.test-gloria { background: #3D1800; }
+  .panel-hdr.test-ana { background: #0A3D20; }
+  .panel-hdr.result { background: #1A2B1A; }
+  .panel-hdr.slate { background: #1C1C1C; }
+  .panel-hdr.split { background: linear-gradient(90deg, #3D1800 50%, #0A3D20 50%); }
+
+  .ph-left .scene-num { font-size: 10px; font-weight: 700; letter-spacing: 2px; margin-bottom: 3px; }
+  .panel-hdr.setup .scene-num { color: var(--orange); }
+  .panel-hdr.test-gloria .scene-num { color: #FF9966; }
+  .panel-hdr.test-ana .scene-num { color: var(--lime); }
+  .panel-hdr.result .scene-num { color: var(--lime); }
+  .panel-hdr.slate .scene-num { color: #999; }
+  .panel-hdr.split .scene-num { color: var(--lime); }
+
+  .ph-left .scene-name { font-size: 17px; font-weight: 900; color: white; }
+  .ph-right { text-align: right; }
+  .timecode {
+    font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.07); padding: 4px 10px; border-radius: 20px;
+  }
+
+  .panel-visual {
+    aspect-ratio: 9/10; overflow: hidden; position: relative; background: #111;
+  }
+  .panel-visual-split {
+    aspect-ratio: 9/10; overflow: hidden; position: relative; background: #111;
+    display: grid; grid-template-columns: 1fr 1fr;
+  }
+  .split-side {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 20px; gap: 12px;
+  }
+  .split-side.gloria { background: #1A0A00; }
+  .split-side.ana { background: #0A1F12; }
+  .split-divider { width: 2px; background: rgba(255,255,255,0.15); flex-shrink: 0; }
+  .split-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  }
+  .split-side.gloria .split-label { color: #FF9966; }
+  .split-side.ana .split-label { color: var(--lime); }
+  .split-desc {
+    font-size: 13px; text-align: center; line-height: 1.5; color: rgba(255,255,255,0.7);
+  }
+  .split-icon { font-size: 32px; }
+  .split-count {
+    font-size: 28px; font-weight: 900; color: #FF9966;
+  }
+  .split-one {
+    font-size: 28px; font-weight: 900; color: var(--lime);
+  }
+
+  .panel-visual img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .panel-visual-placeholder {
+    aspect-ratio: 9/10; background: #111; display: flex;
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 12px; padding: 20px;
+  }
+  .pv-icon { font-size: 40px; }
+  .pv-label { font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 1px; text-align: center; line-height: 1.5; }
+  .framing-badge {
+    position: absolute; top: 10px; right: 10px;
+    background: rgba(0,0,0,0.6); color: white;
+    font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; letter-spacing: 1px;
+  }
+
+  .panel-body { padding: 20px 22px 24px; flex: 1; display: flex; flex-direction: column; gap: 16px; }
+
+  .beats-list { display: flex; flex-direction: column; gap: 10px; }
+  .beat { display: flex; gap: 12px; align-items: flex-start; }
+  .beat-tc {
+    flex-shrink: 0; font-size: 10px; font-weight: 700; color: white;
+    padding: 3px 7px; border-radius: 4px; margin-top: 1px; letter-spacing: 0.5px; white-space: nowrap;
+  }
+  .beat-tc.b-orange { background: var(--orange); }
+  .beat-tc.b-green { background: var(--green); }
+  .beat-tc.b-dark { background: #444; }
+  .beat-text { font-size: 14px; line-height: 1.6; color: var(--mid); }
+  .beat-text strong { color: var(--dark); }
+
+  .panel-vo {
+    background: #F8FAF7; border-left: 3px solid var(--green);
+    border-radius: 0 6px 6px 0; padding: 12px 16px;
+  }
+  .vo-label { font-size: 9.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--green); margin-bottom: 6px; }
+  .vo-text { font-size: 14px; line-height: 1.6; color: var(--dark); font-style: italic; }
+
+  .panel-note {
+    background: #FFF8F0; border-left: 3px solid var(--orange);
+    border-radius: 0 6px 6px 0; padding: 12px 16px;
+  }
+  .note-label { font-size: 9.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin-bottom: 6px; }
+  .note-text { font-size: 13px; line-height: 1.6; color: var(--mid); }
+
+  .key-moment {
+    background: #ECFDF5; border: 1.5px solid var(--lime);
+    border-radius: 8px; padding: 14px 16px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .km-icon { font-size: 20px; flex-shrink: 0; }
+  .km-label { font-size: 9.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--green); margin-bottom: 5px; }
+  .km-text { font-size: 14px; line-height: 1.55; color: var(--dark); }
+
+  /* CHARACTER BIBLES */
+  .char-grid { margin: 0 52px 44px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .char-card {
+    background: white; border-radius: var(--r); overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  }
+  .char-hdr {
+    padding: 16px 22px; display: flex; align-items: center; gap: 16px;
+  }
+  .char-hdr.gloria-hdr { background: #2D1B00; }
+  .char-hdr.ana-hdr { background: #0A3D20; }
+  .char-avatar {
+    width: 52px; height: 52px; border-radius: 50%;
+    font-size: 22px; display: flex; align-items: center; justify-content: center;
+  }
+  .char-hdr.gloria-hdr .char-avatar { background: #5A2800; }
+  .char-hdr.ana-hdr .char-avatar { background: #145A32; }
+  .char-name { font-size: 20px; font-weight: 900; color: white; }
+  .char-role { font-size: 12px; opacity: 0.65; color: white; margin-top: 2px; }
+  .char-body { padding: 20px 22px; display: flex; flex-direction: column; gap: 12px; }
+  .char-row { font-size: 14px; line-height: 1.65; color: var(--mid); }
+  .char-row strong { color: var(--dark); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; display: block; margin-bottom: 3px; }
+  .char-rule { font-size: 12px; font-weight: 700; color: var(--orange); background: #FFF8F0; padding: 8px 12px; border-radius: 6px; }
+
+  /* PRODUCTION BLOCK */
+  .prod-grid { margin: 0 52px 44px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .prod-card { background: white; border-radius: var(--r); padding: 18px 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .prod-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--light); margin-bottom: 8px; }
+  .prod-value { font-size: 16px; font-weight: 800; color: var(--dark); line-height: 1.3; }
+  .prod-sub { font-size: 12px; color: var(--mid); margin-top: 4px; }
+
+  /* IMAGE WELL */
+  .image-wells { margin: 0 52px 44px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  .image-well {
+    background: white; border-radius: var(--r); overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  }
+  .well-slot {
+    aspect-ratio: 4/5; background: #F0F2ED;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 10px; padding: 20px; position: relative;
+  }
+  .well-slot-num {
+    position: absolute; top: 12px; left: 12px;
+    background: var(--green); color: white;
+    font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px;
+  }
+  .well-slot-icon { font-size: 36px; }
+  .well-slot-label { font-size: 13px; color: var(--light); text-align: center; line-height: 1.5; }
+  .well-foot { padding: 14px 16px; }
+  .well-type { font-size: 9.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--green); margin-bottom: 4px; }
+  .well-desc { font-size: 13px; color: var(--mid); line-height: 1.5; }
+
+  /* FOOTER */
+  .footer {
+    margin: 52px 52px 0;
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 20px; border-top: 1px solid var(--rule);
+  }
+  .footer-brand { font-size: 13px; color: var(--light); }
+  .footer-brand strong { color: var(--mid); }
+  .footer-status {
+    font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    background: #ECFDF5; color: var(--green); padding: 6px 14px; border-radius: 20px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="hdr-left">
+      <div class="hdr-dot">02</div>
+      <div>
+        <div class="hdr-brand">ACO Pine Gel — Story 02</div>
+        <div class="hdr-sub">Angola · Portuguese · Social Film · 2026-07-02</div>
+      </div>
+    </div>
+    <div class="hdr-right">
+      <strong>O Teste da Gordura</strong>
+      "Which one actually works?"
+    </div>
+  </div>
+
+  <!-- ORANGE BAR -->
+  <div class="arc-bar">
+    <div class="arc-tagline">"Só Precisas de Um." · The Grease Test</div>
+    <div class="arc-meta">22 seconds · 3 scenes · 9:16 · TikTok / Instagram Reels</div>
+  </div>
+
+  <!-- STORY BRIEF -->
+  <div class="sec">Story Brief</div>
+  <div class="story-brief">
+    <div class="brief-col">
+      <div class="brief-col-label">The Story</div>
+      <div class="brief-col-title">Two stovetops.<br>One winner.</div>
+      <p>Glória and Ana receive the same challenge: a stovetop caked in heavy cooking grease. Glória reaches for her arsenal of specialised products and scrubs hard. Ana measures one ACO tub at 1:1 and clears the surface in a single pass — teaching the audience the right ratio as they watch it work.</p>
+    </div>
+    <div class="brief-col">
+      <div class="brief-col-label">Why It Works · Audience</div>
+      <div class="brief-col-title">The ratio is the hook.</div>
+      <p>Every household has a version of Glória's cleaning frustration. The scroll stops at <em>Um para um</em> — a piece of practical knowledge delivered inside a story that already has their attention. They leave having learned something, not just having seen something.</p>
+    </div>
+    <div class="brief-col">
+      <div class="brief-col-label">Why It Works · Brand</div>
+      <div class="brief-col-title">"Só Precisas de Um" under pressure.</div>
+      <p>Heavy grease is the hardest case. If one tub clears it in a single pass, it clears everything. This story proves the campaign truth — not by claiming it, but by showing it happen in real time, on the hardest surface in the kitchen.</p>
+    </div>
+  </div>
+
+  <!-- RATIO CALLOUT -->
+  <div class="ratio-callout">
+    <div class="ratio-pill">1:1</div>
+    <div class="ratio-body">
+      <div class="ratio-label">Education Moment · Embedded in Scene 02</div>
+      <div class="ratio-title">Gel to Water — Heavy Grease Ratio</div>
+      <div class="ratio-desc">Ana holds the bowl to camera and names it: <em>"Um para um — gordura pesada."</em> This is the dilution ratio for heavy grease. It is said once, clearly, while the audience is already watching. It becomes product knowledge without becoming a tutorial.</div>
+      <div class="ratio-line">"Um para um — gordura pesada."</div>
+    </div>
+  </div>
+
+  <!-- ARC OVERVIEW -->
+  <div class="sec">Story Arc</div>
+  <div class="arc-overview">
+    <div class="arc-step">
+      <div class="arc-step-num">01 · 0:00–0:05</div>
+      <div class="arc-step-beat">The Setup</div>
+      <div class="arc-step-desc">Two identical stovetops. Both greased. Both women ready. The challenge is the same — the approach will not be.</div>
+      <div class="arc-arrow">→</div>
+    </div>
+    <div class="arc-step">
+      <div class="arc-step-num">02 · 0:05–0:17</div>
+      <div class="arc-step-beat">The Test</div>
+      <div class="arc-step-desc">Glória: three products, switching, scrubbing. Ana: one tub, measures 1:1 on camera, names the ratio, one pass. Surface clears.</div>
+      <div class="arc-arrow">→</div>
+    </div>
+    <div class="arc-step">
+      <div class="arc-step-num">03 · 0:17–0:22</div>
+      <div class="arc-step-beat">The Result</div>
+      <div class="arc-step-desc">Glória still scrubbing. Ana's stovetop gleaming. Ana looks at us, one finger up. The story is finished before the scene is.</div>
+      <div class="arc-arrow">→</div>
+    </div>
+    <div class="arc-step">
+      <div class="arc-step-num">END · 0:22–0:27</div>
+      <div class="arc-step-beat">End Slate</div>
+      <div class="arc-step-desc">ACO tub. Ratio graphic: 1:1 · Gordura Pesada. Logo. "Só Precisas de Um."</div>
+    </div>
+  </div>
+
+  <!-- CHARACTER BIBLES -->
+  <div class="sec">Characters</div>
+  <div class="char-grid">
+    <div class="char-card">
+      <div class="char-hdr gloria-hdr">
+        <div class="char-avatar">👗</div>
+        <div>
+          <div class="char-name">Glória</div>
+          <div class="char-role">The Contrast · Late 30s · Luanda</div>
+        </div>
+      </div>
+      <div class="char-body">
+        <div class="char-row">
+          <strong>Who She Is</strong>
+          Organised, capable, proud of her home. She buys what the market tells her to buy — a different product for every surface. She is not foolish. She is just not yet Ana.
+        </div>
+        <div class="char-row">
+          <strong>Look</strong>
+          Long straight hair, gold-burgundy wax kaftan. Warm, funny, relatable. Energy: busy, capable, slightly harried.
+        </div>
+        <div class="char-row">
+          <strong>In This Story</strong>
+          Switches between degreaser spray, dish soap, and multi-surface foam. Scrubs hard. The grease resists. She is not defeated — she is still fighting when Ana is already done.
+        </div>
+        <div class="char-rule">⚠ Never make her a fool. She is the audience. Most of them are Glória.</div>
+      </div>
+    </div>
+    <div class="char-card">
+      <div class="char-hdr ana-hdr">
+        <div class="char-avatar">🌿</div>
+        <div>
+          <div class="char-name">Ana</div>
+          <div class="char-role">The Hero · Early 30s · Luanda</div>
+        </div>
+      </div>
+      <div class="char-body">
+        <div class="char-row">
+          <strong>Who She Is</strong>
+          Moves with quiet confidence. She figured something out and it shows — not smugly, just cleanly. She carries ACO the way someone carries a thing that actually works.
+        </div>
+        <div class="char-row">
+          <strong>Look</strong>
+          Natural afro, teal-gold wax dress. Clean lines, natural ease. Less friction in her environment than in Glória's.
+        </div>
+        <div class="char-row">
+          <strong>In This Story</strong>
+          Sets out one ACO tub. Pours 1:1, holds it up, names the ratio. One cloth, one pass. Doesn't look at Glória. Looks at us.
+        </div>
+        <div class="char-rule">⚠ Never make her cold or superior. She is where Glória is going. She's sharing, not winning.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE PANELS -->
+  <div class="sec">Scene Breakdown</div>
+  <div class="panels">
+
+    <!-- SCENE 01 -->
+    <div class="panel">
+      <div class="panel-hdr setup">
+        <div class="ph-left">
+          <div class="scene-num">SCENE 01 · THE SETUP</div>
+          <div class="scene-name">O Mesmo Fogão</div>
+        </div>
+        <div class="ph-right"><span class="timecode">0:00 – 0:05</span></div>
+      </div>
+      <div class="panel-visual-split">
+        <div class="split-side gloria">
+          <div class="split-label">Glória</div>
+          <div class="split-icon">🍳</div>
+          <div class="split-desc">Heavily greased stovetop. Products lined on the counter. She looks at camera — confident.</div>
+        </div>
+        <div class="split-side ana">
+          <div class="split-label">Ana</div>
+          <div class="split-icon">🍳</div>
+          <div class="split-desc">Identical stovetop. One ACO tub. She looks at camera — the same nod.</div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="beats-list">
+          <div class="beat">
+            <span class="beat-tc b-dark">0:00</span>
+            <div class="beat-text"><strong>Hard cut — split frame or fast parallel cut.</strong> Two identical kitchens, two identical problems. The challenge is stated visually, not explained.</div>
+          </div>
+          <div class="beat">
+            <span class="beat-tc b-orange">0:03</span>
+            <div class="beat-text">Title card drops (optional): <em>"O mesmo fogão. O mesmo problema."</em> — one second, then gone.</div>
+          </div>
+          <div class="beat">
+            <span class="beat-tc b-dark">0:05</span>
+            <div class="beat-text">Both women look to camera. Both give the same quiet nod. Challenge accepted.</div>
+          </div>
+        </div>
+        <div class="panel-vo">
+          <div class="vo-label">Voice Over</div>
+          <div class="vo-text">None. The image carries the setup without explanation.</div>
+        </div>
+        <div class="panel-note">
+          <div class="note-label">Director's Note</div>
+          <div class="note-text">The split-frame is a format choice — either a literal split screen or rapid parallel cuts (Glória / Ana / Glória / Ana) building pace. The stovetops must be identically greased. Same amount, same surface, same light. The only variable is what each woman reaches for.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENE 02 -->
+    <div class="panel">
+      <div class="panel-hdr split">
+        <div class="ph-left">
+          <div class="scene-num">SCENE 02 · THE TEST</div>
+          <div class="scene-name">O Teste</div>
+        </div>
+        <div class="ph-right"><span class="timecode">0:05 – 0:17</span></div>
+      </div>
+      <div class="panel-visual-split">
+        <div class="split-side gloria">
+          <div class="split-label">Glória</div>
+          <div class="split-icon">💪</div>
+          <div class="split-count">3</div>
+          <div class="split-desc">Three products. Switching. Scrubbing. The grease resists.</div>
+        </div>
+        <div class="split-side ana">
+          <div class="split-label">Ana</div>
+          <div class="split-icon">🟢</div>
+          <div class="split-one">1</div>
+          <div class="split-desc">One tub. Measures 1:1. Holds to camera. Names it. One pass.</div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="key-moment">
+          <div class="km-icon">🎯</div>
+          <div>
+            <div class="km-label">Education Beat — Lock This</div>
+            <div class="km-text">Ana pours gel into a small bowl. Adds equal water. <strong>Holds the bowl toward camera.</strong> Looks at us and says: <em>"Um para um — gordura pesada."</em> This is the scene's purpose. Everything else is context for this moment.</div>
+          </div>
+        </div>
+        <div class="beats-list">
+          <div class="beat">
+            <span class="beat-tc b-dark">0:05</span>
+            <div class="beat-text"><strong>Glória side:</strong> Picks up degreaser spray. Sprays. Scrubs hard. Checks. Not enough.</div>
+          </div>
+          <div class="beat">
+            <span class="beat-tc b-dark">0:08</span>
+            <div class="beat-text"><strong>Glória side:</strong> Switches to dish soap. Tries again. Wipes. Still resisting. She's committed, not defeated — but the grease is winning.</div>
+          </div>
+          <div class="beat">
+            <span class="beat-tc b-green">0:09</span>
+            <div class="beat-text"><strong>Ana side:</strong> Sets one ACO tub. Pours gel into small bowl. Adds equal water. Holds the bowl to camera. Eyes to camera. <em>"Um para um — gordura pesada."</em></div>
+          </div>
+          <div class="beat">
+            <span class="beat-tc b-green">0:13</span>
+            <div class="beat-text"><strong>Ana side:</strong> Dips cloth. One pass across the stovetop. The grease lifts completely. She wipes again to show the surface — clean, dry, done.</div>
+          </div>
+          <div class="beat">
+            <span class="beat-tc b-dark">0:15</span>
+            <div class="beat-text"><strong>Glória side:</strong> Reaching for third product — multi-surface foam. Still at it.</div>
+          </div>
+        </div>
+        <div class="panel-vo">
+          <div class="vo-label">Voice Over · Ana (in scene, direct address)</div>
+          <div class="vo-text">"Um para um — gordura pesada." [English sub: One for one — heavy grease.]</div>
+        </div>
+        <div class="panel-note">
+          <div class="note-label">Director's Note</div>
+          <div class="note-text">The Glória and Ana beats intercut — we don't stay with one side for long stretches. Cut rhythm: Glória scrubs / Ana measures / Glória switches / Ana speaks to camera / Ana clears. The contrast must feel simultaneous. Ana's ratio delivery (0:09–0:12) gets uninterrupted time — don't cut away from her face mid-sentence.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE 03 + END SLATE -->
+  <div class="panels-3">
+
+    <!-- SCENE 03 -->
+    <div class="panel" style="grid-column: span 2;">
+      <div class="panel-hdr result">
+        <div class="ph-left">
+          <div class="scene-num">SCENE 03 · THE RESULT</div>
+          <div class="scene-name">O Resultado</div>
+        </div>
+        <div class="ph-right"><span class="timecode">0:17 – 0:22</span></div>
+      </div>
+      <div class="panel-visual-split" style="aspect-ratio: 16/7;">
+        <div class="split-side gloria">
+          <div class="split-label">Glória · Still Working</div>
+          <div class="split-icon">💦</div>
+          <div class="split-desc">Scrubbing. Third product. Grease still visible. She is not giving up — she just hasn't won yet.</div>
+        </div>
+        <div class="split-side ana">
+          <div class="split-label">Ana · Done</div>
+          <div class="split-icon">✨</div>
+          <div class="split-desc">Clean stovetop behind her. She doesn't look at Glória. One finger up to camera. Quiet smile. That's all.</div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="beats-list">
+          <div class="beat">
+            <span class="beat-tc b-dark">0:17</span>
+            <div class="beat-text"><strong>Glória:</strong> Third product in hand, still scrubbing. The grease is shifting but the work is still visible. No defeat in her — this is just where she is.</div>
+          </div>
+          <div class="beat">
+            <span class="beat-tc b-green">0:17</span>
+            <div class="beat-text"><strong>Ana:</strong> Steps back. Stovetop gleaming behind her. She doesn't look at Glória. Doesn't gloat. She looks at us. Raises one finger. Quiet, warm smile.</div>
+          </div>
+          <div class="beat">
+            <span class="beat-tc b-green">0:20</span>
+            <div class="beat-text">Hold on Ana's face — two seconds. The story finishes here before the scene does. Then cut to end slate.</div>
+          </div>
+        </div>
+        <div class="panel-vo">
+          <div class="vo-label">Voice Over</div>
+          <div class="vo-text">None. Ana's expression and the clean surface are the close. Silence for two seconds before the end slate.</div>
+        </div>
+        <div class="panel-note">
+          <div class="note-label">Director's Note</div>
+          <div class="note-text">The final shot is Ana's face, not the stovetop. The stovetop confirmed the product. The face completes the emotional arc. One finger up = "I told you." But the warmth in her eyes says "and now you know too." Do not end on a shot of the clean surface — that's a product demo ending. End on the person.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- END SLATE -->
+    <div class="panel">
+      <div class="panel-hdr slate">
+        <div class="ph-left">
+          <div class="scene-num">END SLATE</div>
+          <div class="scene-name">Packshot</div>
+        </div>
+        <div class="ph-right"><span class="timecode">0:22 – 0:27</span></div>
+      </div>
+      <div class="panel-visual-placeholder">
+        <div class="pv-icon">🟢</div>
+        <div class="pv-label">ACO Pine Gel tub<br>centred, white background<br>label forward, full read</div>
+      </div>
+      <div class="panel-body">
+        <div class="beats-list">
+          <div class="beat">
+            <span class="beat-tc b-green">0:22</span>
+            <div class="beat-text"><strong>White cut.</strong> ACO Pine Gel tub rises in from bottom. Label fills 40% of frame. Clean. Confident.</div>
+          </div>
+          <div class="beat">
+            <span class="beat-tc b-green">0:24</span>
+            <div class="beat-text">Ratio graphic builds: <strong>1:1 · Gordura Pesada / Heavy Grease</strong></div>
+          </div>
+          <div class="beat">
+            <span class="beat-tc b-dark">0:25</span>
+            <div class="beat-text">ACO logo, bottom right. "Só Precisas de Um." — declarative, done.</div>
+          </div>
+        </div>
+        <div class="panel-note">
+          <div class="note-label">Pack Reference</div>
+          <div class="note-text">Media ID: <code>c13eafbe-f313-4ef4-8954-034e6c040104</code> (Pine 500ml). Always include as reference. Do not describe the label in prompt text — the reference IS the label.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCTION SPECS -->
+  <div class="sec">Production Specs</div>
+  <div class="prod-grid">
+    <div class="prod-card">
+      <div class="prod-label">Format</div>
+      <div class="prod-value">9:16 Vertical</div>
+      <div class="prod-sub">TikTok · Reels · Stories</div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-label">Duration</div>
+      <div class="prod-value">22 seconds</div>
+      <div class="prod-sub">+ 5s end slate = 27s total</div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-label">Video Model</div>
+      <div class="prod-value">Seedance 2.0</div>
+      <div class="prod-sub">Drama · Audio off · 22.5 cr/clip</div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-label">Image Model</div>
+      <div class="prod-value">Nano Banana Pro</div>
+      <div class="prod-sub">3 stills + 1 motion prompt</div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-label">Language</div>
+      <div class="prod-value">Portuguese</div>
+      <div class="prod-sub">Angola market · PT primary</div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-label">VO</div>
+      <div class="prod-value">ElevenLabs</div>
+      <div class="prod-sub">Post-production overlay</div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-label">Gloria Ref</div>
+      <div class="prod-value" style="font-size:11px; font-family: monospace;">be063806-ff1b-<br>469b-8934-f46b</div>
+      <div class="prod-sub">Higgsfield media ID</div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-label">Ana Ref</div>
+      <div class="prod-value" style="font-size:11px; font-family: monospace;">61d49f35-8b8d-<br>487f-a461-f3ea</div>
+      <div class="prod-sub">Higgsfield media ID</div>
+    </div>
+  </div>
+
+  <!-- IMAGE WELLS -->
+  <div class="sec">Image Prompts — To Build</div>
+  <div class="image-wells">
+    <div class="image-well">
+      <div class="well-slot">
+        <div class="well-slot-num">IMG 01</div>
+        <div class="well-slot-icon">🍳</div>
+        <div class="well-slot-label">Scene 01 — The Setup<br>Both women at their stovetops<br>Wide two-shot or split frame</div>
+      </div>
+      <div class="well-foot">
+        <div class="well-type">Nano Banana Pro · Still</div>
+        <div class="well-desc">Glória left (products lined up), Ana right (one tub). Both looking to camera. Identical greased stovetops. Angolan domestic kitchen, warm daylight.</div>
+      </div>
+    </div>
+    <div class="image-well">
+      <div class="well-slot">
+        <div class="well-slot-num">IMG 02</div>
+        <div class="well-slot-icon">🟢</div>
+        <div class="well-slot-label">Scene 02 — Ana's Ratio<br>Bowl to camera, ratio in frame<br>Close-medium, direct address</div>
+      </div>
+      <div class="well-foot">
+        <div class="well-type">Nano Banana Pro · Still</div>
+        <div class="well-desc">Ana holds small white bowl (ACO gel + water, 1:1 visible). Eyes direct to camera. "Um para um" can appear as text overlay if needed. Confident, warm, teaching.</div>
+      </div>
+    </div>
+    <div class="image-well">
+      <div class="well-slot">
+        <div class="well-slot-num">MOTION</div>
+        <div class="well-slot-icon">🎬</div>
+        <div class="well-slot-label">Scene 03 — Ana's Close<br>Stovetop clean, one finger up<br>Seedance motion prompt</div>
+      </div>
+      <div class="well-foot">
+        <div class="well-type">Seedance 2.0 · Motion</div>
+        <div class="well-desc">Ana steps back from gleaming stovetop, raises one finger to camera, warm quiet smile. 3-second clip. 9:16. No VO baked in. Generate audio: false.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-brand">
+      <strong>ACO Pine Gel · Story 02 · O Teste da Gordura</strong><br>
+      CENTREFREE for Shalina Healthcare · Angola · 2026-07-02
+    </div>
+    <div class="footer-status">Brief · Pending Production</div>
+  </div>
+
+</div>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

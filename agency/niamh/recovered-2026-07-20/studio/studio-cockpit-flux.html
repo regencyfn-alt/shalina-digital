@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Cockpit — InfoCube</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --canvas:#F4EFE6; --dot:rgba(120,104,80,.10); --panel:#FFFDFA;
+  --ink:#2C2733; --muted:#857E92; --line:#ECE6DA;
+  --shadow:0 12px 34px rgba(74,62,46,.12); --shadow-lift:0 22px 54px rgba(74,62,46,.20);
+  --c-write:#6E7AE0; --c-write-tint:#ECEEFB; --c-write-ink:#4954B8;
+  --c-board:#D9A23B; --c-board-tint:#FBF3E2; --c-board-ink:#9C6E16;
+  --c-image:#E0719B; --c-image-tint:#FBEAF1; --c-image-ink:#B14E76;
+  --c-movie:#46B98A; --c-movie-tint:#E6F6EE; --c-movie-ink:#2C8A63;
+  --ok:#2C8A63; --err:#C0466A;
+  --r:16px; --r-sm:10px;
+  --serif:'Playfair Display',Georgia,serif; --sans:'Inter',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{font-family:var(--sans); color:var(--ink); overflow:hidden;
+  background:radial-gradient(120% 80% at 85% -10%,rgba(110,122,224,.10),transparent 55%),
+    radial-gradient(100% 70% at 0% 110%,rgba(224,113,155,.08),transparent 55%),var(--canvas);}
+
+.topbar{position:fixed; top:0; left:0; right:0; height:56px; z-index:100; display:flex; align-items:center; gap:18px;
+  padding:0 22px; background:rgba(255,253,250,.82); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+.brand{display:flex; align-items:center; gap:11px;}
+.brand .mark{width:30px;height:30px;}
+.brand .name{font-family:var(--serif); font-weight:700; font-size:20px;}
+.brand .name b{color:var(--c-image-ink);}
+.brand .sub{font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); padding-top:3px;}
+.proj{margin-left:6px; font-size:12.5px; color:var(--muted);} .proj b{color:var(--ink); font-weight:600;}
+.spacer{flex:1;}
+.legend{display:flex; gap:13px; align-items:center; font-size:11px; color:var(--muted);}
+.legend .lg{display:flex; align-items:center; gap:6px;} .legend .sw{width:9px;height:9px;border-radius:50%;}
+.keybtn{font-size:11.5px; color:var(--muted); border:1px solid var(--line); padding:6px 11px; border-radius:20px; background:#fff; cursor:pointer;}
+.keybtn b{color:var(--c-movie-ink);}
+
+.canvas{position:fixed; inset:56px 0 0 0; background-image:radial-gradient(var(--dot) 1.4px, transparent 1.4px); background-size:26px 26px; overflow:hidden;}
+#wires{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:1;}
+
+.panel{position:absolute; z-index:5; width:340px; background:var(--panel); border:1px solid var(--line);
+  border-radius:var(--r); box-shadow:var(--shadow); display:flex; flex-direction:column; max-height:calc(100vh - 90px);}
+.panel.dragging{box-shadow:var(--shadow-lift);}
+.panel.resizing{box-shadow:var(--shadow-lift);}
+.panel{min-width:250px; min-height:170px;}
+.resize{position:absolute; right:0; bottom:0; width:20px; height:20px; cursor:nwse-resize; z-index:7; touch-action:none;}
+.resize::after{content:""; position:absolute; right:4px; bottom:4px; width:9px; height:9px; border-right:2.4px solid var(--accent); border-bottom:2.4px solid var(--accent); border-bottom-right-radius:3px; opacity:.5;}
+.resize:hover::after{opacity:1;}
+.panel-head{display:flex; align-items:center; gap:9px; padding:11px 13px; cursor:grab; user-select:none; border-bottom:1px solid var(--line); background:var(--tint); border-radius:var(--r) var(--r) 0 0;}
+.panel-head:active{cursor:grabbing;}
+.grip{color:var(--muted); font-size:15px; opacity:.7;}
+.dot{width:9px;height:9px;border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px var(--tint);}
+.p-title{font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.4px; color:var(--accent-ink);}
+.p-tag{margin-left:auto; font-size:10px; color:var(--muted); background:#fff; border:1px solid var(--line); padding:3px 8px; border-radius:14px;}
+.panel-body{padding:14px; display:flex; flex-direction:column; gap:12px; overflow-y:auto; flex:1 1 auto; min-height:0;}
+
+.lbl{font-size:10.5px; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-bottom:6px; display:block;}
+textarea,input,select{width:100%; font-family:inherit; font-size:13px; color:var(--ink); background:#FCFAF6; border:1px solid var(--line); border-radius:var(--r-sm); padding:10px 11px; line-height:1.5;}
+textarea{resize:vertical; min-height:60px;}
+textarea:focus,input:focus,select:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--tint);}
+.row{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
+.btn{font-family:inherit; font-size:12.5px; font-weight:600; padding:9px 15px; border-radius:var(--r-sm); border:none; cursor:pointer; color:#fff; background:var(--accent);}
+.btn:hover{filter:brightness(1.04);} .btn:disabled{opacity:.45; cursor:not-allowed;}
+.btn.ghost{background:#fff; color:var(--accent-ink); border:1px solid var(--accent);}
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:20px; overflow:hidden; background:#fff;}
+.seg button{font-family:inherit; font-size:11.5px; font-weight:600; padding:7px 12px; border:none; background:transparent; color:var(--muted); cursor:pointer;}
+.seg button.on{background:var(--accent); color:#fff;}
+.seg button:disabled{opacity:.4; cursor:not-allowed;}
+.note{font-size:11px; color:var(--muted); line-height:1.5;}
+.status{font-size:11.5px; min-height:16px; color:var(--muted);}
+.status.ok{color:var(--ok);} .status.err{color:var(--err);} .status.busy{color:var(--accent-ink);}
+.spin{display:inline-block; width:11px;height:11px; border:2px solid rgba(0,0,0,.15); border-top-color:var(--accent); border-radius:50%; animation:sp .7s linear infinite; vertical-align:middle; margin-right:5px;}
+@keyframes sp{to{transform:rotate(360deg);}}
+.warn{font-size:11px; line-height:1.5; background:#FBF3E2; border:1px solid #E9D7A6; color:#8A6310; border-radius:8px; padding:8px 10px;}
+
+.gallery{display:grid; grid-template-columns:repeat(3,1fr); gap:9px;}
+.cell{aspect-ratio:9/16; border-radius:9px; border:1px solid var(--line); position:relative; overflow:hidden; background:#FCFAF6;}
+.cell img{width:100%;height:100%;object-fit:cover; display:block; cursor:zoom-in;}
+.cell.empty{display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:10px; border-style:dashed;}
+.cell .acts{position:absolute; bottom:6px; left:6px; right:6px; display:flex; gap:5px; justify-content:center; opacity:0; transition:.15s;}
+.cell:hover .acts{opacity:1;}
+.mini{font-size:10px; font-weight:600; background:rgba(255,255,255,.92); border:1px solid var(--line); border-radius:7px; padding:3px 7px; cursor:pointer; color:var(--ink);}
+.mini.ref{color:var(--c-image-ink);}
+.cell.is-ref{outline:2.5px solid var(--c-image); outline-offset:-2.5px;}
+.cell.is-ref::after{content:"★ ref"; position:absolute; top:5px; right:5px; font-size:9px; font-weight:700; color:#fff; background:var(--c-image); padding:2px 6px; border-radius:9px;}
+.shelf{display:flex; gap:8px; align-items:center; border-top:1px solid var(--line); padding-top:11px;}
+.shelf .rthumb{width:26px;height:46px;border-radius:6px; border:2px solid var(--c-image); object-fit:cover; background:#FCFAF6;}
+
+.beats{display:flex; gap:9px; overflow-x:auto; min-height:120px; padding-bottom:4px;}
+.beat{flex:0 0 78px; cursor:pointer;} .beat .frame{position:relative; aspect-ratio:9/16; border-radius:8px; border:1px solid var(--line); overflow:hidden; background:#FCFAF6;}
+.beat .frame img{width:100%;height:100%;object-fit:cover;}
+.beat .cap{font-size:9.5px; color:var(--muted); margin-top:4px; text-align:center;}
+.beat.add{cursor:default;} .beat.add .frame{border-style:dashed; display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:20px;}
+.beat.sel .frame{outline:2.5px solid var(--c-movie); outline-offset:-2.5px;}
+.beat.sel .cap{color:var(--c-movie-ink); font-weight:700;}
+.beat-clip{position:absolute; top:4px; right:4px; font-size:9px; line-height:1; color:#fff; background:var(--c-movie); border-radius:8px; padding:2px 5px;}
+
+.screen{aspect-ratio:9/16; max-height:300px; border-radius:var(--r-sm); overflow:hidden; position:relative; display:flex; align-items:center; justify-content:center; border:1px solid var(--line); background:#1c1822;}
+.screen video{width:100%;height:100%;object-fit:contain; background:#000;}
+.screen .ph{position:absolute; inset:0; background:linear-gradient(150deg,#E4F6EC,#D9E6FA); display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:11px;}
+.queue{display:flex; flex-direction:column; gap:7px;}
+.q{display:flex; align-items:center; gap:9px; font-size:12px; background:#FCFAF6; border:1px solid var(--line); border-radius:9px; padding:8px 10px;}
+.q .sw{width:26px;height:34px;border-radius:6px; object-fit:cover; background:#eee; flex-shrink:0;}
+.q .nm{flex:1; min-width:0;} .q .nm b{font-size:12px;} .q .nm small{display:block; color:var(--muted); font-size:10.5px;}
+.q .st{font-size:10px; font-weight:700; text-transform:uppercase; padding:3px 8px; border-radius:10px;}
+.q .st.go{color:var(--c-movie-ink); background:var(--c-movie-tint);} .q .st.run{color:var(--c-board-ink); background:var(--c-board-tint);} .q .st.err{color:var(--err); background:#FBEAEF;}
+
+audio{width:100%; margin-top:4px;}
+
+/* gate overlay */
+.gate{position:fixed; inset:0; z-index:300; background:rgba(44,39,51,.55); backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center;}
+.gate .card{background:var(--panel); border:1px solid var(--line); border-radius:var(--r); box-shadow:var(--shadow-lift); padding:30px; width:340px; text-align:center;}
+.gate h2{font-family:var(--serif); font-size:22px; margin-bottom:6px;}
+.gate p{font-size:12.5px; color:var(--muted); margin-bottom:16px; line-height:1.5;}
+.gate input{margin-bottom:12px; text-align:center;}
+.hidden{display:none!important;}
+
+.lb{position:fixed; inset:0; background:rgba(30,24,55,.8); display:none; align-items:center; justify-content:center; z-index:200; padding:30px;}
+.lb.open{display:flex;} .lb img{max-width:90vw; max-height:88vh; border-radius:10px;}
+.hintbar{position:fixed; bottom:14px; left:50%; transform:translateX(-50%); z-index:90; font-size:11.5px; color:var(--muted);
+  background:rgba(255,253,250,.88); backdrop-filter:blur(8px); border:1px solid var(--line); border-radius:20px; padding:8px 16px; box-shadow:var(--shadow);}
+.hintbar b{color:var(--ink);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <svg class="mark" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="60" cy="60" r="56" stroke="#E0719B" stroke-width="2" opacity=".4"/>
+      <path d="M22 60c10-15 26-15 36 0-10 15-26 15-36 0z" stroke="#4954B8" stroke-width="2.6" fill="#ECEEFB"/>
+      <circle cx="40" cy="60" r="7.5" fill="#46B98A"/><circle cx="42.5" cy="57.5" r="2" fill="#fff"/>
+      <path d="M62 60c10-15 26-15 36 0-10 15-26 15-36 0z" stroke="#4954B8" stroke-width="2.6" fill="#ECEEFB"/>
+      <circle cx="80" cy="60" r="7.5" fill="#46B98A"/><circle cx="82.5" cy="57.5" r="2" fill="#fff"/>
+      <path d="M48 86c4 4 20 4 24 0" stroke="#D9A23B" stroke-width="2.6" stroke-linecap="round"/>
+    </svg>
+    <div class="name">Studio <b>·</b> Cockpit</div>
+    <span class="sub">Centre Free</span>
+  </div>
+  <span class="proj">Project · <b id="projName">Abbii — Self-Love</b></span>
+  <span class="spacer"></span>
+  <div class="legend">
+    <span class="lg"><span class="sw" style="background:var(--c-write)"></span>Write</span>
+    <span class="lg"><span class="sw" style="background:var(--c-board)"></span>Board</span>
+    <span class="lg"><span class="sw" style="background:var(--c-image)"></span>Image</span>
+    <span class="lg"><span class="sw" style="background:var(--c-movie)"></span>Movie</span>
+  </div>
+  <span class="keybtn" onclick="openGate()">staff key · <b id="keyState">—</b></span>
+</div>
+
+<div class="canvas" id="canvas">
+  <svg id="wires"></svg>
+
+  <!-- WRITING -->
+  <div class="panel" id="p-write" style="left:26px; top:20px; width:340px;" data-accent="--c-write" data-tint="--c-write-tint" data-ink="--c-write-ink">
+    <div class="panel-head"><span class="grip">⠿</span><span class="dot"></span><span class="p-title">Writing · Ideation</span><span class="p-tag">VO + ElevenLabs</span></div>
+    <div class="panel-body">
+      <div><span class="lbl">Brief</span><textarea id="brief">Abbii answers "how to love yourself without feeling selfish" — warm, sassy, ~60s, 8 beats. She lives the beat silently; the VO narrates.</textarea></div>
+      <div><span class="lbl">Voiceover script</span><textarea id="vo" style="min-height:120px;">How to love yourself without feeling selfish. Loving yourself isn't bubble baths and expensive candles. It's saying no without a guilt hangover. It's feeding your body like it deserves fuel, not punishment. Start by noticing how you talk to yourself. If it sounds like an internet troll, it's time for an upgrade. Try this. Treat yourself like someone you love and are low-key scared of disappointing. Prioritise rest, fun and boundaries like their basic hygiene. And when someone tells you self-love is selfish, smile and keep glowing. You're not selfish, you're just not everyone's emotional buffet anymore. Give us your questions in the comments and I might just answer them in a featured video.</textarea></div>
+      <div class="row">
+        <input id="voiceId" style="flex:1" placeholder="ElevenLabs voice id (blank = default)">
+        <button class="btn" id="voBtn" onclick="speakVO()">Speak VO →</button>
+      </div>
+      <div class="status" id="voStatus"></div>
+      <div id="voOut"></div>
+      <div class="note">Scan runs before every spend: flags words that trip moderation and any celebrity-likeness risk. Images carry feeling; the VO carries words.</div>
+    </div>
+  </div>
+
+  <!-- STORYBOARD -->
+  <div class="panel" id="p-board" style="left:384px; top:20px; width:360px;" data-accent="--c-board" data-tint="--c-board-tint" data-ink="--c-board-ink">
+    <div class="panel-head"><span class="grip">⠿</span><span class="dot"></span><span class="p-title">Storyboard · Campaign</span><span class="p-tag">the shape</span></div>
+    <div class="panel-body">
+      <span class="lbl">Beats — send stills here from the library (→ board)</span>
+      <div class="beats" id="beats"><div class="beat add"><div class="frame">+</div><div class="cap">empty</div></div></div>
+      <div class="row" style="justify-content:space-between;">
+        <span class="note" id="beatCount">0 beats</span>
+        <button class="btn ghost" title="MP4 stitch needs the /studio/compile endpoint — not built yet" disabled>Export MP4 (soon)</button>
+      </div>
+      <div class="note">Click a beat to load it into the Movie screen — each beat keeps its own motion prompt and clip. Order with drag (v2). Final MP4 stitch + score is the one piece still to build server-side.</div>
+    </div>
+  </div>
+
+  <!-- IMAGE LIBRARY -->
+  <div class="panel" id="p-image" style="left:26px; top:392px; width:340px;" data-accent="--c-image" data-tint="--c-image-tint" data-ink="--c-image-ink">
+    <div class="panel-head"><span class="grip">⠿</span><span class="dot"></span><span class="p-title">Image Library</span><span class="p-tag">Nano Banana Pro</span></div>
+    <div class="panel-body">
+      <div class="row" style="justify-content:space-between;">
+        <div class="seg"><button class="on">Nano Banana Pro</button><button disabled title="secondary path — not wired yet">GPT-2</button></div>
+        <select id="imgRatio" style="width:auto"><option>9:16</option><option>16:9</option><option>1:1</option><option>3:4</option></select>
+      </div>
+      <div><span class="lbl">Image prompt</span><textarea id="imgPrompt">A high-fashion editorial 9:16 photograph of Abbii, close-cropped messy pixie cut, sharp couture, warm tungsten light, soft skin texture, editorial realism. Phone screen shows a soft notification glow, no readable text. Canon R5, 50mm f/1.4, pastel colour grade.</textarea></div>
+      <div class="row">
+        <select id="imgRes" style="width:auto"><option value="1K">1K · draft</option><option value="2K">2K</option><option value="4K">4K · final</option></select>
+        <select id="imgCount" style="width:auto"><option value="2">2</option><option value="1">1</option><option value="3">3</option><option value="4">4</option></select>
+        <button class="btn" id="genBtn" onclick="genImages()" style="margin-left:auto;">Generate</button>
+      </div>
+      <div class="status" id="imgStatus"></div>
+      <div id="imgWarn"></div>
+      <div class="gallery" id="gallery"></div>
+      <div class="shelf"><img id="refThumb" class="rthumb hidden"><span class="note" id="refNote">Reference shelf — hover a still, press ★ ref to lock it for video.</span></div>
+    </div>
+  </div>
+
+  <!-- MOVIE -->
+  <div class="panel" id="p-movie" style="left:384px; top:330px; width:360px;" data-accent="--c-movie" data-tint="--c-movie-tint" data-ink="--c-movie-ink">
+    <div class="panel-head"><span class="grip">⠿</span><span class="dot"></span><span class="p-title">Movie Screen</span><span class="p-tag">Seedance 2.0</span></div>
+    <div class="panel-body">
+      <div class="screen" id="screen"><div class="ph">Your clip plays here</div></div>
+      <div><span class="lbl">Motion prompt</span><textarea id="vidPrompt">Camera holds steady. Abbii exhales and softens her shoulders, a small private smile arriving. Background drifts gently. No lip-sync, no direct talking to camera.</textarea></div>
+      <div class="row" style="justify-content:space-between;">
+        <select id="vidDur" style="width:auto"><option value="auto">auto</option><option value="5">5s</option><option value="8">8s</option><option value="10">10s</option></select>
+        <div class="seg"><button class="on" data-final="0">Draft 720p</button><button data-final="1">Final 1080p</button></div>
+        <button class="btn" id="animBtn" onclick="animate()">Animate →</button>
+      </div>
+      <div class="status" id="vidStatus"></div>
+      <span class="lbl" style="margin-top:4px;">Render queue</span>
+      <div class="queue" id="queue"><span class="note">No renders yet.</span></div>
+    </div>
+  </div>
+
+  <!-- AUTO · EPISODE RUNNER -->
+  <div class="panel" id="p-run" style="left:756px; top:20px; width:330px;" data-accent="--c-write" data-tint="--c-write-tint" data-ink="--c-write-ink">
+    <div class="panel-head"><span class="grip">⠿</span><span class="dot"></span><span class="p-title">Auto · Episode Runner</span><span class="p-tag" id="runTag">8 beats</span></div>
+    <div class="panel-body">
+      <div class="note">One click runs every beat in order: still → clip. Edit a beat's two prompts inline. Draft keeps cost down; flip to Final for the real render.</div>
+      <div class="row" style="justify-content:space-between;">
+        <div class="seg" id="runTier"><button class="on" data-final="0">Draft</button><button data-final="1">Final</button></div>
+        <span class="note" id="runCost">est. —</span>
+      </div>
+      <div id="runList"></div>
+      <div class="row" style="justify-content:space-between; margin-top:2px;">
+        <button class="btn" id="runBtn" onclick="runEpisode()" style="background:var(--c-write);">▶ Run episode</button>
+        <button class="btn ghost" id="stopBtn" onclick="stopEpisode()" style="border-color:var(--err); color:var(--err);" disabled>Stop</button>
+      </div>
+      <div class="status" id="runStatus"></div>
+    </div>
+  </div>
+</div>
+
+<div class="lb" id="lb" onclick="closeLb()"><img id="lbImg" onclick="event.stopPropagation()"></div>
+
+<div class="gate" id="gate">
+  <div class="card">
+    <h2>Studio Cockpit</h2>
+    <p>Enter your staff key to unlock generation. It stays on this device and is sent only to the InfoCube API.</p>
+    <input id="gateKey" type="password" placeholder="staff key" onkeydown="if(event.key==='Enter')saveGate()">
+    <button class="btn" style="width:100%; background:var(--c-image);" onclick="saveGate()">Unlock studio</button>
+  </div>
+</div>
+
+<div class="hintbar">Drag by the <b>⠿ header</b> · drag the <b>bottom-right corner</b> to grow a panel into the main surface (<b>double-click</b> it to reset). Generation spends real credits.</div>
+
+<script>
+var API = 'https://infocube-api.vouch4us.workers.dev';
+var KEY = '';
+var images = [];        // {url}
+var selectedRef = '';
+var beats = [];        // storyboard beats: {url, motion, video} — each beat is its own animation unit
+var selectedBeatIdx = -1;
+var DEFAULT_MOTION = 'Camera holds steady. The character settles into a small, natural movement. Background drifts gently. No lip-sync, no direct talking to camera.';
+var canvas = document.getElementById('canvas');
+var svg = document.getElementById('wires');
+var panels = [].slice.call(document.querySelectorAll('.panel'));
+var zTop = 10;
+
+/* ---- staff key gate ---- */
+function openGate(){ document.getElementById('gateKey').value = KEY; document.getElementById('gate').classList.remove('hidden'); }
+function saveGate(){
+  KEY = document.getElementById('gateKey').value.trim();
+  try { localStorage.setItem('cf_cube_key', KEY); } catch(e){}
+  document.getElementById('keyState').textContent = KEY ? 'set' : '—';
+  document.getElementById('gate').classList.add('hidden');
+}
+(function initKey(){
+  try { KEY = localStorage.getItem('cf_cube_key') || ''; } catch(e){}
+  document.getElementById('keyState').textContent = KEY ? 'set' : '—';
+  if (!KEY) document.getElementById('gate').classList.remove('hidden');
+  else document.getElementById('gate').classList.add('hidden');
+})();
+
+function api(path, body){
+  return fetch(API + path, {
+    method:'POST',
+    headers:{ 'content-type':'application/json', 'x-cube-key': KEY },
+    body: JSON.stringify(body)
+  }).then(function(r){
+    if (r.status === 403) { openGate(); throw new Error('Staff key rejected — check the key.'); }
+    return r;
+  });
+}
+function setStatus(id,msg,kind){ var el=document.getElementById(id); el.className='status'+(kind?' '+kind:''); el.innerHTML=msg; }
+
+/* ---- moderation / likeness scan ---- */
+var RISKY = ['kill','dead','blood','gun','shoot','knife','drug','naked','nude','child','kid','minor','teen','schoolgirl','suicide','noose'];
+function scanText(t){
+  var low=' '+t.toLowerCase()+' '; var hits=[];
+  RISKY.forEach(function(w){ if(low.indexOf(' '+w)>-1||low.indexOf(w+' ')>-1) hits.push(w); });
+  // crude celebrity-likeness flag: "like <Capitalised Name>" or "looks like"
+  if(/\blike (a |an )?[A-Z][a-z]+ [A-Z][a-z]+/.test(t) || /looks like|resembl|celebrity/i.test(t)) hits.push('possible celebrity likeness');
+  return hits;
+}
+function warnBox(id, hits){
+  var el=document.getElementById(id);
+  if(!hits.length){ el.innerHTML=''; return false; }
+  el.innerHTML='<div class="warn">⚠ Scan flagged: <b>'+hits.join(', ')+'</b>. Rephrase before spending if these are innocent — single words can trip a rejection.</div>';
+  return true;
+}
+
+/* ---- writing: VO ---- */
+function speakVO(){
+  var text=document.getElementById('vo').value.trim();
+  if(!text){ setStatus('voStatus','Write the VO first.','err'); return; }
+  if(!KEY){ openGate(); return; }
+  scanText(text); // VO is narration; warn silently in status only if hits
+  var btn=document.getElementById('voBtn'); btn.disabled=true;
+  setStatus('voStatus','<span class="spin"></span>Synthesising on ElevenLabs…','busy');
+  var voiceId=document.getElementById('voiceId').value.trim();
+  api('/voice/synthesize', voiceId ? {text:text, voiceId:voiceId} : {text:text})
+    .then(function(r){ if(!r.ok) return r.json().then(function(d){throw new Error(d.error||('HTTP '+r.status));}); return r.blob(); })
+    .then(function(b){
+      var url=URL.createObjectURL(b);
+      document.getElementById('voOut').innerHTML='<audio controls autoplay src="'+url+'"></audio>';
+      setStatus('voStatus','✓ Voiceover ready.','ok'); btn.disabled=false;
+    })
+    .catch(function(e){ setStatus('voStatus','✗ '+e.message,'err'); btn.disabled=false; });
+}
+
+/* ---- image ---- */
+function genImages(){
+  var prompt=document.getElementById('imgPrompt').value.trim();
+  if(!prompt){ setStatus('imgStatus','Write an image prompt first.','err'); return; }
+  if(!KEY){ openGate(); return; }
+  warnBox('imgWarn', scanText(prompt));
+  var btn=document.getElementById('genBtn'); btn.disabled=true;
+  setStatus('imgStatus','<span class="spin"></span>Generating on Nano Banana Pro…','busy');
+  api('/studio/image', {
+    prompt:prompt, num_images:parseInt(document.getElementById('imgCount').value),
+    aspect_ratio:document.getElementById('imgRatio').value, resolution:document.getElementById('imgRes').value
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    btn.disabled=false;
+    if(d.error){ setStatus('imgStatus','✗ '+d.error,'err'); return; }
+    var got=d.images||[];
+    if(!got.length){ setStatus('imgStatus','No images returned.','err'); return; }
+    images = got.concat(images).slice(0,9);
+    renderGallery();
+    setStatus('imgStatus','✓ '+got.length+' still(s).','ok');
+  })
+  .catch(function(e){ btn.disabled=false; setStatus('imgStatus','✗ '+e.message,'err'); });
+}
+function renderGallery(){
+  var g=document.getElementById('gallery'), cells=[];
+  for(var i=0;i<9;i++){
+    var url=images[i];
+    if(url){
+      var ref=(url===selectedRef)?' is-ref':'';
+      cells.push('<div class="cell'+ref+'"><img src="'+url+'" onclick="openLb(\''+url+'\')">'+
+        '<div class="acts"><span class="mini" onclick="toBeat(\''+url+'\')">→ board</span>'+
+        '<span class="mini ref" onclick="useRef(\''+url+'\')">★ ref</span></div></div>');
+    } else cells.push('<div class="cell empty">empty</div>');
+  }
+  g.innerHTML=cells.join('');
+}
+function useRef(url){
+  selectedRef=url;
+  var t=document.getElementById('refThumb'); t.src=url; t.classList.remove('hidden');
+  document.getElementById('refNote').innerHTML='Reference locked — this still feeds the video.';
+  renderGallery(); drawWires();
+}
+
+/* ---- storyboard ---- */
+function toBeat(url){ beats.push({url:url, motion:'', video:''}); renderBeats(); drawWires(); }
+function renderBeats(){
+  var b=document.getElementById('beats'), out='';
+  beats.forEach(function(bt,i){
+    var sel=(i===selectedBeatIdx)?' sel':'';
+    var clip=bt.video?'<span class="beat-clip" title="clip ready">▶</span>':'';
+    out+='<div class="beat'+sel+'" onclick="selectBeat('+i+')"><div class="frame"><img src="'+bt.url+'">'+clip+'</div><div class="cap">beat '+(i+1)+'</div></div>';
+  });
+  out+='<div class="beat add"><div class="frame">+</div><div class="cap">add</div></div>';
+  b.innerHTML=out;
+  document.getElementById('beatCount').textContent=beats.length+' beat'+(beats.length===1?'':'s');
+}
+/* pick a storyboard beat → its still becomes the locked ref, its own motion loads into the Movie screen */
+function selectBeat(i){
+  if(i<0 || i>=beats.length) return;
+  selectedBeatIdx=i;
+  var bt=beats[i];
+  selectedRef=bt.url;
+  var t=document.getElementById('refThumb'); t.src=bt.url; t.classList.remove('hidden');
+  document.getElementById('refNote').innerHTML='Animating <b>beat '+(i+1)+'</b> — its still is locked as the reference.';
+  document.getElementById('vidPrompt').value = bt.motion || DEFAULT_MOTION;
+  bringFront(document.getElementById('p-movie'));
+  renderGallery(); renderBeats(); drawWires();
+}
+
+/* ---- video ---- */
+function animate(){
+  var prompt=document.getElementById('vidPrompt').value.trim();
+  if(!prompt){ setStatus('vidStatus','Write a motion prompt first.','err'); return; }
+  if(!selectedRef){ setStatus('vidStatus','Lock a reference still first (★ ref).','err'); return; }
+  if(!KEY){ openGate(); return; }
+  var final=document.querySelector('#p-movie .seg button.on').dataset.final==='1';
+  var bi = (selectedBeatIdx>=0 && beats[selectedBeatIdx] && beats[selectedBeatIdx].url===selectedRef) ? selectedBeatIdx : -1;
+  if(bi>=0) beats[bi].motion=prompt;   // persist the written motion back onto the beat
+  var btn=document.getElementById('animBtn'); btn.disabled=true;
+  setStatus('vidStatus','<span class="spin"></span>Animating on Seedance — up to a minute…','busy');
+  var qid=addQueue(selectedRef, (final?'1080p':'720p')+' · rendering');
+  api('/studio/video', { prompt:prompt, image_url:selectedRef, final:final, duration:document.getElementById('vidDur').value })
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    btn.disabled=false;
+    if(d.error){ setStatus('vidStatus','✗ '+d.error,'err'); setQueue(qid,'failed','err'); return; }
+    if(!d.video){ setStatus('vidStatus','No video returned.','err'); setQueue(qid,'failed','err'); return; }
+    document.getElementById('screen').innerHTML='<video controls autoplay loop src="'+d.video+'"></video>';
+    setQueue(qid,'ready','go', d.video);
+    if(bi>=0){ beats[bi].video=d.video; renderBeats(); }   // bind the clip to its beat
+    setStatus('vidStatus','✓ Clip ready.','ok');
+  })
+  .catch(function(e){ btn.disabled=false; setStatus('vidStatus','✗ '+e.message,'err'); setQueue(qid,'failed','err'); });
+}
+var qn=0;
+function addQueue(thumb,label){
+  var id='q'+(++qn); var q=document.getElementById('queue');
+  if(q.querySelector('.note')) q.innerHTML='';
+  var d=document.createElement('div'); d.className='q'; d.id=id;
+  d.innerHTML='<img class="sw" src="'+thumb+'"><span class="nm"><b>Clip '+qn+'</b><small>'+label+'</small></span><span class="st run">…</span>';
+  q.prepend(d); return id;
+}
+function setQueue(id,txt,kind,video){
+  var d=document.getElementById(id); if(!d) return;
+  var st=d.querySelector('.st'); st.className='st '+kind; st.textContent=txt;
+  if(video){ d.querySelector('.nm').innerHTML='<b>Clip</b><small><a href="'+video+'" download>⤓ save clip</a></small>'; }
+}
+
+/* ---- drag + wires ---- */
+panels.forEach(function(p){
+  p.style.setProperty('--accent','var('+p.dataset.accent+')');
+  p.style.setProperty('--tint','var('+p.dataset.tint+')');
+  p.style.setProperty('--accent-ink','var('+p.dataset.ink+')');
+  var head=p.querySelector('.panel-head');
+  head.addEventListener('pointerdown', function(e){
+    if(e.target.closest('button,select,input,textarea,.mini,.seg')) return;
+    bringFront(p);
+    var r=p.getBoundingClientRect(), c=canvas.getBoundingClientRect();
+    var ox=e.clientX-r.left, oy=e.clientY-r.top;
+    p.classList.add('dragging'); head.setPointerCapture(e.pointerId);
+    function mv(ev){
+      var x=Math.max(0,Math.min(ev.clientX-c.left-ox, canvas.clientWidth-p.offsetWidth));
+      var y=Math.max(0,Math.min(ev.clientY-c.top-oy, canvas.clientHeight-p.offsetHeight));
+      p.style.left=x+'px'; p.style.top=y+'px'; drawWires();
+    }
+    function up(){ p.classList.remove('dragging'); head.removeEventListener('pointermove',mv); head.removeEventListener('pointerup',up); }
+    head.addEventListener('pointermove',mv); head.addEventListener('pointerup',up);
+  });
+  p.addEventListener('pointerdown', function(){ bringFront(p); });
+  // corner resize grip → grow a panel into the main surface
+  p.dataset.defW = p.offsetWidth;
+  var grip=document.createElement('div'); grip.className='resize'; grip.title='Drag to grow · double-click to reset';
+  p.appendChild(grip);
+  grip.addEventListener('pointerdown', function(e){
+    e.preventDefault(); e.stopPropagation(); bringFront(p);
+    var c=canvas.getBoundingClientRect();
+    var sw=p.offsetWidth, sh=p.offsetHeight, sx=e.clientX, sy=e.clientY;
+    var maxW=canvas.clientWidth-p.offsetLeft-8, maxH=canvas.clientHeight-p.offsetTop-8;
+    p.classList.add('resizing'); p.style.maxHeight='none'; grip.setPointerCapture(e.pointerId);
+    function mv(ev){
+      var w=Math.max(250,Math.min(sw+(ev.clientX-sx),maxW));
+      var h=Math.max(170,Math.min(sh+(ev.clientY-sy),maxH));
+      p.style.width=w+'px'; p.style.height=h+'px'; drawWires();
+    }
+    function up(){ p.classList.remove('resizing'); grip.removeEventListener('pointermove',mv); grip.removeEventListener('pointerup',up); drawWires(); }
+    grip.addEventListener('pointermove',mv); grip.addEventListener('pointerup',up);
+  });
+  grip.addEventListener('dblclick', function(e){
+    e.preventDefault(); e.stopPropagation();
+    p.style.width=p.dataset.defW+'px'; p.style.height=''; p.style.maxHeight=''; drawWires();
+  });
+});
+function bringFront(p){ p.style.zIndex=(++zTop); }
+var links=[['p-write','p-board','--c-write'],['p-board','p-movie','--c-board'],['p-image','p-board','--c-image'],['p-image','p-movie','--c-movie']];
+function anchor(el,side){ var r=el.getBoundingClientRect(),c=canvas.getBoundingClientRect(); var x=r.left-c.left,y=r.top-c.top;
+  if(side==='r')return[x+r.width,y+46]; if(side==='l')return[x,y+46]; return[x+r.width/2,y]; }
+function drawWires(){
+  var paths='';
+  links.forEach(function(lk){
+    var a=document.getElementById(lk[0]),b=document.getElementById(lk[1]); if(!a||!b)return;
+    var ar=a.getBoundingClientRect(),br=b.getBoundingClientRect();
+    var aS=ar.left<br.left?'r':'l', bS=ar.left<br.left?'l':'r';
+    var p1=anchor(a,aS),p2=anchor(b,bS);
+    var dx=Math.abs(p2[0]-p1[0])*0.5+30, c1=p1[0]+(aS==='r'?dx:-dx), c2=p2[0]+(bS==='r'?dx:-dx);
+    var col=getComputedStyle(document.documentElement).getPropertyValue(lk[2]).trim();
+    paths+='<path d="M'+p1[0]+','+p1[1]+' C'+c1+','+p1[1]+' '+c2+','+p2[1]+' '+p2[0]+','+p2[1]+'" fill="none" stroke="'+col+'" stroke-width="2.2" stroke-dasharray="2 7" stroke-linecap="round" opacity="0.5"/>';
+    paths+='<circle cx="'+p2[0]+'" cy="'+p2[1]+'" r="3.5" fill="'+col+'"/>';
+  });
+  svg.innerHTML=paths;
+}
+document.querySelectorAll('.seg').forEach(function(sg){ sg.querySelectorAll('button').forEach(function(b){ b.addEventListener('click',function(){ if(b.disabled)return; sg.querySelectorAll('button').forEach(function(x){x.classList.remove('on');}); b.classList.add('on'); }); }); });
+function openLb(u){ document.getElementById('lbImg').src=u; document.getElementById('lb').classList.add('open'); }
+function closeLb(){ document.getElementById('lb').classList.remove('open'); }
+/* ---- auto episode runner ---- */
+var BEATS = [
+  { still:"A high-fashion editorial 9:16 photograph of Abbii at home in soft morning light, close-cropped messy pixie cut, sharp couture blazer, self-possessed and calm. Clean negative space, no readable text. Canon R5 50mm f1.4, pastel colour grade.",
+    motion:"Camera holds steady. Abbii lifts her chin and settles into stillness, quiet confidence. Background drifts gently. No lip-sync, no direct talking to camera." },
+  { still:"A high-fashion editorial 9:16 photograph of Abbii beside scented candles and a bathtub, looking pointedly unimpressed, one brow raised, sharp couture. No readable text. Canon R5 50mm pastel grade.",
+    motion:"Camera holds steady. Abbii glances at the candles and looks away, wry. Steam drifts softly. No lip-sync, no direct talking to camera." },
+  { still:"A high-fashion editorial 9:16 photograph of Abbii at her apartment door declining an invitation with a calm firm hand, composed, couture coat, doorway light. No readable text. Canon R5 50mm pastel grade.",
+    motion:"Camera holds steady. Abbii raises a calm hand and shakes her head once, unbothered. No lip-sync, no direct talking to camera." },
+  { still:"A high-fashion editorial 9:16 photograph of Abbii in a bright kitchen preparing a nourishing meal, relaxed and warm, couture-casual, soft daylight. No readable text. Canon R5 50mm pastel grade.",
+    motion:"Camera holds steady. Abbii takes a slow satisfied bite. Steam rises from the plate. No lip-sync, no direct talking to camera." },
+  { still:"A high-fashion editorial 9:16 photograph of Abbii at a mirror at night, soft phone glow on her face, catching herself mid-thought, couture. Phone screen shows a soft notification glow, no readable text. Canon R5 50mm pastel grade.",
+    motion:"Camera holds steady. Abbii softens her expression at her reflection. Light flickers gently. No lip-sync, no direct talking to camera." },
+  { still:"A high-fashion editorial 9:16 photograph of Abbii seated, one hand resting at her heart, gentle and self-kind, warm couture, low warm light. No readable text. Canon R5 50mm pastel grade.",
+    motion:"Camera holds steady. Abbii breathes in and rests her hand at her chest. No lip-sync, no direct talking to camera." },
+  { still:"A high-fashion editorial 9:16 photograph of Abbii walking confidently through a stylish crowd who glance at her, glowing and self-assured, statement couture. No readable text. Canon R5 50mm pastel grade.",
+    motion:"Camera holds steady. Abbii gives a small private smile and keeps walking. Crowd drifts softly behind. No lip-sync, no direct talking to camera." },
+  { still:"A high-fashion editorial 9:16 photograph of Abbii facing camera warmly for a call to action, inviting and bright, couture, clean backdrop. No readable text. Canon R5 50mm pastel grade.",
+    motion:"Camera holds steady. Abbii gives a warm look and a slight nod to camera. No lip-sync." }
+];
+var stopFlag=false, running=false;
+function esc(s){ return (s||'').replace(/"/g,'&quot;'); }
+function estCost(){
+  var final=document.querySelector('#runTier button.on').dataset.final==='1';
+  var img=BEATS.length*0.15;
+  var vid=BEATS.length*(final?0.3024*5:0.2419*5);
+  document.getElementById('runCost').textContent='est. $'+(img+vid).toFixed(2);
+}
+function renderRun(){
+  var el=document.getElementById('runList'), h='';
+  BEATS.forEach(function(b,i){
+    h+='<div style="border:1px solid var(--line);border-radius:9px;padding:8px;margin-bottom:7px;">'
+      +'<div class="row" style="justify-content:space-between;"><b style="font-size:11px;">Beat '+(i+1)+'</b>'
+      +'<span class="st '+(b.cls||'')+'" id="rst'+i+'" style="font-size:9.5px;">'+(b.state||'idle')+'</span></div>'
+      +'<input data-bi="'+i+'" data-k="still" value="'+esc(b.still)+'" style="margin-top:5px;font-size:11px;" placeholder="still prompt">'
+      +'<input data-bi="'+i+'" data-k="motion" value="'+esc(b.motion)+'" style="margin-top:4px;font-size:11px;" placeholder="motion prompt">'
+      +(b.image?'<img src="'+b.image+'" style="width:34px;height:60px;object-fit:cover;border-radius:5px;margin-top:5px;">':'')
+      +'</div>';
+  });
+  el.innerHTML=h;
+  el.querySelectorAll('input[data-bi]').forEach(function(inp){ inp.addEventListener('change',function(){ BEATS[+inp.dataset.bi][inp.dataset.k]=inp.value; }); });
+  document.getElementById('runTag').textContent=BEATS.length+' beats';
+  estCost();
+}
+function setRun(i,txt,cls){ var e=document.getElementById('rst'+i); if(e){ e.textContent=txt; e.className='st '+(cls||''); } BEATS[i].state=txt; BEATS[i].cls=cls; }
+function apiImage(prompt,opts){ return api('/studio/image',{prompt:prompt,num_images:1,aspect_ratio:'9:16',resolution:opts.res}).then(function(r){return r.json();}).then(function(d){ if(d.error)throw new Error(d.error); if(!d.images||!d.images.length)throw new Error('no image'); return d.images[0]; }); }
+function apiVideo(prompt,image_url,opts){ return api('/studio/video',{prompt:prompt,image_url:image_url,final:opts.final,duration:'auto'}).then(function(r){return r.json();}).then(function(d){ if(d.error)throw new Erro

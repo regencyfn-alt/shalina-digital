@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio — InfoCube</title>
+  <link rel="icon" href="favicon.png">
+  <style>
+    :root {
+      --bg: #f3f0fb; --card: #ffffff; --card2: #f1edfb;
+      --border: rgba(109,90,230,0.30); --text: #2a2540; --muted: #5d5685;
+      --accent: #6d5ae6; --positive: #1f9d57; --warning: #c2861a; --danger: #d83a4e;
+      --r: 10px; --gap: 14px;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+           background:var(--bg); color:var(--text); min-height:100vh; }
+    nav { display:flex; gap:0; background:#eae3fa; border-bottom:1px solid var(--border); padding:0 20px; overflow-x:auto; }
+    nav a { padding:12px 18px; font-size:12px; letter-spacing:1px; text-transform:uppercase;
+            color:var(--muted); text-decoration:none; white-space:nowrap; border-bottom:2px solid transparent; }
+    nav a:hover { color:var(--text); }
+    nav a.active { color:var(--accent); border-bottom-color:var(--accent); }
+
+    .wrap { display:grid; grid-template-columns:380px 1fr; gap:var(--gap); padding:var(--gap); height:calc(100vh - 44px); }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:var(--r); display:flex; flex-direction:column; overflow:hidden; }
+    .panel-head { padding:13px 16px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
+    .panel-title { font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); }
+    .seat-tag { font-size:10px; padding:3px 10px; border-radius:20px; letter-spacing:0.5px; font-weight:600;
+                background:rgba(112,96,255,0.16); color:#5a45cc; border:1px solid rgba(112,96,255,0.32); }
+
+    .col { padding:14px; display:flex; flex-direction:column; gap:14px; overflow-y:auto; }
+    .field-label { font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-bottom:6px; }
+    textarea { width:100%; background:var(--card2); border:1px solid var(--border); border-radius:8px; color:var(--text);
+               font-size:13px; padding:11px; resize:vertical; font-family:inherit; line-height:1.55; min-height:78px; }
+    textarea:focus { outline:none; border-color:var(--accent); }
+    select { background:var(--card2); border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:12px; padding:7px 9px; font-family:inherit; }
+    .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+    button { padding:9px 16px; border-radius:8px; border:none; cursor:pointer; font-size:12px; font-weight:600; letter-spacing:0.5px; transition:opacity .15s; }
+    button:disabled { opacity:0.45; cursor:not-allowed; }
+    .btn-primary { background:var(--accent); color:#fff; }
+    .btn-primary:hover:not(:disabled) { opacity:0.88; }
+    .sub { background:var(--card2); color:var(--text); border:1px solid var(--border); }
+    .block { border:1px solid var(--border); border-radius:var(--r); padding:13px; background:var(--card); }
+    .block + .block { margin-top:2px; }
+    .hint { font-size:11px; color:var(--muted); line-height:1.5; }
+    .status { font-size:11px; letter-spacing:0.3px; color:var(--muted); min-height:16px; }
+    .status.ok { color:var(--positive); }
+    .status.err { color:var(--danger); }
+    .status.busy { color:var(--accent); }
+    .spin { display:inline-block; width:12px; height:12px; border:2px solid rgba(109,90,230,0.25); border-top-color:var(--accent);
+            border-radius:50%; animation:spin .7s linear infinite; margin-right:6px; vertical-align:middle; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+
+    .ref-thumb { width:46px; height:82px; border-radius:6px; border:1px solid var(--border); object-fit:cover; background:var(--card2); }
+    .ref-wrap { display:flex; gap:10px; align-items:center; }
+
+    /* GALLERY */
+    .gallery { display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; padding:14px; }
+    .cell { position:relative; aspect-ratio:9/16; background:var(--card2); border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+    .cell img { width:100%; height:100%; object-fit:cover; display:block; cursor:zoom-in; }
+    .cell.empty { display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:10px; }
+    .cell-actions { position:absolute; bottom:6px; left:6px; right:6px; display:flex; gap:6px; justify-content:center; opacity:0; transition:opacity .15s; }
+    .cell:hover .cell-actions { opacity:1; }
+    .mini { background:rgba(255,255,255,0.92); border:1px solid var(--border); color:var(--text); border-radius:6px;
+            font-size:11px; padding:4px 7px; cursor:pointer; font-weight:600; }
+    .mini.ref { color:var(--accent); }
+    .cell.is-ref { outline:2px solid var(--accent); outline-offset:-2px; }
+
+    .video-out { padding:14px; border-top:1px solid var(--border); }
+    .video-out video { width:100%; max-width:320px; border-radius:8px; border:1px solid var(--border); background:#000; display:block; }
+
+    /* LIGHTBOX */
+    .lb { position:fixed; inset:0; background:rgba(30,24,55,0.74); display:none; align-items:center; justify-content:center; z-index:50; padding:30px; }
+    .lb.open { display:flex; }
+    .lb img { max-width:90vw; max-height:88vh; border-radius:10px; box-shadow:0 16px 50px rgba(0,0,0,0.4); }
+    .lb-close { position:absolute; top:18px; right:24px; color:#fff; font-size:30px; cursor:pointer; line-height:1; }
+
+    @media(max-width:900px){ .wrap{ grid-template-columns:1fr; height:auto; } .gallery{ grid-template-columns:repeat(2,1fr); } }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">Dashboard</a>
+    <a href="path.html">Path</a>
+    <a href="sheets.html">Sheets</a>
+    <a href="rules.html">Rules</a>
+    <a href="lab.html">Lab</a>
+    <a href="council.html">Council</a>
+    <a href="cabinet.html">Cabinet</a>
+    <a href="royale72.html">Royale 72</a>
+    <a href="dispatch.html">Dispatch</a>
+    <a href="code.html">Code Room</a>
+    <a href="studio.html" class="active">Studio</a>
+    <a href="engines.html">Engines</a>
+    <a href="office.html">Office</a>
+  </nav>
+
+  <div class="wrap">
+    <!-- LEFT: controls -->
+    <div class="panel">
+      <div class="panel-head">
+        <span class="panel-title">Generate</span>
+        <span class="seat-tag">Justine · Fal</span>
+      </div>
+      <div class="col">
+
+        <div class="block">
+          <div class="field-label">Image prompt — Nano Banana Pro</div>
+          <textarea id="imgPrompt" placeholder="A cinematic 9:16 photograph of [character], wearing [full outfit]. Preserve established face, hairstyle, body line. [background]. [lighting + camera]. No readable text."></textarea>
+          <div class="row" style="margin-top:9px;">
+            <select id="imgRatio">
+              <option value="9:16">9:16 vertical</option>
+              <option value="16:9">16:9</option>
+              <option value="1:1">1:1</option>
+              <option value="3:4">3:4</option>
+            </select>
+            <select id="imgCount">
+              <option value="4">4 images</option>
+              <option value="2">2 images</option>
+              <option value="1">1 image</option>
+            </select>
+            <button class="btn-primary" id="genBtn" onclick="generateImages()">Generate →</button>
+          </div>
+          <div class="status" id="imgStatus" style="margin-top:8px;"></div>
+        </div>
+
+        <div class="block">
+          <div class="field-label">Video prompt — Seedance 2.0 (image → video)</div>
+          <textarea id="vidPrompt" placeholder="Camera holds steady. [Character] exhales and turns toward the window. Background drifts softly. No lip-sync, no direct talking to camera."></textarea>
+          <div class="ref-wrap" style="margin-top:9px;">
+            <img id="refThumb" class="ref-thumb" alt="reference" style="display:none;">
+            <div class="hint" id="refHint">Pick a reference: hover an image and press <strong>★ ref</strong>.</div>
+          </div>
+          <div class="row" style="margin-top:9px;">
+            <select id="vidDuration">
+              <option value="auto">auto</option>
+              <option value="5">5s</option>
+              <option value="8">8s</option>
+              <option value="10">10s</option>
+              <option value="15">15s</option>
+            </select>
+            <select id="vidRes">
+              <option value="720p">720p · fast</option>
+              <option value="1080p">1080p · final</option>
+            </select>
+            <button class="btn-primary" id="animBtn" onclick="animate()">Animate →</button>
+          </div>
+          <div class="status" id="vidStatus" style="margin-top:8px;"></div>
+        </div>
+
+        <div class="hint">Images and clips spend real Fal credits. Drafts: 1K image, 720p video. The key lives on the worker — never in the browser.</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: gallery + video -->
+    <div class="panel">
+      <div class="panel-head">
+        <span class="panel-title">Gallery — click to expand · ⤓ save · ★ ref</span>
+        <button class="sub" style="font-size:11px;padding:5px 11px;" onclick="clearGallery()">Clear</button>
+      </div>
+      <div class="gallery" id="gallery"></div>
+      <div class="video-out">
+        <div class="field-label">Video output</div>
+        <div id="videoOut"><span class="hint">Animated clips appear here.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lb" id="lb" onclick="closeLb()">
+    <span class="lb-close">&times;</span>
+    <img id="lbImg" alt="expanded" onclick="event.stopPropagation()">
+  </div>
+
+<script>
+var API = 'https://infocube-api.vouch4us.workers.dev';
+var images = [];      // up to 8 urls, newest first
+var selectedRef = ''; // chosen reference url
+
+function setStatus(id, msg, kind) {
+  var el = document.getElementById(id);
+  el.className = 'status' + (kind ? ' ' + kind : '');
+  el.innerHTML = msg;
+}
+
+function renderGallery() {
+  var g = document.getElementById('gallery');
+  var cells = [];
+  for (var i = 0; i < 8; i++) {
+    var url = images[i];
+    if (url) {
+      var isRef = (url === selectedRef) ? ' is-ref' : '';
+      cells.push(
+        '<div class="cell' + isRef + '">' +
+          '<img src="' + url + '" onclick="openLb(\'' + url + '\')">' +
+          '<div class="cell-actions">' +
+            '<span class="mini" onclick="downloadImg(\'' + url + '\')">⤓ save</span>' +
+            '<span class="mini ref" onclick="useAsRef(\'' + url + '\')">★ ref</span>' +
+          '</div>' +
+        '</div>'
+      );
+    } else {
+      cells.push('<div class="cell empty">empty</div>');
+    }
+  }
+  g.innerHTML = cells.join('');
+}
+
+function generateImages() {
+  var prompt = document.getElementById('imgPrompt').value.trim();
+  if (!prompt) { setStatus('imgStatus', 'Write an image prompt first.', 'err'); return; }
+  var btn = document.getElementById('genBtn');
+  btn.disabled = true;
+  setStatus('imgStatus', '<span class="spin"></span>Generating on Nano Banana Pro…', 'busy');
+  fetch(API + '/studio/image', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      prompt: prompt,
+      aspect_ratio: document.getElementById('imgRatio').value,
+      num_images: parseInt(document.getElementById('imgCount').value)
+    })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    btn.disabled = false;
+    if (d.error) { setStatus('imgStatus', '✗ ' + d.error, 'err'); return; }
+    var got = d.images || [];
+    if (!got.length) { setStatus('imgStatus', 'No images returned.', 'err'); return; }
+    images = got.concat(images).slice(0, 8);
+    renderGallery();
+    setStatus('imgStatus', '✓ ' + got.length + ' image(s) generated.', 'ok');
+  })
+  .catch(function(e){ btn.disabled = false; setStatus('imgStatus', '✗ ' + e.message, 'err'); });
+}
+
+function useAsRef(url) {
+  selectedRef = url;
+  var t = document.getElementById('refThumb');
+  t.src = url; t.style.display = 'block';
+  document.getElementById('refHint').innerHTML = 'Reference locked. This still feeds the video.';
+  renderGallery();
+}
+
+function animate() {
+  var prompt = document.getElementById('vidPrompt').value.trim();
+  if (!prompt) { setStatus('vidStatus', 'Write a motion prompt first.', 'err'); return; }
+  if (!selectedRef) { setStatus('vidStatus', 'Pick a reference image first (★ ref).', 'err'); return; }
+  var btn = document.getElementById('animBtn');
+  btn.disabled = true;
+  setStatus('vidStatus', '<span class="spin"></span>Animating on Seedance — this can take a minute…', 'busy');
+  fetch(API + '/studio/video', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      prompt: prompt,
+      image_url: selectedRef,
+      duration: document.getElementById('vidDuration').value,
+      resolution: document.getElementById('vidRes').value,
+      final: document.getElementById('vidRes').value === '1080p'
+    })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    btn.disabled = false;
+    if (d.error) { setStatus('vidStatus', '✗ ' + d.error, 'err'); return; }
+    if (!d.video) { setStatus('vidStatus', 'No video returned.', 'err'); return; }
+    document.getElementById('videoOut').innerHTML =
+      '<video controls autoplay loop src="' + d.video + '"></video>' +
+      '<div style="margin-top:8px;"><a href="' + d.video + '" download class="mini" style="text-decoration:none;">⤓ save clip</a></div>';
+    setStatus('vidStatus', '✓ Clip ready.', 'ok');
+  })
+  .catch(function(e){ btn.disabled = false; setStatus('vidStatus', '✗ ' + e.message, 'err'); });
+}
+
+function downloadImg(url) {
+  fetch(url).then(function(r){ return r.blob(); }).then(function(b){
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(b);
+    a.download = 'studio-' + Date.now() + '.jpg';
+    document.body.appendChild(a); a.click(); a.remove();
+  }).catch(function(){ window.open(url, '_blank'); });
+}
+
+function openLb(url){ document.getElementById('lbImg').src = url; document.getElementById('lb').classList.add('open'); }
+function closeLb(){ document.getElementById('lb').classList.remove('open'); }
+function clearGallery(){ images = []; selectedRef = ''; document.getElementById('refThumb').style.display='none';
+  document.getElementById('refHint').innerHTML = 'Pick a reference: hover an image and press <strong>★ ref</strong>.'; renderGallery(); }
+
+renderGallery();
+</script>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

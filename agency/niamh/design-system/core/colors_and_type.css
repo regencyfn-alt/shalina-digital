@@ -1,0 +1,269 @@
+/* ============================================================================
+   SHALINA HEALTHCARE — DESIGN TOKENS
+   colors_and_type.css
+
+   Source of truth: Shal'Artem FY2026/27 Brand System (Regency Flux, Apr 2026)
+   + Shal'Artem Brand Guide (Nigeria) + Shalina brand portfolio.
+
+   The canonical brand palette is the "Shal'Artem Corporate Colours" 6-colour
+   system. The "Editorial / Campaign" tokens below are derived from the live
+   "Bounce Back" creative and the "Doctor's Voice" cast plates — they extend,
+   never replace, the corporate six.
+
+   Brand law (from the brand system slide):
+     ✓ No type effects, ever        ✓ Display type roman by default
+     ✓ Documentary photography only ✓ Brand mark mono-knockout at small scale
+   "Discipline in colour is discipline in voice."
+   ============================================================================ */
+
+/* Type — SUBSTITUTE FONTS. The production deck rendered through LibreOffice
+   substitutes (Liberation Serif / Calibri); the live campaign uses a
+   high-contrast Scotch serif with ball terminals + a humanist sans. Pending the
+   real licensed faces, we stand in:
+     • Display  → Playfair Display  (matches the Bounce-Back headline contrast + ball terminals)
+     • Text/UI  → Source Sans 3     (clean humanist sans; stands in for Calibri)
+   Flagged to the client — swap @import + --font-* below when real fonts arrive. */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* ---------------------------------------------------------------------------
+     1 · CORPORATE PALETTE — the canonical six. Do not invent colours outside these.
+     --------------------------------------------------------------------------- */
+  --blue:        #1F4598;   /* 01 Primary Dark   — brand anchor: headlines, CTA, mark */
+  --orange:      #F17025;   /* 02 Secondary Dark — accent & energy: highlights, warmth */
+  --sky:         #55B8ED;   /* 03 Primary Light  — secondary tone: supporting, backgrounds */
+  --neutral:     #CCCCCC;   /* 04 Secondary Light— neutral accent: borders, dividers, disabled */
+  --parchment:   #F7EFE0;   /* 05 Parchment      — surface base: backgrounds, breathing room */
+  --charcoal:    #1A1A1A;   /* 06 Charcoal       — body anchor: copy, captions, UI */
+
+  /* Tonal steps derived from the anchors (kept inside the family) */
+  --blue-900:    #15306B;
+  --blue-700:    #1F4598;
+  --blue-500:    #2F5BBE;
+  --blue-200:    #B9C8E8;
+  --blue-050:    #EAF0FB;
+  --orange-700:  #C9531A;
+  --orange-500:  #F17025;
+  --orange-200:  #FBD3BB;
+  --orange-050:  #FDEDE2;
+  --sky-200:     #C2E5F8;
+  --sky-050:     #EAF6FD;
+
+  --parchment-deep: #EFE3CC;  /* parchment one step down — section grounds */
+  --parchment-edge: #E4D6BC;  /* parchment border / hairline on cream */
+  --paper:          #FBF7EF;  /* lifted parchment for cards on cream */
+  --white:          #FFFFFF;
+
+  /* Charcoal / ink ramp */
+  --ink-900:     #111111;
+  --ink-700:     #1A1A1A;
+  --ink-500:     #4A4A4A;
+  --ink-300:     #7C7A75;
+  --ink-150:     #D9D4CA;
+
+  /* ---------------------------------------------------------------------------
+     2 · EDITORIAL / CAMPAIGN — derived from live creative (Bounce Back · Doctor's Voice)
+     Use for emotional, documentary executions. Pairs gold + deep forest with photo.
+     --------------------------------------------------------------------------- */
+  --gold:        #C68A1E;   /* campaign highlight word colour (warm amber-gold) */
+  --gold-bright: #D98600;   /* peak amber for accents on dark photo */
+  --gold-soft:   #E3C77E;
+  --cream:       #F3E8C8;   /* cast name-plate text on forest ground */
+  --cream-dim:   #C9BD9E;   /* secondary text on forest */
+  --forest:      #19281F;   /* Doctor's Voice editorial ground (clinic green) */
+  --forest-700:  #21392B;
+  --forest-500:  #2E4D3A;
+
+  /* ---------------------------------------------------------------------------
+     3 · SEMANTIC TOKENS — reference these in product / UI work, not raw hexes.
+     --------------------------------------------------------------------------- */
+  --bg:            var(--parchment);
+  --bg-alt:        var(--parchment-deep);
+  --surface:       var(--white);
+  --surface-cream: var(--paper);
+  --surface-ink:   var(--charcoal);
+  --surface-forest:var(--forest);
+
+  --fg:            var(--charcoal);
+  --fg-muted:      var(--ink-500);
+  --fg-subtle:     var(--ink-300);
+  --fg-on-dark:    #F4F1EA;
+  --fg-on-dark-dim:#B4AFA4;
+
+  --brand:         var(--blue);
+  --brand-ink:     var(--blue-900);
+  --accent:        var(--orange);
+  --accent-warm:   var(--gold);
+  --link:          var(--blue);
+
+  --border:        var(--neutral);
+  --border-soft:   #E3E0D9;
+  --border-cream:  var(--parchment-edge);
+  --divider:       #E7E3DB;
+
+  --focus-ring:    0 0 0 3px rgba(31,69,152,.30);
+
+  /* status — minimal, healthcare-credible (kept tonally near brand) */
+  --ok:      #1F8A5B;
+  --warn:    var(--orange);
+  --danger:  #C0392B;
+  --info:    var(--sky);
+
+  /* ---------------------------------------------------------------------------
+     4 · TYPE FAMILIES + ROLES
+     --------------------------------------------------------------------------- */
+  --font-display: 'Playfair Display', 'Liberation Serif', Georgia, 'Times New Roman', serif;
+  --font-text:    'Source Sans 3', Calibri, 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono:    'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Fluid type scale (1.25 major-third-ish, editorial) */
+  --t-eyebrow:  0.72rem;   /* letter-spaced uppercase label */
+  --t-caption:  0.82rem;
+  --t-small:    0.92rem;
+  --t-body:     1.0625rem; /* 17px base reading size */
+  --t-lead:     1.3rem;
+  --t-h4:       1.5rem;
+  --t-h3:       2rem;
+  --t-h2:       2.9rem;
+  --t-h1:       4.2rem;
+  --t-display:  6rem;
+
+  --lh-tight:   1.04; /* @kind other */
+  --lh-snug:    1.18; /* @kind other */
+  --lh-body:    1.55; /* @kind other */
+  --lh-loose:   1.7;  /* @kind other */
+
+  --tracking-eyebrow: 0.22em;  /* @kind other */
+  --tracking-caps:    0.08em;  /* @kind other */
+  --tracking-tight:  -0.015em; /* @kind other */
+
+  /* ---------------------------------------------------------------------------
+     5 · SPACE · RADIUS · ELEVATION · MOTION
+     --------------------------------------------------------------------------- */
+  --space-1: 4px;   --space-2: 8px;   --space-3: 12px;  --space-4: 16px;
+  --space-5: 24px;  --space-6: 32px;  --space-7: 48px;  --space-8: 64px;
+  --space-9: 96px;  --space-10: 128px;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;   /* portfolio product card */
+  --radius-xl: 26px;
+  --radius-pill: 999px;
+  --radius-editorial: 0px; /* full-bleed documentary frames are square */
+
+  /* Soft, healthcare-clean elevation (cool grey, never coloured) */
+  --shadow-xs: 0 1px 2px rgba(26,26,26,.06);
+  --shadow-sm: 0 2px 6px rgba(26,26,26,.07);
+  --shadow-md: 0 8px 22px rgba(26,26,26,.10);
+  --shadow-lg: 0 18px 48px rgba(26,26,26,.14);
+  --shadow-card: 0 10px 30px rgba(31,48,107,.10); /* product cards, faint blue cast */
+
+  --ease: cubic-bezier(.22,.61,.36,1);        /* @kind other */
+  --ease-in-out: cubic-bezier(.65,.05,.36,1); /* @kind other */
+  --dur-fast: 140ms;  /* @kind other */
+  --dur: 240ms;       /* @kind other */
+  --dur-slow: 420ms;  /* @kind other */
+
+  /* protection gradient — the parchment scrim used on Bounce-Back posts */
+  --scrim-parchment: linear-gradient(90deg, rgba(247,239,224,.97) 0%, rgba(247,239,224,.88) 34%, rgba(247,239,224,0) 70%); /* @kind other */
+  /* documentary photo lift — warm bottom-up vignette for cast plates */
+  --scrim-forest: linear-gradient(0deg, rgba(15,22,17,.94) 0%, rgba(20,32,24,.62) 38%, rgba(20,32,24,0) 70%); /* @kind other */
+}
+
+/* ============================================================================
+   6 · SEMANTIC ELEMENT STYLES — opt-in via .ds-prose / utility classes.
+   ============================================================================ */
+.ds-eyebrow {
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: var(--t-eyebrow);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.ds-eyebrow--blue  { color: var(--blue); }
+.ds-eyebrow--muted { color: var(--fg-subtle); }
+
+h1, .ds-h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--t-h1);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--brand-ink);
+}
+h2, .ds-h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--t-h2);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg);
+}
+h3, .ds-h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--t-h3);
+  line-height: var(--lh-snug);
+  color: var(--fg);
+}
+h4, .ds-h4 {
+  font-family: var(--font-text);
+  font-weight: 700;
+  font-size: var(--t-h4);
+  line-height: var(--lh-snug);
+  color: var(--fg);
+}
+.ds-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--t-display);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  color: var(--brand-ink);
+}
+/* The Bounce-Back headline: roman serif, one phrase carried in gold */
+.ds-quote-head {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--t-h1);
+  line-height: 1.02;
+  color: var(--charcoal);
+}
+.ds-quote-head .hl { color: var(--gold); }
+
+p, .ds-p {
+  font-family: var(--font-text);
+  font-weight: 400;
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  color: var(--fg);
+  text-wrap: pretty;
+}
+.ds-lead {
+  font-family: var(--font-text);
+  font-weight: 400;
+  font-size: var(--t-lead);
+  line-height: var(--lh-snug);
+  color: var(--fg-muted);
+}
+.ds-caption {
+  font-family: var(--font-text);
+  font-size: var(--t-caption);
+  color: var(--fg-subtle);
+}
+/* Cast role — the one sanctioned italic (cast plates only) */
+.ds-role {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--cream);
+}
+code, .ds-mono {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+a { color: var(--link); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+* { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }

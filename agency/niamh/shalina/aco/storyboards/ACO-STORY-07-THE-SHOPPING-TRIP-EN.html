@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACO Pine Gel — Story 07: The Shopping Trip | Creative Storyboard</title>
+<style>
+  :root {
+    --green: #1A7A4A;
+    --lime: #5BB84A;
+    --orange: #F47920;
+    --cream: #FAFAF5;
+    --dark: #1C1C1C;
+    --mid: #555;
+    --light: #888;
+    --rule: #E0E8DC;
+    --r: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #EDEEE8;
+    color: var(--dark);
+    font-size: 16px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 1240px;
+    margin: 0 auto;
+    padding: 0 0 80px;
+  }
+
+  /* HEADER */
+  .hdr {
+    background: var(--green);
+    color: white;
+    padding: 30px 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0;
+  }
+  .hdr-left { display: flex; align-items: center; gap: 20px; }
+  .hdr-dot {
+    width: 48px; height: 48px;
+    background: var(--lime);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 20px;
+  }
+  .hdr-brand { font-size: 24px; font-weight: 900; letter-spacing: 0.3px; }
+  .hdr-sub { font-size: 13px; opacity: 0.7; margin-top: 3px; }
+  .hdr-right { text-align: right; font-size: 13px; opacity: 0.8; line-height: 1.8; }
+  .hdr-right strong { font-size: 18px; font-weight: 900; display: block; opacity: 1; }
+
+  /* ORANGE ARC BAR */
+  .arc-bar {
+    background: var(--orange);
+    color: white;
+    padding: 13px 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 36px;
+  }
+  .arc-tagline {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+  }
+  .arc-meta { font-size: 13px; opacity: 0.85; }
+
+  /* SECTION LABELS */
+  .sec {
+    margin: 0 52px 16px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--light);
+    padding-bottom: 9px;
+    border-bottom: 2px solid var(--rule);
+  }
+
+  /* STORY BRIEF BOX */
+  .story-brief {
+    margin: 0 52px 36px;
+    background: white;
+    border-radius: var(--r);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+  .brief-col {
+    padding: 22px 24px;
+    border-right: 1px solid #F0F0EC;
+  }
+  .brief-col:last-child { border-right: none; }
+  .brief-col-label {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-bottom: 10px;
+  }
+  .brief-col-title {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--green);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .brief-col p {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--mid);
+  }
+  .brief-col p strong { color: var(--dark); }
+
+  /* STORY LOGIC STRIP */
+  .logic-strip {
+    margin: 0 52px 40px;
+    background: var(--dark);
+    border-radius: var(--r);
+    padding: 26px 30px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    overflow: hidden;
+  }
+  .logic-step {
+    padding: 14px 18px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+  }
+  .logic-step:last-child { border-right: none; }
+  .logic-step-stage {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--lime);
+    margin-bottom: 5px;
+  }
+  .logic-step-beat {
+    font-size: 14px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 5px;
+    line-height: 1.3;
+  }
+  .logic-step-feel {
+    font-size: 12px;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.5);
+    font-style: italic;
+  }
+  .logic-arrow {
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--lime);
+    font-size: 14px;
+    z-index: 2;
+  }
+
+  /* SCENE PANELS */
+  .panels {
+    margin: 0 52px 44px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+
+  .panel {
+    background: white;
+    border-radius: var(--r);
+    overflow: hidden;
+    box-shadow: 0 3px 16px rgba(0,0,0,0.09);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .panel-hdr {
+    padding: 13px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .panel-hdr.aisle    { background: #2D1B00; }
+  .panel-hdr.checkout { background: #0A3D20; }
+  .panel-hdr.proof    { background: #1A2B4A; }
+  .panel-hdr.slate    { background: #1C1C1C; }
+
+  .ph-left .scene-num {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 3px;
+  }
+  .panel-hdr.aisle    .scene-num { color: var(--orange); }
+  .panel-hdr.checkout .scene-num { color: var(--lime); }
+  .panel-hdr.proof    .scene-num { color: #7AA8D4; }
+  .panel-hdr.slate    .scene-num { color: #999; }
+
+  .ph-left .scene-name {
+    font-size: 17px;
+    font-weight: 900;
+    color: white;
+  }
+  .ph-right { text-align: right; }
+  .timecode {
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.07);
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  /* IMAGE WELL */
+  .panel-visual {
+    aspect-ratio: 9/10;
+    overflow: hidden;
+    position: relative;
+    background: #111;
+  }
+  .panel-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  /* Placeholder well for scenes awaiting Higgsfield generation */
+  .panel-visual.pending {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  .panel-visual.pending.aisle-bg    { background: linear-gradient(160deg, #2D1B00 0%, #5A3010 100%); }
+  .panel-visual.pending.checkout-bg { background: linear-gradient(160deg, #0A2010 0%, #0A4520 100%); }
+  .panel-visual.pending.proof-bg    { background: linear-gradient(160deg, #0A1A2A 0%, #1A3A5A 100%); }
+  .panel-visual.pending.slate-bg    { background: linear-gradient(160deg, #111 0%, #333 100%); }
+  .pending-icon {
+    font-size: 36px;
+    opacity: 0.35;
+  }
+  .pending-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    text-align: center;
+    padding: 0 24px;
+  }
+  .pending-note {
+    font-size: 12px;
+    color: rgba(255,255,255,0.18);
+    text-align: center;
+    padding: 0 20px;
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  .framing-badge {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+  }
+
+  .panel-body {
+    padding: 20px 22px 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* BEATS */
+  .beats-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .beat {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .beat-tc {
+    flex-shrink: 0;
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
+    padding: 3px 7px;
+    border-radius: 4px;
+    margin-top: 1px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .beat-tc.b-orange { background: var(--orange); }
+  .beat-tc.b-green  { background: var(--green); }
+  .beat-tc.b-blue   { background: #2A5A9A; }
+  .beat-tc.b-dark   { background: #444; }
+
+  .beat-text {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--mid);
+  }
+  .beat-text strong { color: var(--dark); font-weight: 700; }
+
+  /* DIALOGUE BOX */
+  .dialogue-box {
+    background: #FFF8F2;
+    border-left: 4px solid var(--orange);
+    border-radius: 0 8px 8px 0;
+    padding: 13px 16px;
+  }
+  .dialogue-label {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 8px;
+  }
+  .dialogue-line {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 6px;
+    align-items: flex-start;
+  }
+  .dialogue-line:last-child { margin-bottom: 0; }
+  .dialogue-speaker {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+  .dialogue-words {
+    font-size: 15px;
+    font-style: italic;
+    font-weight: 600;
+    color: var(--dark);
+    line-height: 1.5;
+  }
+
+  /* VO BOX */
+  .vo-box {
+    background: #F8F8F4;
+    border-left: 4px solid var(--orange);
+    border-radius: 0 8px 8px 0;
+    padding: 13px 16px;
+  }
+  .vo-label {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 6px;
+  }
+  .vo-text {
+    font-size: 15px;
+    font-style: italic;
+    font-weight: 600;
+    color: var(--dark);
+    line-height: 1.5;
+  }
+
+  /* AMBIENT SOUND BOX */
+  .ambient-box {
+    background: #F2F2EE;
+    border-left: 4px solid #999;
+    border-radius: 0 8px 8px 0;
+    padding: 11px 14px;
+  }
+  .ambient-label {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 5px;
+  }
+  .ambient-text {
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.55;
+    font-style: italic;
+  }
+
+  /* SUPER BOX */
+  .super-box {
+    background: var(--dark);
+    border-radius: 8px;
+    padding: 14px 18px;
+  }
+  .super-label {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: 8px;
+  }
+  .super-line {
+    font-size: 15px;
+    font-weight: 900;
+    color: white;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+  }
+  .super-line.sub {
+    font-weight: 600;
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* DIRECTION BOX */
+  .dir-box {
+    background: #F0F5FF;
+    border-left: 4px solid #5080C0;
+    border-radius: 0 8px 8px 0;
+    padding: 11px 14px;
+  }
+  .dir-label {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #5080C0;
+    margin-bottom: 5px;
+  }
+  .dir-text {
+    font-size: 13px;
+    color: #3A4A70;
+    line-height: 1.55;
+  }
+
+  /* CHARACTER BIBLES */
+  .bibles {
+    margin: 0 52px 44px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .bible {
+    background: white;
+    border-radius: var(--r);
+    overflow: hidden;
+    display: flex;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  }
+  .bible-photo {
+    width: 100px;
+    flex-shrink: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+  }
+  .bible-photo.gloria-bg { background: linear-gradient(160deg, #3D1A00, #7A3A10); }
+  .bible-photo.ana-bg    { background: linear-gradient(160deg, #0A3A20, #1A6A40); }
+  .bible-info {
+    padding: 20px 22px;
+    flex: 1;
+  }
+  .bible-role {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-bottom: 5px;
+  }
+  .bible-name {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+  .bible-attrs {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .bible-attr {
+    font-size: 13.5px;
+    color: var(--mid);
+    line-height: 1.5;
+  }
+  .bible-attr strong { color: var(--dark); }
+  .bible-scenes {
+    margin-top: 10px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .scene-tag {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+  }
+  .scene-tag.orange { background: #FFF0E5; color: var(--orange); }
+  .scene-tag.green  { background: #E8F5EE; color: var(--green); }
+
+  /* PRODUCTION TABLE */
+  .prod-table-wrap {
+    margin: 0 52px 44px;
+    background: white;
+    border-radius: var(--r);
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  }
+  .prod-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .prod-table th {
+    background: var(--green);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 12px 20px;
+    text-align: left;
+  }
+  .prod-table td {
+    padding: 14px 20px;
+    font-size: 14px;
+    color: var(--mid);
+    border-bottom: 1px solid #F0F0EC;
+    line-height: 1.5;
+    vertical-align: top;
+  }
+  .prod-table tr:last-child td { border-bottom: none; }
+  .prod-table td:first-child {
+    font-weight: 700;
+    color: var(--dark);
+    width: 28%;
+  }
+
+  /* HIGGSFIELD PROMPT BLOCK */
+  .prompt-section {
+    margin: 0 52px 44px;
+  }
+  .prompt-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .prompt-card {
+    background: white;
+    border-radius: var(--r);
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  }
+  .prompt-card-hdr {
+    background: var(--dark);
+    padding: 11px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .prompt-num {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--lime);
+  }
+  .prompt-type {
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.07);
+    padding: 3px 9px;
+    border-radius: 20px;
+  }
+  .prompt-card-body {
+    padding: 16px 18px;
+  }
+  .prompt-scene-tag {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+  .prompt-text {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--mid);
+    font-style: italic;
+    background: #F8F8F4;
+    border-radius: 6px;
+    padding: 12px 14px;
+    border-left: 3px solid var(--lime);
+  }
+  .prompt-status {
+    margin-top: 10px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--orange);
+  }
+  .prompt-status.ready { color: var(--lime); }
+
+  /* FOOTER */
+  .footer {
+    margin: 44px 52px 0;
+    padding-top: 20px;
+    border-top: 2px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--light);
+  }
+  .footer strong { color: var(--green); }
+
+  @media print {
+    body { background: white; }
+    .page { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="hdr-left">
+      <div class="hdr-dot">07</div>
+      <div>
+        <div class="hdr-brand">ACO Pine Gel — Angola</div>
+        <div class="hdr-sub">Campaign: "You Only Need One." · CENTREFREE for Shalina Healthcare</div>
+      </div>
+    </div>
+    <div class="hdr-right">
+      <strong>The Shopping Trip</strong>
+      Story 07 of 7 · June 2026
+    </div>
+  </div>
+
+  <!-- ORANGE ARC BAR -->
+  <div class="arc-bar">
+    <div class="arc-tagline">"YOU ONLY NEED ONE."</div>
+    <div class="arc-meta">60s social film · TikTok / Instagram Reels · 9:16 vertical · 4 scenes</div>
+  </div>
+
+  <!-- BRIEF -->
+  <div class="sec">Story Brief</div>
+  <div class="story-brief">
+    <div class="brief-col">
+      <div class="brief-col-label">The Idea</div>
+      <div class="brief-col-title">The Point of Purchase Argument</div>
+      <p>Two women. Same supermarket aisle. Same cleaning problem to solve. Gloria buys what most people buy — a different product for every surface. Ana buys one green tub and keeps moving. <strong>The film doesn't explain the difference. It shows it.</strong></p>
+    </div>
+    <div class="brief-col">
+      <div class="brief-col-label">Why This Works</div>
+      <div class="brief-col-title">The Exact Moment of Truth</div>
+      <p>The supermarket aisle is where the buying decision happens — where competing products sit side by side. A confident woman reaching past five options to pick one <strong>says more than any claim on a label.</strong> The film makes that clarity aspirational.</p>
+    </div>
+    <div class="brief-col">
+      <div class="brief-col-label">The Payoff</div>
+      <div class="brief-col-title">Six Words. Everything Said.</div>
+      <p><strong>"That's all you're buying?"</strong><br><strong>"That's all I need."</strong><br><br>Lands because the film earns it visually first. You don't feel like you're being sold to. You feel like you're being let in on something.</p>
+    </div>
+  </div>
+
+  <!-- EMOTIONAL ARC -->
+  <div class="sec">Emotional Arc</div>
+  <div class="logic-strip">
+    <div class="logic-step">
+      <div class="logic-step-stage">01 · Recognition</div>
+      <div class="logic-step-beat">That trolley is mine.</div>
+      <div class="logic-step-feel">"Every month I buy all of this."</div>
+      <div class="logic-arrow">›</div>
+    </div>
+    <div class="logic-step">
+      <div class="logic-step-stage">02 · Intrigue</div>
+      <div class="logic-step-beat">Why only one thing?</div>
+      <div class="logic-step-feel">"She knows something I don't."</div>
+      <div class="logic-arrow">›</div>
+    </div>
+    <div class="logic-step">
+      <div class="logic-step-stage">03 · Delight</div>
+      <div class="logic-step-beat">Did she really say that?</div>
+      <div class="logic-step-feel">"That's all I need." Quiet confidence.</div>
+      <div class="logic-arrow">›</div>
+    </div>
+    <div class="logic-step">
+      <div class="logic-step-stage">04 · Conviction</div>
+      <div class="logic-step-beat">One product. Everything.</div>
+      <div class="logic-step-feel">Surface montage proves the claim.</div>
+      <div class="logic-arrow">›</div>
+    </div>
+    <div class="logic-step">
+      <div class="logic-step-stage">05 · Action</div>
+      <div class="logic-step-beat">Smarter Cleaning.</div>
+      <div class="logic-step-feel">"Só Precisas de Um." Packshot close.</div>
+    </div>
+  </div>
+
+  <!-- SCENE PANELS -->
+  <div class="sec">Scene Breakdown</div>
+  <div class="panels">
+
+    <!-- SCENE 01: THE AISLE -->
+    <div class="panel">
+      <div class="panel-hdr aisle">
+        <div class="ph-left">
+          <div class="scene-num">SCENE 01</div>
+          <div class="scene-name">The Aisle</div>
+        </div>
+        <div class="ph-right">
+          <div class="timecode">0:00 – 0:20</div>
+        </div>
+      </div>
+      <div class="panel-visual">
+        <img src="../../../vault/aco/images/story07-panel-a.webp" alt="Scene 01 — The Aisle" />
+        <div class="framing-badge">9:16 · WIDE</div>
+      </div>
+      <div class="panel-body">
+        <div class="beats-list">
+          <div class="beat">
+            <div class="beat-tc b-orange">0:00</div>
+            <div class="beat-text"><strong>Open on Gloria</strong> — pushing her trolley slowly down the cleaning aisle. Already in: floor cleaner, bathroom spray, glass cleaner. Her face is focused, slightly exhausted. This happens every month.</div>
+          </div>
+          <div class="beat">
+            <div class="beat-tc b-orange">0:05</div>
+            <div class="beat-text"><strong>Adding more</strong> — she picks up a stain remover, reads the back, adds it. Picks up a toilet cleaner. Adds it too. The trolley fills. She doesn't enjoy this.</div>
+          </div>
+          <div class="beat">
+            <div class="beat-tc b-orange">0:10</div>
+            <div class="beat-text"><strong>Ana enters</strong> from the far end. Basket over her arm. Eyes go straight to the ACO Pine Gel tub. She picks it up — one smooth motion. It goes in the basket.</div>
+          </div>
+          <div class="beat">
+            <div class="beat-tc b-orange">0:15</div>
+            <div class="beat-text"><strong>Wide two-shot</strong> — Gloria still deliberating, trolley overflowing. Ana already walking away, one item in her basket. The visual does all the work.</div>
+          </div>
+        </div>
+        <div class="ambient-box">
+          <div class="ambient-label">Sound · No VO</div>
+          <div class="ambient-text">Ambient supermarket sound only. The contrast is the message. No words needed yet.</div>
+        </div>
+        <div class="dir-box">
+          <div class="dir-label">Director's Note</div>
+          <div class="dir-text">This scene lives or dies on the two-shot at 0:15. Both women must be visible in the same frame — trolley vs basket. Shoot this wide. Don't rush to dialogue.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENE 02: THE CHECKOUT -->
+    <div class="panel">
+      <div class="panel-hdr checkout">
+        <div class="ph-left">
+          <div class="scene-num">SCENE 02</div>
+          <div class="scene-name">The Checkout</div>
+        </div>
+        <div class="ph-right">
+          <div class="timecode">0:20 – 0:35</div>
+        </div>
+      </div>
+      <div class="panel-visual">
+        <img src="../../../vault/aco/images/story07-panel-b.webp" alt="Scene 02 — The Checkout" />
+        <div class="framing-badge">9:16 · MCU</div>
+      </div>
+      <div class="panel-body">
+        <div class="beats-list">
+          <div class="beat">
+            <div class="beat-tc b-green">0:20</div>
+            <div class="beat-text"><strong>Gloria's belt</strong> — bottle after bottle, product after product. The checkout clerk starts scanning. It takes a moment.</div>
+          </div>
+          <div class="beat">
+            <div class="beat-tc b-green">0:25</div>
+            <div class="beat-text"><strong>Ana places one</strong> — one green ACO tub on the belt. That's it. She waits, relaxed.</div>
+          </div>
+          <div class="beat">
+            <div class="beat-tc b-green">0:28</div>
+            <div class="beat-text"><strong>The look</strong> — Gloria glances at Ana's single item, then at her own pile. A beat. She can't help herself.</div>
+          </div>
+          <div class="beat">
+            <div class="beat-tc b-green">0:30</div>
+            <div class="beat-text"><strong>The exchange</strong> — two takes needed: one where Gloria's expression shifts to curious, one where she almost smiles. Use the curious one.</div>
+          </div>
+        </div>
+        <div class="dialogue-box">
+          <div class="dialogue-label">Dialogue</div>
+          <div class="dialogue-line">
+            <div class="dialogue-speaker">Gloria</div>
+            <div class="dialogue-words">"That's all you're buying?"</div>
+          </div>
+          <div class="dialogue-line">
+            <div class="dialogue-speaker">Ana</div>
+            <div class="dialogue-words">"That's all I need."</div>
+          </div>
+        </div>
+        <div class="dir-box">
+          <div class="dir-label">Director's Note</div>
+          <div class="dir-text">This is the heart of the film. The line must land naturally — not like a punchline, more like a quiet fact. Ana's delivery is kind, never superior.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENE 03: THE PROOF -->
+    <div class="panel">
+      <div class="panel-hdr proof">
+        <div class="ph-left">
+          <div class="scene-num">SCENE 03</div>
+          <div class="scene-name">The Proof</div>
+        </div>
+        <div class="ph-right">
+          <div class="timecode">0:35 – 0:50</div>
+        </div>
+      </div>
+      <div class="panel-visual">
+        <img src="../../../vault/aco/images/story07-panel-c.webp" alt="Scene 03 — The Proof" />
+        <div class="framing-badge">9:16 · CUTS</div>
+      </div>
+      <div class="panel-body">
+        <div class="beats-list">
+          <div class="beat">
+            <div class="beat-tc b-blue">0:35</div>
+            <div class="beat-text"><strong>Kitchen surface</strong> — ACO tub on counter. Ana wipes the hob. One motion. Done.</div>
+          </div>
+          <div class="beat">
+            <div class="beat-tc b-blue">0:40</div>
+            <div class="beat-text"><strong>Bathroom tiles</strong> — same tub. She sprays and wipes tiles. They gleam.</div>
+          </div>
+          <div class="beat">
+            <div class="beat-tc b-blue">0:43</div>
+            <div class="beat-text"><strong>Glass surface</strong> — window or mirror. One application. Streak-free, clear.</div>
+          </div>
+          <div class="beat">
+            <div class="beat-tc b-blue">0:46</div>
+            <div class="beat-text"><strong>Floor</strong> — Ana mops, wide shot, tub in corner of frame. Not working hard. Floor spotless. Tub holds at 0:49.</div>
+          </div>
+        </div>
+        <div class="vo-box">
+          <div class="vo-label">Voice Over</div>
+          <div class="vo-text">"Kitchen. Bathroom. Glass. Floors. One product does it all."</div>
+        </div>
+        <div class="dir-box">
+          <div class="dir-label">Director's Note</div>
+          <div class="dir-text">Every cut is 3–4 seconds. The tub must be in frame at all times — it's the through-line. No wipes. Hard cuts only. The speed says efficiency; the tub says simplicity.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENE 04: END SLATE -->
+    <div class="panel">
+      <div class="panel-hdr slate">
+        <div class="ph-left">
+          <div class="scene-num">SCENE 04</div>
+          <div class="scene-name">End Slate</div>
+        </div>
+        <div class="ph-right">
+          <div class="timecode">0:50 – 1:00</div>
+        </div>
+      </div>
+      <div class="panel-visual pending slate-bg">
+        <div class="pending-icon">🟢</div>
+        <div class="pending-label">Image · Awaiting Higgsfield</div>
+        <div class="pending-note">ACO Pine Gel tub centred on clean white — label fully legible, unhurried hero packshot</div>
+        <div class="framing-badge">9:16 · PACKSHOT</div>
+      </div>
+      <div class="panel-body">
+        <div class="beats-list">
+          <div class="beat">
+            <div class="beat-tc b-dark">0:50</div>
+            <div class="beat-text"><strong>Cut to white</strong> — ACO Pine Gel tub rises in from the bottom of frame. Centred. Unhurried. Label fully legible.</div>
+          </div>
+          <div class="beat">
+            <div class="beat-tc b-dark">0:54</div>
+            <div class="beat-text"><strong>Tagline builds</strong> — "YOU ONLY NEED ONE." bold and final.</div>
+          </div>
+          <div class="beat">
+            <div class="beat-tc b-dark">0:57</div>
+            <div class="beat-text"><strong>CTA appears</strong> — "Smarter Cleaning Starts Here." in clean secondary type.</div>
+          </div>
+          <div class="beat">
+            <div class="beat-tc b-dark">0:58</div>
+            <div class="beat-text"><strong>Logo settles</strong> — ACO red logo, bottom right. "All Purpose Pine Gel Cleaner · Angola" locks to end.</div>
+          </div>
+        </div>
+        <div class="super-box">
+          <div class="super-label">Super / Text on Screen</div>
+          <div class="super-line">YOU ONLY NEED ONE.</div>
+          <div class="super-line sub">Smarter Cleaning Starts Here.</div>
+          <div class="super-line sub">ACO Pine Gel · All Purpose Pine Gel Cleaner</div>
+          <div class="super-line sub" style="margin-top:6px; color: rgba(255,255,255,0.35); font-size:12px;">PT: Só Precisas de Um. · Limpeza Mais Inteligente Começa Aqui.</div>
+        </div>
+        <div class="dir-box">
+          <div class="dir-label">Director's Note</div>
+          <div class="dir-text">No music crescendo. Clean, quiet, confident. The white frame after the busy supermarket energy makes the product feel like a relief. Hold longer than feels comfortable — 10 seconds is the goal.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /panels -->
+
+  <!-- CHARACTER BIBLES -->
+  <div class="sec">Cast · Characters</div>
+  <div class="bibles">
+
+    <div class="bible">
+      <div class="bible-photo gloria-bg">👩🏾</div>
+      <div class="bible-info">
+        <div class="bible-role">Contrast Character</div>
+        <div class="bible-name">Gloria</div>
+        <div class="bible-attrs">
+          <div class="bible-attr"><strong>Age:</strong> Late 30s · Angolan woman</div>
+          <div class="bible-attr"><strong>Look:</strong> Long straight hair, gold-burgundy wax kaftan</div>
+          <div class="bible-attr"><strong>Character:</strong> Not foolish — just hasn't discovered the better way yet. Recognisable. Relatable. The audience.</div>
+          <div class="bible-attr"><strong>Higgsfield ref:</strong> <code>fcf61db3-3d9a-44be-8c7d-ade2622a9f1d</code></div>
+        </div>
+        <div class="bible-scenes">
+          <div class="scene-tag orange">Scene 01 — The Aisle</div>
+          <div class="scene-tag orange">Scene 02 — The Checkout</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bible">
+      <div class="bible-photo ana-bg">👩🏾‍🦱</div>
+      <div class="bible-info">
+        <div class="bible-role">Brand Hero</div>
+        <div class="bible-name">Ana</div>
+        <div class="bible-attrs">
+          <div class="bible-attr"><strong>Age:</strong> Early 30s · Angolan woman</div>
+          <div class="bible-attr"><strong>Look:</strong> Natural afro, teal-gold wax dress</div>
+          <div class="bible-attr"><strong>Character:</strong> Effortless confidence — no lecture, just the quiet truth. She doesn't explain herself. She doesn't need to.</div>
+          <div class="bible-attr"><strong>Higgsfield ref:</strong> <code>31f347df-0a82-4139-aaf0-4ec3dc8b7001</code></div>
+        </div>
+        <div class="bible-scenes">
+          <div class="scene-tag green">Scene 01 — The Aisle</div>
+          <div class="scene-tag green">Scene 02 — The Checkout</div>
+          <div class="scene-tag green">Scene 03 — The Proof</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- IMAGE PRODUCTION NOTES -->
+  <div class="sec">Image Production · Higgsfield Brief</div>
+  <div class="prompt-section">
+    <div class="prompt-cards">
+
+      <div class="prompt-card">
+        <div class="prompt-card-hdr">
+          <div class="prompt-num">IMAGE 01</div>
+          <div class="prompt-type">Nano Banana Pro</div>
+        </div>
+        <div class="prompt-card-body">
+          <div class="prompt-scene-tag">Scene 01 — The Aisle · Key Two-Shot</div>
+          <div class="prompt-text">Angolan supermarket cleaning aisle, fluorescent overhead lighting, realistic retail environment. Wide shot 9:16 vertical. Left frame: late-30s Angolan woman, long straight hair, gold-burgundy wax kaftan, pushing trolley overloaded with cleaning products, looking at shelves with exhausted focus. Right frame: early-30s Angolan woman, natural afro, teal-gold wax dress, basket over arm, holding single green ACO Pine Gel tub. Character refs: Gloria fcf61db3, Ana 31f347df. Photorealistic, Kodak Vision3 film grain. Both characters clearly visible, trolley vs basket contrast central.</div>
+          <div class="prompt-status">✅ GENERATED — 2026-06-30</div>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-card-hdr">
+          <div class="prompt-num">IMAGE 02</div>
+          <div class="prompt-type">Nano Banana Pro</div>
+        </div>
+        <div class="prompt-card-body">
+          <div class="prompt-scene-tag">Scene 02 — The Checkout · The Exchange</div>
+          <div class="prompt-text">Supermarket checkout counter, Angola. Medium close-up 9:16. Checkout belt: left half loaded with multiple cleaning product bottles (floor cleaner, bathroom spray, stain remover, toilet cleaner). Right side: single green ACO Pine Gel tub, isolated. Early-30s Angolan woman, natural afro, teal-gold wax dress stands relaxed. Late-30s Angolan woman, long straight hair, gold-burgundy kaftan, looks at the single tub with curious expression. Character refs: Gloria fcf61db3, Ana 31f347df. Warm fluorescent retail lighting. Photorealistic.</div>
+          <div class="prompt-status">✅ GENERATED — 2026-06-30</div>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-card-hdr">
+          <div class="prompt-num">IMAGE 03</div>
+          <div class="prompt-type">Nano Banana Pro</div>
+        </div>
+        <div class="prompt-card-body">
+          <div class="prompt-scene-tag">Scene 03 — The Proof · Composite / Key Frame</div>
+          <div class="prompt-text">Split composite of Ana's home — clean modern Angolan apartment. Early-30s Angolan woman, natural afro, teal-gold wax dress, effortlessly cleaning. Green ACO Pine Gel tub visible and prominent in frame. Surfaces gleaming: kitchen hob, bathroom tiles, glass window. Not working hard — barely trying. Bright natural daylight, warm tones. Character ref: Ana 31f347df. Photorealistic, Kodak Vision3. The tub is the hero in every frame.</div>
+          <div class="prompt-status">✅ GENERATED — 2026-06-30</div>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-card-hdr">
+          <div class="prompt-num">MOTION 01</div>
+          <div class="prompt-type">Seedance 2.0</div>
+        </div>
+        <div class="prompt-card-body">
+          <div class="prompt-scene-tag">Scene 03 → End Slate · Motion Bridge</div>
+          <div class="prompt-text">From Ana's clean kitchen — ACO Pine Gel tub in foreground, gleaming surfaces behind. Camera pushes in slowly on the tub. Cut to pure white frame. The tub rises from the bottom of frame, centred, unhurried. Label crystal clear. Holds. Quiet, confident, final. No music. No movement except the tub's entrance. 9:16 vertical. Seedance 2.0, 4 seconds.</div>
+          <div class="prompt-status">✅ GENERATED — 2026-06-30 · Job: 0f4c7ef2 · 3 frames: dcff8933 / 9f2b92ed / a15b7668 (all packshot-locked)</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PRODUCTION TABLE -->
+  <div class="sec">Production Notes</div>
+  <div class="prod-table-wrap">
+    <table class="prod-table">
+      <tr>
+        <th>Element</th>
+        <th>Detail</th>
+      </tr>
+      <tr>
+        <td>Locations</td>
+        <td>2 only: supermarket (1 aisle + 1 checkout) + Ana's home (kitchen, bathroom, floors, glass)</td>
+      </tr>
+      <tr>
+        <td>Cast</td>
+        <td>Gloria + Ana — existing characters, established Higgsfield reference IDs locked</td>
+      </tr>
+      <tr>
+        <td>Key Prop</td>
+        <td>ACO Pine Gel tub (green) — must be on screen, label-forward, in every scene including Scene 03</td>
+      </tr>
+      <tr>
+        <td>Dialogue</td>
+        <td>2 lines total — Scene 02 only. Everything else visual or VO.</td>
+      </tr>
+      <tr>
+        <td>VO</td>
+        <td>Scene 03 only: "Kitchen. Bathroom. Glass. Floors. One product does it all."</td>
+      </tr>
+      <tr>
+        <td>Format</td>
+        <td>9:16 vertical throughout. 60 seconds. 4 scenes. TikTok / Instagram Reels.</td>
+      </tr>
+      <tr>
+        <td>Image refs</td>
+        <td>Gloria: <code>fcf61db3-3d9a-44be-8c7d-ade2622a9f1d</code> · Ana: <code>31f347df-0a82-4139-aaf0-4ec3dc8b7001</code></td>
+      </tr>
+      <tr>
+        <td>Images to generate</td>
+        <td>3 × Nano Banana Pro (Scenes 01, 02, 03) + 1 × Seedance 2.0 motion (Scenes 03→04)</td>
+      </tr>
+      <tr>
+        <td>Status</td>
+        <td>✅ 3 × Nano Banana Pro images generated 2026-06-30. ✅ Seedance 3-frame rerun submitted 2026-06-30 (job 0f4c7ef2), all frames packshot-locked via c13eafbe. VO + score in post via ElevenLabs.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div>ACO Pine Gel · Angola · Story 07 of 7 · <strong>CENTREFREE</strong> for Shalina Healthcare</div>
+    <div>June 2026 · Director of Art: Niamh · Image production: Higgsfield (Nano Banana Pro + Seedance 2.0)</div>
+  </div>
+
+</div>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

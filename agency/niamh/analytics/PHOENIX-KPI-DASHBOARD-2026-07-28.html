@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Flux Analytics — Phoenix KPI Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Outfit:wght@200;300;400;500&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sea:#0b1a24; --sea2:#0e2029; --line:rgba(251,250,247,.10); --line2:rgba(251,250,247,.06);
+  --warm:#FBFAF7; --dim:#8a93a8; --faint:#5d6577;
+  --cerise:#DE3163;
+  --fb:#1877F2; --ig:#E4405F; --yt:#FF3B30; --tt:#25F4EE;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--sea);color:var(--warm);font-family:Outfit,system-ui,sans-serif;font-weight:300;
+     -webkit-font-smoothing:antialiased;padding:clamp(20px,4vw,56px) clamp(16px,4vw,64px) 80px}
+.wrap{max-width:1240px;margin:0 auto}
+
+/* ---------- masthead ---------- */
+.mast{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;
+      padding-bottom:22px;border-bottom:1px solid var(--line)}
+.mark{font-family:'Roboto Mono',monospace;font-weight:400;font-size:13px;letter-spacing:.34em;text-transform:uppercase}
+.mark span{color:var(--cerise)}
+.seat{font-family:Cormorant Garamond,serif;font-weight:300;font-size:clamp(30px,4.4vw,46px);line-height:1.04;margin-top:12px}
+.seat em{font-style:normal;color:var(--dim)}
+.mastR{text-align:right;font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:var(--faint);line-height:2}
+.flag{display:inline-block;border:1px solid var(--cerise);color:var(--cerise);padding:4px 10px;border-radius:2px;
+      font-family:'Roboto Mono',monospace;font-size:9.5px;letter-spacing:.2em}
+
+/* ---------- freshness ---------- */
+.fresh{display:flex;align-items:center;gap:clamp(18px,3vw,42px);flex-wrap:wrap;
+       padding:22px 0;border-bottom:1px solid var(--line2)}
+.fresh-head{display:flex;align-items:baseline;gap:12px}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--cerise);position:relative;top:-2px;
+       box-shadow:0 0 0 0 rgba(222,49,99,.55);animation:p 2.6s var(--ease) infinite}
+@keyframes p{0%{box-shadow:0 0 0 0 rgba(222,49,99,.5)}70%{box-shadow:0 0 0 11px rgba(222,49,99,0)}100%{box-shadow:0 0 0 0 rgba(222,49,99,0)}}
+.fresh-lab{font-family:'Roboto Mono',monospace;font-size:9.5px;letter-spacing:.22em;color:var(--faint);text-transform:uppercase}
+.fresh-val{font-family:Cormorant Garamond,serif;font-size:26px;font-weight:400}
+.fresh-detail{margin-left:auto;display:flex;gap:22px;font-family:'Roboto Mono',monospace;font-size:10.5px;color:var(--dim)}
+.fresh-detail b{font-weight:400;color:var(--warm)}
+
+/* ---------- kpi ---------- */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(212px,1fr));gap:0;margin-top:6px}
+.kpi{padding:34px 30px 28px;border-right:1px solid var(--line2);border-bottom:1px solid var(--line2)}
+.kpi:last-child{border-right:none}
+.kpi-lab{font-family:'Roboto Mono',monospace;font-size:9.5px;letter-spacing:.2em;color:var(--faint);text-transform:uppercase}
+.kpi-val{font-family:Cormorant Garamond,serif;font-weight:300;font-size:clamp(40px,5.2vw,58px);line-height:1;margin:14px 0 6px;letter-spacing:-.01em}
+.kpi-delta{font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.08em;color:var(--dim)}
+.up{color:#6fd39a}.down{color:#e0736b}
+.spark{margin-top:20px;display:block;width:100%;height:34px;overflow:visible}
+
+/* ---------- section ---------- */
+.sec{margin-top:64px}
+.sec-h{display:flex;align-items:baseline;gap:16px;margin-bottom:26px}
+.sec-h h2{font-family:Cormorant Garamond,serif;font-weight:400;font-size:24px;letter-spacing:.01em}
+.rule{flex:1;height:1px;background:var(--line2)}
+.sec-h .n{font-family:'Roboto Mono',monospace;font-size:10px;color:var(--faint);letter-spacing:.2em}
+
+/* ---------- growth bars ---------- */
+.bars{display:grid;gap:16px}
+.bar-row{display:grid;grid-template-columns:120px 1fr 84px;align-items:center;gap:20px}
+.bar-name{font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase}
+.bar-track{height:3px;background:var(--line2);position:relative}
+.bar-fill{position:absolute;left:0;top:0;height:3px}
+.bar-val{font-family:Cormorant Garamond,serif;font-size:20px;text-align:right}
+
+/* ---------- platform panels ---------- */
+.panels{display:grid;grid-template-columns:repeat(auto-fit,minmax(288px,1fr));gap:1px;background:var(--line2)}
+.panel{background:var(--sea);padding:28px 26px 24px}
+.p-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding-bottom:16px;
+        border-bottom:1px solid var(--line2)}
+.p-name{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase}
+.p-sub{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--faint);display:block;margin-top:6px}
+.p-anchor{font-family:Cormorant Garamond,serif;font-weight:300;font-size:34px;line-height:1;text-align:right}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line2);margin-top:1px}
+.tile{background:var(--sea);padding:16px 14px 14px}
+.t-lab{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:.16em;color:var(--faint);text-transform:uppercase}
+.t-val{font-family:Cormorant Garamond,serif;font-size:22px;margin-top:6px}
+.stamp{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--dim);margin-top:14px}
+
+/* ---------- not provided ---------- */
+.absent{margin-top:22px;padding:16px 20px;border:1px solid var(--line2);border-left:2px solid var(--faint)}
+.absent-lab{font-family:'Roboto Mono',monospace;font-size:9.5px;letter-spacing:.22em;color:var(--dim);text-transform:uppercase}
+.absent-body{font-family:'Roboto Mono',monospace;font-size:11px;color:var(--dim);line-height:2;margin-top:8px}
+.absent-body b{color:var(--warm);font-weight:400}
+
+/* ---------- table ---------- */
+table{width:100%;border-collapse:collapse}
+th{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--faint);text-transform:uppercase;
+   text-align:left;padding:0 14px 12px 0;border-bottom:1px solid var(--line2);font-weight:400}
+td{padding:16px 14px 16px 0;border-bottom:1px solid var(--line2);font-size:14px;vertical-align:top}
+td.num{font-family:Cormorant Garamond,serif;font-size:20px;text-align:right;padding-right:0}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:9px;position:relative;top:-1px}
+
+/* ---------- footer ---------- */
+footer{margin-top:70px;padding-top:22px;border-top:1px solid var(--line);
+       font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.12em;color:var(--faint);line-height:2.1}
+footer b{color:var(--dim);font-weight:400}
+@media(max-width:640px){
+  .kpi{border-right:none}
+  .bar-row{grid-template-columns:88px 1fr 66px;gap:12px}
+  .fresh-detail{margin-left:0;width:100%;flex-wrap:wrap;gap:14px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- MASTHEAD -->
+  <header class="mast">
+    <div>
+      <div class="mark">Flux <span>Analytics</span></div>
+      <div class="seat">Phoenix <em>· seat 05 · audit board</em></div>
+    </div>
+    <div class="mastR">
+      <span class="flag">SAMPLE DATA — NOT LIVE</span><br>
+      Period · 01–28 Jul 2026<br>
+      Compiled 28 Jul · 14:52 SAST
+    </div>
+  </header>
+
+  <!-- FRESHNESS — worst case is the headline -->
+  <section class="fresh">
+    <div class="fresh-head">
+      <span class="pulse"></span>
+      <div>
+        <div class="fresh-lab">Board is only as fresh as its stalest feed</div>
+        <div class="fresh-val">TikTok — 12 minutes ago</div>
+      </div>
+    </div>
+    <div class="fresh-detail">
+      <span>FB <b>2m</b></span><span>IG <b>4m</b></span><span>YT <b>6m</b></span><span>TT <b>12m</b></span>
+    </div>
+  </section>
+
+  <!-- KPI ROW — each spark draws its OWN metric -->
+  <section class="kpis">
+    <div class="kpi">
+      <div class="kpi-lab">Total followers</div>
+      <div class="kpi-val">61.4k</div>
+      <div class="kpi-delta up">▲ 3.8% · +2,240 this period</div>
+      <svg class="spark" viewBox="0 0 200 34" preserveAspectRatio="none">
+        <polyline fill="none" stroke="#8a93a8" stroke-width="1" vector-effect="non-scaling-stroke"
+          points="0,27 20,26 40,25 60,24 80,22 100,21 120,18 140,16 160,13 180,10 200,7"/>
+      </svg>
+    </div>
+    <div class="kpi">
+      <div class="kpi-lab">Reach</div>
+      <div class="kpi-val">412k</div>
+      <div class="kpi-delta up">▲ 11.2% · peak 15 Jul</div>
+      <svg class="spark" viewBox="0 0 200 34" preserveAspectRatio="none">
+        <polyline fill="none" stroke="#8a93a8" stroke-width="1" vector-effect="non-scaling-stroke"
+          points="0,25 20,22 40,26 60,19 80,8 100,14 120,11 140,20 160,17 180,13 200,12"/>
+      </svg>
+    </div>
+    <div class="kpi">
+      <div class="kpi-lab">Engagements</div>
+      <div class="kpi-val">28.9k</div>
+      <div class="kpi-delta down">▼ 2.1% · vs. prior 28d</div>
+      <svg class="spark" viewBox="0 0 200 34" preserveAspectRatio="none">
+        <polyline fill="none" stroke="#8a93a8" stroke-width="1" vector-effect="non-scaling-stroke"
+          points="0,12 20,10 40,15 60,13 80,18 100,16 120,20 140,19 160,23 180,21 200,24"/>
+      </svg>
+    </div>
+    <div class="kpi">
+      <div class="kpi-lab">Posts published</div>
+      <div class="kpi-val">63</div>
+      <div class="kpi-delta">— 2.3 / day · 4 platforms</div>
+      <svg class="spark" viewBox="0 0 200 34" preserveAspectRatio="none">
+        <g stroke="#8a93a8" stroke-width="1" vector-effect="non-scaling-stroke">
+          <line x1="8" y1="34" x2="8" y2="18"/><line x1="32" y1="34" x2="32" y2="22"/>
+          <line x1="56" y1="34" x2="56" y2="14"/><line x1="80" y1="34" x2="80" y2="20"/>
+          <line x1="104" y1="34" x2="104" y2="10"/><line x1="128" y1="34" x2="128" y2="24"/>
+          <line x1="152" y1="34" x2="152" y2="16"/><line x1="176" y1="34" x2="176" y2="21"/>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <!-- GROWTH -->
+  <section class="sec">
+    <div class="sec-h"><h2>Follower growth by platform</h2><div class="rule"></div><div class="n">28 DAYS</div></div>
+    <div class="bars">
+      <div class="bar-row">
+        <div class="bar-name">Instagram</div>
+        <div class="bar-track"><div class="bar-fill" style="width:86%;background:var(--ig)"></div></div>
+        <div class="bar-val">+1,040</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-name">TikTok</div>
+        <div class="bar-track"><div class="bar-fill" style="width:64%;background:var(--tt)"></div></div>
+        <div class="bar-val">+770</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-name">Facebook</div>
+        <div class="bar-track"><div class="bar-fill" style="width:27%;background:var(--fb)"></div></div>
+        <div class="bar-val">+325</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-name">YouTube</div>
+        <div class="bar-track"><div class="bar-fill" style="width:9%;background:var(--yt)"></div></div>
+        <div class="bar-val">+105</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PER-PLATFORM -->
+  <section class="sec">
+    <div class="sec-h"><h2>Per platform</h2><div class="rule"></div><div class="n">ANCHOR + SECONDARY</div></div>
+    <div class="panels">
+
+      <div class="panel">
+        <div class="p-head">
+          <div><div class="p-name" style="color:var(--ig)">Instagram</div><span class="p-sub">Followers</span></div>
+          <div class="p-anchor">20.8k</div>
+        </div>
+        <div class="tiles">
+          <div class="tile"><div class="t-lab">Reach</div><div class="t-val">168k</div></div>
+          <div class="tile"><div class="t-lab">Eng. rate</div><div class="t-val">3.4%</div></div>
+          <div class="tile"><div class="t-lab">Posts</div><div class="t-val">22</div></div>
+          <div class="tile"><div class="t-lab">Saves</div><div class="t-val">1,912</div></div>
+        </div>
+        <div class="stamp">Collected 4m ago</div>
+      </div>
+
+      <div class="panel">
+        <div class="p-head">
+          <div><div class="p-name" style="color:var(--tt)">TikTok</div><span class="p-sub">Followers</span></div>
+          <div class="p-anchor">17.2k</div>
+        </div>
+        <div class="tiles">
+          <div class="tile"><div class="t-lab">Views</div><div class="t-val">204k</div></div>
+          <div class="tile"><div class="t-lab">Eng. rate</div><div class="t-val">6.1%</div></div>
+          <div class="tile"><div class="t-lab">Posts</div><div class="t-val">18</div></div>
+          <div class="tile"><div class="t-lab">Shares</div><div class="t-val">3,408</div></div>
+        </div>
+        <div class="stamp">Collected 12m ago — stalest</div>
+      </div>
+
+      <div class="panel">
+        <div class="p-head">
+          <div><div class="p-name" style="color:var(--fb)">Facebook</div><span class="p-sub">Page likes</span></div>
+          <div class="p-anchor">18.6k</div>
+        </div>
+        <div class="tiles">
+          <div class="tile"><div class="t-lab">Reach</div><div class="t-val">31k</div></div>
+          <div class="tile"><div class="t-lab">Eng. rate</div><div class="t-val">1.2%</div></div>
+          <div class="tile"><div class="t-lab">Posts</div><div class="t-val">15</div></div>
+          <div class="tile"><div class="t-lab">Comments</div><div class="t-val">402</div></div>
+        </div>
+        <div class="stamp">Collected 2m ago</div>
+      </div>
+
+      <div class="panel">
+        <div class="p-head">
+          <div><div class="p-name" style="color:var(--yt)">YouTube</div><span class="p-sub">Subscribers</span></div>
+          <div class="p-anchor">4.8k</div>
+        </div>
+        <div class="tiles">
+          <div class="tile"><div class="t-lab">Views</div><div class="t-val">9,140</div></div>
+          <div class="tile"><div class="t-lab">Avg. view</div><div class="t-val">1:48</div></div>
+          <div class="tile"><div class="t-lab">Posts</div><div class="t-val">8</div></div>
+          <div class="tile"><div class="t-lab">Likes</div><div class="t-val">611</div></div>
+        </div>
+        <div class="stamp">Collected 6m ago</div>
+      </div>
+
+    </div>
+
+    <!-- HONEST ABSENCES — footnote, not a peer -->
+    <div class="absent">
+      <div class="absent-lab">Not provided</div>
+      <div class="absent-body">
+        <b>Watch-time</b> — not provided by the commercial API ·
+        <b>Demographics</b> — deprecated by Meta, excluded rather than estimated ·
+        <b>Cross-platform engagement rate</b> — omitted deliberately: averaging rates across incompatible denominators produces a number that is not a quantity.
+      </div>
+    </div>
+  </section>
+
+  <!-- TOP POSTS -->
+  <section class="sec">
+    <div class="sec-h"><h2>Top posts</h2><div class="rule"></div><div class="n">BY ENGAGEMENT</div></div>
+    <table>
+      <thead><tr><th style="width:44%">Post</th><th>Platform</th><th>Published</th><th style="text-align:right">Engagements</th></tr></thead>
+      <tbody>
+        <tr><td>Bounce Back — dance circle teaser</td><td><span class="dot" style="background:var(--tt)"></span>TikTok</td><td>21 Jul</td><td class="num">6,204</td></tr>
+        <tr><td>Never Miss Your Moment — stadium hero</td><td><span class="dot" style="background:var(--ig)"></span>Instagram</td><td>17 Jul</td><td class="num">4,118</td></tr>
+        <tr><td>Rise on Four — anthem clip</td><td><span class="dot" style="background:var(--tt)"></span>TikTok</td><td>24 Jul</td><td class="num">3,860</td></tr>
+        <tr><td>Fresh Start Club — the colour change</td><td><span class="dot" style="background:var(--ig)"></span>Instagram</td><td>12 Jul</td><td class="num">2,740</td></tr>
+        <tr><td>Match Day — braai table</td><td><span class="dot" style="background:var(--fb)"></span>Facebook</td><td>09 Jul</td><td class="num">1,466</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    <b>Provenance</b> — every figure on this board is collected, never estimated. Breaks in a line mean data was not captured, never zero. Absences are stated, not filled.<br>
+    <b>Rules in force</b> — aggregate layer achromatic, platforms own their colour · one signal hue (cerise) reserved for live · anchor number promoted to panel header · absences demoted to footnote · each sparkline draws its own metric.<br>
+    <b>Board</b> — Phoenix, seat 05 · drafted by Niamh, seat 02 · 2026-07-28 · sample data pending live feed.
+  </footer>
+
+</div>
+</body>
+</html>

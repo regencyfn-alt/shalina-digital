@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shalina · Brand Asset Hub — CENTREFREE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Source+Sans+3:wght@400;600;700&family=Archivo:wght@400;600;800&family=Archivo+Black&family=Plus+Jakarta+Sans:wght@400;600;800&family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F7EFE0; --paper:#FBF7EF; --ink:#1A1A1A; --ink-dim:#6b675f;
+    --brand:#1F4598; --accent:#F17025; --extra:#55B8ED; --line:#e3ddd0;
+    --display:'Playfair Display',Georgia,serif; --body:'Source Sans 3',system-ui,sans-serif;
+    --ok:#1F8A5B; --miss:#C0392B; --shadow:0 1px 3px rgba(30,25,15,.08),0 8px 24px rgba(30,25,15,.06);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);
+    -webkit-font-smoothing:antialiased;line-height:1.5;transition:background .35s ease,color .35s ease}
+  a{color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:32px 24px 96px}
+  /* ---- top bar ---- */
+  .top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:8px}
+  .top .eyebrow{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-dim);font-weight:700}
+  h1{font-family:var(--display);font-weight:800;font-size:2.1rem;margin:.1em 0 .1em;letter-spacing:-.01em}
+  .sub{color:var(--ink-dim);max-width:62ch;margin:0 0 26px}
+  .back{border:1px solid var(--line);background:var(--paper);border-radius:0;padding:8px 14px;
+    font:inherit;font-weight:600;cursor:pointer;display:none;align-items:center;gap:8px}
+  .back:hover{border-color:var(--brand)}
+  /* ---- hub grid ---- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:0;padding:0;overflow:hidden;
+    box-shadow:var(--shadow);cursor:pointer;transition:transform .18s ease,box-shadow .18s ease;display:flex;flex-direction:column}
+  .card:hover{transform:translateY(-3px);box-shadow:0 4px 10px rgba(30,25,15,.12),0 18px 40px rgba(30,25,15,.10)}
+  .card .band{height:76px;display:flex;align-items:center;padding:0 18px;gap:14px}
+  .card .band .logo{height:40px;max-width:120px;object-fit:contain;filter:drop-shadow(0 1px 2px rgba(0,0,0,.15))}
+  .card .body{padding:16px 18px 18px}
+  .card h3{margin:0 0 2px;font-family:var(--display);font-size:1.25rem;font-weight:700}
+  .card .cat{font-size:.78rem;color:var(--ink-dim);margin-bottom:12px}
+  .chips{display:flex;gap:6px;margin:10px 0 12px}
+  .chips i{width:22px;height:22px;border-radius:50%;display:inline-block;border:1px solid rgba(0,0,0,.12)}
+  .meter{height:8px;background:#00000010;border-radius:0;overflow:hidden}
+  .meter b{display:block;height:100%;border-radius:0}
+  .mrow{display:flex;justify-content:space-between;align-items:center;font-size:.78rem;margin-top:8px;color:var(--ink-dim)}
+  .flag{font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--miss)}
+  /* ---- brand view ---- */
+  #brandview{display:none}
+  .bhead{display:flex;align-items:flex-end;gap:22px;flex-wrap:wrap;padding:26px 26px 22px;border:1px solid var(--line);
+    background:var(--paper);box-shadow:var(--shadow);margin-bottom:8px}
+  .bhead .logo{height:56px;max-width:180px;object-fit:contain}
+  .bhead .t .eyebrow{color:var(--brand)}
+  .bhead h2{font-family:var(--display);font-size:2rem;margin:.05em 0;font-weight:800}
+  .palrow{display:flex;gap:10px;flex-wrap:wrap;margin-left:auto}
+  .sw{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.66rem;color:var(--ink-dim)}
+  .sw i{width:44px;height:44px;border:1px solid rgba(0,0,0,.15);display:block}
+  .sw code{font-size:.64rem}
+  .notice{border-left:4px solid var(--accent);background:var(--paper);padding:12px 16px;margin:14px 0;font-size:.9rem;box-shadow:var(--shadow)}
+  .notice.warn{border-left-color:var(--miss)}
+  .typespec{font-size:.86rem;color:var(--ink-dim);margin:2px 0 0}
+  /* inventory */
+  h4.sec{font-family:var(--display);font-size:1.15rem;margin:26px 0 4px;font-weight:700}
+  .secsub{color:var(--ink-dim);font-size:.84rem;margin:0 0 14px}
+  .cats{display:grid;gap:14px}
+  .cat-row{border:1px solid var(--line);background:var(--paper);box-shadow:var(--shadow)}
+  .cat-head{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line)}
+  .cat-head .name{font-weight:700}
+  .cat-head .st{margin-left:auto;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    padding:3px 9px;border-radius:0}
+  .st.have{color:var(--ok);background:#1f8a5b18}
+  .st.miss{color:var(--miss);background:#c0392b14}
+  .st.spec{color:var(--brand);background:#1f459814}
+  .thumbs{display:flex;gap:10px;flex-wrap:wrap;padding:14px 16px}
+  .thumb{width:96px;height:96px;border:1px solid var(--line);background:#fff;object-fit:contain;padding:6px}
+  .empty{padding:14px 16px;color:var(--ink-dim);font-size:.86rem;font-style:italic}
+  /* upload */
+  .drop{border:2px dashed var(--brand);background:#ffffff70;padding:26px;text-align:center;margin-top:8px;
+    transition:background .15s ease,border-color .15s ease}
+  .drop.hot{background:#ffffff;border-color:var(--accent)}
+  .drop h5{margin:0 0 4px;font-size:1rem}
+  .drop p{margin:0;color:var(--ink-dim);font-size:.84rem}
+  .drop .row{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:14px}
+  select,.btn{font:inherit;padding:9px 14px;border:1px solid var(--line);background:var(--paper);border-radius:0;cursor:pointer}
+  .btn.primary{background:var(--brand);color:#fff;border-color:var(--brand);font-weight:700}
+  .btn.primary:hover{filter:brightness(1.06)}
+  #queue{margin-top:14px;display:grid;gap:8px}
+  .qitem{display:flex;align-items:center;gap:12px;background:var(--paper);border:1px solid var(--line);padding:8px 12px;font-size:.84rem}
+  .qitem img{width:38px;height:38px;object-fit:cover;border:1px solid var(--line)}
+  .qitem .s{margin-left:auto;font-weight:700;font-size:.74rem}
+  .s.pending{color:var(--ink-dim)} .s.done{color:var(--ok)} .s.err{color:var(--miss)}
+  .endpoint{font-size:.78rem;color:var(--ink-dim);margin-top:10px}
+  .foot{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink-dim);font-size:.76rem}
+  code{font-family:ui-monospace,Menlo,Consolas,monospace}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <button class="back" id="back">&larr; All brands</button>
+    <div>
+      <div class="eyebrow" id="crumb">Shalina Healthcare · CENTREFREE</div>
+      <h1 id="title">Brand Asset Hub</h1>
+    </div>
+  </div>
+  <p class="sub" id="lead">One page per brand, in its own colours. Each shows the assets on file, what's still required, and a place to upload the rest. Assets you add are stored to the estate and appear here for every staff member.</p>
+
+  <!-- HUB -->
+  <section id="hub"><div class="grid" id="cards"></div></section>
+
+  <!-- BRAND VIEW -->
+  <section id="brandview"></section>
+
+  <div class="foot" id="foot">CENTREFREE Agency / RegencyFlux · Brand Asset Hub v1.0 · behind the estate OAuth door · palettes sourced from each brand's current canon (see notices).</div>
+</div>
+
+<script>
+/* ============================================================================
+   BRAND ASSET HUB — config-driven, single file.
+   Palettes are each brand's PURE canon. Manifest = assets currently on disk.
+   Live inventory + upload talk to /api/brand-assets (GET list, POST upload).
+   ========================================================================== */
+var ASSET_BASE = "../assets/";          // current on-disk holdings, relative to /pages/
+var API = "/api/brand-assets";          // coder-built endpoint (deploy pending)
+
+var REQUIRED = [
+  {key:"logo",     label:"Logo / mark",          up:true},
+  {key:"packaging",label:"Packaging / packshot", up:true},
+  {key:"campaign", label:"Campaign photography", up:true},
+  {key:"cast",     label:"Cast / character plates", up:true},
+  {key:"spec",     label:"Colour + type spec",   up:false}
+];
+
+var BRANDS = {
+  shalartem:{
+    name:"Shal'Artem", cat:"Anti-malarial · Artemether + Lumefantrine",
+    pal:{bg:"#F7EFE0",paper:"#FBF7EF",ink:"#1A1A1A",brand:"#1F4598",accent:"#F17025",extra:"#55B8ED",line:"#e3ddd0"},
+    swatches:[["#1F4598","Blue"],["#F17025","Orange"],["#55B8ED","Sky"],["#C68A1E","Gold"],["#F7EFE0","Parchment"]],
+    type:"Playfair Display (display) + Source Sans 3 (body). Parchment ground, never white.",
+    display:"'Playfair Display',serif", body:"'Source Sans 3',sans-serif",
+    specNote:"Canon: Shal'Artem FY2026/27 Brand System. Palette confirmed.",
+    assets:{ logo:["logos/shalartem.png"],
+      packaging:["packaging/shalartem-12t.png","packaging/shalartem-18t.png","packaging/shalartem-dt.png"],
+      campaign:["campaign/bounce-back-firststeps.png","campaign/bounce-back-graduation.png","campaign/bounce-back-stadium.png"],
+      cast:["cast/doctor-bayo.png","cast/pharmacist-ngozi.png","cast/teacher-accra.jpeg"] }
+  },
+  flodent:{
+    name:"Flodent", cat:"Oral care · The Mkhize Family series",
+    pal:{bg:"#FAF6F0",paper:"#FFFFFF",ink:"#1A1A1A",brand:"#E31F26",accent:"#0A6EBD",extra:"#4FB3E8",line:"#eadfd6"},
+    swatches:[["#E31F26","Crimson"],["#0A6EBD","Flodent Blue"],["#4FB3E8","Light Blue"],["#FAF6F0","Pearl"],["#1A1A1A","Charcoal"]],
+    type:"Type not yet specified in Story Bible V2 — provisional Source Sans until ruled. NO greens / teals, ever.",
+    display:"'Source Sans 3',sans-serif", body:"'Source Sans 3',sans-serif",
+    specNote:"Palette LOCKED to Story Bible V2 (your April deck): Crimson leads, Flodent Blue lifts. Type still to confirm.",
+    assets:{ logo:["logos/flodent.png"] }
+  },
+  shaltoux:{
+    name:"Shaltoux", cat:"Cough · voice-first · Inspired by Nature",
+    pal:{bg:"#F3F5F4",paper:"#FFFFFF",ink:"#14211B",brand:"#006633",accent:"#EB921E",extra:"#FFD338",line:"#dde3e0"},
+    swatches:[["#006633","Green"],["#FFD338","Yellow"],["#EB921E","Orange"],["#F3F5F4","Cream"]],
+    type:"Archivo Black 900 UPPERCASE (display) + Archivo (body). Mood drives colour: comfort=green, energy=orange, strong=yellow.",
+    display:"'Archivo Black',sans-serif", body:"'Archivo',sans-serif",
+    specNote:"Palette confirmed. Display context is always UPPERCASE.",
+    assets:{ logo:["logos/shaltoux.png"],
+      packaging:["shaltoux/sachet-green.png","shaltoux/sachet-honey.png","shaltoux/sachet-orange.png"],
+      cast:["shaltoux/voice-studio-man.png","shaltoux/voice-studio-woman.jpeg"] }
+  },
+  ibucap:{
+    name:"Ibucap", cat:"Pain relief · The Power of Three in One",
+    pal:{bg:"#FFFFFF",paper:"#FBFBFA",ink:"#14202B",brand:"#F07D1A",accent:"#1E86D6",extra:"#1F4598",line:"#e6e8ea"},
+    swatches:[["#F07D1A","Orange"],["#1E86D6","Kenya Azure"],["#1F4598","NG/GH Blue"]],
+    type:"Plus Jakarta Sans, all weights. Grounds always light. Packshots are country-specific — verify the market pack before any layout.",
+    display:"'Plus Jakarta Sans',sans-serif", body:"'Plus Jakarta Sans',sans-serif",
+    specNote:"Palette confirmed. PPB/FDA: no doctors, nurses, pharmacists, pill-taking, medical settings.",
+    assets:{ logo:["logos/ibucap.png"] }
+  },
+  aco:{
+    name:"ACO", cat:"Home cleaning · Angola · Pine Gel",
+    pal:{bg:"#FBF7EF",paper:"#FFFFFF",ink:"#1A1A1A",brand:"#1A7A4A",accent:"#7C7A75",extra:"#cfccc7",line:"#e5e1d8"},
+    swatches:[["#1A7A4A","Green (provisional)"]],
+    type:"Portuguese-first, documentary. Type not yet confirmed.",
+    display:"'Source Sans 3',sans-serif", body:"'Source Sans 3',sans-serif",
+    specNote:"UNCONFIRMED",
+    unconfirmed:true,
+    assets:{ logo:["logos/aco.png"],
+      campaign:["characters/aco/aco-campaign-stills-05.jpg","characters/aco/aco-end-slate.jpg"],
+      cast:["characters/aco/ana-reference.png","characters/aco/gloria-reference.png"] }
+  },
+  germol:{
+    name:"Germol", cat:"Antiseptic · West Africa · Shields with Love and Care",
+    pal:{bg:"#FFFFFF",paper:"#F7FBFD",ink:"#10202A",brand:"#0091D0",accent:"#0C9748",extra:"#e6f4fa",line:"#dce9ef"},
+    swatches:[["#0091D0","Germol Blue"],["#0C9748","Safety Green"],["#FFFFFF","White"]],
+    type:"Rubik Bold sign-off, Sentence Case. Colour proportion Blue / Green / White = 40 / 40 / 20. Logo clear space 1× 'o'. Never right-aligned type.",
+    display:"'Rubik',sans-serif", body:"'Rubik',sans-serif",
+    specNote:"Palette confirmed (Brand Guideline R3). Series bible written; production not started.",
+    assets:{ logo:["logos/germol.png"] }
+  }
+};
+
+var ORDER=["shalartem","flodent","shaltoux","ibucap","aco","germol"];
+var live={};   // slug -> {category:[{filename,url}]} from API when available
+
+/* ---------- helpers ---------- */
+function held(b,key){
+  var disk=(BRANDS[b].assets&&BRANDS[b].assets[key])?BRANDS[b].assets[key].slice():[];
+  var l=(live[b]&&live[b][key])?live[b][key]:[];
+  return {disk:disk, live:l, count:disk.length+l.length};
+}
+function completeness(b){
+  var up=REQUIRED.filter(function(r){return r.up;});
+  var sat=up.filter(function(r){return held(b,r.key).count>0;}).length;
+  return {sat:sat,total:up.length};
+}
+
+/* ---------- hub ---------- */
+function renderHub(){
+  var host=document.getElementById("cards"); host.innerHTML="";
+  ORDER.forEach(function(slug){
+    var d=BRANDS[slug], c=completeness(slug), pct=Math.round(c.sat/c.total*100);
+    var card=document.createElement("div"); card.className="card"; card.onclick=function(){openBrand(slug);};
+    var chips=d.swatches.slice(0,5).map(function(s){return '<i style="background:'+s[0]+'"></i>';}).join("");
+    card.innerHTML=
+      '<div class="band" style="background:'+d.pal.bg+';border-bottom:3px solid '+d.pal.brand+'">'+
+        '<img class="logo" src="'+ASSET_BASE+d.assets.logo[0]+'" alt="'+d.name+'" onerror="this.style.display=\'none\'">'+
+      '</div>'+
+      '<div class="body">'+
+        '<h3>'+d.name+(d.unconfirmed?' <span class="flag">palette&nbsp;unconfirmed</span>':'')+'</h3>'+
+        '<div class="cat">'+d.cat+'</div>'+
+        '<div class="chips">'+chips+'</div>'+
+        '<div class="meter"><b style="width:'+pct+'%;background:'+(pct===100?'var(--ok)':d.pal.brand)+'"></b></div>'+
+        '<div class="mrow"><span>'+c.sat+' of '+c.total+' asset types on file</span><span>'+pct+'%</span></div>'+
+      '</div>';
+    host.appendChild(card);
+  });
+}
+
+/* ---------- brand view ---------- */
+function applyPalette(p){
+  var r=document.documentElement.style;
+  ["bg","paper","ink","brand","accent","extra","line"].forEach(function(k){ if(p[k]) r.setProperty("--"+k,p[k]); });
+}
+function resetPalette(){
+  var d={bg:"#F7EFE0",paper:"#FBF7EF",ink:"#1A1A1A",brand:"#1F4598",accent:"#F17025",extra:"#55B8ED",line:"#e3ddd0"};
+  applyPalette(d);
+  document.body.style.fontFamily="var(--body)";
+}
+function openBrand(slug){
+  var d=BRANDS[slug];
+  applyPalette(d.pal);
+  document.getElementById("hub").style.display="none";
+  document.getElementById("brandview").style.display="block";
+  document.getElementById("back").style.display="inline-flex";
+  document.getElementById("crumb").textContent="Shalina Healthcare · Brand";
+  document.getElementById("title").textContent=d.name+" — assets";
+  document.getElementById("lead").style.display="none";
+  location.hash="/"+slug;
+  drawBrand(slug);
+  fetchLive(slug);
+}
+function goHub(){
+  resetPalette();
+  document.getElementById("brandview").style.display="none";
+  document.getElementById("hub").style.display="block";
+  document.getElementById("back").style.display="none";
+  document.getElementById("crumb").textContent="Shalina Healthcare · CENTREFREE";
+  document.getElementById("title").textContent="Brand Asset Hub";
+  document.getElementById("lead").style.display="block";
+  location.hash="";
+  renderHub();
+}
+
+function catBlock(slug,r){
+  var d=BRANDS[slug];
+  if(r.key==="spec"){
+    return '<div class="cat-row"><div class="cat-head"><span class="name">'+r.label+'</span>'+
+      '<span class="st spec">from design system</span></div>'+
+      '<div class="empty" style="font-style:normal">'+d.type+'</div></div>';
+  }
+  var h=held(slug,r.key);
+  var thumbs="";
+  h.disk.forEach(function(p){ thumbs+='<img class="thumb" src="'+ASSET_BASE+p+'" title="'+p+'" onerror="this.style.opacity=.25">'; });
+  h.live.forEach(function(a){ thumbs+='<img class="thumb" src="'+a.url+'" title="'+(a.filename||'')+' (uploaded)">'; });
+  var st = h.count>0 ? '<span class="st have">'+h.count+' on file</span>' : '<span class="st miss">missing</span>';
+  var inner = h.count>0 ? '<div class="thumbs">'+thumbs+'</div>'
+                        : '<div class="empty">No '+r.label.toLowerCase()+' on file yet — upload below.</div>';
+  return '<div class="cat-row"><div class="cat-head"><span class="name">'+r.label+'</span>'+st+'</div>'+inner+'</div>';
+}
+
+function drawBrand(slug){
+  var d=BRANDS[slug];
+  var pal=d.swatches.map(function(s){
+    return '<div class="sw"><i style="background:'+s[0]+'"></i><span>'+s[1]+'</span><code>'+s[0]+'</code></div>';
+  }).join("");
+  var notice = d.unconfirmed
+    ? '<div class="notice warn"><b>Palette unconfirmed.</b> ACO has no brand hex in the estate — the green shown is a provisional placeholder. Drop the ACO brand guide into the upload area and I\'ll lock the real palette.</div>'
+    : '<div class="notice">'+d.specNote+'</div>';
+
+  var cats=REQUIRED.map(function(r){return catBlock(slug,r);}).join("");
+
+  var upOpts=REQUIRED.filter(function(r){return r.up;})
+    .map(function(r){return '<option value="'+r.key+'">'+r.label+'</option>';}).join("");
+
+  document.getElementById("brandview").innerHTML=
+    '<div class="bhead" style="font-family:'+d.display+'">'+
+      '<img class="logo" src="'+ASSET_BASE+d.assets.logo[0]+'" alt="'+d.name+'" onerror="this.style.display=\'none\'">'+
+      '<div class="t"><div class="eyebrow" style="font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700">'+d.cat+'</div>'+
+        '<h2>'+d.name+'</h2><div class="typespec" style="font-family:var(--body)">'+d.type+'</div></div>'+
+      '<div class="palrow">'+pal+'</div>'+
+    '</div>'+
+    notice+
+    '<h4 class="sec">Required assets</h4>'+
+    '<p class="secsub">The set every brand needs on file. Green = held, red = still required.</p>'+
+    '<div class="cats">'+cats+'</div>'+
+    '<h4 class="sec">Upload</h4>'+
+    '<p class="secsub">Add missing assets for <b>'+d.name+'</b>. Stored to the estate under this brand and visible to all staff.</p>'+
+    '<div class="drop" id="drop">'+
+      '<h5>Drop files here, or choose</h5>'+
+      '<p>PNG, JPG, SVG, PDF. Assigned to the category you pick.</p>'+
+      '<div class="row">'+
+        '<label>Category&nbsp;<select id="upcat">'+upOpts+'</select></label>'+
+        '<input type="file" id="upfile" multiple hidden accept="image/*,.pdf,.svg">'+
+        '<button class="btn" id="choose">Choose files</button>'+
+        '<button class="btn primary" id="send">Upload to estate</button>'+
+      '</div>'+
+      '<div id="queue"></div>'+
+      '<div class="endpoint" id="epstate">Checking upload endpoint…</div>'+
+    '</div>';
+
+  wireUpload(slug);
+}
+
+/* ---------- upload wiring ---------- */
+var picked=[];
+function wireUpload(slug){
+  picked=[];
+  var drop=document.getElementById("drop"),
+      file=document.getElementById("upfile"),
+      choose=document.getElementById("choose"),
+      send=document.getElementById("send"),
+      queue=document.getElementById("queue");
+
+  choose.onclick=function(){file.click();};
+  file.onchange=function(){addFiles(file.files);};
+  ["dragover","dragenter"].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.add("hot");});});
+  ["dragleave","drop"].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.remove("hot");});});
+  drop.addEventListener("drop",function(e){ if(e.dataTransfer&&e.dataTransfer.files) addFiles(e.dataTransfer.files); });
+  send.onclick=function(){uploadAll(slug);};
+
+  function addFiles(list){
+    Array.prototype.forEach.call(list,function(f){ picked.push(f); });
+    renderQueue();
+  }
+  function renderQueue(){
+    queue.innerHTML="";
+    picked.forEach(function(f,i){
+      var row=document.createElement("div"); row.className="qitem";
+      var url=URL.createObjectURL(f);
+      row.innerHTML='<img src="'+url+'" onerror="this.style.visibility=\'hidden\'"><span>'+f.name+'</span>'+
+        '<span class="s pending" id="q'+i+'">ready</span>';
+      queue.appendChild(row);
+    });
+  }
+}
+function setQ(i,cls,txt){var el=document.getElementById("q"+i);if(el){el.className="s "+cls;el.textContent=txt;}}
+
+function uploadAll(slug){
+  if(!picked.length){return;}
+  var cat=document.getElementById("upcat").value;
+  picked.forEach(function(f,i){
+    var fd=new FormData();
+    fd.append("brand",slug); fd.append("category",cat); fd.append("file",f,f.name);
+    setQ(i,"pending","uploading…");
+    fetch(API,{method:"POST",body:fd,credentials:"same-origin"})
+      .then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); })
+      .then(function(){ setQ(i,"done","saved ✓"); fetchLive(slug,true); })
+      .catch(function(err){ setQ(i,"err","not saved — "+err.message); });
+  });
+}
+
+/* ---------- live inventory from API ---------- */
+function fetchLive(slug,redraw){
+  var ep=document.getElementById("epstate");
+  fetch(API+"?brand="+encodeURIComponent(slug),{credentials:"same-origin"})
+    .then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); })
+    .then(function(j){
+      live[slug]={};
+      (j.assets||[]).forEach(function(a){ (live[slug][a.category]=live[slug][a.category]||[]).push(a); });
+      if(ep) ep.innerHTML='Endpoint live ✓ — uploads save to the estate.';
+      if(redraw) drawBrand(slug); else { drawBrand(slug); }
+    })
+    .catch(function(){
+      if(ep) ep.innerHTML='<b>Endpoint not deployed yet.</b> You can pick and preview files; saving to the estate activates once the brand-assets API is deployed. Showing on-disk assets only.';
+    });
+}
+
+/* ---------- boot ---------- */
+document.getElementById("back").onclick=goHub;
+window.addEventListener("hashchange",function(){
+  var s=location.hash.replace(/^#\//,"");
+  if(BRANDS[s]) openBrand(s); else goHub();
+});
+(function(){
+  var s=location.hash.replace(/^#\//,"");
+  if(BRANDS[s]) openBrand(s); else { resetPalette(); renderHub(); }
+})();
+</script>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOUNCE BACK — Campaign Sheet (interactive)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#1F4598;--blue-900:#15306B;--orange:#F17025;--orange-700:#C9531A;
+    --parchment:#F7EFE0;--parchment-deep:#EFE3CC;--parchment-edge:#E4D6BC;--paper:#FBF7EF;
+    --charcoal:#1A1A1A;--ink-500:#4A4A4A;--ink-300:#7C7A75;--gold:#C68A1E;--gold-bright:#D98600;
+    --border-soft:#E3E0D9;--divider:#E7E3DB;--ok:#1F8A5B;--danger:#C0392B;
+    --fd:'Playfair Display',Georgia,serif;--ft:'Source Sans 3',system-ui,sans-serif;--fm:'IBM Plex Mono',monospace;
+    --shadow-sm:0 2px 6px rgba(26,26,26,.07);--shadow-md:0 8px 22px rgba(26,26,26,.10);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--parchment);color:var(--charcoal);font-family:var(--ft);font-size:15px;line-height:1.5}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 26px}
+
+  /* toolbar */
+  .bar{position:sticky;top:0;z-index:20;background:var(--blue-900);color:#EAF0FB;padding:12px 0;box-shadow:var(--shadow-md)}
+  .bar .wrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .bar .brandlbl{font-family:var(--fd);font-weight:800;font-size:1.05rem;color:#fff;margin-right:auto;letter-spacing:.01em}
+  .bar .brandlbl small{font-family:var(--ft);font-weight:600;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-bright);display:block}
+  button{font-family:var(--ft);font-weight:600;font-size:.82rem;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.06);color:#EAF0FB;padding:8px 14px;border-radius:6px;cursor:pointer;transition:background .15s}
+  button:hover{background:rgba(255,255,255,.16)}
+  button.pri{background:var(--gold-bright);border-color:var(--gold-bright);color:#0e1f47}
+  button.pri:hover{background:#e89600}
+
+  header.head{background:linear-gradient(180deg,var(--paper),var(--parchment));border-bottom:1px solid var(--parchment-edge);padding:34px 0 26px}
+  .eyebrow{font-family:var(--ft);font-weight:600;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--orange);margin:0 0 10px}
+  h1{font-family:var(--fd);font-weight:900;font-size:2.8rem;line-height:1;color:var(--charcoal);margin:0 0 4px}
+  h1 .g{color:var(--gold)}
+  .meta{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--parchment-edge);border:1px solid var(--parchment-edge);margin-top:22px}
+  .meta label{display:block;background:var(--paper);padding:10px 12px}
+  .meta .k{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-300);font-weight:600;margin-bottom:3px}
+  .meta input{width:100%;border:none;background:transparent;font-family:var(--ft);font-weight:600;font-size:.95rem;color:var(--blue-900);padding:0}
+  .meta input:focus{outline:none;color:var(--orange-700)}
+
+  section{padding:30px 0;border-bottom:1px solid var(--divider)}
+  .sh{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+  .sh h2{font-family:var(--fd);font-weight:700;font-size:1.5rem;color:var(--blue-900);margin:0}
+  .sh .hint{font-size:.78rem;color:var(--ink-300)}
+
+  table{width:100%;border-collapse:collapse;background:var(--paper);border:1px solid var(--border-soft);font-size:.92rem}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--divider);vertical-align:middle}
+  thead th{background:var(--blue-900);color:#EAF0FB;font-weight:600;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase}
+  tbody tr:last-child td{border-bottom:none}
+  td input,td textarea{width:100%;border:1px solid transparent;background:transparent;font-family:var(--ft);font-size:.92rem;color:var(--charcoal);padding:5px 7px;border-radius:5px;resize:none}
+  td input:hover,td textarea:hover{border-color:var(--border-soft)}
+  td input:focus,td textarea:focus{outline:none;border-color:var(--blue);background:#fff}
+  td input.amt{font-family:var(--fm);font-weight:600;color:var(--blue-900);text-align:right}
+  .rowlbl{font-weight:600;color:var(--charcoal)}
+  tr.sub td{background:#F1EADB;font-weight:700}
+  tr.sub td .num{font-family:var(--fm);color:var(--blue-900)}
+  tr.total td{background:var(--parchment-deep);font-weight:800;font-size:1rem}
+  tr.total td .num{font-family:var(--fd);color:var(--orange-700);font-size:1.15rem}
+  .num{font-family:var(--fm);font-weight:600;text-align:right;display:block}
+  .cur{color:var(--ink-300);font-weight:600}
+  .flag{display:inline-block;font-size:.64rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:3px;margin-left:8px}
+  .flag.ok{background:#E7F3EC;color:var(--ok)} .flag.bad{background:#F9E4E1;color:var(--danger)}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .kpi .cell{background:var(--paper);border:1px solid var(--border-soft);border-radius:10px;padding:14px 16px;box-shadow:var(--shadow-sm)}
+  .kpi .cell .k{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-300);font-weight:600;margin-bottom:6px}
+  .kpi .cell input{width:100%;border:none;background:transparent;font-family:var(--fd);font-weight:700;font-size:1.5rem;color:var(--blue-900);padding:0}
+  .kpi .cell input:focus{outline:none;color:var(--orange-700)}
+  .kpi .cell small{font-family:var(--ft);font-weight:500;font-size:.72rem;color:var(--ink-500)}
+
+  .addrow{margin-top:8px}
+  .addrow button{background:transparent;color:var(--blue);border:1px dashed var(--border-soft);font-size:.78rem}
+  .addrow button:hover{background:var(--paper)}
+  .del{cursor:pointer;color:var(--ink-300);font-weight:700;border:none;background:none;padding:2px 6px}
+  .del:hover{color:var(--danger)}
+
+  footer{padding:26px 0 40px;text-align:center;color:var(--ink-300);font-size:.78rem}
+  footer b{color:var(--gold)}
+
+  @media(max-width:760px){.meta,.kpi{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}h1{font-size:2rem}}
+  @media print{
+    .bar{display:none}.del,.addrow{display:none}
+    body{background:#fff}td input,td textarea,.meta input,.kpi input{border-color:transparent!important}
+    section{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="wrap">
+    <div class="brandlbl">BOUNCE BACK<small>Shal'Artem · Campaign Sheet</small></div>
+    <button class="pri" onclick="saveCopy()">⬇ Save a copy (JSON)</button>
+    <button onclick="document.getElementById('imp').click()">⬆ Load</button>
+    <input id="imp" type="file" accept="application/json" style="display:none" onchange="loadCopy(event)">
+    <button onclick="window.print()">🖨 Print / PDF</button>
+    <button onclick="resetSheet()">↺ Reset</button>
+  </div>
+</div>
+
+<header class="head">
+  <div class="wrap">
+    <p class="eyebrow">Interactive campaign sheet · edit any field</p>
+    <h1>BOUNCE <span class="g">BACK</span></h1>
+    <div class="meta">
+      <label><span class="k">Campaign</span><input data-f="camp" value="Bounce Back — National Dance Competition"></label>
+      <label><span class="k">Client / Brand</span><input data-f="client" value="Shalina Healthcare · Shal'Artem"></label>
+      <label><span class="k">Market</span><input data-f="market" value="Nigeria (NMA-endorsed)"></label>
+      <label><span class="k">Prepared by</span><input data-f="by" value="Niamh · CENTREFREE"></label>
+      <label><span class="k">Run length</span><input data-f="run" value="4 weeks + 8-day build"></label>
+      <label><span class="k">Build starts</span><input data-f="start" value="Today"></label>
+      <label><span class="k">Goes live</span><input data-f="live" value="Day 9"></label>
+      <label><span class="k">Status</span><input data-f="status" value="For Shane + Kartik sign-off"></label>
+    </div>
+  </div>
+</header>
+
+<!-- BUDGET -->
+<section>
+  <div class="wrap">
+    <div class="sh"><h2>Budget</h2><span class="hint">Type in any amount — totals recalculate live. USD planning bands.</span></div>
+    <table id="budget">
+      <thead><tr><th style="width:34%">Line</th><th style="width:15%">Amount (USD)</th><th>What it buys</th><th style="width:34px"></th></tr></thead>
+      <tbody id="ops">
+        <tr data-grp="ops"><td class="rowlbl"><input value="Media spend"></td><td><input class="amt" type="number" value="6250"></td><td><input value="Paid amplification — Facebook, Instagram, TikTok — behind the 3 posts/week"></td><td><button class="del" onclick="delRow(this)">×</button></td></tr>
+        <tr data-grp="ops"><td class="rowlbl"><input value="Influencers ×15"></td><td><input class="amt" type="number" value="750"></td><td><input value="House WhatsApp roster, $50 each flat. Pace-setters — can't win"></td><td><button class="del" onclick="delRow(this)">×</button></td></tr>
+        <tr data-grp="ops"><td class="rowlbl"><input value="Anthem"></td><td><input class="amt" type="number" value="0"></td><td><input value="Made in-house — $0 external, full rights owned"></td><td><button class="del" onclick="delRow(this)">×</button></td></tr>
+      </tbody>
+      <tbody><tr class="sub"><td>Operating budget</td><td><span class="num"><span class="cur">$</span><span id="sumOps">0</span></span></td><td>The working spend — media, seeding, sound</td><td></td></tr></tbody>
+      <tbody id="prz">
+        <tr data-grp="prz"><td class="rowlbl"><input value="Prizes — weekly"></td><td><input class="amt" type="number" value="1800"></td><td><input value="4 weeks × ($200 + $150 + $100), public-voted"></td><td><button class="del" onclick="delRow(this)">×</button></td></tr>
+        <tr data-grp="prz"><td class="rowlbl"><input value="Prizes — grand"></td><td><input class="amt" type="number" value="1200"></td><td><input value="&quot;Moment Made&quot; — funded & filmed at the Week-4 finale"></td><td><button class="del" onclick="delRow(this)">×</button></td></tr>
+      </tbody>
+      <tbody>
+        <tr class="sub"><td>Prize pool (on top)</td><td><span class="num"><span class="cur">$</span><span id="sumPrz">0</span></span></td><td>Ring-fenced incentive layer</td><td></td></tr>
+        <tr class="total"><td>Total campaign</td><td><span class="num"><span class="cur">$</span><span id="sumTot">0</span></span></td><td>Operating + prize pool</td><td></td></tr>
+      </tbody>
+    </table>
+    <div class="addrow"><button onclick="addRow('ops')">+ operating line</button> <button onclick="addRow('prz')">+ prize line</button></div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section>
+  <div class="wrap">
+    <div class="sh"><h2>Schedule</h2><span class="hint">The 8-day build, then the 4-week run. Edit dates and deliverables.</span></div>
+    <table id="sched">
+      <thead><tr><th style="width:14%">Phase</th><th style="width:16%">When</th><th style="width:22%">Beat</th><th>Deliverables</th><th style="width:34px"></th></tr></thead>
+      <tbody>
+        <tr><td><input value="Build"></td><td><input value="Days 1–8"></td><td><input value="Assets + set-up"></td><td><input value="Anthem (in-house) · how-to film · first 3 video posts · channels + hashtag + WhatsApp · T&Cs/permits · PV SOP · 15-influencer brief"></td><td><button class="del" onclick="delRow(this)">×</button></td></tr>
+        <tr><td><input value="Launch"></td><td><input value="Day 9"></td><td><input value="The Drop"></td><td><input value="Move drops · influencers seed in 48h · Streets floor opens · Week-1 cycle begins"></td><td><button class="del" onclick="delRow(this)">×</button></td></tr>
+        <tr><td><input value="Week 1"></td><td><input value="Wk 1"></td><td><input value="Everybody bounces"></td><td><input value="Entries all week · Sunday 12pm close · shortlist · public vote · 3 video posts"></td><td><button class="del" onclick="delRow(this)">×</button></td></tr>
+        <tr><td><input value="Week 2"></td><td><input value="Wk 2"></td><td><input value="Volume"></td><td><input value="Wk-1 winners in gold · duet/stitch wave · Crews round 1 · 3 video posts"></td><td><button class="del" onclick="delRow(this)">×</button></td></tr>
+        <tr><td><input value="Week 3"></td><td><input value="Wk 3"></td><td><input value="The Battle"></td><td><input value="Crew shortlist + public head-to-head · story-floor push · 3 video posts"></td><td><button class="del" onclick="delRow(this)">×</button></td></tr>
+        <tr><td><input value="Week 4"></td><td><input value="Wk 4"></td><td><input value="The Rise"></td><td><input value="Final winners · $1,200 Moment Made revealed being made — that film is the finale"></td><td><button class="del" onclick="delRow(this)">×</button></td></tr>
+      </tbody>
+    </table>
+    <div class="addrow"><button onclick="addSched()">+ row</button></div>
+  </div>
+</section>
+
+<!-- PRIZE LADDER -->
+<section>
+  <div class="wrap">
+    <div class="sh"><h2>Prize ladder</h2><span class="hint">Weekly places × weeks + grand. Auto-checks against the budget prize pool.</span></div>
+    <table id="ladder">
+      <thead><tr><th>Place</th><th style="width:18%">Per week (USD)</th><th style="width:16%">× weeks</th><th style="width:18%">Subtotal</th></tr></thead>
+      <tbody>
+        <tr><td class="rowlbl"><input value="1st"></td><td><input class="amt lad" type="number" value="200"></td><td><input class="amt wk" type="number" value="4"></td><td><span class="num"><span class="cur">$</span><span class="ladsub">0</span></span></td></tr>
+        <tr><td class="rowlbl"><input value="2nd"></td><td><input class="amt lad" type="number" value="150"></td><td><input class="amt wk" type="number" value="4"></td><td><span class="num"><span class="cur">$</span><span class="ladsub">0</span></span></td></tr>
+        <tr><td class="rowlbl"><input value="3rd"></td><td><input class="amt lad" type="number" value="100"></td><td><input class="amt wk" type="number" value="4"></td><td><span class="num"><span class="cur">$</span><span class="ladsub">0</span></span></td></tr>
+        <tr class="sub"><td>Weekly prizes total</td><td colspan="2"></td><td><span class="num"><span class="cur">$</span><span id="ladWeekly">0</span></span></td></tr>
+        <tr><td class="rowlbl"><input value="Grand — Moment Made"></td><td colspan="2"><input value="Funded & filmed at finale"></td><td><input class="amt" id="grand" type="number" value="1200"></td></tr>
+        <tr class="total"><td>Prize ladder total <span id="recon" class="flag ok">reconciled</span></td><td colspan="2"></td><td><span class="num"><span class="cur">$</span><span id="ladTot">0</span></span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- KPI TARGETS -->
+<section>
+  <div class="wrap">
+    <div class="sh"><h2>KPI targets</h2><span class="hint">Set the goals the campaign reports against. Edit any figure.</span></div>
+    <div class="kpi">
+      <div class="cell"><p class="k">Total entries</p><input data-k="entries" value="5,000"><small>Streets + WhatsApp over 4 weeks</small></div>
+      <div class="cell"><p class="k">Anthem reach</p><input data-k="reach" value="3M"><small>Sound-page impressions</small></div>
+      <div class="cell"><p class="k">Video views</p><input data-k="views" value="6M"><small>Across FB / IG / TikTok</small></div>
+      <div class="cell"><p class="k">Engagement rate</p><input data-k="eng" value="6%"><small>Blended, paid + organic</small></div>
+      <div class="cell"><p class="k">Registered crews</p><input data-k="crews" value="40"><small>Tier 2 craft engine</small></div>
+      <div class="cell"><p class="k">Prize winners</p><input data-k="winners" value="13"><small>12 weekly + 1 grand</small></div>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  Shal'Artem — <b>Knock out Malaria in 3 Days.</b> Never miss your moment. &nbsp;·&nbsp; Interactive campaign sheet · edit, save a copy, print. Numbers are planning bands for client confirmation.
+</footer>
+
+<script>
+  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+  const fmt=n=>Math.round(n).toLocaleString('en-US');
+
+  function recalc(){
+    let ops=0; $$('#ops .amt').forEach(i=>ops+=(+i.value||0));
+    let prz=0; $$('#prz .amt').forEach(i=>prz+=(+i.value||0));
+    $('#sumOps').textContent=fmt(ops);
+    $('#sumPrz').textContent=fmt(prz);
+    $('#sumTot').textContent=fmt(ops+prz);
+    // ladder
+    let weekly=0;
+    $$('#ladder tbody tr').forEach(tr=>{
+      const lad=tr.querySelector('.lad'), wk=tr.querySelector('.wk'), sub=tr.querySelector('.ladsub');
+      if(lad&&wk&&sub){const s=(+lad.value||0)*(+wk.value||0); sub.textContent=fmt(s); weekly+=s;}
+    });
+    $('#ladWeekly').textContent=fmt(weekly);
+    const grand=+$('#grand').value||0;
+    const ladTot=weekly+grand;
+    $('#ladTot').textContent=fmt(ladTot);
+    // reconcile ladder total vs budget prize pool
+    const r=$('#recon');
+    if(ladTot===prz){r.textContent='reconciled';r.className='flag ok';}
+    else{r.textContent='≠ budget prize pool ($'+fmt(prz)+')';r.className='flag bad';}
+  }
+
+  function addRow(grp){
+    const tb=$('#'+grp);
+    const tr=document.createElement('tr'); tr.dataset.grp=grp;
+    tr.innerHTML='<td class="rowlbl"><input value="New line"></td><td><input class="amt" type="number" value="0"></td><td><input value=""></td><td><button class="del" onclick="delRow(this)">×</button></td>';
+    tb.appendChild(tr); bind(tr); recalc();
+  }
+  function addSched(){
+    const tb=$('#sched tbody');
+    const tr=document.createElement('tr');
+    tr.innerHTML='<td><input value=""></td><td><input value=""></td><td><input value=""></td><td><input value=""></td><td><button class="del" onclick="delRow(this)">×</button></td>';
+    tb.appendChild(tr); bind(tr);
+  }
+  function delRow(b){ b.closest('tr').remove(); recalc(); }
+  function bind(el){ el.querySelectorAll('input,textarea').forEach(i=>i.addEventListener('input',recalc)); }
+
+  function collect(){
+    const d={meta:{},budget:{ops:[],prz:[]},sched:[],ladder:[],grand:+$('#grand').value||0,kpi:{}};
+    $$('.meta input,[data-f]').forEach(i=>{if(i.dataset.f)d.meta[i.dataset.f]=i.value;});
+    $$('#ops tr').forEach(tr=>{const c=tr.querySelectorAll('input');d.budget.ops.push([c[0].value,+c[1].value||0,c[2].value]);});
+    $$('#prz tr').forEach(tr=>{const c=tr.querySelectorAll('input');d.budget.prz.push([c[0].value,+c[1].value||0,c[2].value]);});
+    $$('#sched tbody tr').forEach(tr=>{const c=tr.querySelectorAll('input');d.sched.push([...c].map(x=>x.value));});
+    $$('#ladder tbody tr').forEach(tr=>{const lad=tr.querySelector('.lad'),wk=tr.querySelector('.wk'),lbl=tr.querySelector('.rowlbl input');if(lad&&wk)d.ladder.push([lbl?lbl.value:'',+lad.value||0,+wk.value||0]);});
+    $$('.kpi input').forEach(i=>d.kpi[i.dataset.k]=i.value);
+    return d;
+  }
+  function saveCopy(){
+    const d=collect();
+    const blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+    const a=document.createElement('a');
+    const stamp=new Date().toISOString().slice(0,10);
+    a.href=URL.createObjectURL(blob); a.download='bounce-back-campaign-sheet-'+stamp+'.json'; a.click();
+  }
+  function loadCopy(e){
+    const f=e.target.files[0]; if(!f)return;
+    const r=new FileReader();
+    r.onload=()=>{try{apply(JSON.parse(r.result));}catch(err){alert('Could not read that file.');}};
+    r.readAsText(f);
+  }
+  function apply(d){
+    if(d.meta)$$('[data-f]').forEach(i=>{if(d.meta[i.dataset.f]!=null)i.value=d.meta[i.dataset.f];});
+    if(d.grand!=null)$('#grand').value=d.grand;
+    if(d.kpi)$$('.kpi input').forEach(i=>{if(d.kpi[i.dataset.k]!=null)i.value=d.kpi[i.dataset.k];});
+    // note: rows kept as-is for structure; amounts applied where counts match
+    if(d.budget){
+      const setGrp=(id,arr)=>{const rows=$$('#'+id+' tr');arr.forEach((v,n)=>{if(rows[n]){const c=rows[n].querySelectorAll('input');c[0].value=v[0];c[1].value=v[1];if(c[2])c[2].value=v[2];}});};
+      if(d.budget.ops)setGrp('ops',d.budget.ops);
+      if(d.budget.prz)setGrp('prz',d.budget.prz);
+    }
+    recalc();
+  }
+  function resetSheet(){ if(confirm('Reset all fields to the locked Bounce Back defaults?')) location.reload(); }
+
+  $$('input,textarea').forEach(i=>i.addEventListener('input',recalc));
+  recalc();
+</script>
+</body>
+</html>

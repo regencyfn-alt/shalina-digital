@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Proofs — Regency Flux Estate</title>
+<!--
+  PUBLIC CLIENT ZONE — served OUTSIDE the auth door (Shane's word 2026-07-10: clients cannot sign in).
+  Middleware allowlists /proofs/* + the two exact ACO handover files this page links.
+  Nothing else in the agency tree is exposed. Gallery is client-facing; no login required.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E9EDF4; --white:#FFFFFF; --tungsten:#0F172A; --ink:#111827;
+    --ink-600:#475569; --ink-300:#94A3B8; --line:#E5E7EB;
+    --cerise:#DE3163; --blue:#2B5CB8; --pine:#1E6B3F;
+    --display:'Cormorant Garamond',Georgia,serif; --body:'Outfit',system-ui,sans-serif; --mono:'Roboto Mono',monospace;
+    --shadow-sm:0 2px 6px rgba(26,26,26,.07); --tracking:0.22em;
+    --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+
+  /* Estate header */
+  .estatehead{background:var(--tungsten);border-bottom:3px solid var(--cerise)}
+  .eh-inner{max-width:1120px;margin:0 auto;padding:34px var(--s6) 30px;display:flex;justify-content:space-between;align-items:flex-end;gap:var(--s6);flex-wrap:wrap}
+  .eh-eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:var(--tracking);text-transform:uppercase;color:#8FA5B8;margin-bottom:16px}
+  .estatehead h1{font-family:var(--display);font-weight:400;font-size:3.5rem;line-height:1;color:#fff;margin:0;letter-spacing:.005em}
+  .estatehead h1 span{color:#fff;opacity:.5}
+  .eh-sub{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#8FA5B8;margin-top:14px}
+  .eh-meta{display:flex;flex-direction:column;align-items:flex-end;gap:5px;font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:#8FA5B8;text-align:right;padding-bottom:6px}
+
+  .wrap{max-width:1120px;margin:0 auto;padding:var(--s7) var(--s6) var(--s8)}
+  .intro{font-family:var(--display);font-size:1.5rem;font-weight:500;color:var(--ink-600);max-width:640px;margin:0 0 var(--s7)}
+
+  .group-label{font-family:var(--mono);font-size:.66rem;letter-spacing:var(--tracking);text-transform:uppercase;color:var(--ink-300);border-bottom:1px solid var(--line);padding-bottom:10px;margin:0 0 var(--s5)}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s6)}
+  @media(max-width:820px){.grid{grid-template-columns:1fr}.estatehead h1{font-size:2.3rem}}
+
+  .proof{background:var(--white);border:1px solid var(--line);box-shadow:var(--shadow-sm);padding:var(--s6);display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:transform 200ms cubic-bezier(.22,.61,.36,1),box-shadow 200ms}
+  .proof:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(15,23,42,.12)}
+  .p-top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:var(--s4)}
+  .p-code{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
+  .p-lang{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;padding:4px 9px;border:1px solid var(--pine);color:var(--pine)}
+  .proof h2{font-family:var(--display);font-weight:600;font-size:1.9rem;line-height:1.06;margin:0 0 6px}
+  .p-desc{font-size:1rem;color:var(--ink-600);margin:0 0 var(--s5)}
+  .p-foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;border-top:1px solid var(--line);padding-top:var(--s4)}
+  .p-status{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-300)}
+  .p-open{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--cerise);font-weight:500}
+
+  .foot{margin-top:var(--s8);padding-top:var(--s6);border-top:1px solid var(--line);text-align:center;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-300)}
+</style>
+</head>
+<body>
+
+<header class="estatehead">
+  <div class="eh-inner">
+    <div>
+      <div class="eh-eyebrow">Regency Flux Estate · CENTREFREE Agency</div>
+      <h1>Client <span>Proofs</span></h1>
+      <div class="eh-sub">Approved work for your review — no sign-in required</div>
+    </div>
+    <div class="eh-meta">
+      <span>ACO Pine Gel · Angola</span>
+      <span>Updated 10 Jul 2026</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <p class="intro">Work presented for your review. Each proof opens in full — the story, the thirty seconds, and the job it does. Choose your language below.</p>
+
+  <div class="group-label">ACO Pine Gel · Story Arc Treatments</div>
+  <div class="grid">
+
+    <a class="proof" href="/agency/niamh/shalina/aco/ACO-STORY-ARCS-HANDOVER-2026-07-10.html">
+      <div class="p-top"><span class="p-code">RFE · ACO · Arcs</span><span class="p-lang">English</span></div>
+      <h2>ACO — Story Arc Treatments</h2>
+      <p class="p-desc">Eight arcs across the ACO Pine Gel funnel — awareness to conversion — each a 30-second film treatment.</p>
+      <div class="p-foot"><span class="p-status">For client review</span><span class="p-open">Open proof →</span></div>
+    </a>
+
+    <a class="proof" href="/agency/niamh/shalina/aco/ACO-STORY-ARCS-HANDOVER-PT-2026-07-10.html">
+      <div class="p-top"><span class="p-code">RFE · ACO · Arcos</span><span class="p-lang">Português</span></div>
+      <h2>ACO — Arcos de História</h2>
+      <p class="p-desc">Os oito arcos do funil ACO Pine Gel — da consciência à conversão — cada um um tratamento de 30 segundos.</p>
+      <div class="p-foot"><span class="p-status">Para revisão do cliente</span><span class="p-open">Abrir prova →</span></div>
+    </a>
+
+  </div>
+
+  <div class="foot">Regency Flux Estate · CENTREFREE Agency · Public client zone</div>
+
+</div>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

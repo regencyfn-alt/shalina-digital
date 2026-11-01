@@ -1,0 +1,138 @@
+{
+ "source": "Meta Ads (act_668038783993782 Shalina Healthcare) via Supermetrics, AUTHENTICATED pull",
+ "fetched_at": "2026-07-18T11:5xZ",
+ "window": "last_30_days",
+ "badge": "REAL",
+ "pulled_by": "Phoenix (05), Shane's order 2026-07-18",
+ "totals": {
+  "reach": 12079588,
+  "impressions": 21452308,
+  "clicks": 136848,
+  "spend_usd": 8858.7,
+  "video_views_3s": 10623302,
+  "thruplays": 6397293,
+  "campaigns": 46
+ },
+ "cells": [
+  {
+   "brand": "Shaltoux",
+   "market": "Nigeria",
+   "reach": 2468686,
+   "impressions": 3927945,
+   "clicks": 9943,
+   "spend_usd": 1651.02,
+   "video_views_3s": 1894765,
+   "thruplays": 1390192
+  },
+  {
+   "brand": "Shaltoux",
+   "market": "Zambia",
+   "reach": 2001916,
+   "impressions": 4348128,
+   "clicks": 41148,
+   "spend_usd": 1625.85,
+   "video_views_3s": 1894572,
+   "thruplays": 1133251
+  },
+  {
+   "brand": "Shal'Artem",
+   "market": "Nigeria",
+   "reach": 1429144,
+   "impressions": 2486860,
+   "clicks": 27256,
+   "spend_usd": 781.36,
+   "video_views_3s": 1662443,
+   "thruplays": 727737
+  },
+  {
+   "brand": "Shal'Artem",
+   "market": "Ghana",
+   "reach": 1203751,
+   "impressions": 2182774,
+   "clicks": 16879,
+   "spend_usd": 1000.9,
+   "video_views_3s": 1141490,
+   "thruplays": 764427
+  },
+  {
+   "brand": "Shaltoux",
+   "market": "Angola",
+   "reach": 1158467,
+   "impressions": 2180343,
+   "clicks": 19674,
+   "spend_usd": 487.71,
+   "video_views_3s": 1066877,
+   "thruplays": 333922
+  },
+  {
+   "brand": "Germol",
+   "market": "Angola",
+   "reach": 926954,
+   "impressions": 1118600,
+   "clicks": 4975,
+   "spend_usd": 275.67,
+   "video_views_3s": 253613,
+   "thruplays": 178410
+  },
+  {
+   "brand": "Shaltoux",
+   "market": "Ghana",
+   "reach": 872901,
+   "impressions": 2023995,
+   "clicks": 3632,
+   "spend_usd": 1288.95,
+   "video_views_3s": 1314563,
+   "thruplays": 1156035
+  },
+  {
+   "brand": "Ibucap",
+   "market": "(multi)",
+   "reach": 631854,
+   "impressions": 1213667,
+   "clicks": 2749,
+   "spend_usd": 858.19,
+   "video_views_3s": 667190,
+   "thruplays": 379028
+  },
+  {
+   "brand": "Flodent",
+   "market": "South Africa",
+   "reach": 532946,
+   "impressions": 805262,
+   "clicks": 3029,
+   "spend_usd": 321.02,
+   "video_views_3s": 113661,
+   "thruplays": 26479
+  },
+  {
+   "brand": "Flodent",
+   "market": "Angola",
+   "reach": 463327,
+   "impressions": 708223,
+   "clicks": 5014,
+   "spend_usd": 214.79,
+   "video_views_3s": 394477,
+   "thruplays": 176105
+  },
+  {
+   "brand": "Germol",
+   "market": "South Africa",
+   "reach": 267671,
+   "impressions": 331788,
+   "clicks": 2115,
+   "spend_usd": 345.87,
+   "video_views_3s": 219651,
+   "thruplays": 131707
+  },
+  {
+   "brand": "Shalina (org)",
+   "market": "World Cup",
+   "reach": 121971,
+   "impressions": 124723,
+   "clicks": 434,
+   "spend_usd": 7.37,
+   "video_views_3s": 0,
+   "thruplays": 0
+  }
+ ]
+}

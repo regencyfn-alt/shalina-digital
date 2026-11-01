@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>System Gallery — the whole estate, one wall</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Outfit:wght@300;400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!--
+  SYSTEM GALLERY (Cerberus, seat 09, 2026-07-15, Shane live: "the entire system must be
+  available as a gallery, with alerts in red where I need to attend to stuff.")
+  Design lineage: Shilpa's Governance Plate (Vedanga Pattern No. 08) — bevelled panels,
+  mono labels, red alert boxes. Every tile links to a real, existing surface in the
+  estate tree; red badges mark where the Architect must act (driven by the Signature Cage).
+  This page holds no key, writes nothing. Opens from CENTREFREE root so relative links resolve.
+-->
+<style>
+:root{
+  --cerise:#DE3163; --mint:#A9FFD4; --amber:#E6B87D; --steel:#8FA5B8;
+  --cream:#F5EFE0; --tungsten:#0F172A; --red:#e2574a; --gold:#c9a24a; --green:#57c98a;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Outfit',system-ui,sans-serif;
+  --mono:'Roboto Mono',ui-monospace,Menlo,monospace;
+  --bg:#14171c; --plate:#1b1f26; --plate-2:#22272f; --sunk:#101318;
+  --line:#2e343d; --hi:#3a414c; --lo:#0b0d10;
+  --ink:#e8e6df; --dim:#9aa4ad; --faint:#6b7480;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--mono);background:var(--bg);color:var(--ink);font-size:13px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;padding:26px clamp(16px,3vw,44px) 70px}
+.bevel{background:var(--plate);border:1px solid var(--line);border-radius:10px;
+  box-shadow:inset 0 1px 0 var(--hi), inset 0 -2px 0 var(--lo), 0 4px 14px rgba(0,0,0,.35);position:relative}
+.bevel::before{content:"";position:absolute;left:10px;top:10px;width:7px;height:7px;border-radius:50%;
+  background:var(--sunk);box-shadow:inset 0 1px 2px var(--lo)}
+.lbl{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--faint)}
+/* header */
+header{padding:20px 26px;margin-bottom:18px;display:flex;flex-wrap:wrap;align-items:center;gap:18px}
+header h1{font-family:var(--mono);font-weight:500;font-size:19px;letter-spacing:.28em;margin:0;text-transform:uppercase}
+header .sub{flex-basis:100%;margin-top:2px}
+.hstat{margin-left:auto;display:flex;gap:22px;align-items:center;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.hstat .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:6px;vertical-align:1px}
+.hstat .dot.redd{background:var(--red)}
+/* attention strip */
+.attention{padding:16px 20px;margin-bottom:24px;border-color:var(--red);
+  box-shadow:inset 0 1px 0 var(--hi), inset 0 -2px 0 var(--lo), 0 0 0 1px rgba(226,87,74,.18), 0 0 16px rgba(226,87,74,.10)}
+.attention .rl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:10px;font-weight:500}
+.alist{display:flex;flex-wrap:wrap;gap:9px}
+.alert{display:flex;align-items:center;gap:8px;text-decoration:none;font-family:var(--sans);font-size:13px;
+  color:#f0dcd8;background:rgba(226,87,74,.08);border:1px solid var(--red);border-radius:8px;padding:8px 12px}
+.alert:hover{background:rgba(226,87,74,.16)}
+.alert .ct{font-family:var(--mono);font-size:10px;font-weight:600;background:var(--red);color:#1a0b09;
+  border-radius:999px;padding:1px 7px;letter-spacing:.04em}
+/* section rails */
+.railhead{display:flex;align-items:center;gap:14px;margin:30px 2px 12px}
+.railhead .lbl{white-space:nowrap}.railhead .ln{flex:1;height:1px;background:var(--line)}
+.railhead .cnt{font-size:9.5px;letter-spacing:.12em;color:var(--dim)}
+/* tile grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.tile{display:flex;flex-direction:column;gap:6px;padding:16px 16px 14px;text-decoration:none;color:inherit;
+  transition:transform .1s}
+.tile:hover{transform:translateY(-2px);border-color:var(--steel)}
+.tile .tt{display:flex;align-items:flex-start;gap:8px}
+.tile h3{font-family:var(--sans);font-weight:500;font-size:14.5px;margin:0;flex:1;line-height:1.25}
+.tile p{margin:0;font-size:11px;color:var(--dim);line-height:1.5}
+.tile .path{font-size:9.5px;color:var(--faint);letter-spacing:.03em;margin-top:2px;word-break:break-all}
+.badge{flex:none;font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;
+  padding:2px 8px;white-space:nowrap}
+.badge.red{background:var(--red);color:#1a0b09}
+.badge.amber{background:transparent;color:var(--amber);border:1px solid var(--amber)}
+.badge.ext{background:transparent;color:var(--steel);border:1px solid var(--line)}
+.tile.hot{border-color:var(--red);box-shadow:inset 0 1px 0 var(--hi), inset 0 -2px 0 var(--lo), 0 0 0 1px rgba(226,87,74,.18), 0 4px 14px rgba(0,0,0,.35)}
+.foot{margin-top:30px;color:var(--faint);font-size:10.5px;letter-spacing:.06em;display:flex;flex-wrap:wrap;gap:8px 22px}
+</style>
+</head>
+<body>
+
+<header class="bevel">
+  <h1>System Gallery · The Whole Estate</h1>
+  <div class="hstat">
+    <span><span class="dot"></span>Door · Architect OAuth</span>
+    <span><span class="dot redd"></span>Needs you · <b>4 areas</b></span>
+  </div>
+  <span class="sub lbl">One wall for every surface · red where you must attend · kept by Cerberus (09) · tiles link live · built 2026-07-15</span>
+</header>
+
+<section class="bevel attention">
+  <div class="rl">▲ Attention — where you must act</div>
+  <div class="alist">
+    <a class="alert" href="Governance/SIGNATURE-CAGE.html">Signature Cage — items stalled on you <span class="ct">10</span></a>
+    <a class="alert" href="Governance/SIGNATURE-CAGE.html">Keys still exposed — rotation not confirmed <span class="ct">8</span></a>
+    <a class="alert" href="autonomy-switch.html">Autonomy 07-15 marker — verify pending <span class="ct">1</span></a>
+    <a class="alert" href="Governance/SIGNATURE-CAGE.html">Cloudflare Access / open cube API <span class="ct">2</span></a>
+  </div>
+</section>
+
+<main>
+
+  <div class="railhead"><span class="lbl">Governance — the wall of law</span><span class="ln"></span><span class="cnt">4</span></div>
+  <div class="grid">
+    <a class="tile bevel hot" href="Governance/SIGNATURE-CAGE.html">
+      <div class="tt"><h3>Signature Cage</h3><span class="badge red">10 open</span></div>
+      <p>Everything stalled on you — sign / hand / word, each in a red frame.</p>
+      <div class="path">Governance/SIGNATURE-CAGE.html</div></a>
+    <a class="tile bevel" href="governance-board.html">
+      <div class="tt"><h3>Governance Plate</h3></div>
+      <p>Shilpa's wall of law — every binding instrument, check &amp; sign.</p>
+      <div class="path">governance-board.html</div></a>
+    <a class="tile bevel" href="Governance/SIGNING-CONSOLE-2026-07-14.html">
+      <div class="tt"><h3>Register Signing Console</h3><span class="badge amber">pending</span></div>
+      <p>Sign the roster — crests, incl. your Guardian (09) badge.</p>
+      <div class="path">Governance/SIGNING-CONSOLE-2026-07-14.html</div></a>
+    <a class="tile bevel" href="laws.html">
+      <div class="tt"><h3>Laws</h3></div>
+      <p>The law index surface.</p>
+      <div class="path">laws.html</div></a>
+  </div>
+
+  <div class="railhead"><span class="lbl">Command &amp; live — the switches</span><span class="ln"></span><span class="cnt">3</span></div>
+  <div class="grid">
+    <a class="tile bevel hot" href="autonomy-switch.html">
+      <div class="tt"><h3>Autonomy Switch</h3><span class="badge red">verify</span></div>
+      <p>The ON/OFF switch. 07-15 marker posted — verify at next wake.</p>
+      <div class="path">autonomy-switch.html</div></a>
+    <a class="tile bevel" href="watch.html">
+      <div class="tt"><h3>Watch</h3></div>
+      <p>Live watch surface.</p>
+      <div class="path">watch.html</div></a>
+    <a class="tile bevel" href="https://infocube-command.pages.dev" target="_blank" rel="noopener">
+      <div class="tt"><h3>Command Deck</h3><span class="badge ext">external</span></div>
+      <p>Your mobile decision deck — decline / clarify / fire on live cases.</p>
+      <div class="path">infocube-command.pages.dev</div></a>
+  </div>
+
+  <div class="railhead"><span class="lbl">Family — seats, boards, rooms</span><span class="ln"></span><span class="cnt">6</span></div>
+  <div class="grid">
+    <a class="tile bevel" href="family/index.html"><div class="tt"><h3>Family Index</h3></div><p>The family roster and seats.</p><div class="path">family/index.html</div></a>
+    <a class="tile bevel" href="family-badges.html"><div class="tt"><h3>Family Badges</h3></div><p>Crests and badges of every seat.</p><div class="path">family-badges.html</div></a>
+    <a class="tile bevel" href="royale24-board.html"><div class="tt"><h3>Royale 24 Board</h3></div><p>The surface-24 boards — rows, errors, tears.</p><div class="path">royale24-board.html</div></a>
+    <a class="tile bevel" href="family_room.html"><div class="tt"><h3>Family Room</h3></div><p>The shared room.</p><div class="path">family_room.html</div></a>
+    <a class="tile bevel" href="phoenix-office.html"><div class="tt"><h3>Phoenix Office</h3></div><p>Phoenix's audit office.</p><div class="path">phoenix-office.html</div></a>
+    <a class="tile bevel" href="mem-holding.html"><div class="tt"><h3>Memory Holding</h3></div><p>Memory holding surface.</p><div class="path">mem-holding.html</div></a>
+  </div>
+
+  <div class="railhead"><span class="lbl">Agency &amp; Flux — the studio</span><span class="ln"></span><span class="cnt">6</span></div>
+  <div class="grid">
+    <a class="tile bevel" href="agency/INDEX.html"><div class="tt"><h3>Agency</h3></div><p>The agency floor index.</p><div class="path">agency/INDEX.html</div></a>
+    <a class="tile bevel" href="agency/reception/INDEX.html"><div class="tt"><h3>Reception</h3></div><p>Agency reception.</p><div class="path">agency/reception/INDEX.html</div></a>
+    <a class="tile bevel" href="agency/proof/proof-gallery.html"><div class="tt"><h3>Proof Gallery</h3></div><p>Client proof gallery.</p><div class="path">agency/proof/proof-gallery.html</div></a>
+    <a class="tile bevel" href="flux-analytics/index.html"><div class="tt"><h3>Flux Analytics</h3></div><p>The analytics surface.</p><div class="path">flux-analytics/index.html</div></a>
+    <a class="tile bevel" href="clients/index.html"><div class="tt"><h3>Clients</h3></div><p>Client index.</p><div class="path">clients/index.html</div></a>
+    <a class="tile bevel" href="studio/INDEX.html"><div class="tt"><h3>Studio</h3></div><p>The studio surface.</p><div class="path">studio/INDEX.html</div></a>
+  </div>
+
+  <div class="railhead"><span class="lbl">CHR &amp; Labs — the science</span><span class="ln"></span><span class="cnt">7</span></div>
+  <div class="grid">
+    <a class="tile bevel" href="chr-room.html"><div class="tt"><h3>CHR Room</h3></div><p>The CHR theory room.</p><div class="path">chr-room.html</div></a>
+    <a class="tile bevel" href="chr-digital.html"><div class="tt"><h3>CHR Digital</h3></div><p>Digital CHR canon.</p><div class="path">chr-digital.html</div></a>
+    <a class="tile bevel" href="chr-glossary.html"><div class="tt"><h3>CHR Glossary</h3></div><p>Terms and definitions.</p><div class="path">chr-glossary.html</div></a>
+    <a class="tile bevel" href="chr-timeline.html"><div class="tt"><h3>CHR Timeline</h3></div><p>The theory timeline.</p><div class="path">chr-timeline.html</div></a>
+    <a class="tile bevel" href="labs/index.html"><div class="tt"><h3>Labs</h3></div><p>The experiment labs index.</p><div class="path">labs/index.html</div></a>
+    <a class="tile bevel" href="labs/workshop/index.html"><div class="tt"><h3>Workshop</h3></div><p>The lab workshop.</p><div class="path">labs/workshop/index.html</div></a>
+    <a class="tile bevel" href="proofs/index.html"><div class="tt"><h3>Proofs</h3></div><p>Mathematical proofs index.</p><div class="path">proofs/index.html</div></a>
+  </div>
+
+  <div class="railhead"><span class="lbl">Island &amp; control — the estate</span><span class="ln"></span><span class="cnt">5</span></div>
+  <div class="grid">
+    <a class="tile bevel" href="index.html"><div class="tt"><h3>Island Home</h3></div><p>The estate landing.</p><div class="path">index.html</div></a>
+    <a class="tile bevel" href="island_control_room.html"><div class="tt"><h3>Control Room</h3></div><p>The island control room.</p><div class="path">island_control_room.html</div></a>
+    <a class="tile bevel" href="estate-menu-demo.html"><div class="tt"><h3>Estate Menu</h3></div><p>The estate navigation menu.</p><div class="path">estate-menu-demo.html</div></a>
+    <a class="tile bevel" href="ESTATE-BRAND-GUIDE.html"><div class="tt"><h3>Brand Guide</h3></div><p>Estate brand + style guide.</p><div class="path">ESTATE-BRAND-GUIDE.html</div></a>
+    <a class="tile bevel" href="styleguide.html"><div class="tt"><h3>Style Guide</h3></div><p>The visual style reference.</p><div class="path">styleguide.html</div></a>
+  </div>
+
+  <div class="railhead"><span class="lbl">Finance</span><span class="ln"></span><span class="cnt">1</span></div>
+  <div class="grid">
+    <a class="tile bevel" href="finance/Shane-Killeen-Personal/spend-report/index.html"><div class="tt"><h3>Spend Report</h3></div><p>Personal spend report.</p><div class="path">finance/…/spend-report/index.html</div></a>
+  </div>
+
+</main>
+
+<div class="foot">
+  <span>System Gallery · Cerberus, seat 09 · design lineage Shilpa's Governance Plate (Vedanga Pattern No. 08) · 2026-07-15</span>
+  <span>Tiles link to real surfaces in the estate tree · red = your attention · page holds no key, writes nothing</span>
+  <span>Curated primaries — backups, /versions, and Secure-Area mirrors omitted by design</span>
+</div>
+
+  <script src="/estate-menu.js" defer></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

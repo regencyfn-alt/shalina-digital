@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flodent — Outro (fixed bolt-on asset)</title>
+<!--
+  FLODENT OUTRO — FIXED, REUSABLE END-LOCKUP
+  ============================================================
+  Bolt this onto the end of ANY Flodent film. It never gets rebuilt per story.
+
+  HOW TO BOLT ON
+    • Drop-in preview:   open this file (has a Replay control).
+    • Embed at deck end: <iframe src="FLODENT-OUTRO.html?lang=pt&clean=1" ...></iframe>
+    • Export to video:   record this page at 1920x1080, ?clean=1 hides all controls.
+
+  PARAMETERS (query string)
+    ?lang=pt | en | fr     sign-off + strap language      (default pt — Angola)
+    ?pack=<image-url>      packshot in the pack slot        (optional)
+    ?endorse=nda           show endorsement line            (default off; NDA = Nigeria only)
+    ?clean=1               hide Replay control (for capture)
+
+  MOTION LAW (Flodent): ease-out only, 140–420ms per element, staggered, plays ONCE.
+  No bounce, no infinite loop. Total runtime ~3.6s.
+  Colour: Red #E31F26 · Black #231F20 · White #FFFFFF. Type: Salzburg-MediumIta
+  (licensed brand face; Fraunces italic stands in for on-screen preview only).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,600&family=Inter:wght@600;800&display=swap" rel="stylesheet">
+<style>
+  :root{ --red:#E31F26; --black:#231F20; --white:#FFFFFF;
+         --display:'Fraunces',Georgia,serif; --body:'Inter',system-ui,sans-serif; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:#111;display:flex;align-items:center;justify-content:center;font-family:var(--body)}
+
+  /* 16:9 stage */
+  .stage{position:relative;width:min(96vw,960px);aspect-ratio:16/9;background:var(--red);color:#fff;
+    overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+  /* protection-ring motif */
+  .ring{position:absolute;width:70%;aspect-ratio:1;border-radius:50%;border:3.4vmin solid rgba(255,255,255,.10);
+    opacity:0;transform:scale(.6)}
+  .stage.play .ring{animation:ring .42s cubic-bezier(.16,.84,.44,1) .04s forwards}
+
+  .lock{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:1.6vmin;padding:6vmin}
+
+  .logo{font-family:var(--display);font-style:italic;font-weight:600;font-size:9.5vmin;line-height:.9;opacity:0;transform:translateY(1.4vmin)}
+  .flu{font-size:1.9vmin;letter-spacing:.34em;text-transform:uppercase;font-weight:700;opacity:0;transform:translateY(1vmin)}
+  .rule{width:0;height:2px;background:rgba(255,255,255,.6);margin:.6vmin 0}
+  .signoff{font-family:var(--display);font-style:italic;font-weight:600;font-size:4.4vmin;line-height:1.1;max-width:80%;opacity:0;transform:translateY(1.4vmin)}
+  .pack{display:flex;align-items:center;gap:2vmin;margin-top:1vmin;opacity:0;transform:translateY(1.4vmin)}
+  .pack img{height:16vmin;width:auto;object-fit:contain;filter:drop-shadow(0 1vmin 2vmin rgba(0,0,0,.28))}
+  .pack .packslot{height:16vmin;width:9vmin;border:2px dashed rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;
+    font-size:1.5vmin;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+  .strap{font-size:2vmin;letter-spacing:.02em;font-weight:600;opacity:0;transform:translateY(1vmin)}
+  .endorse{font-size:1.5vmin;letter-spacing:.16em;text-transform:uppercase;opacity:0;color:rgba(255,255,255,.85);display:none}
+
+  /* play sequence — ease-out, staggered, once, fill forwards */
+  .stage.play .logo   {animation:rise .30s ease-out .30s forwards}
+  .stage.play .flu    {animation:rise .26s ease-out .54s forwards}
+  .stage.play .rule   {animation:rule .34s ease-out .70s forwards}
+  .stage.play .signoff{animation:rise .34s ease-out 1.05s forwards}
+  .stage.play .pack   {animation:rise .34s ease-out 1.55s forwards}
+  .stage.play .strap  {animation:rise .28s ease-out 2.00s forwards}
+  .stage.play .endorse{animation:rise .26s ease-out 2.35s forwards}
+
+  @keyframes ring{to{opacity:1;transform:scale(1)}}
+  @keyframes rise{to{opacity:1;transform:translateY(0)}}
+  @keyframes rule{to{width:16vmin}}
+
+  .replay{position:absolute;bottom:2.5vmin;right:2.5vmin;z-index:5;font:inherit;font-weight:700;font-size:1.7vmin;
+    background:rgba(0,0,0,.28);color:#fff;border:1px solid rgba(255,255,255,.5);padding:.8vmin 1.6vmin;cursor:pointer;border-radius:0}
+  .replay:hover{background:rgba(0,0,0,.45)}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="ring"></div>
+  <div class="lock">
+    <div class="logo">Flodent</div>
+    <div class="flu">Fluoride Toothpaste</div>
+    <div class="rule"></div>
+    <div class="signoff" id="signoff">Agarre a Vida, Agarre a Frescura!</div>
+    <div class="pack" id="pack"><div class="packslot">Pack</div></div>
+    <div class="strap" id="strap">Novas Embalagens · Também disponível 50g</div>
+    <div class="endorse" id="endorse">Endorsed by the Nigerian Dental Association</div>
+  </div>
+  <button class="replay" id="replay">↻ Replay</button>
+</div>
+
+<script>
+(function(){
+  var q=new URLSearchParams(location.search);
+  var lang=(q.get("lang")||"pt").toLowerCase();
+  var COPY={
+    pt:{sign:"Agarre a Vida, Agarre a Frescura!", strap:"Novas Embalagens · Também disponível 50g"},
+    en:{sign:"Grab Life, Grab the Freshness!",     strap:"New Pack · Also available in 50g"},
+    fr:{sign:"Saisis la Vie, Saisis la Fraîcheur!", strap:"Nouveau Format · Aussi disponible en 50g"}
+  };
+  var c=COPY[lang]||COPY.pt;
+  document.getElementById("signoff").textContent=c.sign;
+  document.getElementById("strap").textContent=c.strap;
+  document.documentElement.lang=lang;
+
+  var pack=q.get("pack");
+  if(pack){
+    var slot=document.getElementById("pack");
+    slot.innerHTML='<img src="'+pack.replace(/"/g,"")+'" alt="Flodent pack" onerror="this.parentNode.innerHTML=\'<div class=&quot;packslot&quot;>Pack</div>\'">';
+  }
+  if(q.get("endorse")==="nda"){ document.getElementById("endorse").style.display="block"; }
+
+  var stage=document.getElementById("stage"),
+      replay=document.getElementById("replay");
+  if(q.get("clean")==="1"){ replay.style.display="none"; }
+
+  function play(){
+    stage.classList.remove("play");
+    void stage.offsetWidth;          // reflow → restart the one-shot sequence
+    stage.classList.add("play");
+  }
+  replay.addEventListener("click",play);
+  window.addEventListener("load",play);
+  play();
+})();
+</script>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

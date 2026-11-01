@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ibucap — Beat Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --brand:   #F07D1A;
+  --accent:  #1E86D6;
+  --charcoal:#1C1C1C;
+  --mid:     #5A5A5A;
+  --light:   #E8E4DE;
+  --bg:      #FFFAF6;
+  --panel-bg:#F5EFE8;
+  --page-w:  297mm;
+  --page-h:  210mm;
+  --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  font-family: var(--font);
+  background: #2a2825;
+  color: var(--charcoal);
+  font-size: 10px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── TOOLBAR ── */
+.toolbar {
+  position: sticky; top: 0; z-index: 100;
+  background: #1a1917;
+  display: flex; align-items: center;
+  gap: 6px; padding: 8px 14px;
+  flex-wrap: wrap;
+  border-bottom: 2px solid var(--brand);
+}
+.toolbar-sep { width: 1px; height: 20px; background: #444; margin: 0 2px; }
+.tb-btn {
+  font-family: var(--font);
+  font-size: 10px; font-weight: 700;
+  padding: 5px 10px; border-radius: 3px;
+  border: none; cursor: pointer; white-space: nowrap;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  transition: opacity 0.15s, background 0.15s;
+}
+.tb-btn:hover { opacity: 0.85; }
+.tb-btn.primary { background: var(--brand); color: white; }
+.tb-btn.accent  { background: var(--accent); color: white; }
+.tb-btn.dark    { background: #333; color: #ccc; }
+.tb-btn.dark:hover { background: #444; color: white; }
+.tb-btn.layout  { background: #333; color: #888; font-size: 9px; }
+.tb-btn.layout.active { background: var(--accent); color: white; }
+.tb-layout-group { display: flex; gap: 2px; }
+.tb-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.color-swatch { display: flex; align-items: center; gap: 4px; font-size: 9px; color: #888; font-weight: 700; letter-spacing: 0.06em; }
+.swatch-dot { width: 14px; height: 14px; border-radius: 2px; }
+
+/* ── PAGE ── */
+@page { size: A4 landscape; margin: 0; }
+@media print {
+  body { background: white; }
+  .toolbar { display: none !important; }
+  .page { margin: 0; box-shadow: none; padding: 6mm 7mm 7mm; zoom: 1; }
+  [contenteditable]:hover, [contenteditable]:focus { background: none !important; box-shadow: none !important; }
+  .panel-delete { display: none !important; }
+  .add-beat-btn { display: none !important; }
+}
+@media screen {
+  .page { zoom: 1.45; }
+  .tb-btn { font-size: 11px; padding: 6px 12px; }
+  .story-title { font-size: 20px; }
+  .ibucap-logo { font-size: 15px; }
+  .panel-beat-name { font-size: 8.5px; }
+  .panel-desc { font-size: 7px; }
+  .panel-vo { font-size: 6.5px; }
+  .es-text { font-size: 9.5px; }
+  .panel-num { font-size: 9.5px; }
+  .phase-tag { font-size: 6px; }
+}
+
+.page {
+  width: var(--page-w);
+  min-height: var(--page-h);
+  background: var(--bg);
+  margin: 10mm auto;
+  padding: 7mm 8mm 7mm;
+  box-shadow: 0 6px 32px rgba(0,0,0,0.4);
+  page-break-after: always;
+  position: relative;
+}
+
+/* ── EDITABLE ── */
+[contenteditable] {
+  outline: none; border-radius: 2px;
+  transition: background 0.12s;
+}
+[contenteditable]:hover { background: rgba(240,125,26,0.07); }
+[contenteditable]:focus {
+  background: rgba(240,125,26,0.13);
+  box-shadow: 0 0 0 1.5px var(--brand);
+}
+
+/* ── HEADER ── */
+.page-header {
+  display: flex; align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 2.5px solid var(--brand);
+  padding-bottom: 3mm; margin-bottom: 4mm;
+}
+.header-left { display: flex; align-items: center; gap: 4mm; }
+.ibucap-logo {
+  display: flex; align-items: center; gap: 2mm;
+  background: var(--brand); color: white;
+  padding: 2mm 4mm; border-radius: 3px;
+  font-size: 13px; font-weight: 900;
+  letter-spacing: -0.01em; line-height: 1;
+  white-space: nowrap;
+}
+.ibucap-logo span { font-size: 7px; font-weight: 600; opacity: 0.85; letter-spacing: 0.1em; }
+.header-meta { display: flex; flex-direction: column; gap: 1mm; }
+.story-title {
+  font-size: 16px; font-weight: 900;
+  color: var(--charcoal); letter-spacing: -0.02em; line-height: 1;
+}
+.story-sub { font-size: 7.5px; color: var(--mid); font-weight: 500; }
+.header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 1.5mm; }
+.badge {
+  font-size: 7px; font-weight: 800; padding: 2px 8px;
+  border-radius: 3px; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.badge-brand  { background: var(--brand); color: white; }
+.badge-accent { background: var(--accent); color: white; }
+.badge-dark   { background: var(--charcoal); color: white; }
+.header-info  { font-size: 6.5px; color: var(--mid); text-align: right; line-height: 1.7; }
+.header-info strong { color: var(--charcoal); }
+
+/* ── EXEC SUMMARY ── */
+.exec-summary {
+  background: white;
+  border-left: 3px solid var(--brand);
+  padding: 2.5mm 4mm;
+  margin-bottom: 3mm;
+  border-radius: 0 2px 2px 0;
+}
+.exec-summary .es-label {
+  font-size: 6px; font-weight: 800;
+  color: var(--brand); text-transform: uppercase;
+  letter-spacing: 0.12em; margin-bottom: 1.5mm;
+}
+.exec-summary .es-text {
+  font-size: 8px; color: var(--charcoal); line-height: 1.55;
+}
+.exec-summary .es-text strong { color: var(--accent); }
+
+/* ── LEGEND ── */
+.legend {
+  display: flex; gap: 5mm; align-items: center;
+  margin-bottom: 2.5mm; padding-bottom: 1.5mm;
+  border-bottom: 1px solid var(--light);
+}
+.legend-item { display: flex; align-items: center; gap: 1.5mm; font-size: 6.5px; color: var(--mid); }
+.legend-dot { width: 5px; height: 5px; border-radius: 50%; }
+
+/* ── BEATS GRID — dynamic columns ── */
+.beats-row {
+  display: flex; gap: 2.5mm;
+  align-items: flex-start;
+}
+.beats-row.count-5 { justify-content: flex-start; }
+.beats-row.count-6 { gap: 2mm; }
+.beats-row.count-7 { gap: 1.5mm; }
+.beats-row.count-8 { gap: 1mm; }
+
+.panel {
+  flex: 1 1 0; min-width: 0;
+  background: white; border-radius: 2px;
+  overflow: hidden; border: 1px solid var(--light);
+  display: flex; flex-direction: column;
+  position: relative;
+}
+
+/* Panel delete button */
+.panel-delete {
+  position: absolute; top: 2px; right: 2px;
+  width: 14px; height: 14px;
+  background: rgba(0,0,0,0.6); color: white;
+  border: none; border-radius: 2px; cursor: pointer;
+  font-size: 9px; line-height: 14px; text-align: center;
+  z-index: 20; opacity: 0;
+  transition: opacity 0.15s;
+  font-weight: 700;
+}
+.panel:hover .panel-delete { opacity: 1; }
+
+/* Panel top bar */
+.panel-header {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 1mm 2mm;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+.panel-num { font-size: 8px; font-weight: 900; color: white; line-height: 1; }
+.panel-tc  { font-size: 6px; font-weight: 600; color: rgba(255,255,255,0.8); }
+
+/* 9:16 image area */
+.panel-image {
+  width: 100%; aspect-ratio: 9/16;
+  background: var(--panel-bg);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 1.5mm;
+  position: relative; overflow: hidden;
+  cursor: pointer; flex-shrink: 0;
+}
+.panel-image img, .panel-image video {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.ph-icon  { font-size: 16px; opacity: 0.25; }
+.ph-label { font-size: 5.5px; color: var(--mid); text-align: center; padding: 0 2mm; line-height: 1.4; font-style: italic; }
+.panel-image:hover::after {
+  content: '&#9654; Load media';
+  position: absolute; bottom: 3px; right: 4px;
+  font-size: 5.5px; font-weight: 800;
+  color: white; background: rgba(0,0,0,0.6);
+  padding: 1px 5px; border-radius: 2px;
+  pointer-events: none; letter-spacing: 0.04em;
+}
+.phase-tag {
+  position: absolute; top: 1.5mm; left: 1.5mm;
+  background: var(--brand); color: white;
+  font-size: 5px; font-weight: 900;
+  padding: 1px 4px; border-radius: 1px;
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+.clear-btn {
+  position: absolute; bottom: 2px; right: 2px;
+  background: rgba(0,0,0,0.55); color: white;
+  border: none; border-radius: 2px;
+  padding: 1px 5px; cursor: pointer;
+  font-size: 9px; z-index: 10; line-height: 1.3;
+}
+
+/* Panel text */
+.panel-body {
+  padding: 1.5mm 2mm 2mm; flex: 1;
+  display: flex; flex-direction: column; gap: 1mm;
+}
+.panel-beat-name {
+  font-size: 7px; font-weight: 800;
+  color: var(--charcoal); line-height: 1.2;
+  min-height: 8px;
+}
+.panel-desc {
+  font-size: 6px; color: var(--mid);
+  line-height: 1.45; flex: 1; min-height: 12px;
+}
+.panel-vo {
+  font-size: 5.5px; color: var(--accent);
+  font-style: italic;
+  border-top: 1px solid var(--light);
+  padding-top: 1mm; line-height: 1.4;
+  min-height: 10px;
+}
+
+/* End card panel */
+.panel.endcard .panel-header { background: var(--charcoal); }
+.panel.endcard .panel-image {
+  background: #111;
+  flex-direction: column; gap: 2mm; padding: 3mm;
+}
+.pack-logo { font-size: 13px; font-weight: 900; color: var(--brand); text-align: center; line-height: 1; }
+.pack-claim { font-size: 6px; color: rgba(255,255,255,0.75); text-align: center; font-style: italic; line-height: 1.4; }
+.pack-rule { font-size: 5px; color: var(--accent); text-align: center; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; }
+
+/* Add beat button */
+.add-beat-btn {
+  font-family: var(--font);
+  align-self: center; background: none;
+  border: 1.5px dashed var(--brand); color: var(--brand);
+  padding: 0 6px; border-radius: 2px; cursor: pointer;
+  font-size: 16px; font-weight: 300;
+  flex-shrink: 0; width: 24px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+  aspect-ratio: 9/16;
+}
+.add-beat-btn:hover { background: rgba(240,125,26,0.1); }
+.add-beat-btn-wrap { display: flex; align-items: center; }
+
+/* ── FOOTER ── */
+.page-footer {
+  margin-top: 3mm; padding-top: 2mm;
+  border-top: 1px solid var(--light);
+  display: flex; align-items: center;
+  justify-content: space-between;
+}
+.footer-claim { font-size: 6px; color: var(--mid); font-style: italic; }
+.footer-rules  { font-size: 5.5px; color: #bbb; text-align: right; line-height: 1.6; }
+.footer-brand  { font-size: 7px; font-weight: 900; color: var(--brand); letter-spacing: 0.05em; }
+</style>
+</head>
+<body>
+
+<!-- ── TOOLBAR ── -->
+<div class="toolbar">
+  <button class="tb-btn primary" onclick="window.print()">PRINT / EXPORT PDF</button>
+  <div class="toolbar-sep"></div>
+  <div class="tb-layout-group">
+    <button class="tb-btn layout" onclick="setLayout('landscape')" id="btn-landscape">4-UP &middot; LANDSCAPE</button>
+    <button class="tb-btn layout" onclick="setLayout('portrait')"  id="btn-portrait">3-UP &middot; PORTRAIT</button>
+    <button class="tb-btn layout active" onclick="setAspect('9:16')"  id="btn-916">9:16</button>
+    <button class="tb-btn layout" onclick="setAspect('4:5')"   id="btn-45">4:5</button>
+    <button class="tb-btn layout" onclick="setAspect('1:1')"   id="btn-11">1:1</button>
+    <button class="tb-btn layout" onclick="setAspect('16:9')"  id="btn-169">16:9</button>
+  </div>
+  <div class="toolbar-sep"></div>
+  <button class="tb-btn dark" onclick="loadImagesFolder()">LOAD IMAGES FOLDER</button>
+  <button class="tb-btn dark" onclick="saveProjectFile()">SAVE PROJECT FILE</button>
+  <button class="tb-btn dark" onclick="exportJSON()">EXPORT JSON</button>
+  <button class="tb-btn dark" onclick="importJSON()">IMPORT JSON</button>
+  <button class="tb-btn accent" onclick="newProject()">NEW PROJECT</button>
+  <div class="tb-right">
+    <div class="color-swatch">BRAND <div class="swatch-dot" style="background:var(--brand)"></div></div>
+    <div class="color-swatch">2ND <div class="swatch-dot" style="background:var(--accent)"></div></div>
+  </div>
+</div>
+
+<input type="file" id="folderInput" multiple accept="image/*,video/*" style="display:none">
+<input type="file" id="projectInput" accept=".json" style="display:none">
+<input type="file" id="jsonInput"    accept=".json" style="display:none">
+
+<!-- ── STORY PAGE ── -->
+<div class="page" id="story-page">
+
+  <div class="page-header">
+    <div class="header-left">
+      <div class="ibucap-logo">
+        IBUCAP <span>&#174;</span>
+      </div>
+      <div class="header-meta">
+        <div class="story-title" contenteditable="true" id="story-title">Baraka &#8212; The Long Shift</div>
+        <div class="story-sub" contenteditable="true" id="story-sub">Ibucap Kenya &middot; Story 05 &middot; Beat Board &middot; 15 sec</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="badge badge-brand" contenteditable="true">IBUCAP KENYA</span>
+      <span class="badge badge-accent" contenteditable="true">15 SEC</span>
+      <div class="header-info">
+        <strong>Format:</strong> 9:16 vertical (TikTok / Reels)<br>
+        <strong>Market:</strong> <span contenteditable="true">Kenya</span>&nbsp;&nbsp;
+        <strong>Brand:</strong> Ibucap
+      </div>
+    </div>
+  </div>
+
+  <!-- EXEC SUMMARY -->
+  <div class="exec-summary">
+    <div class="es-label">What this story is about &middot; Why it works</div>
+    <div class="es-text" contenteditable="true"><strong>Baraka works construction. By 3 pm his back is a wall of pain &#8212; but today he has to pick up his daughter.</strong> He&#8217;s not going to make it. Then a workmate hands him Ibucap. Three actives at once. By the time he reaches the school gate, he&#8217;s moving freely. She runs at him and he catches her. Simple line, two characters, one product moment. <strong>Ibucap = the pain that leaves before the moment that matters.</strong> Brand gets: a working man audiences respect, genuine physical stakes, product at the exact turning point &#8212; no doctor, no dramatisation, just relief that shows up and works.</div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div> Beat label</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--brand)"></div> On-screen text</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#999"></div> Voiceover (EN/SW)</div>
+    <div style="margin-left:auto; font-size:6px; color:#bbb; font-style:italic;">Click any field to edit &middot; click a frame to load media &middot; hover panel for delete</div>
+  </div>
+
+  <!-- BEATS ROW — panels injected by JS -->
+  <div class="beats-row" id="beats-row"></div>
+
+  <div class="page-footer">
+    <div class="footer-claim">Kazi Lazima &middot; PPB-approved &middot; No healthcare workers &middot; Product incidental</div>
+    <div class="footer-brand">IBUCAP</div>
+    <div class="footer-rules">The Power of Three in One &nbsp;|&nbsp; &copy; Shalina Healthcare</div>
+  </div>
+
+</div>
+
+<script>
+// ── State ──
+var beats = [
+  { id:1, tc:'0:00–0:03', phase:'HOOK',   name:'The Long Shift',
+    desc:'Construction site, 3 pm. Baraka sets down his tools, stretches his back. Something\'s wrong. He grimaces — trying to hide it from his crew.',
+    vo:'Baada ya shift ndefu, maumivu yanakukumba. (After a long shift, the pain catches you.)', media:null },
+  { id:2, tc:'0:03–0:06', phase:'TIMING', name:'The Promise He Made',
+    desc:'His phone lights up — a WhatsApp from his daughter: “Baba, unakuja? 🙂”. He stares at it. He promised. Close on his face: the calculation.',
+    vo:'Uliahidi. Lakini mwili wako unasema la. (You promised. But your body says no.)', media:null },
+  { id:3, tc:'0:06–0:10', phase:'IBUCAP', name:'Three in One',
+    desc:'Workmate reaches into his bag — “Chukua hii.” Hands Baraka an Ibucap strip. Product visible, incidental. Baraka looks at it, then back at his phone.',
+    vo:'Ibuprofen. Paracetamol. Caffeine. Kwa maumivu kama haya. (For pain like this.)', media:null },
+  { id:4, tc:'0:10–0:13', phase:'RELIEF', name:'He Makes It',
+    desc:'School gate. Baraka moves freely — no grimace. His daughter spots him and runs. He crouches and catches her full momentum, easy.',
+    vo:'Maumivu yalikwenda. Wakati ulikuwepo. (The pain left. The moment was there.)', media:null },
+  { id:5, tc:'0:13–0:15', phase:'CLOSE',  name:'END CARD',
+    desc:'Pack shot + claim.',
+    vo:'“The Power of Three in One.”', media:null, endcard:true }
+];
+
+var currentAspect = '9/16';
+var mediaMap = {};
+var MAX_BEATS = 8;
+var MIN_BEATS = 1;
+
+// ── Render ──
+function render() {
+  var row = document.getElementById('beats-row');
+  var count = beats.length;
+  row.innerHTML = '';
+  row.className = 'beats-row count-' + count;
+
+  beats.forEach(function(b, i) {
+    row.appendChild(makePanelEl(b, i, count));
+  });
+
+  if (count < MAX_BEATS) {
+    var wrap = document.createElement('div');
+    wrap.className = 'add-beat-btn-wrap';
+    var btn = document.createElement('button');
+    btn.className = 'add-beat-btn';
+    btn.title = 'Add beat';
+    btn.textContent = '+';
+    btn.addEventListener('click', addBeat);
+    wrap.appendChild(btn);
+    row.appendChild(wrap);
+  }
+}
+
+function makePanelEl(b, i, count) {
+  var panel = document.createElement('div');
+  panel.className = 'panel' + (b.endcard ? ' endcard' : '');
+  panel.dataset.idx = i;
+
+  var delBtn = document.createElement('button');
+  delBtn.className = 'panel-delete';
+  delBtn.title = 'Remove beat';
+  delBtn.textContent = '✕';
+  delBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (beats.length <= MIN_BEATS) return;
+    beats.splice(i, 1);
+    beats.forEach(function(b2, j) { b2.id = j + 1; });
+    render();
+  });
+  panel.appendChild(delBtn);
+
+  var hdr = document.createElement('div');
+  hdr.className = 'panel-header';
+  hdr.innerHTML = '<span class="panel-num">' + String(i+1).padStart(2,'0') + '</span>' +
+                  '<span class="panel-tc" contenteditable="true">' + escHtml(b.tc) + '</span>';
+  panel.appendChild(hdr);
+
+  if (b.endcard) {
+    var ec = document.createElement('div');
+    ec.className = 'panel-image';
+    ec.innerHTML = '<div class="pack-logo">IBUCAP</div>' +
+      '<div class="pack-claim">The Power of Three in One.</div>' +
+      '<div class="pack-rule">Kazi Lazima · Kenya</div>';
+    panel.appendChild(ec);
+  } else {
+    var imgWrap = document.createElement('div');
+    imgWrap.className = 'panel-image' + (b.media ? ' has-media' : '');
+    imgWrap.dataset.beatId = b.id;
+
+    var phaseTag = document.createElement('div');
+    phaseTag.className = 'phase-tag';
+    phaseTag.contentEditable = 'true';
+    phaseTag.textContent = b.phase;
+    imgWrap.appendChild(phaseTag);
+
+    if (b.media) {
+      if (b.media.startsWith('data:video') || b.media.endsWith('.mp4')) {
+        var vid = document.createElement('video');
+        vid.src = b.media; vid.muted = true; vid.loop = true;
+        vid.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+        imgWrap.appendChild(vid);
+      } else {
+        var imgEl = document.createElement('img');
+        imgEl.src = b.media;
+        imgWrap.appendChild(imgEl);
+      }
+      var clrBtn = document.createElement('button');
+      clrBtn.className = 'clear-btn';
+      clrBtn.textContent = '✕';
+      clrBtn.addEventListener('click', function(e) {
+        e.stopPropagation(); b.media = null; render();
+      });
+      imgWrap.appendChild(clrBtn);
+    } else {
+      var phIcon = document.createElement('div');
+      phIcon.className = 'ph-icon';
+      phIcon.textContent = '▶';
+      var phLbl = document.createElement('div');
+      phLbl.className = 'ph-label';
+      phLbl.textContent = 'Click to load media';
+      imgWrap.appendChild(phIcon);
+      imgWrap.appendChild(phLbl);
+    }
+
+    imgWrap.addEventListener('click', function() {
+      if (b.media) return;
+      var fi = document.getElementById('folderInput');
+      fi._singleMode = true;
+      fi._target = b;
+      fi.click();
+    });
+    panel.appendChild(imgWrap);
+  }
+
+  var body = document.createElement('div');
+  body.className = 'panel-body';
+  body.innerHTML =
+    '<div class="panel-beat-name" contenteditable="true">' + escHtml(b.name) + '</div>' +
+    '<div class="panel-desc" contenteditable="true">' + escHtml(b.desc) + '</div>' +
+    '<div class="panel-vo" contenteditable="true">' + escHtml(b.vo) + '</div>';
+  panel.appendChild(body);
+
+  return panel;
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Add beat ──
+function addBeat() {
+  var newBeat = { id: beats.length + 1, tc: '0:00–0:00', phase: 'BEAT',
+    name: 'Beat name', desc: 'Scene description.', vo: 'Voiceover…', media: null };
+  var lastIsEnd = beats.length > 0 && beats[beats.length-1].endcard;
+  if (lastIsEnd) { beats.splice(beats.length - 1, 0, newBeat); }
+  else           { beats.push(newBeat); }
+  beats.forEach(function(b, j) { b.id = j + 1; });
+  render();
+}
+
+// ── Media loading ──
+document.getElementById('folderInput').addEventListener('change', function(e) {
+  if (this._singleMode && this._target) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    var b = this._target;
+    reader.onload = function(ev) { b.media = ev.target.result; render(); };
+    reader.readAsDataURL(file);
+    this._singleMode = false; this._target = null;
+  } else {
+    Array.from(e.target.files).forEach(function(f) {
+      var r = new FileReader();
+      r.onload = function(ev) { mediaMap[f.name] = ev.target.result; };
+      r.readAsDataURL(f);
+    });
+  }
+  this.value = '';
+});
+
+function loadImagesFolder() {
+  var fi = document.getElementById('folderInput');
+  fi._singleMode = false;
+  fi.removeAttribute('webkitdirectory');
+  fi.setAttribute('multiple', '');
+  fi.click();
+}
+
+// ── Save / Export ──
+function getState() {
+  document.querySelectorAll('.panel').forEach(function(p, i) {
+    if (!beats[i]) return;
+    var body = p.querySelector('.panel-body');
+    if (!body) return;
+    beats[i].name  = body.querySelector('.panel-beat-name').textContent;
+    beats[i].desc  = body.querySelector('.panel-desc').textContent;
+    beats[i].vo    = body.querySelector('.panel-vo').textContent;
+    beats[i].phase = (p.querySelector('.phase-tag') || {}).textContent || '';
+    beats[i].tc    = (p.querySelector('.panel-tc')  || {}).textContent || '';
+  });
+  return {
+    title: document.getElementById('story-title').textContent,
+    sub:   document.getElementById('story-sub').textContent,
+    beats: beats.map(function(b) { return Object.assign({}, b, {media: null}); })
+  };
+}
+
+function saveProjectFile() {
+  var state = getState();
+  var blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (state.title || 'ibucap-beat-board').replace(/\s+/g,'-').toLowerCase() + '.project.json';
+  a.click();
+}
+
+function exportJSON() { saveProjectFile(); }
+
+document.getElementById('projectInput').addEventListener('change', function(e) {
+  loadProjectFile(e.target.files[0]); this.value = '';
+});
+document.getElementById('jsonInput').addEventListener('change', function(e) {
+  loadProjectFile(e.target.files[0]); this.value = '';
+});
+
+function loadProjectFile(file) {
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      var state = JSON.parse(ev.target.result);
+      if (state.beats) { beats = state.beats; render(); }
+      if (state.title) document.getElementById('story-title').textContent = state.title;
+      if (state.sub)   document.getElementById('story-sub').textContent   = state.sub;
+    } catch(e) { alert('Invalid project file.'); }
+  };
+  reader.readAsText(file);
+}
+
+function importJSON() { document.getElementById('jsonInput').click(); }
+
+function newProject() {
+  if (!confirm('Start a new project? Unsaved changes will be lost.')) return;
+  beats = [
+    { id:1, tc:'0:00–0:03', phase:'HOOK',   name:'Beat 01', desc:'Scene description.', vo:'Voiceover (EN/SW)…', media:null },
+    { id:2, tc:'0:03–0:06', phase:'RELATE', name:'Beat 02', desc:'Scene description.', vo:'Voiceover…',         media:null },
+    { id:3, tc:'0:06–0:10', phase:'PAIN',   name:'Beat 03', desc:'Scene description.', vo:'Voiceover…',         media:null },
+    { id:4, tc:'0:10–0:13', phase:'IBUCAP', name:'Beat 04', desc:'Scene description.', vo:'Voiceover…',         media:null },
+    { id:5, tc:'0:13–0:15', phase:'CLOSE',  name:'END CARD', desc:'Pack shot + claim.', vo:'“The Power of Three in One.”', media:null, endcard:true }
+  ];
+  document.getElementById('story-title').textContent = 'Story Title';
+  document.getElementById('story-sub').textContent   = 'Ibucap Kenya · Beat Board · 15 sec';
+  render();
+}
+
+// ── Aspect ratio toggle ──
+function setAspect(ratio) {
+  var map = { '9:16':'9/16', '4:5':'4/5', '1:1':'1/1', '16:9':'16/9' };
+  currentAspect = map[ratio] || '9/16';
+  document.querySelectorAll('.panel-image').forEach(function(el) {
+    el.style.aspectRatio = currentAspect;
+  });
+  ['916','45','11','169'].forEach(function(k) {
+    var btn = document.getElementById('btn-'+k);
+    if (btn) btn.classList.remove('active');
+  });
+  var activeBtn = document.getElementById('btn-' + ratio.replace(':',''));
+  if (activeBtn) activeBtn.classList.add('active');
+}
+
+function setLayout(mode) {
+  var page = document.getElementById('story-page');
+  if (mode === 'landscape') {
+    page.style.width = '297mm'; page.style.minHeight = '210mm';
+    document.getElementById('btn-landscape').classList.add('active');
+    document.getElementById('btn-portrait').classList.remove('active');
+  } else {
+    page.style.width = '210mm'; page.style.minHeight = '297mm';
+    document.getElementById('btn-portrait').classList.add('active');
+    document.getElementById('btn-landscape').classList.remove('active');
+  }
+}
+
+// ── Init ──
+render();
+document.getElementById('btn-landscape').classList.add('active');
+</script>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

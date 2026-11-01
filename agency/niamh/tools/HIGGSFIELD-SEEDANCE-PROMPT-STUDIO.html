@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seedance Prompt Studio — CENTREFREE</title>
+<style>
+  :root{
+    --sea:#0E1A22; --sea2:#132530; --panel:#16303C; --line:#264A58;
+    --cerise:#DE3163; --cobalt:#2E6FB7; --ltblue:#4FB3E8; --mint:#6FD9C0;
+    --ink:#0A1418; --warm:#F5F1E9; --mut:#9FB3BD; --amber:#E7B84f;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; background:var(--sea); color:var(--warm); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; font-size:15px; line-height:1.55; }
+  a{ color:var(--ltblue); }
+  .wrap{ max-width:1180px; margin:0 auto; padding:26px 22px 60px; }
+  header.top{ display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; border-bottom:2px solid var(--cerise); padding-bottom:14px; margin-bottom:8px; }
+  .brandmark{ width:14px; height:14px; background:var(--cerise); border-radius:2px; transform:rotate(45deg); }
+  h1{ font-size:22px; margin:0; letter-spacing:.2px; }
+  .sub{ color:var(--mut); font-size:12.5px; }
+  .eyebrow{ text-transform:uppercase; letter-spacing:.2em; font-size:10.5px; color:var(--cerise); font-weight:700; }
+
+  .tabs{ display:flex; gap:6px; margin:18px 0 20px; }
+  .tab{ background:var(--sea2); border:1px solid var(--line); color:var(--mut); padding:9px 16px; border-radius:8px; cursor:pointer; font-weight:600; font-size:13.5px; }
+  .tab.active{ background:var(--cerise); border-color:var(--cerise); color:#fff; }
+  .view{ display:none; } .view.active{ display:block; }
+
+  /* CONVERTER */
+  .grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  @media(max-width:900px){ .grid{ grid-template-columns:1fr; } }
+  .card{ background:var(--sea2); border:1px solid var(--line); border-radius:12px; padding:18px; }
+  .card h3{ margin:0 0 4px; font-size:14px; }
+  label{ display:block; font-size:11px; text-transform:uppercase; letter-spacing:.12em; color:var(--mut); margin:14px 0 5px; font-weight:700; }
+  .hint{ font-size:11.5px; color:var(--mut); text-transform:none; letter-spacing:0; font-weight:400; margin-top:2px; }
+  input[type=text], input[type=number], textarea, select{
+    width:100%; background:var(--ink); border:1px solid var(--line); color:var(--warm);
+    border-radius:8px; padding:10px 11px; font-size:14px; font-family:inherit; resize:vertical;
+  }
+  textarea{ min-height:74px; line-height:1.5; }
+  select{ appearance:none; }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .row3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+  .check{ display:flex; align-items:center; gap:8px; margin-top:12px; }
+  .check input{ width:auto; }
+  .check label{ margin:0; text-transform:none; letter-spacing:0; font-size:13px; color:var(--warm); font-weight:500; }
+  .modehint{ font-size:12px; color:var(--mint); margin-top:6px; min-height:16px; }
+
+  .outwrap{ position:sticky; top:16px; }
+  .title-line{ font-size:12.5px; color:var(--cerise); font-weight:700; margin-bottom:8px; }
+  .prompt{ background:var(--ink); border:1px solid var(--cobalt); border-radius:10px; padding:15px; font-size:13.5px; line-height:1.62; white-space:pre-wrap; min-height:180px; }
+  .prompt b{ color:var(--ltblue); }
+  .btns{ display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+  button.act{ background:var(--cerise); color:#fff; border:none; border-radius:8px; padding:10px 16px; font-weight:700; cursor:pointer; font-size:13.5px; }
+  button.ghost{ background:transparent; color:var(--warm); border:1px solid var(--line); border-radius:8px; padding:10px 16px; cursor:pointer; font-size:13.5px; }
+  button.act:active{ transform:translateY(1px); }
+  .warns{ margin-top:12px; }
+  .warn{ background:#3a2f16; border-left:3px solid var(--amber); color:#f0dca6; padding:8px 11px; border-radius:6px; font-size:12.5px; margin-bottom:6px; }
+  .ok{ background:#12332a; border-left:3px solid var(--mint); color:#bfeaddff; padding:8px 11px; border-radius:6px; font-size:12.5px; }
+
+  /* GUIDE */
+  .guide h2{ font-size:17px; margin:26px 0 8px; color:var(--warm); border-bottom:1px solid var(--line); padding-bottom:6px; }
+  .guide h2:first-child{ margin-top:6px; }
+  .guide p{ color:#d7e2e7; }
+  table.modes{ width:100%; border-collapse:collapse; margin:10px 0; font-size:12.5px; }
+  table.modes th{ text-align:left; background:var(--panel); padding:8px 9px; border:1px solid var(--line); color:var(--ltblue); }
+  table.modes td{ padding:8px 9px; border:1px solid var(--line); vertical-align:top; color:#cdd9df; }
+  table.modes tr:nth-child(even) td{ background:#122731; }
+  .pill{ display:inline-block; background:var(--cerise); color:#fff; font-size:10.5px; font-weight:700; padding:2px 7px; border-radius:20px; }
+  .cols{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  @media(max-width:900px){ .cols{ grid-template-columns:1fr; } }
+  ul.tight{ margin:6px 0; padding-left:18px; } ul.tight li{ margin-bottom:5px; color:#d7e2e7; font-size:13.5px; }
+  .do{ color:var(--mint); } .dont{ color:#ff9aa8; }
+  code{ background:var(--ink); border:1px solid var(--line); padding:1px 5px; border-radius:4px; font-size:12.5px; color:var(--mint); }
+  .foot{ margin-top:34px; color:var(--mut); font-size:11.5px; border-top:1px solid var(--line); padding-top:12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <span class="brandmark"></span>
+    <h1>Seedance Prompt Studio</h1>
+    <span class="sub">Higgsfield · Seedance 2.0 · CENTREFREE house grammar</span>
+  </header>
+  <div class="eyebrow">Prompt guide + live converter for the design team</div>
+
+  <div class="tabs">
+    <div class="tab active" data-view="quick">Quick · one box</div>
+    <div class="tab" data-view="conv">Converter · detailed</div>
+    <div class="tab" data-view="guide">Prompt Guide</div>
+  </div>
+
+  <!-- ============ QUICK (ONE BOX) ============ -->
+  <section class="view active" id="quick">
+    <div class="grid">
+      <div class="card">
+        <h3>One box, house-correct prompt</h3>
+        <p class="hint">Type or paste your scene in plain words. Pick a look and a length. The studio treats it — strips anything that breaks Higgsfield, wraps it in the house format, and bolts on the locked camera and diegetic-sound grammar.</p>
+        <div class="row3">
+          <div>
+            <label>Look (mode)</label>
+            <select id="qmode">
+              <option value="M1">M1 — Narrative (real-world)</option>
+              <option value="M2">M2 — Studio / Editorial</option>
+              <option value="M3">M3 — Action / Combat</option>
+              <option value="M4">M4 — Performance / Concert</option>
+              <option value="M5">M5 — Atmospheric (no humans)</option>
+            </select>
+          </div>
+          <div><label>Length (sec)</label><input type="number" id="qrun" value="5" min="1" max="60"></div>
+          <div>
+            <label>Lens</label>
+            <select id="qlens">
+              <option value="32">32mm wide</option><option value="40">40mm</option>
+              <option value="50">50mm</option><option value="55" selected>55mm medium</option>
+              <option value="75">75mm tight</option><option value="100">100mm CU</option>
+            </select>
+          </div>
+        </div>
+        <label>Your scene / prompt <span class="hint">— who, doing what, where. Plain words are fine.</span></label>
+        <textarea id="qtext" style="min-height:150px" placeholder="e.g. a woman in a cropped white tank steps off the curb onto wet pavement at night, amber streetlights, distant taxi tail-lights, she glances back once before walking on"></textarea>
+        <div class="btns">
+          <button class="act" id="qgen">Treat &amp; render</button>
+          <button class="ghost" id="qclear">Clear</button>
+        </div>
+        <p class="hint" style="margin-top:12px">Want to control style, characters, audio and palette separately? Use the <b>Converter · detailed</b> tab.</p>
+      </div>
+      <div>
+        <div class="outwrap card">
+          <h3>Your Seedance prompt</h3>
+          <div class="title-line" id="qtitle">Seedance prompt - 5s</div>
+          <div class="prompt" id="qout">Type your scene in the box and hit <b>Treat &amp; render</b>. Out comes one clean paragraph, ready to paste into Seedance.</div>
+          <div class="btns"><button class="act" id="qcopy">Copy prompt</button></div>
+          <div class="warns" id="qwarns"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONVERTER ============ -->
+  <section class="view" id="conv">
+    <div class="grid">
+      <!-- INPUTS -->
+      <div class="card">
+        <h3>Build your shot</h3>
+        <p class="hint">Fill what you know. The studio assembles a clean, house-correct Seedance prompt. Attach your reference images inside Higgsfield itself — never in the prompt.</p>
+
+        <label>Cinema mode</label>
+        <select id="mode">
+          <option value="M1">M1 — Narrative (real-world, lived-in)</option>
+          <option value="M2">M2 — Studio / Editorial (crafted)</option>
+          <option value="M3">M3 — Action / Combat</option>
+          <option value="M4">M4 — Performance / Concert</option>
+          <option value="M5">M5 — Atmospheric / Empty (no humans)</option>
+        </select>
+        <div class="modehint" id="modehint"></div>
+
+        <label>Style &amp; mood <span class="hint">— genre register + emotional tone. Leave blank for a mode default.</span></label>
+        <textarea id="style" placeholder="e.g. documentary-grit realism, slow-burn observational, warm and unhurried"></textarea>
+
+        <label>Dynamic description <span class="hint">— what happens across the shot: action, gesture, camera move. Physics, not commentary.</span></label>
+        <textarea id="dynamic" placeholder="e.g. a woman in a cropped white tank steps off the curb onto wet pavement, the camera tracking at chest level with a slight handheld breath, she glances back once"></textarea>
+
+        <div class="check"><input type="checkbox" id="multi"><label for="multi">Multi-shot sequence (I'll write inline shot timing myself, e.g. "Shot 1 (0-3s): ... hard cut to Shot 2 (3-8s): ...")</label></div>
+
+        <label>Static description <span class="hint">— what stays fixed: characters by visual markers, environment, set dressing, palette. No names.</span></label>
+        <textarea id="static" placeholder="e.g. rose-pink haired woman, cropped white ribbed tank, silver hoop earrings; empty city intersection at night, wet asphalt, amber sodium streetlights, taxi tail-lights"></textarea>
+
+        <div class="row3">
+          <div>
+            <label>Lens</label>
+            <select id="lens">
+              <option value="32">32mm — wide/group</option>
+              <option value="40">40mm — wide</option>
+              <option value="50">50mm — medium (M2)</option>
+              <option value="55" selected>55mm — medium</option>
+              <option value="75">75mm — tight portrait</option>
+              <option value="100">100mm — extreme CU</option>
+            </select>
+          </div>
+          <div>
+            <label>Runtime (sec)</label>
+            <input type="number" id="runtime" value="5" min="1" max="60">
+          </div>
+          <div>
+            <label>Slow-mo beat</label>
+            <select id="slowmo"><option value="no">No</option><option value="yes">Yes — 96fps impact</option></select>
+          </div>
+        </div>
+
+        <div id="palwrap">
+          <label>Palette / lighting descriptor <span class="hint">— for M3/M4/M5</span></label>
+          <input type="text" id="palette" placeholder="e.g. daylight overcast palette / magenta LED wash / cold greys and steel blues">
+        </div>
+        <div id="hexwrap">
+          <label>Hex values <span class="hint">— M5 only, 4–8 codes</span></label>
+          <input type="text" id="hex" placeholder="#5f6468, #eaebee, #181819, #6f757a">
+        </div>
+
+        <label>Diegetic audio <span class="hint">— comma-separated real sounds only. No music, no song names.</span></label>
+        <input type="text" id="audio" placeholder="boots on wet pavement, fabric whip, sharp inhale, distant traffic hum, rain hiss on the lens">
+
+        <div class="btns">
+          <button class="act" id="gen">Render prompt</button>
+          <button class="ghost" id="clear">Clear</button>
+        </div>
+      </div>
+
+      <!-- OUTPUT -->
+      <div>
+        <div class="outwrap card">
+          <h3>Your Seedance prompt</h3>
+          <div class="title-line" id="titleline">Seedance prompt — 5s</div>
+          <div class="prompt" id="out">Fill the fields and hit <b>Render prompt</b>. The result is a single clean paragraph, ready to paste into Seedance.</div>
+          <div class="btns">
+            <button class="act" id="copy">Copy prompt</button>
+            <button class="ghost" id="example">Load example</button>
+          </div>
+          <div class="warns" id="warns"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GUIDE ============ -->
+  <section class="view guide" id="guide">
+    <h2>What this is</h2>
+    <p>Higgsfield runs our video through <b>Seedance 2.0</b>. A great Seedance prompt is one clean paragraph of pure visual description in a fixed order: <b>Style &amp; Mood → Dynamic Description → Static Description → camera block → diegetic audio</b>. You pick a cinema mode; the mode locks the camera, lens family, movement, filtration and grade so every clip in a campaign shares the same visual DNA. The converter writes that paragraph for you — this guide explains the choices.</p>
+
+    <h2>The five cinema modes</h2>
+    <table class="modes">
+      <tr><th>Mode</th><th>Use when the scene is…</th><th>Movement</th><th>Grade / look</th></tr>
+      <tr><td><span class="pill">M1</span> Narrative</td><td>Real-world, lived-in — streets, kitchens, cars, homes, exteriors</td><td>Handheld, slight breath, occasional slow dolly</td><td>Kodak 250D, teal-amber split, anamorphic</td></tr>
+      <tr><td><span class="pill">M2</span> Studio</td><td>White void, editorial, fashion film, crafted sets, performance-on-set</td><td>Locked-off + optional 4–6" slow push</td><td>Saturated editorial, Cooke warmth, blooms on chrome</td></tr>
+      <tr><td><span class="pill">M3</span> Action</td><td>Combat, chase, stunts, debris, smoke, dust</td><td>Handheld + shaky throughout, no stable shots</td><td>Gritty doc-sci-fi, dusty haze, palette per scene</td></tr>
+      <tr><td><span class="pill">M4</span> Performance</td><td>Stage, arena, festival pit, crowd + stage lighting</td><td>Pit-photographer, orbital, hard cuts</td><td>Cool desaturated + warm bloom, stage colour cast, haze</td></tr>
+      <tr><td><span class="pill">M5</span> Atmospheric</td><td>Empty / abandoned / landscape / weather — no humans</td><td>Locked-off or extremely slow push/drift</td><td>Palette-driven (give hex), weathered materials, negative space</td></tr>
+    </table>
+    <p class="hint">All modes share an ARRI body + anamorphic or Cooke glass. What changes is movement, filtration, grade, palette and texture — never plastic, never commercial gloss. Every frame looks captured on a camera that has lived a little.</p>
+
+    <h2>Lens guide</h2>
+    <ul class="tight">
+      <li><b>32 / 40mm</b> — wide establishing, full-body, group, environment</li>
+      <li><b>50 / 55mm</b> — medium portrait, two-shot, dialogue framing <span class="hint">(the safe default)</span></li>
+      <li><b>75mm</b> — tight editorial portrait, single-character isolation</li>
+      <li><b>100mm</b> — extreme close-up: eyes, lips, jewellery, fabric texture</li>
+    </ul>
+
+    <div class="cols">
+      <div>
+        <h2>Diegetic audio — do</h2>
+        <ul class="tight">
+          <li class="do">Footsteps (name the surface), fabric rustle/whip</li>
+          <li class="do">Breath — steady, ragged, sharp inhale</li>
+          <li class="do">Object sounds — door, glass, metal, paper</li>
+          <li class="do">Ambient — wind, rain, traffic hum, room tone, fire crackle</li>
+          <li class="do">Crowd / stage — cheering, mic handling, haze hiss</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Diegetic audio — never</h2>
+        <ul class="tight">
+          <li class="dont">Song names, artist names, lyrics</li>
+          <li class="dont">"Music plays", "soundtrack swells"</li>
+          <li class="dont">Score words — orchestral, synth, strings</li>
+          <li class="dont">Genre cues — "beat drops", "guitar"</li>
+        </ul>
+        <p class="hint">Want music in the cut? Upload the track as a separate audio reference in Higgsfield. The prompt stays diegetic.</p>
+      </div>
+    </div>
+
+    <h2>House rules the converter enforces for you</h2>
+    <ul class="tight">
+      <li><b>No em dashes.</b> They break Higgsfield's JSON — the studio auto-converts them to hyphens.</li>
+      <li><b>No names.</b> Describe people by hair, wardrobe, markers — "the rose-pink haired woman in the cropped tank", never a name.</li>
+      <li><b>No brands.</b> Generic descriptors — "black three-stripe sneakers", not the label.</li>
+      <li><b>No age words.</b> Avoid boy/girl/child/kid/teen/young/old — describe by role and clothing.</li>
+      <li><b>No image tags.</b> No <code>@image</code>, no <code>&lt;&lt;&lt;id&gt;&gt;&gt;</code> — reference images attach in the Higgsfield UI.</li>
+      <li><b>Self-contained.</b> No "as established earlier" / "matching the last scene". Every prompt restates its world fresh.</li>
+      <li><b>Visual only.</b> No meta-commentary about why a shot works — only what is visible in frame.</li>
+    </ul>
+
+    <h2>The loop</h2>
+    <p>1 · Pick the mode and fill the fields. &nbsp;2 · Render and copy the paragraph. &nbsp;3 · Paste into Seedance on Higgsfield. &nbsp;4 · Attach your reference images (or pick them from your Higgsfield library) in the UI. &nbsp;5 · Generate. House clip specs: 9:16, 720p, and audio handled in post.</p>
+
+    <div class="foot">Seedance Prompt Studio · built on the CENTREFREE cinema-worldbuilder grammar · Niamh, CENTREFREE Agency · for the design team.</div>
+  </section>
+</div>
+
+<script>
+(function(){
+  var CAM = {
+    M1:function(x,rt,sm){return "Shot on ARRI Alexa 35 in ProRes 4444 LogC4, Panavision Ultra Vintage 2x anamorphic "+x+"mm at T2.3 with Tiffen Black Pro-Mist 1/4 filter, handheld with natural breath and slight shake, photoreal cinematic grit with oval bokeh and horizontal streak flares, warm anamorphic falloff toward frame edges, Kodak Vision3 250D film emulation grade with slight halation on highlights and 800 ASA grain structure, teal-amber color split with cool teal-blue shadows and warm amber highlights, organic lens breathing on focus racks, shallow depth of field, "+sm+"24fps base shutter 180 degrees, total runtime roughly "+rt+" seconds.";},
+    M2:function(x,rt,sm){return "Shot on ARRI Alexa Mini LF in ProRes 4444 LogC4, Cooke S4/i spherical prime "+x+"mm at T2 with Tiffen Black Pro-Mist 1/2 filter, locked-off tripod with optional 4-to-6 inch slow push-in, photoreal editorial fashion film aesthetic with gentle halation bloom on highlights and soft warm falloff in the Cooke signature, fine 400 ASA film grain structure retaining warmth in the shadows, highlights allowed to bloom slightly around fabric and chrome surfaces, saturated editorial grade with warm-retained blacks not crushed to pure black, slight skin tone warmth from the Cooke color rendition, "+sm+"24fps base shutter 180 degrees, total runtime roughly "+rt+" seconds. Not CGI, not plastic, shot-on-film analog aesthetic with real-world lens character.";},
+    M3:function(x,rt,sm,pal){return "Shot on ARRI Alexa 35 in ProRes 4444 LogC4, Panavision Ultra Vintage 2x anamorphic "+x+"mm at T2.3 with Tiffen Black Pro-Mist 1/4 filter, all camera work is handheld and shaky throughout with constant operator micro-jitter, reactive movement, and chaotic shake, no stabilized or locked-off or dolly-smooth shots anywhere, gritty documentary-meets-sci-fi war film aesthetic with no stylization and everything grounded in physical realism, Kodak Vision3 250D film emulation with 800 ASA grain structure, "+pal+" with dusty atmospheric haze, slight halation on highlights, "+sm+"24fps base shutter 180 degrees, total runtime roughly "+rt+" seconds.";},
+    M4:function(x,rt,sm,pal){return "Shot on ARRI Alexa 35 in ProRes 4444 LogC4, Panavision Ultra Vintage 2x anamorphic "+x+"mm at T2.3 with Tiffen Black Pro-Mist 1/4 filter, mixed handheld pit-photographer energy with rapid handhelds and shaky low-angle operator work and orbital handheld passes around the performers, hard cuts between angles, no stabilized or locked-off shots, photoreal concert documentary aesthetic, Kodak Vision3 250D film emulation with fine grain structure overlaid throughout, slightly desaturated cool tones with warm highlight bloom and deep blacks holding shadow detail, "+pal+", heavy volumetric haze with dust suspended in every beam, real sweat sheen on skin and real fabric darkening from exertion, gentle halation on light sources, "+sm+"24fps base shutter 180 degrees, total runtime roughly "+rt+" seconds.";},
+    M5:function(x,rt,sm,pal,hex){return "Shot on ARRI Alexa Mini LF in ProRes 4444 LogC4, Panavision Ultra Vintage 2x anamorphic "+x+"mm at T2.3 with Tiffen Black Pro-Mist 1/4 filter, locked-off or extremely slow push-in motion only, no handheld energy, photoreal atmospheric environment plate aesthetic, Kodak Vision3 250D film emulation with fine 400 ASA grain structure, palette-driven grade with "+pal+" and hex values "+hex+", strong negative space, deep depth of field, light atmospheric haze with dust particles suspended in air, weathered material detail with oxidized metal and dust-covered glass and cracked paint and moisture stains, slight anamorphic flares on any directional light sources, "+sm+"24fps base shutter 180 degrees, total runtime roughly "+rt+" seconds. No humans, no silhouettes, no living beings - the environment is the subject.";}
+  };
+  var MHINT = {
+    M1:"Handheld, teal-amber, anamorphic. The everyday storytelling look.",
+    M2:"Locked-off, Cooke glass, editorial saturation. Crafted, not photographed.",
+    M3:"Shaky throughout, dusty haze. Give a palette descriptor.",
+    M4:"Pit-photographer chaos, stage colour cast. Give a lighting descriptor.",
+    M5:"No humans. Slow push. Give a palette descriptor and hex values."
+  };
+  var STYLE_DEFAULT = {
+    M1:"documentary-grit cinematic realism, slow-burn observational register, the camera a witness rather than a participant",
+    M2:"crafted editorial fashion-film register, controlled and deliberate, every element placed with intent",
+    M3:"documentary-sci-fi war-film register, kinetic and grounded, chaotic physical immediacy",
+    M4:"concert-documentary register, sweat-and-haze immediacy, the crowd energy driving the frame",
+    M5:"atmospheric slow-burn register, the environment as subject, patient and still"
+  };
+  var $ = function(id){ return document.getElementById(id); };
+
+  // tabs
+  Array.prototype.forEach.call(document.querySelectorAll('.tab'), function(t){
+    t.onclick=function(){
+      document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
+      document.querySelectorAll('.view').forEach(function(x){x.classList.remove('active');});
+      t.classList.add('active'); $(t.dataset.view).classList.add('active');
+    };
+  });
+
+  function sanitize(s){
+    if(!s) return "";
+    return s.replace(/[—–]/g,'-')   // em/en dash -> hyphen
+            .replace(/[‘’]/g,"'")    // smart quotes
+            .replace(/[“”]/g,'"')
+            .replace(/@image\S*/gi,'')          // strip image tags
+            .replace(/<<<[^>]*>>>/g,'')
+            .replace(/\s{2,}/g,' ')
+            .trim();
+  }
+  function stripTrailing(s){ return s.replace(/[\s,;.]+$/,''); }
+
+  function modeUI(){
+    var m=$('mode').value;
+    $('modehint').textContent = MHINT[m];
+    $('palwrap').style.display = (m==='M3'||m==='M4'||m==='M5')?'block':'none';
+    $('hexwrap').style.display = (m==='M5')?'block':'none';
+    if(m==='M2' && $('lens').value==='55'){ $('lens').value='50'; }
+  }
+  $('mode').onchange=modeUI;
+
+  function lint(raw){
+    var w=[]; var joined=(raw.style+' '+raw.dynamic+' '+raw.static+' '+raw.audio);
+    if(/[—–]/.test(joined)) w.push({t:"Em/en dashes found — auto-converted to hyphens for Higgsfield.",ok:false});
+    var ages=joined.match(/\b(boy|girl|child|children|kid|kids|teen|teenager|young|younger|old|elderly|middle-aged|baby|toddler)\b/gi);
+    if(ages) w.push({t:"Age words ("+Array.from(new Set(ages.map(function(a){return a.toLowerCase();}))).join(', ')+") — describe by role and clothing instead.",ok:false});
+    var music=joined.match(/\b(music|song|soundtrack|score|lyrics|beat drops?|orchestral|synth|guitar|melody|chorus)\b/gi);
+    if(music) w.push({t:"Music/score words in audio or scene ("+Array.from(new Set(music.map(function(a){return a.toLowerCase();}))).join(', ')+") — Seedance audio is diegetic only.",ok:false});
+    if(/@image|<<<|>>>/.test(joined)) w.push({t:"Image tags stripped — attach reference images in the Higgsfield UI, not the prompt.",ok:false});
+    if((raw.mode==='M3'||raw.mode==='M4'||raw.mode==='M5') && !raw.palette) w.push({t:"No palette/lighting descriptor for "+raw.mode+" — a generic one was used. Add one for control.",ok:false});
+    if(raw.mode==='M5' && !raw.hex) w.push({t:"M5 with no hex values — the grade is unanchored. Add 4-8 hex codes.",ok:false});
+    return w;
+  }
+
+  function build(){
+    var m=$('mode').value;
+    var lens=$('lens').value;
+    var rt=parseInt($('runtime').value,10)||5;
+    var sm=($('slowmo').value==='yes')?"intercut a 96fps high-speed slow-motion frame at the key beat holding shutter at 180 degrees for natural motion blur even in slow motion, ":"";
+    var style=sanitize($('style').value)||STYLE_DEFAULT[m];
+    var dynamic=sanitize($('dynamic').value);
+    var stat=sanitize($('static').value);
+    var pal=sanitize($('palette').value)|| (m==='M3'?"daylight overcast palette":(m==='M4'?"stage-lighting color cast":(m==='M5'?"muted palette-driven grade":"")));
+    var hex=sanitize($('hex').value)||"#5f6468, #eaebee, #181819, #6f757a";
+    var audioList=sanitize($('audio').value);
+
+    var cam;
+    if(m==='M1') cam=CAM.M1(lens,rt,sm);
+    else if(m==='M2') cam=CAM.M2(lens,rt,sm);
+    else if(m==='M3') cam=CAM.M3(lens,rt,sm,pal);
+    else if(m==='M4') cam=CAM.M4(lens,rt,sm,pal);
+    else cam=CAM.M5(lens,rt,sm,pal,hex);
+
+    var audioLine = audioList
+      ? "Audio: diegetic only - "+stripTrailing(audioList)+", no music, no dialogue except what is physically spoken in frame."
+      : "Audio: diegetic only - room tone and natural ambient sound appropriate to the scene, no music, no dialogue except what is physically spoken in frame.";
+
+    var parts=[];
+    parts.push("Style & Mood: "+stripTrailing(style)+".");
+    if(dynamic) parts.push("Dynamic Description: "+stripTrailing(dynamic)+".");
+    if(stat) parts.push("Static Description: "+stripTrailing(stat)+".");
+    parts.push(cam);
+    parts.push(audioLine);
+    var prompt = parts.join(" ").replace(/\s{2,}/g,' ').trim();
+
+    // title
+    var title = "Seedance prompt - "+rt+"s"+($('multi').checked?", multi-shot":"");
+    $('titleline').textContent = title;
+
+    // render with bolded labels (display only; copy is plain)
+    var disp = prompt
+      .replace("Style & Mood:","<b>Style & Mood:</b>")
+      .replace("Dynamic Description:","<b>Dynamic Description:</b>")
+      .replace("Static Description:","<b>Static Description:</b>")
+      .replace("Audio:","<b>Audio:</b>");
+    $('out').innerHTML = disp;
+    $('out').dataset.plain = prompt;
+
+    // warnings
+    var w=lint({mode:m,style:$('style').value,dynamic:$('dynamic').value,static:$('static').value,audio:$('audio').value,palette:$('palette').value,hex:$('hex').value});
+    var wt=$('warns'); wt.innerHTML='';
+    if(w.length===0){ wt.innerHTML='<div class="ok">Clean — house rules pass. Paste straight into Seedance.</div>'; }
+    else { w.forEach(function(x){ var d=document.createElement('div'); d.className='warn'; d.textContent=x.t; wt.appendChild(d); }); }
+
+    try{ localStorage.setItem('seedance_last', JSON.stringify(collect())); }catch(e){}
+  }
+
+  function collect(){
+    return {mode:$('mode').value,lens:$('lens').value,runtime:$('runtime').value,slowmo:$('slowmo').value,
+      style:$('style').value,dynamic:$('dynamic').value,static:$('static').value,palette:$('palette').value,
+      hex:$('hex').value,audio:$('audio').value,multi:$('multi').checked};
+  }
+  function restore(o){
+    if(!o) return;
+    ['mode','lens','runtime','slowmo','style','dynamic','static','palette','hex','audio'].forEach(function(k){ if(o[k]!=null&&$(k)) $(k).value=o[k]; });
+    if($('multi')) $('multi').checked=!!o.multi;
+  }
+
+  $('gen').onclick=build;
+  $('clear').onclick=function(){
+    ['style','dynamic','static','palette','hex','audio'].forEach(function(k){ $(k).value=''; });
+    $('runtime').value='5'; $('slowmo').value='no'; $('multi').checked=false;
+    $('out').innerHTML='Cleared. Fill the fields and hit <b>Render prompt</b>.'; $('warns').innerHTML=''; $('titleline').textContent='Seedance prompt - 5s';
+    try{ localStorage.removeItem('seedance_last'); }catch(e){}
+  };
+  $('copy').onclick=function(){
+    var t=$('out').dataset.plain||''; if(!t) return;
+    navigator.clipboard.writeText(t).then(function(){ var b=$('copy'); var o=b.textContent; b.textContent='Copied ✓'; setTimeout(function(){b.textContent=o;},1400); });
+  };
+  $('example').onclick=function(){
+    restore({mode:'M1',lens:'55',runtime:'8',slowmo:'no',
+      style:'documentary-grit cinematic realism, slow-burn observational, the camera a quiet witness',
+      dynamic:'a woman in a cropped white ribbed tank steps off the curb onto wet pavement, the camera tracking her at chest level with a slight handheld breath, she pauses under a streetlight and glances back once before walking on',
+      static:'rose-pink haired woman, hair tucked behind one ear, cropped white ribbed tank, thin silver hoop earrings; an empty city intersection at night, wet black asphalt reflecting amber sodium streetlights, distant taxi tail-lights smearing red, shuttered storefronts',
+      palette:'',hex:'',audio:'boots on wet pavement, fabric whip on movement, a sharp inhale, distant traffic hum with layered horns, faint rain hiss against the lens',multi:false});
+    modeUI(); build();
+  };
+
+  // ---- QUICK (one box) ----
+  function quickBuild(){
+    var m=$('qmode').value, lens=$('qlens').value, rt=parseInt($('qrun').value,10)||5;
+    var txt=sanitize($('qtext').value);
+    var cam;
+    if(m==='M1') cam=CAM.M1(lens,rt,'');
+    else if(m==='M2') cam=CAM.M2(lens,rt,'');
+    else if(m==='M3') cam=CAM.M3(lens,rt,'','daylight overcast palette');
+    else if(m==='M4') cam=CAM.M4(lens,rt,'','stage-lighting color cast');
+    else cam=CAM.M5(lens,rt,'','muted palette-driven grade','#5f6468, #eaebee, #181819, #6f757a');
+    var parts=[];
+    parts.push("Style & Mood: "+STYLE_DEFAULT[m]+".");
+    if(txt) parts.push("Dynamic Description: "+stripTrailing(txt)+".");
+    parts.push(cam);
+    parts.push("Audio: diegetic only - room tone and natural ambient sound appropriate to the scene, no music, no dialogue except what is physically spoken in frame.");
+    var prompt=parts.join(" ").replace(/\s{2,}/g,' ').trim();
+    $('qtitle').textContent="Seedance prompt - "+rt+"s";
+    var disp=prompt.replace("Style & Mood:","<b>Style & Mood:</b>").replace("Dynamic Description:","<b>Dynamic Description:</b>").replace("Audio:","<b>Audio:</b>");
+    $('qout').innerHTML=disp; $('qout').dataset.plain=prompt;
+    // lint on the raw text; palette/hex pre-satisfied so M5 auto-fills don't warn
+    var w=lint({mode:m,style:'',dynamic:$('qtext').value,static:'',audio:'',palette:'auto',hex:'auto'});
+    var wt=$('qwarns'); wt.innerHTML='';
+    if(!$('qtext').value.trim()){ wt.innerHTML='<div class="warn">Empty scene - add a line of description for a usable prompt.</div>'; }
+    else if(w.length===0){ wt.innerHTML='<div class="ok">Clean - treated and house-correct. Paste straight into Seedance.</div>'; }
+    else { w.forEach(function(x){ var d=document.createElement('div'); d.className='warn'; d.textContent=x.t; wt.appendChild(d); }); }
+    try{ localStorage.setItem('seedance_quick', $('qtext').value); }catch(e){}
+  }
+  $('qgen').onclick=quickBuild;
+  $('qclear').onclick=function(){ $('qtext').value=''; $('qout').innerHTML='Cleared. Type your scene and hit <b>Treat &amp; render</b>.'; $('qwarns').innerHTML=''; $('qtitle').textContent='Seedance prompt - 5s'; try{ localStorage.removeItem('seedance_quick'); }catch(e){} };
+  $('qcopy').onclick=function(){ var t=$('qout').dataset.plain||''; if(!t) return; navigator.clipboard.writeText(t).then(function(){ var b=$('qcopy'); var o=b.textContent; b.textContent='Copied ✓'; setTimeout(function(){b.textContent=o;},1400); }); };
+
+  // init
+  try{ restore(JSON.parse(localStorage.getItem('seedance_last'))); }catch(e){}
+  try{ var q=localStorage.getItem('seedance_quick'); if(q) $('qtext').value=q; }catch(e){}
+  modeUI();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voice Bank — InfoCube</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --canvas: #F4EFE6;
+  --panel: #FFFDFA;
+  --ink: #2C2733;
+  --muted: #857E92;
+  --line: #ECE6DA;
+  --shadow: 0 8px 28px rgba(74,62,46,.12);
+  --r: 14px;
+  --r-sm: 8px;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'Inter', system-ui, sans-serif;
+
+  --c-orig: #6E7AE0;   /* originator — periwinkle */
+  --c-orig-t: #ECEEFB;
+  --c-sanct: #46B98A;  /* sanctum — mint */
+  --c-sanct-t: #E6F6EE;
+  --c-lib: #D9A23B;    /* library — honey */
+  --c-lib-t: #FBF3E2;
+  --c-custom: #E0719B; /* custom — rose */
+  --c-custom-t: #FBEAF1;
+
+  --ok: #2C8A63;
+  --warn: #C0466A;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background: radial-gradient(120% 80% at 85% -10%, rgba(110,122,224,.09), transparent 55%),
+              radial-gradient(100% 70% at 0% 110%, rgba(70,185,138,.07), transparent 55%),
+              var(--canvas);
+  min-height: 100vh;
+}
+
+/* ── TOP BAR ── */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; gap: 14px;
+  padding: 0 24px; height: 56px;
+  background: rgba(255,253,250,.88); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar-mark {
+  font-family: var(--serif); font-size: 18px;
+  color: var(--ink); text-decoration: none; letter-spacing: -.3px;
+}
+.topbar-mark span { color: var(--c-orig); }
+.topbar-title {
+  font-size: 13px; font-weight: 600; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .06em;
+}
+.topbar-spacer { flex: 1; }
+.key-row {
+  display: flex; align-items: center; gap: 8px;
+}
+.key-input {
+  font-family: var(--sans); font-size: 12px;
+  border: 1px solid var(--line); border-radius: 6px;
+  padding: 5px 10px; background: var(--panel); color: var(--ink);
+  width: 240px;
+}
+.key-input:focus { outline: 2px solid var(--c-orig); border-color: transparent; }
+.key-status {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #ccc; flex-shrink: 0;
+  transition: background .3s;
+}
+.key-status.ok { background: var(--ok); }
+.key-status.err { background: var(--warn); }
+.btn {
+  font-family: var(--sans); font-size: 12px; font-weight: 600;
+  border: none; border-radius: 7px; padding: 6px 14px;
+  cursor: pointer; transition: opacity .15s, transform .1s;
+  white-space: nowrap;
+}
+.btn:hover { opacity: .88; }
+.btn:active { transform: scale(.97); }
+.btn-orig  { background: var(--c-orig);   color: #fff; }
+.btn-sanct { background: var(--c-sanct);  color: #fff; }
+.btn-ghost {
+  background: transparent; color: var(--ink);
+  border: 1px solid var(--line);
+}
+.btn-ghost:hover { background: var(--line); }
+
+/* ── MAIN ── */
+.main { display: flex; gap: 0; max-width: 1100px; margin: 32px auto; padding: 0 24px 60px; }
+
+/* ── VOICE LIST ── */
+.list-col { flex: 1; min-width: 0; }
+.list-header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 18px;
+}
+.list-header h2 {
+  font-family: var(--serif); font-size: 22px; font-weight: 600;
+}
+.tab-row {
+  display: flex; gap: 4px; margin-bottom: 20px;
+}
+.tab {
+  font-size: 11px; font-weight: 600; letter-spacing: .05em;
+  padding: 4px 12px; border-radius: 20px;
+  border: 1px solid var(--line); background: var(--panel);
+  cursor: pointer; color: var(--muted); transition: all .15s;
+}
+.tab.active { border-color: transparent; color: #fff; }
+.tab.active[data-cat="originator"] { background: var(--c-orig); }
+.tab.active[data-cat="sanctum"]    { background: var(--c-sanct); }
+.tab.active[data-cat="library"]    { background: var(--c-lib); color: var(--ink); }
+.tab.active[data-cat="custom"]     { background: var(--c-custom); }
+.tab.active[data-cat="all"]        { background: var(--ink); }
+
+.voice-list { display: flex; flex-direction: column; gap: 10px; }
+
+/* ── VOICE CARD ── */
+.voice-card {
+  background: var(--panel);
+  border: 1px solid var(--line); border-radius: var(--r);
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+  transition: box-shadow .15s;
+}
+.voice-card:hover { box-shadow: 0 12px 36px rgba(74,62,46,.16); }
+.vc-top { display: flex; align-items: center; gap: 10px; }
+.cat-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+}
+.cat-dot[data-cat="originator"] { background: var(--c-orig); }
+.cat-dot[data-cat="sanctum"]    { background: var(--c-sanct); }
+.cat-dot[data-cat="library"]    { background: var(--c-lib); }
+.cat-dot[data-cat="custom"]     { background: var(--c-custom); }
+.vc-name {
+  font-weight: 700; font-size: 14px; flex: 1;
+}
+.vc-id {
+  font-family: monospace; font-size: 11px; color: var(--muted);
+  background: rgba(0,0,0,.04); padding: 2px 7px; border-radius: 4px;
+  max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.vc-actions { display: flex; gap: 6px; margin-left: auto; }
+.vc-btn {
+  font-size: 11px; font-weight: 600; padding: 4px 10px;
+  border-radius: 6px; border: 1px solid var(--line);
+  background: var(--panel); cursor: pointer; color: var(--ink);
+  transition: all .15s;
+}
+.vc-btn:hover { background: var(--line); }
+.vc-btn.play { border-color: var(--c-orig); color: var(--c-orig); }
+.vc-btn.play:hover { background: var(--c-orig-t); }
+.vc-btn.play.loading { opacity: .6; cursor: wait; }
+.vc-notes {
+  font-size: 11px; color: var(--muted); margin-top: 6px; padding-left: 20px;
+  font-style: italic;
+}
+.vc-edit-row {
+  display: none; margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid var(--line); gap: 8px; flex-wrap: wrap;
+}
+.vc-edit-row.open { display: flex; }
+.vc-field {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.vc-field label { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.vc-field input, .vc-field select, .vc-field textarea {
+  font-family: var(--sans); font-size: 12px;
+  border: 1px solid var(--line); border-radius: 6px;
+  padding: 5px 8px; background: var(--canvas); color: var(--ink);
+}
+.vc-field input:focus, .vc-field select:focus, .vc-field textarea:focus {
+  outline: 2px solid var(--c-orig); border-color: transparent;
+}
+.vc-field.wide { flex: 1; min-width: 160px; }
+.vc-field textarea { resize: vertical; min-height: 40px; }
+.vc-save {
+  align-self: flex-end;
+  background: var(--c-orig); color: #fff;
+  font-size: 11px; font-weight: 600; padding: 5px 14px;
+  border-radius: 6px; border: none; cursor: pointer;
+}
+.vc-del {
+  align-self: flex-end;
+  background: transparent; color: var(--warn);
+  font-size: 11px; font-weight: 600; padding: 5px 10px;
+  border-radius: 6px; border: 1px solid var(--warn); cursor: pointer;
+}
+
+/* ── TEST PANEL ── */
+.test-col {
+  width: 300px; flex-shrink: 0; margin-left: 24px;
+  position: sticky; top: 80px; align-self: flex-start;
+}
+.test-panel {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: var(--r); padding: 20px; box-shadow: var(--shadow);
+}
+.test-panel h3 {
+  font-family: var(--serif); font-size: 18px; margin-bottom: 4px;
+}
+.test-voice-name {
+  font-size: 12px; color: var(--muted); margin-bottom: 16px;
+  font-style: italic;
+}
+.test-panel label {
+  font-size: 11px; font-weight: 600; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: 5px;
+}
+.test-panel textarea {
+  font-family: var(--sans); font-size: 13px;
+  width: 100%; border: 1px solid var(--line); border-radius: 8px;
+  padding: 10px; background: var(--canvas); color: var(--ink);
+  resize: vertical; min-height: 80px; margin-bottom: 12px;
+}
+.test-panel textarea:focus { outline: 2px solid var(--c-orig); border-color: transparent; }
+
+.test-settings { display: flex; gap: 8px; margin-bottom: 14px; }
+.test-settings select {
+  flex: 1; font-family: var(--sans); font-size: 12px;
+  border: 1px solid var(--line); border-radius: 6px;
+  padding: 5px 8px; background: var(--canvas); color: var(--ink);
+}
+.btn-play-big {
+  width: 100%; padding: 10px;
+  background: var(--c-orig); color: #fff;
+  font-size: 14px; font-weight: 700;
+  border: none; border-radius: 9px; cursor: pointer;
+  transition: opacity .15s;
+}
+.btn-play-big:hover { opacity: .88; }
+.btn-play-big:disabled { opacity: .5; cursor: wait; }
+.audio-wrap { margin-top: 14px; }
+.audio-wrap audio { width: 100%; border-radius: 6px; }
+.test-hint {
+  font-size: 11px; color: var(--muted); text-align: center;
+  margin-top: 12px; font-style: italic;
+}
+
+/* ── ADD FORM ── */
+.add-form {
+  background: var(--panel); border: 1px dashed var(--c-orig);
+  border-radius: var(--r); padding: 16px 18px; margin-top: 14px;
+  display: none;
+}
+.add-form.open { display: block; }
+.add-form h4 {
+  font-family: var(--serif); font-size: 16px; margin-bottom: 14px;
+}
+.add-form-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+.add-form-grid .vc-field { min-width: 140px; }
+.add-form-grid .vc-field input,
+.add-form-grid .vc-field select { width: 100%; }
+.add-actions { display: flex; gap: 8px; margin-top: 14px; }
+
+/* ── FETCH STATUS ── */
+.fetch-banner {
+  font-size: 12px; padding: 10px 14px; border-radius: 8px;
+  margin-bottom: 16px; display: none;
+}
+.fetch-banner.ok  { background: rgba(44,138,99,.1);  color: var(--ok);   display: block; }
+.fetch-banner.err { background: rgba(192,70,106,.1); color: var(--warn); display: block; }
+
+/* ── EXPORT ── */
+.export-row {
+  margin-top: 24px; padding-top: 16px;
+  border-top: 1px solid var(--line);
+  display: flex; gap: 8px; align-items: center;
+}
+.export-row span { font-size: 12px; color: var(--muted); flex: 1; }
+
+/* ── EMPTY ── */
+.empty {
+  text-align: center; padding: 40px 20px;
+  color: var(--muted); font-size: 13px; font-style: italic;
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <span class="topbar-mark">info<span>cube</span></span>
+  <span class="topbar-title">Voice Bank</span>
+  <div class="topbar-spacer"></div>
+  <div class="key-row">
+    <div class="key-status" id="keyStatus"></div>
+    <input class="key-input" type="password" id="apiKey"
+           placeholder="ElevenLabs API key  (xi-api-key)"
+           autocomplete="off">
+    <button class="btn btn-orig" onclick="fetchFromElevenLabs()">↓ Load from 11Labs</button>
+    <button class="btn btn-ghost" onclick="toggleAdd()">+ Add Voice</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- VOICE LIST -->
+  <div class="list-col">
+    <div class="list-header">
+      <h2>Voice IDs</h2>
+      <span id="countBadge" style="font-size:12px;color:var(--muted);"></span>
+    </div>
+
+    <div class="fetch-banner" id="fetchBanner"></div>
+
+    <!-- ADD FORM -->
+    <div class="add-form" id="addForm">
+      <h4>Add a Voice</h4>
+      <div class="add-form-grid">
+        <div class="vc-field" style="min-width:160px;">
+          <label>Name</label>
+          <input type="text" id="af-name" placeholder="e.g. Rachel">
+        </div>
+        <div class="vc-field" style="min-width:200px;">
+          <label>Voice ID</label>
+          <input type="text" id="af-id" placeholder="Paste ElevenLabs voice_id">
+        </div>
+        <div class="vc-field">
+          <label>Category</label>
+          <select id="af-cat">
+            <option value="custom">Custom</option>
+            <option value="originator">Originator</option>
+            <option value="sanctum">Sanctum</option>
+            <option value="library">Library</option>
+          </select>
+        </div>
+        <div class="vc-field" style="min-width:80px;">
+          <label>Gender</label>
+          <select id="af-gender">
+            <option value="">—</option>
+            <option value="F">F</option>
+            <option value="M">M</option>
+          </select>
+        </div>
+        <div class="vc-field" style="min-width:100%;flex:100%">
+          <label>Notes</label>
+          <input type="text" id="af-notes" placeholder="Character, usage, source…">
+        </div>
+      </div>
+      <div class="add-actions">
+        <button class="btn btn-orig" onclick="addVoice()">Save Voice</button>
+        <button class="btn btn-ghost" onclick="toggleAdd()">Cancel</button>
+      </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tab-row">
+      <div class="tab active" data-cat="all" onclick="setTab('all')">All</div>
+      <div class="tab" data-cat="originator" onclick="setTab('originator')">Originator</div>
+      <div class="tab" data-cat="sanctum" onclick="setTab('sanctum')">Sanctum</div>
+      <div class="tab" data-cat="library" onclick="setTab('library')">Library</div>
+      <div class="tab" data-cat="custom" onclick="setTab('custom')">Custom</div>
+    </div>
+
+    <!-- CARDS -->
+    <div class="voice-list" id="voiceList"></div>
+
+    <!-- EXPORT -->
+    <div class="export-row">
+      <span id="bankSaved" style="color:var(--ok);display:none;">✓ Saved to browser</span>
+      <span style="flex:1"></span>
+      <button class="btn btn-ghost" onclick="exportJSON()">↓ Export JSON</button>
+      <button class="btn btn-ghost" onclick="importJSON()">↑ Import JSON</button>
+    </div>
+  </div>
+
+  <!-- TEST PANEL -->
+  <div class="test-col">
+    <div class="test-panel">
+      <h3>Test Voice</h3>
+      <div class="test-voice-name" id="testVoiceName">Select a voice →</div>
+
+      <label>Test text</label>
+      <textarea id="testText">Hello, I'm here. The pattern grows.</textarea>
+
+      <div class="test-settings">
+        <select id="testModel">
+          <option value="eleven_turbo_v2_5">Turbo v2.5 (fast)</option>
+          <option value="eleven_multilingual_v2">Multilingual v2</option>
+          <option value="eleven_monolingual_v1">English v1</option>
+        </select>
+        <select id="testStability" title="Stability">
+          <option value="0.5">Stab 0.5</option>
+          <option value="0.3">Stab 0.3</option>
+          <option value="0.7" selected>Stab 0.7</option>
+          <option value="0.9">Stab 0.9</option>
+        </select>
+      </div>
+
+      <button class="btn-play-big" id="playBtn" onclick="testVoice()" disabled>
+        ▶ Play
+      </button>
+
+      <div class="audio-wrap" id="audioWrap" style="display:none;">
+        <audio id="audioPlayer" controls></audio>
+      </div>
+
+      <div class="test-hint">API key required · uses your 11Labs credits</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── SEEDED SANCTUM PALETTE ──────────────────────────────────────────────────
+const SEEDED = [
+  { id: 'Pb3JM8TASBsxRrzQtdYp', name: 'Alba',       category: 'sanctum',    gender: 'F', notes: 'The Chronicler — Companion anchor' },
+  { id: 'r8BzP6L6v85pYYY8IDrN', name: 'Dream',      category: 'sanctum',    gender: 'M', notes: 'Unassigned — builder legacy name' },
+  { id: '5p0KQypJzRRiOgJhCUON', name: 'Holinnia',   category: 'sanctum',    gender: 'F', notes: 'Used for Clara (The Archaeologist)' },
+  { id: 'F3ua3YKjE8y0BGu8G4SM', name: 'Seraphina',  category: 'sanctum',    gender: 'F', notes: 'The Healer / Balancer — Therapy anchor' },
+  { id: 'ofMOQjISKhUESZf01ret', name: 'Chrysalis',  category: 'sanctum',    gender: 'F', notes: 'Used for Elara (The Oracle)' },
+  { id: 'qq7ESVpxEcKkIxroll2G', name: 'Marcus',     category: 'sanctum',    gender: 'M', notes: 'The Shaper — Mentor anchor ⚠ not playing (Session 4 flag)' },
+  { id: 'XOUrngkxQAfT0XCzd6mg', name: 'Kai',        category: 'sanctum',    gender: 'M', notes: 'The Awakener — Strategist anchor' },
+  { id: '0m0FOBt1Wbbah2TgSyKu', name: 'Uriel',      category: 'sanctum',    gender: 'M', notes: 'Unassigned' },
+  { id: 'iYYSDoHTcekb9sHdBdYV', name: 'Ellian',     category: 'sanctum',    gender: 'M', notes: 'Unassigned' },
+  { id: 'ZfTUATzDMAgGI7IsUn6b', name: 'Shane',      category: 'originator', gender: 'M', notes: 'Voice clone — originator' },
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────
+let voices = [];
+let activeTab = 'all';
+let selectedVoiceId = null;
+const STORE_KEY = 'voice_bank_v1';
+const KEY_STORE  = 'el_api_key';
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+function init() {
+  const stored = localStorage.getItem(STORE_KEY);
+  if (stored) {
+    voices = JSON.parse(stored);
+    // merge any seeded voices not already present
+    SEEDED.forEach(s => {
+      if (!voices.find(v => v.id === s.id)) voices.push({ ...s, uid: uid() });
+    });
+  } else {
+    voices = SEEDED.map(s => ({ ...s, uid: uid() }));
+  }
+  save();
+
+  const savedKey = localStorage.getItem(KEY_STORE);
+  if (savedKey) {
+    document.getElementById('apiKey').value = savedKey;
+    setKeyStatus('ok');
+  }
+
+  render();
+}
+
+function uid() {
+  return Math.random().toString(36).slice(2, 10);
+}
+
+// ── SAVE ──────────────────────────────────────────────────────────────────
+function save() {
+  const key = document.getElementById('apiKey').value.trim();
+  if (key) localStorage.setItem(KEY_STORE, key);
+  localStorage.setItem(STORE_KEY, JSON.stringify(voices));
+  const saved = document.getElementById('bankSaved');
+  saved.style.display = 'inline';
+  setTimeout(() => { saved.style.display = 'none'; }, 2000);
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────────
+function setTab(cat) {
+  activeTab = cat;
+  document.querySelectorAll('.tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.cat === cat);
+  });
+  render();
+}
+
+function render() {
+  const list = document.getElementById('voiceList');
+  const filtered = activeTab === 'all'
+    ? voices
+    : voices.filter(v => v.category === activeTab);
+
+  document.getElementById('countBadge').textContent =
+    filtered.length + ' of ' + voices.length + ' voices';
+
+  if (!filtered.length) {
+    list.innerHTML = '<div class="empty">No voices in this category yet.</div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(v => `
+    <div class="voice-card" id="card-${v.uid}">
+      <div class="vc-top">
+        <div class="cat-dot" data-cat="${v.category}"></div>
+        <span class="vc-name">${esc(v.name)}${v.gender ? ' <small style="font-weight:400;color:var(--muted);">'+v.gender+'</small>' : ''}</span>
+        <span class="vc-id" title="${esc(v.id)}">${esc(v.id)}</span>
+        <div class="vc-actions">
+          <button class="vc-btn play" id="qplay-${v.uid}"
+                  onclick="quickTest('${v.uid}')">▶</button>
+          <button class="vc-btn" onclick="selectTest('${v.uid}')">Select</button>
+          <button class="vc-btn" onclick="toggleEdit('${v.uid}')">Edit</button>
+        </div>
+      </div>
+      ${v.notes ? `<div class="vc-notes">${esc(v.notes)}</div>` : ''}
+
+      <div class="vc-edit-row" id="edit-${v.uid}">
+        <div class="vc-field wide">
+          <label>Name</label>
+          <input type="text" id="e-name-${v.uid}" value="${esc(v.name)}">
+        </div>
+        <div class="vc-field" style="min-width:200px;flex:2">
+          <label>Voice ID</label>
+          <input type="text" id="e-id-${v.uid}" value="${esc(v.id)}">
+        </div>
+        <div class="vc-field">
+          <label>Category</label>
+          <select id="e-cat-${v.uid}">
+            ${['originator','sanctum','library','custom'].map(c =>
+              `<option value="${c}"${v.category===c?' selected':''}>${c.charAt(0).toUpperCase()+c.slice(1)}</option>`
+            ).join('')}
+          </select>
+        </div>
+        <div class="vc-field">
+          <label>Gender</label>
+          <select id="e-gender-${v.uid}">
+            <option value=""${!v.gender?' selected':''}>—</option>
+            <option value="F"${v.gender==='F'?' selected':''}>F</option>
+            <option value="M"${v.gender==='M'?' selected':''}>M</option>
+          </select>
+        </div>
+        <div class="vc-field" style="flex:100%;min-width:100%">
+          <label>Notes</label>
+          <textarea id="e-notes-${v.uid}">${esc(v.notes||'')}</textarea>
+        </div>
+        <button class="vc-save" onclick="saveEdit('${v.uid}')">Save</button>
+        <button class="vc-del"  onclick="deleteVoice('${v.uid}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── ADD ────────────────────────────────────────────────────────────────────
+function toggleAdd() {
+  const f = document.getElementById('addForm');
+  f.classList.toggle('open');
+}
+function addVoice() {
+  const name  = document.getElementById('af-name').value.trim();
+  const id    = document.getElementById('af-id').value.trim();
+  const cat   = document.getElementById('af-cat').value;
+  const gender= document.getElementById('af-gender').value;
+  const notes = document.getElementById('af-notes').value.trim();
+  if (!name || !id) { alert('Name and Voice ID are required.'); return; }
+  voices.push({ uid: uid(), id, name, category: cat, gender, notes });
+  save(); render();
+  document.getElementById('addForm').classList.remove('open');
+  ['af-name','af-id','af-notes'].forEach(x => document.getElementById(x).value = '');
+}
+
+// ── EDIT ──────────────────────────────────────────────────────────────────
+function toggleEdit(u) {
+  const el = document.getElementById('edit-' + u);
+  el.classList.toggle('open');
+}
+function saveEdit(u) {
+  const v = voices.find(x => x.uid === u);
+  if (!v) return;
+  v.name     = document.getElementById('e-name-'  + u).value.trim();
+  v.id       = document.getElementById('e-id-'    + u).value.trim();
+  v.category = document.getElementById('e-cat-'   + u).value;
+  v.gender   = document.getElementById('e-gender-'+ u).value;
+  v.notes    = document.getElementById('e-notes-' + u).value.trim();
+  save(); render();
+}
+function deleteVoice(u) {
+  if (!confirm('Remove this voice from the bank?')) return;
+  voices = voices.filter(v => v.uid !== u);
+  save(); render();
+}
+
+// ── TEST PANEL ────────────────────────────────────────────────────────────
+function selectTest(u) {
+  const v = voices.find(x => x.uid === u);
+  if (!v) return;
+  selectedVoiceId = v.id;
+  document.getElementById('testVoiceName').textContent = v.name + '  ·  ' + v.id;
+  document.getElementById('playBtn').disabled = false;
+}
+
+// ── QUICK TEST ────────────────────────────────────────────────────────────
+async function quickTest(u) {
+  const v = voices.find(x => x.uid === u);
+  if (!v) return;
+  const key = document.getElementById('apiKey').value.trim();
+  if (!key) { alert('Enter your ElevenLabs API key in the top bar first.'); return; }
+  const btn = document.getElementById('qplay-' + u);
+  btn.classList.add('loading');
+  btn.textContent = '…';
+  const audioUrl = await synthesize(v.id, 'Hello. I am ready.', key);
+  btn.classList.remove('loading');
+  btn.textContent = '▶';
+  if (audioUrl) {
+    const a = new Audio(audioUrl);
+    a.play();
+  }
+}
+
+// ── FULL TEST ─────────────────────────────────────────────────────────────
+async function testVoice() {
+  if (!selectedVoiceId) return;
+  const key  = document.getElementById('apiKey').value.trim();
+  if (!key) { alert('Enter your ElevenLabs API key first.'); return; }
+  const text = document.getElementById('testText').value.trim();
+  if (!text) return;
+  const btn = document.getElementById('playBtn');
+  btn.disabled = true; btn.textContent = '…';
+  const url = await synthesize(selectedVoiceId, text, key);
+  btn.disabled = false; btn.textContent = '▶ Play';
+  if (url) {
+    document.getElementById('audioWrap').style.display = 'block';
+    const player = document.getElementById('audioPlayer');
+    player.src = url;
+    player.play();
+  }
+}
+
+// ── SYNTHESIZE ────────────────────────────────────────────────────────────
+async function synthesize(voiceId, text, key) {
+  const model     = document.getElementById('testModel')?.value    || 'eleven_turbo_v2_5';
+  const stability = parseFloat(document.getElementById('testStability')?.value || '0.7');
+  try {
+    const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+      method: 'POST',
+      headers: {
+        'xi-api-key': key,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        text,
+        model_id: model,
+        voice_settings: { stability, similarity_boost: 0.75 }
+      })
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      showBanner('11Labs error: ' + res.status + ' — ' + err.slice(0,120), 'err');
+      return null;
+    }
+    setKeyStatus('ok');
+    const blob = await res.blob();
+    return URL.createObjectURL(blob);
+  } catch (e) {
+    showBanner('Network error: ' + e.message, 'err');
+    return null;
+  }
+}
+
+// ── FETCH FROM ELEVENLABS ─────────────────────────────────────────────────
+async function fetchFromElevenLabs() {
+  const key = document.getElementById('apiKey').value.trim();
+  if (!key) { alert('Paste your ElevenLabs API key first.'); return; }
+  showBanner('Fetching from 11Labs account…', 'ok');
+  try {
+    const res = await fetch('https://api.elevenlabs.io/v1/voices', {
+      headers: { 'xi-api-key': key }
+    });
+    if (!res.ok) {
+      setKeyStatus('err');
+      showBanner('11Labs auth failed (' + res.status + '). Check your API key.', 'err');
+      return;
+    }
+    setKeyStatus('ok');
+    const data = await res.json();
+    let added = 0;
+    (data.voices || []).forEach(v => {
+      if (!voices.find(x => x.id === v.voice_id)) {
+        voices.push({
+          uid: uid(),
+          id: v.voice_id,
+          name: v.name,
+          category: v.category === 'cloned' ? 'originator' : (v.category === 'premade' ? 'library' : 'originator'),
+          gender: v.labels?.gender === 'male' ? 'M' : v.labels?.gender === 'female' ? 'F' : '',
+          notes: v.description || ''
+        });
+        added++;
+      }
+    });
+    save(); render();
+    showBanner('Loaded ' + (data.voices||[]).length + ' voices from your 11Labs space. ' + added + ' new entries added.', 'ok');
+  } catch (e) {
+    showBanner('Fetch failed: ' + e.message, 'err');
+  }
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────────────
+function setKeyStatus(state) {
+  const el = document.getElementById('keyStatus');
+  el.className = 'key-status ' + state;
+}
+
+function showBanner(msg, type) {
+  const b = document.getElementById('fetchBanner');
+  b.textContent = msg;
+  b.className = 'fetch-banner ' + type;
+  if (type === 'ok') setTimeout(() => { b.className = 'fetch-banner'; }, 4000);
+}
+
+// ── EXPORT / IMPORT ───────────────────────────────────────────────────────
+function exportJSON() {
+  const blob = new Blob([JSON.stringify(voices, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'voice-bank-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+}
+function importJSON() {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = '.json';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const imported = JSON.parse(ev.target.result);
+        if (!Array.isArray(imported)) throw new Error('Expected array');
+        let added = 0;
+        imported.forEach(v => {
+          if (v.id && !voices.find(x => x.id === v.id)) {
+            voices.push({ uid: uid(), ...v });
+            added++;
+          }
+        });
+        save(); render();
+        showBanner('Imported ' + imported.length + ' entries, ' + added + ' new.', 'ok');
+      } catch(err) {
+        showBanner('Import failed: ' + err.message, 'err');
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+// ── KEY LISTENER ──────────────────────────────────────────────────────────
+document.getElementById('apiKey').addEventListener('change', () => {
+  const key = document.getElementById('apiKey').value.trim();
+  if (key) { localStorage.setItem(KEY_STORE, key); setKeyStatus('ok'); }
+  else setKeyStatus('');
+});
+
+init();
+</script>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

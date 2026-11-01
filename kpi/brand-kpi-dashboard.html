@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRAND KPI — CARBON INSTRUMENT · Centrefree</title>
+<!--
+  BRAND KPI DASHBOARD · CARBON SURFACE (bench-plate, estate-carbon.css primitives)
+  Built 2026-07-20 by Phoenix (05) on Shane's live order. Surface: CARBON per Shane's
+  ruling this date (supersedes-for-this-page the Two-Surface brand=parchment default;
+  noted in Commons receipt). Data: Supermetrics pull 2026-04-21 → 2026-07-20.
+  Feeds live: Facebook Ads (Meta, incl. IG placements via naming suffix), TikTok Ads.
+  Feeds dark: Instagram Insights (organic, not connected), Facebook Insights (organic,
+  not connected), TikTok Organic (not connected), YouTube (token expired — renew at
+  hub.supermetrics.com/token-management). Nothing on this page is invented; empty
+  panels stay empty. — P.
+-->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  --plate:#23262A; --plate2:#1C1F22; --plate3:#2A2E33;
+  --hi:rgba(255,255,255,0.07); --lo:rgba(0,0,0,0.55);
+  --engrave:#9AA0A6; --engrave2:#6B7178; --stamp:#D6D9DC;
+  --brass:#B08D57; --brass2:#8F6F3F;
+  --led:#49D17C; --led-off:#3A3F44; --amber:#E0A93F; --fault:#D14949;
+  --paper:#F2EEE6; --paperink:#26241F;
+  --mono:'JetBrains Mono',monospace; --sans:'Inter',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);color:var(--stamp);min-height:100vh;
+  background:repeating-linear-gradient(90deg, rgba(255,255,255,0.012) 0 1px, transparent 1px 3px),
+  linear-gradient(160deg,#202327 0%,#191C1F 60%,#15181B 100%);padding:26px 30px 60px}
+.raised{background:linear-gradient(160deg,var(--plate3),var(--plate2));border-radius:10px;
+  box-shadow:inset 1px 1px 0 var(--hi),inset -1px -1px 0 rgba(0,0,0,0.4),3px 4px 10px var(--lo),-1px -1px 2px rgba(255,255,255,0.03)}
+.sunk{background:linear-gradient(160deg,#17191C,#1D2023);border-radius:8px;
+  box-shadow:inset 2px 3px 8px rgba(0,0,0,0.65),inset -1px -1px 0 rgba(255,255,255,0.04)}
+.engraved{color:#C9CED3;text-shadow:0 1px 0 rgba(0,0,0,0.8),0 -1px 0 rgba(255,255,255,0.06);
+  font-family:var(--mono);letter-spacing:0.22em;text-transform:uppercase}
+.screw{position:absolute;width:14px;height:14px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#3A3F45,#17191B 70%);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,0.15),0 1px 2px rgba(0,0,0,0.7)}
+.screw::after{content:'';position:absolute;left:2px;right:2px;top:6px;height:1.6px;
+  background:#0E1012;transform:rotate(37deg);border-radius:1px}
+.led{width:10px;height:10px;border-radius:50%;background:var(--led-off);
+  box-shadow:inset 0 1px 2px rgba(0,0,0,0.6);display:inline-block;flex:none}
+.led.on{background:var(--led);box-shadow:0 0 8px rgba(73,209,124,0.55),inset 0 1px 1px rgba(255,255,255,0.4)}
+.led.amber{background:var(--amber);box-shadow:0 0 8px rgba(224,169,63,0.5)}
+.led.fault{background:var(--fault);box-shadow:0 0 8px rgba(209,73,73,0.5)}
+.carbon-input{width:100%;background:#121416;color:var(--stamp);border:none;border-radius:5px;
+  font-family:var(--mono);font-size:12px;padding:9px 10px;
+  box-shadow:inset 2px 2px 6px rgba(0,0,0,0.7),inset -1px -1px 0 rgba(255,255,255,0.03)}
+.brass-btn{border:none;cursor:pointer;font-family:var(--mono);font-weight:700;
+  letter-spacing:0.14em;color:#1A130A;border-radius:6px;padding:8px 14px;font-size:11px;
+  background:radial-gradient(circle at 38% 32%,#D9B87E,var(--brass) 55%,var(--brass2) 100%);
+  box-shadow:0 5px 12px rgba(0,0,0,0.6),inset 0 2px 3px rgba(255,255,255,0.5),inset 0 -4px 8px rgba(0,0,0,0.35)}
+.brass-btn:active{transform:translateY(2px);box-shadow:0 2px 5px rgba(0,0,0,0.6),inset 0 2px 6px rgba(0,0,0,0.4)}
+.brass-btn.dim{filter:grayscale(0.75) brightness(0.75)}
+header{position:relative;padding:20px 26px;margin-bottom:22px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+header h1{font-family:var(--mono);font-size:17px;letter-spacing:0.3em;color:var(--stamp);text-transform:uppercase}
+header .sub{font-size:12px;color:#B9BEC4;font-family:var(--mono);letter-spacing:0.12em}
+.controls{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:20px;padding:16px 20px;position:relative}
+.controls label{font-size:11px} .controls .grp{display:flex;flex-direction:column;gap:6px}
+select.carbon-input{width:auto;cursor:pointer}
+#brandRow{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.panelGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(430px,1fr));gap:18px}
+.panel{position:relative;padding:18px 20px 20px}
+.panel h2{font-family:var(--mono);font-size:12px;letter-spacing:0.24em;text-transform:uppercase;color:var(--stamp);
+  display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.panel .feedNote{font-size:11px;color:#B9BEC4;font-family:var(--mono);margin-left:auto;letter-spacing:0.05em}
+.tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px}
+.tile{padding:10px 8px;text-align:center}
+.tile .v{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--stamp)}
+.tile .k{font-size:10px;margin-top:5px}
+canvas.spark{width:100%;height:74px;display:block;border-radius:6px}
+.tape{background:var(--paper);color:var(--paperink);font-family:var(--mono);font-size:11px;
+  border-radius:4px;padding:12px 14px;margin-top:12px;overflow:auto;max-height:170px;
+  box-shadow:inset 0 2px 8px rgba(0,0,0,0.35),0 1px 0 rgba(255,255,255,0.05);
+  background-image:repeating-linear-gradient(0deg,transparent 0 21px,rgba(38,36,31,0.05) 21px 22px)}
+.tape table{width:100%;border-collapse:collapse}
+.tape td,.tape th{text-align:right;padding:2px 6px;white-space:nowrap}
+.tape td:first-child,.tape th:first-child{text-align:left}
+.darkNote{padding:26px 18px;text-align:center;font-family:var(--mono);font-size:11px;color:var(--engrave);line-height:1.9}
+.darkNote a{color:var(--brass)}
+footer{margin-top:26px;padding:14px 20px;font-family:var(--mono);font-size:11.5px;color:#B9BEC4;
+  letter-spacing:0.08em;position:relative;line-height:2}
+.statusRow{display:flex;gap:22px;flex-wrap:wrap;align-items:center}
+.statusRow span{display:flex;gap:7px;align-items:center}
+</style>
+</head>
+<body>
+
+<header class="raised">
+  <span class="screw" style="top:8px;left:8px"></span><span class="screw" style="top:8px;right:8px"></span>
+  <span class="screw" style="bottom:8px;left:8px"></span><span class="screw" style="bottom:8px;right:8px"></span>
+  <div>
+    <h1>Brand KPI · Carbon Instrument</h1>
+    <div class="sub">SHALINA FOCUS BRANDS · FB / IG / YT / TIKTOK · FEED: SUPERMETRICS · WINDOW 2026-04-21 → 2026-07-20</div>
+  </div>
+</header>
+
+<div class="controls raised">
+  <span class="screw" style="top:6px;left:6px"></span><span class="screw" style="top:6px;right:6px"></span>
+  <div class="grp"><label class="engraved">1 · Brand</label>
+    <select id="brandSel" class="carbon-input" style="min-width:190px"></select>
+  </div>
+  <div class="grp"><label class="engraved">2 · Market</label>
+    <select id="marketSel" class="carbon-input" style="min-width:160px">
+      <option value="ALL">All markets</option>
+      <option value="NG">Nigeria (NG)</option>
+      <option value="GH">Ghana (GH)</option>
+      <option value="ZM">Zambia (ZM)</option>
+      <option value="ANG">Angola (ANG)</option>
+      <option value="SA">South Africa (SA)</option>
+      <option value="DRC">DR Congo (DRC)</option>
+    </select>
+  </div>
+  <div class="grp"><label class="engraved">3 · Period</label>
+    <select id="period" class="carbon-input">
+      <option value="7">Last 7 days</option>
+      <option value="30" selected>Last 30 days</option>
+      <option value="90">Last 90 days (full window)</option>
+    </select>
+  </div>
+  <div class="grp" style="flex:1;min-width:200px"><label class="engraved">4 · Search campaigns (optional)</label>
+    <input id="sieve" class="carbon-input" type="text" placeholder="e.g. WMD, Renner, JUL26…">
+  </div>
+  <div class="grp"><label class="engraved">&nbsp;</label>
+    <button class="brass-btn" onclick="resetMenu()">RESET</button>
+  </div>
+</div>
+
+<div class="panelGrid" id="panels"></div>
+
+<footer class="raised">
+  <span class="screw" style="top:6px;left:6px"></span><span class="screw" style="top:6px;right:6px"></span>
+  <div class="statusRow">
+    <span><i class="led on"></i> META ADS (FB+IG placements)</span>
+    <span><i class="led on"></i> TIKTOK ADS</span>
+    <span><i class="led on"></i> YOUTUBE ORGANIC — 9 brand channels (data from ~05-15, connected 07-20)</span>
+    <span><i class="led amber"></i> IG / FB / TT ORGANIC — not connected</span>
+  </div>
+  <div>Data pulled 2026-07-20T13:1xZ by Phoenix (05) via Supermetrics · monetary values in account currency (no FX applied) · zero-signal rows stripped, nothing interpolated · SHLA-prefix campaigns held unassigned pending Shane's ruling.</div>
+</footer>
+
+<script>
+/* ══ BRAND TOKEN MAP — edit here, Shane's hand ══
+   A campaign belongs to a brand if its name contains any of these tokens (word-ish match). */
+const BRANDS = {
+  "Shaltoux":  ["SHLTX","SHALTOUX"],
+  "Germol":    ["GER"],
+  "Flodent":   ["FLO"],
+  "Ibucap":    ["IBU"],
+  "ACO":       ["ACO"],
+  "Polygel":   ["POLY","PGL"],
+  "Shalartem": ["SHLA","ARTEM","SHLR","ARTM","SHALARTEM"],
+  "Corporate ·other": []
+};
+/* RULED by Shane 2026-07-20: SHLA_NG=Shal'Artem Nigeria · SHLA_GH=Shal'Artem Ghana ·
+   SHLTX_GH/NG/ZM/ANG=Shaltoux by market · FLO_SA/ANG=Flodent · GER_SA/ANG=Germol ·
+   IBU2026=Ibucap. "Corporate ·other" is the catch-all: any campaign matching no brand token
+   (e.g. DRC/GHA_ORG_Shalina World Cup, SAINC) shows there instead of vanishing. */
+/* Data rows: [date, campaign, impressions, reach, cost, clicks, linkClicks]
+   META = Facebook Ads pull (incl. IG placements by name suffix). TT = TikTok Ads pull. */
+const META = [
+["2026-04-21","SHLA NG DR Renner Collab 2026",125120,110987,548.98,1325,18],
+["2026-04-21","SHLA NG WMD 2026",110868,109282,581.91,1176,4],
+["2026-04-22","SHLA GH WMD 2026",41041,38855,417.02,370,0],
+["2026-04-22","SHLA NG WMD 2026",129774,123968,581.83,1379,3],
+["2026-04-23","SHLA GH WMD 2026",182805,160049,1527.8,1431,4],
+["2026-04-23","SHLA NG WMD 2026",187320,172607,1069.72,1325,16],
+["2026-04-24","SHLA GH WMD 2026",233393,214341,1989.56,2158,16],
+["2026-04-24","SHLA NG WMD 2026",235336,218386,1357.48,1677,14],
+["2026-04-25","SHLA GH WMD 2026",253712,237366,2184.99,2576,25],
+["2026-04-25","SHLA NG WMD 2026",226514,215551,1406.28,1784,24],
+["2026-04-26","SHLA GH WMD 2026",342610,295810,2957.89,3819,286],
+["2026-04-26","SHLA NG WMD 2026",265780,241902,2208.77,1889,29],
+["2026-04-27","SHLA GH WMD 2026",543974,419584,4732.05,7081,737],
+["2026-04-27","SHLA NG WMD 2026",380759,321672,2910.8,2112,24],
+["2026-04-28","SHLA GH WMD 2026",436982,322877,4517.78,4942,544],
+["2026-04-28","SHLA NG WMD 2026",295885,228882,2562.57,1724,28],
+["2026-04-29","SHLA GH WMD 2026",336754,271350,3925.47,3371,373],
+["2026-04-29","SHLA NG WMD 2026",279727,198173,2358.9,1368,27],
+["2026-04-30","SHLA GH WMD 2026",79553,62919,1325.73,231,14],
+["2026-04-30","SHLA NG WMD 2026",214657,163367,1666.18,906,13],
+["2026-05-01","SHLA NG WMD 2026",4748,4667,60.24,7,0],
+["2026-05-02","SHLA NG WMD 2026",4522,4454,62.37,3,0],
+["2026-05-03","SHLA NG WMD 2026",4448,4262,65.31,9,0],
+["2026-05-04","SHLA NG WMD 2026",4728,4584,61.79,2,0],
+["2026-05-05","SHLA NG WMD 2026",4081,3983,56.1,4,2],
+["2026-05-06","SHLA NG WMD 2026",3902,3894,62.72,8,1],
+["2026-05-07","SHLA NG WMD 2026",3833,3766,59.64,7,0],
+["2026-05-08","SAINC6 NED60S03_RealDeal - FB",4988,4813,43.38,94,0],
+["2026-05-08","SAINC6 NED60S03_RealDeal - IG",9988,9621,135.39,136,20],
+["2026-05-08","SHLA NG WMD 2026",3977,3883,61.02,5,0],
+["2026-05-09","SAINC6 NED60S03_RealDeal - FB",10710,10575,106.28,244,1],
+["2026-05-09","SAINC6 NED60S03_RealDeal - IG",28686,27080,334.3,393,64],
+["2026-05-09","SHLA NG WMD 2026",4242,4161,64.1,4,1],
+["2026-05-10","SAINC6 NED60S03_RealDeal - FB",11498,11265,99.17,285,0],
+["2026-05-10","SAINC6 NED60S03_RealDeal - IG",31163,30197,332.47,406,70],
+["2026-05-10","SHLA NG WMD 2026",4247,4164,62.05,5,0],
+["2026-05-11","SAINC6 NED60S03_RealDeal - FB",5816,5658,51.09,175,0],
+["2026-05-11","SAINC6 NED60S03_RealDeal - IG",21957,21073,197.84,297,33],
+["2026-05-11","SHLA NG WMD 2026",4480,4480,62.48,6,0],
+["2026-05-12","SHLA GH WMD 2026",56412,43112,1130.32,98,3],
+["2026-05-12","SHLA NG WMD 2026",1587,1560,22.97,3,0],
+["2026-05-13","SHLA GH WMD 2026",108304,75603,2170.62,153,1],
+["2026-05-14","SHLA GH WMD 2026",93728,73566,1906.53,162,1],
+["2026-05-15","SHLA GH WMD 2026",40436,34710,883.64,50,0],
+["2026-05-17","SHLA NG DR Renner Collab 2026",50008,47841,320.68,683,0],
+["2026-05-18","GER_ANG_MAY26_CHILDRENSDAY",10113,9998,43.58,56,0],
+["2026-05-18","SHLA NG DR Renner Collab 2026",384420,337855,1884.49,6375,5],
+["2026-05-19","GER_ANG_MAY26_CHILDRENSDAY",31107,26441,185.49,134,5],
+["2026-05-19","IBU2026 Season 1_ Reboost FB",50102,49336,64.73,81,0],
+["2026-05-19","IBU2026 Season 1_ Reboost IG",6763,3967,90.85,4,0],
+["2026-05-19","SHLA NG DR Renner Collab 2026",316334,282034,1384.27,5327,4],
+["2026-05-20","GER_ANG_MAY26_CHILDRENSDAY",31247,18971,278.12,53,13],
+["2026-05-20","IBU2026 Season 1_ Reboost FB",104667,87615,142.86,177,0],
+["2026-05-20","IBU2026 Season 1_ Reboost IG",8624,3217,150.3,0,0],
+["2026-05-20","SHLA NG DR Renner Collab 2026",343646,322529,1653.15,6367,4],
+["2026-05-21","GER_ANG_MAY26_CHILDRENSDAY",38458,21849,371.48,48,12],
+["2026-05-21","GER_ANG_MAY26_CHILDRENSDAY - FB",4408,4377,25.53,31,0],
+["2026-05-21","GER_ANG_MAY26_CHILDRENSDAY - IG",1526,1478,11.28,2,0],
+["2026-05-21","IBU2026 Season 1_ Reboost FB",132064,112815,176.33,216,0],
+["2026-05-21","IBU2026 Season 1_ Reboost IG",11926,5229,195.81,0,0],
+["2026-05-21","SHLA NG DR Renner Collab 2026",212881,188343,940.86,2938,2],
+["2026-05-22","GER_ANG_MAY26_CHILDRENSDAY",36862,24221,339.93,83,12],
+["2026-05-22","GER_ANG_MAY26_CHILDRENSDAY - FB",13075,10681,125.05,45,0],
+["2026-05-22","GER_ANG_MAY26_CHILDRENSDAY - IG",8486,7381,63.16,7,0],
+["2026-05-22","IBU2026 Season 1_ Reboost FB",131602,113141,166.37,193,0],
+["2026-05-22","IBU2026 Season 1_ Reboost IG",9501,3860,175.16,0,0],
+["2026-05-22","SHLA NG DR Renner Collab 2026",297986,260113,1235.16,4326,2],
+["2026-05-23","GER_ANG_MAY26_CHILDRENSDAY - FB",6888,3089,103.34,1,0],
+["2026-05-23","GER_ANG_MAY26_CHILDRENSDAY - IG",11865,10429,83.82,6,0],
+["2026-05-23","IBU2026 Season 1_ Reboost FB",106633,97449,140.15,156,0],
+["2026-05-23","IBU2026 Season 1_ Reboost IG",10821,6960,188.97,1,0],
+["2026-05-23","SHLA NG DR Renner Collab 2026",271058,244537,1200.51,4500,1],
+["2026-05-24","GER_ANG_MAY26_CHILDRENSDAY - FB",6856,2786,95.98,3,0],
+["2026-05-24","GER_ANG_MAY26_CHILDRENSDAY - IG",11619,10407,78.92,4,0],
+["2026-05-24","IBU2026 Season 1_ Reboost FB",95031,84624,116.2,121,0],
+["2026-05-24","IBU2026 Season 1_ Reboost IG",15519,10345,273.3,3,0],
+["2026-05-24","SHLA NG DR Renner Collab 2026",273502,246689,1219.59,4576,3],
+["2026-05-24","SHLTX_ANG_MAY2026 FB",2982,2329,176.12,0,0],
+["2026-05-24","SHLTX_GH_MAY2026 FB",7505,5964,154.33,3,0],
+["2026-05-24","SHLTX_NG_MAY2026 FB",9674,6564,157.94,3,0],
+["2026-05-24","SHLTX_NG_MAY2026 IG",8715,6758,137.32,2,0],
+["2026-05-24","SHLTX_ZM_MAY2026 FB",2627,1913,171,0,0],
+["2026-05-25","GER_ANG_MAY26_CHILDRENSDAY - FB",6685,2562,89.79,1,0],
+["2026-05-25","GER_ANG_MAY26_CHILDRENSDAY - IG",11109,9896,74.72,7,0],
+["2026-05-25","IBU2026 Season 1_ Reboost FB",54961,54961,65.18,55,0],
+["2026-05-25","IBU2026 Season 1_ Reboost IG",7944,5170,144.58,0,0],
+["2026-05-25","SHLA NG DR Renner Collab 2026",261867,232950,1221.89,4518,4],
+["2026-05-25","SHLTX_ANG_MAY2026 FB",2196,1464,160.15,0,0],
+["2026-05-25","SHLTX_GH_MAY2026 FB",6482,4631,151,3,0],
+["2026-05-25","SHLTX_NG_MAY2026 FB",7925,5083,137.81,0,0],
+["2026-05-25","SHLTX_NG_MAY2026 IG",7724,5068,133.29,0,0],
+["2026-05-25","SHLTX_ZM_MAY2026 FB",2702,1682,193.55,0,0],
+["2026-05-26","GER_ANG_MAY26_CHILDRENSDAY - FB",867,387,11.99,0,0],
+["2026-05-26","GER_ANG_MAY26_CHILDRENSDAY - IG",1168,1161,12.65,0,0],
+["2026-05-26","IBU2026 Season 1_ Reboost FB",9629,9571,11.73,9,0],
+["2026-05-26","IBU2026 Season 1_ Reboost IG",564,403,9.86,0,0],
+["2026-05-26","SHLA NG DR Renner Collab 2026",37435,36926,183.47,597,0],
+["2026-05-26","SHLTX_ANG_MAY2026 FB",170,116,11.61,0,0],
+["2026-05-26","SHLTX_GH_MAY2026 FB",1308,817,35.91,0,0],
+["2026-05-26","SHLTX_NG_MAY2026 FB",688,498,10.96,0,0],
+["2026-05-26","SHLTX_NG_MAY2026 IG",717,518,11.87,0,0],
+["2026-05-26","SHLTX_ZM_MAY2026 FB",61,46,3.77,0,0],
+["2026-05-27","GER_ANG_MAY26_CHILDRENSDAY - FB",10010,3606,154.59,2,0],
+["2026-05-27","GER_ANG_MAY26_CHILDRENSDAY - IG",12190,11180,81.03,5,0],
+["2026-05-27","IBU2026 Season 1_ Reboost FB",53274,51415,70.11,114,0],
+["2026-05-27","IBU2026 Season 1_ Reboost IG",4488,3201,69.74,0,0],
+["2026-05-27","SHLA NG DR Renner Collab 2026",112352,103133,544.92,1786,0],
+["2026-05-27","SHLTX_ANG_MAY2026 FB",1262,993,97.63,0,0],
+["2026-05-27","SHLTX_GH_MAY2026 FB",4968,2888,144.66,2,0],
+["2026-05-27","SHLTX_NG_MAY2026 FB",7028,4761,105.68,0,0],
+["2026-05-27","SHLTX_NG_MAY2026 IG",7304,5053,110.11,0,0],
+["2026-05-27","SHLTX_ZM_MAY2026 FB",1221,953,94.84,1,0],
+["2026-05-27","SHLTX_ZM_SOUBOX - FB",10012,9666,16.49,73,10],
+["2026-05-27","SHLTX_ZM_SOUBOX - IG",1293,1286,8.18,4,3],
+["2026-05-28","IBU2026 Season 1_ Reboost FB",72286,71152,97.56,117,0],
+["2026-05-28","IBU2026 Season 1_ Reboost IG",7468,4588,102.14,0,0],
+["2026-05-28","SHLA NG DR Renner Collab 2026",126883,122060,594.2,1873,1],
+["2026-05-28","SHLTX_ANG_MAY2026 FB",2549,1682,198.26,0,0],
+["2026-05-28","SHLTX_GH_MAY2026 FB",7208,4596,192.44,0,0],
+["2026-05-28","SHLTX_NG_MAY2026 FB",11982,7219,157.62,0,0],
+["2026-05-28","SHLTX_NG_MAY2026 IG",12280,6862,166.18,0,0],
+["2026-05-28","SHLTX_ZM_MAY2026 FB",2316,1480,180.47,0,0],
+["2026-05-28","SHLTX_ZM_SOUBOX - FB",99050,96355,253.97,1465,416],
+["2026-05-28","SHLTX_ZM_SOUBOX - IG",16866,14407,112.02,49,14],
+["2026-05-29","IBU2026 Season 1_ Reboost FB",39342,39342,52.52,54,0],
+["2026-05-29","IBU2026 Season 1_ Reboost IG",6246,3766,83.8,0,0],
+["2026-05-29","SHLTX_ANG_MAY2026 FB",1875,1282,141.54,0,0],
+["2026-05-29","SHLTX_GH_MAY2026 FB",7407,4711,182.15,3,0],
+["2026-05-29","SHLTX_NG_MAY2026 FB",10196,5386,132.59,0,0],
+["2026-05-29","SHLTX_NG_MAY2026 IG",10296,5588,132.91,0,0],
+["2026-05-29","SHLTX_ZM_MAY2026 FB",1551,1068,117.68,0,0],
+["2026-05-29","SHLTX_ZM_SOUBOX - FB",135954,125036,509.19,1900,399],
+["2026-05-29","SHLTX_ZM_SOUBOX - IG",22454,19919,167.92,71,18],
+["2026-05-30","IBU2026 Season 1_ Reboost FB",79964,65422,98.08,134,0],
+["2026-05-30","IBU2026 Season 1_ Reboost IG",14675,12104,158.56,4,0],
+["2026-05-30","SHLTX_ANG_MAY2026 FB",500,360,39.43,0,0],
+["2026-05-30","SHLTX_GH_MAY2026 FB",7108,5471,172.24,5,0],
+["2026-05-30","SHLTX_NG_MAY2026 FB",9160,5526,122.39,0,0],
+["2026-05-30","SHLTX_NG_MAY2026 IG",9703,5260,133.23,0,0],
+["2026-05-30","SHLTX_ZM_MAY2026 FB",810,658,63.15,0,0],
+["2026-05-30","SHLTX_ZM_SOUBOX - FB",143698,133005,489.14,2791,1004],
+["2026-05-30","SHLTX_ZM_SOUBOX - IG",24569,22074,172.36,55,21],
+["2026-05-31","IBU2026 Season 1_ Reboost FB",102559,83142,115.33,178,0],
+["2026-05-31","IBU2026 Season 1_ Reboost IG",12842,11657,166.99,5,0],
+["2026-05-31","SHLTX_GH_MAY2026 FB",8960,7182,203.86,5,0],
+["2026-05-31","SHLTX_ZM_SOUBOX - FB",142492,121849,486.97,2350,834],
+["2026-05-31","SHLTX_ZM_SOUBOX - IG",28482,24509,189.91,87,25],
+["2026-06-01","GER_ANG_MAY26_ChildrensDayWish - FB",137790,133656,86.72,467,0],
+["2026-06-01","GER_ANG_MAY26_ChildrensDayWish - IG",2017,1789,49.62,7,0],
+["2026-06-01","IBU2026 Season 1_ Reboost FB",102041,90237,105.81,224,0],
+["2026-06-01","IBU2026 Season 1_ Reboost IG",13322,12283,163.51,13,0],
+["2026-06-01","SHLTX_ZM_SOUBOX - FB",163333,149151,448.7,2423,642],
+["2026-06-01","SHLTX_ZM_SOUBOX - IG",28583,23274,171.97,75,18],
+["2026-06-02","GER_ANG_MAY26_ChildrensDayWish - FB",185384,178208,127.47,509,0],
+["2026-06-02","GER_ANG_MAY26_ChildrensDayWish - IG",3853,3044,112.78,6,1],
+["2026-06-02","IBU2026 Season 1_ Reboost FB",96945,86907,105.47,132,0],
+["2026-06-02","IBU2026 Season 1_ Reboost IG",11240,10254,161.07,5,0],
+["2026-06-02","SHLTX_ZM_SOUBOX - FB",140179,124994,431.72,1770,382],
+["2026-06-02","SHLTX_ZM_SOUBOX - IG",27096,22667,170.59,56,21],
+["2026-06-03","GER_ANG_MAY26_ChildrensDayWish - FB",191292,182590,131.59,437,1],
+["2026-06-03","GER_ANG_MAY26_ChildrensDayWish - IG",3655,2917,95.61,8,2],
+["2026-06-03","IBU2026 Season 1_ Reboost FB",134721,112653,138.82,221,0],
+["2026-06-03","IBU2026 Season 1_ Reboost IG",14122,13241,176.2,9,0],
+["2026-06-03","SHLTX_ZM_SOUBOX - FB",138734,125022,441.74,1673,436],
+["2026-06-03","SHLTX_ZM_SOUBOX - IG",27538,24691,169.07,56,23],
+["2026-06-04","GER_ANG_MAY26_ChildrensDayWish - FB",189236,181491,129.15,588,0],
+["2026-06-04","GER_ANG_MAY26_ChildrensDayWish - IG",3488,2908,99.97,7,0],
+["2026-06-04","IBU2026 Season 1_ Reboost FB",152239,131627,169.87,234,0],
+["2026-06-04","IBU2026 Season 1_ Reboost IG",17666,15229,228.13,18,1],
+["2026-06-04","SHLTX_ZM_SOUBOX - FB",56268,47507,277.31,375,0],
+["2026-06-04","SHLTX_ZM_SOUBOX - IG",10773,10075,58.75,13,5],
+["2026-06-05","GER_ANG_MAY26_ChildrensDayWish - FB",181853,178329,135.07,627,0],
+["2026-06-05","GER_ANG_MAY26_ChildrensDayWish - IG",3232,2768,96.58,8,1],
+["2026-06-05","IBU2026 Season 1_ Reboost FB",156786,136350,170.5,333,0],
+["2026-06-05","IBU2026 Season 1_ Reboost IG",15835,14461,225.99,6,0],
+["2026-06-06","FLO_ANG_JUN26 - FB",17631,16516,91.59,93,0],
+["2026-06-06","FLO_ANG_JUN26 - IG",9922,8589,62.44,3,0],
+["2026-06-06","FLO_SA_JUN26 - FB",29294,28588,147.51,35,0],
+["2026-06-06","FLO_SA_JUN26 - IG",1644,1522,107.01,57,47],
+["2026-06-06","GER_ANG_JUN26 - FB",26347,23457,75.93,139,32],
+["2026-06-06","GER_ANG_JUN26 - IG",12193,10939,58.64,14,5],
+["2026-06-06","GER_SA_JUN26 - FB",4426,4316,103.36,13,0],
+["2026-06-06","GER_SA_JUN26 - IG",1132,993,82.28,65,54],
+["2026-06-06","IBU2026 Season 1_ Reboost FB",45402,45402,59.78,70,0],
+["2026-06-06","IBU2026 Season 1_ Reboost IG",4369,4306,71.82,0,0],
+["2026-06-06","IBU2026_S2 - FB",31670,31407,166.59,25,1],
+["2026-06-06","IBU2026_S2 - IG",41471,37839,444.36,21,0],
+["2026-06-06","SHLTX_GH_JUN26 - FB",18142,14848,300.64,40,0],
+["2026-06-06","SHLTX_GH_JUN26 - IG",2405,2290,106.39,47,47],
+["2026-06-06","SHLTX_NG_JUN26 - FB",10139,9924,124.01,20,1],
+["2026-06-06","SHLTX_NG_JUN26 - IG",11829,10818,251.77,341,229],
+["2026-06-06","SHLTX_ZM_JUN26 - FB",113069,106218,296.46,812,284],
+["2026-06-06","SHLTX_ZM_JUN26 - IG",6225,4578,85.04,92,66],
+["2026-06-07","FLO_ANG_JUN26 - FB",27890,25030,160.02,160,0],
+["2026-06-07","FLO_ANG_JUN26 - IG",15010,12842,97.79,9,0],
+["2026-06-07","FLO_SA_JUN26 - FB",38864,38864,184.97,93,1],
+["2026-06-07","FLO_SA_JUN26 - IG",3096,2864,130.37,87,73],
+["2026-06-07","GER_ANG_JUN26 - FB",45642,38980,137.63,236,83],
+["2026-06-07","GER_ANG_JUN26 - IG",19931,17784,98.22,29,13],
+["2026-06-07","GER_SA_JUN26 - FB",8867,8391,134.65,46,0],
+["2026-06-07","GER_SA_JUN26 - IG",1671,1545,102.97,50,43],
+["2026-06-07","IBU2026 Season 1_ Reboost FB",68894,67921,81.26,105,0],
+["2026-06-07","IBU2026 Season 1_ Reboost IG",8687,8509,79.33,8,0],
+["2026-06-07","IBU2026_S2 - FB",42458,42458,212.13,51,0],
+["2026-06-07","IBU2026_S2 - IG",41944,38006,629.88,23,0],
+["2026-06-07","SHLTX_GH_JUN26 - FB",45743,28269,771.12,36,0],
+["2026-06-07","SHLTX_GH_JUN26 - IG",4174,3765,208.74,105,87],
+["2026-06-07","SHLTX_NG_JUN26 - FB",21614,14084,261.01,7,0],
+["2026-06-07","SHLTX_NG_JUN26 - IG",25658,22272,467.09,700,488],
+["2026-06-07","SHLTX_ZM_JUN26 - FB",269668,266013,552.56,1964,596],
+["2026-06-07","SHLTX_ZM_JUN26 - IG",19351,13825,198.14,384,120],
+["2026-06-08","FLO_ANG_JUN26 - FB",27289,24377,133.29,128,1],
+["2026-06-08","FLO_ANG_JUN26 - IG",15040,12899,87.83,7,0],
+["2026-06-08","FLO_SA_JUN26 - FB",39534,38394,166.95,105,0],
+["2026-06-08","FLO_SA_JUN26 - IG",2945,2583,114.3,97,76],
+["2026-06-08","GER_ANG_JUN26 - FB",35700,28035,111.8,169,55],
+["2026-06-08","GER_ANG_JUN26 - IG",17290,15755,79.51,15,5],
+["2026-06-08","GER_SA_JUN26 - FB",9002,8311,112.87,38,0],
+["2026-06-08","GER_SA_JUN26 - IG",2044,1902,92.33,58,56],
+["2026-06-08","IBU2026 Season 1_ Reboost FB",62219,60294,61.27,132,0],
+["2026-06-08","IBU2026 Season 1_ Reboost IG",6847,6712,69.07,6,0],
+["2026-06-08","IBU2026_S2 - FB",44112,44112,196.78,89,0],
+["2026-06-08","IBU2026_S2 - IG",49689,44454,601.98,19,1],
+["2026-06-08","SHLTX_GH_JUN26 - FB",34557,12500,554.2,1,0],
+["2026-06-08","SHLTX_GH_JUN26 - IG",3573,3099,153.36,89,75],
+["2026-06-08","SHLTX_NG_JUN26 - FB",17272,9383,192.54,0,0],
+["2026-06-08","SHLTX_NG_JUN26 - IG",23401,20487,373.1,611,471],
+["2026-06-08","SHLTX_ZM_JUN26 - FB",231082,231082,444.38,1663,487],
+["2026-06-08","SHLTX_ZM_JUN26 - IG",12284,5014,151.36,104,82],
+["2026-06-09","FLO_ANG_JUN26 - FB",24284,22197,129.7,128,0],
+["2026-06-09","FLO_ANG_JUN26 - IG",13162,11615,86.69,15,0],
+["2026-06-09","FLO_SA_JUN26 - FB",36013,35501,164.69,51,0],
+["2026-06-09","FLO_SA_JUN26 - IG",3548,2936,103.4,82,69],
+["2026-06-09","GER_ANG_JUN26 - FB",38900,29583,121.06,173,49],
+["2026-06-09","GER_ANG_JUN26 - IG",19101,16467,87.77,21,10],
+["2026-06-09","GER_SA_JUN26 - FB",9863,9051,120.57,49,0],
+["2026-06-09","GER_SA_JUN26 - IG",2271,2052,89.34,71,66],
+["2026-06-09","IBU2026 Season 1_ Reboost IG",7191,7031,67.78,8,0],
+["2026-06-09","IBU2026_S2 - FB",38959,38959,188.5,33,0],
+["2026-06-09","IBU2026_S2 - IG",38431,34491,609.51,25,0],
+["2026-06-09","SHLTX_GH_JUN26 - FB",39616,12752,560.45,1,0],
+["2026-06-09","SHLTX_GH_JUN26 - IG",8283,6378,155.25,280,158],
+["2026-06-09","SHLTX_NG_JUN26 - FB",18633,8216,201.78,0,0],
+["2026-06-09","SHLTX_NG_JUN26 - IG",28740,24393,427.2,794,509],
+["2026-06-09","SHLTX_ZM_JUN26 - FB",232774,228112,462.59,1453,384],
+["2026-06-09","SHLTX_ZM_JUN26 - IG",12870,4729,154.9,65,54],
+["2026-06-10","FLO_ANG_JUN26 - FB",26819,24164,127.3,132,0],
+["2026-06-10","FLO_ANG_JUN26 - IG",12251,10953,88.17,5,0],
+["2026-06-10","FLO_SA_JUN26 - FB",34339,33773,159.22,75,0],
+["2026-06-10","FLO_SA_JUN26 - IG",3229,2725,93.94,95,73],
+["2026-06-10","GER_ANG_JUN26 - FB",38369,29860,105.23,159,46],
+["2026-06-10","GER_ANG_JUN26 - IG",18586,16001,82.81,19,7],
+["2026-06-10","GER_SA_JUN26 - FB",9127,8110,110.59,47,0],
+["2026-06-10","GER_SA_JUN26 - IG",2339,2184,86.52,82,73],
+["2026-06-10","IBU2026 Season 1_ Reboost IG",6479,6235,65.14,2,0],
+["2026-06-10","IBU2026_S2 - FB",37274,36504,184.79,46,0],
+["2026-06-10","IBU2026_S2 - IG",35729,33191,566.19,36,0],
+["2026-06-10","SHLTX_GH_JUN26 - FB",26945,9651,455.2,0,0],
+["2026-06-10","SHLTX_GH_JUN26 - IG",12084,9060,173.69,253,149],
+["2026-06-10","SHLTX_NG_JUN26 - FB",23834,10139,217.17,0,0],
+["2026-06-10","SHLTX_NG_JUN26 - IG",23742,18766,355.19,688,560],
+["2026-06-10","SHLTX_ZM_JUN26 - FB",204913,196006,433.61,1480,397],
+["2026-06-10","SHLTX_ZM_JUN26 - IG",10056,3929,123.6,69,64],
+["2026-06-11","GER_ANG_JUN26 - FB",40931,34421,104.73,160,41],
+["2026-06-11","GER_ANG_JUN26 - IG",16016,13565,81.87,14,4],
+["2026-06-11","GER_SA_JUN26 - FB",8947,7927,108.86,62,0],
+["2026-06-11","GER_SA_JUN26 - IG",2085,1862,74.47,44,36],
+["2026-06-11","IBU2026_S2 - FB",38394,36551,195.21,50,0],
+["2026-06-11","IBU2026_S2 - IG",33104,29746,569.84,27,1],
+["2026-06-11","SHLTX_GH_JUN26 - FB",33207,11528,597.11,2,0],
+["2026-06-11","SHLTX_GH_JUN26 - IG",14875,10568,178.92,298,220],
+["2026-06-11","SHLTX_NG_JUN26 - FB",16932,7816,153.37,0,0],
+["2026-06-11","SHLTX_NG_JUN26 - IG",26399,20123,374.69,668,541],
+["2026-06-11","SHLTX_ZM_JUN26 - FB",203076,197619,461.85,1583,474],
+["2026-06-12","GER_ANG_JUN26 - FB",39871,30492,110.03,183,69],
+["2026-06-12","GER_ANG_JUN26 - IG",17309,15202,83.85,14,5],
+["2026-06-12","GER_SA_JUN26 - FB",8807,7787,107.79,51,0],
+["2026-06-12","GER_SA_JUN26 - IG",2259,2117,74.31,58,56],
+["2026-06-12","IBU2026_S2 - FB",43308,42598,238.34,50,0],
+["2026-06-12","IBU2026_S2 - IG",27051,24517,529.08,20,0],
+["2026-06-12","SHLTX_GH_JUN26 - FB",27184,10516,507.47,3,0],
+["2026-06-12","SHLTX_GH_JUN26 - IG",15105,11399,171.58,294,200],
+["2026-06-12","SHLTX_NG_JUN26 - FB",17605,7729,182.85,0,0],
+["2026-06-12","SHLTX_NG_JUN26 - IG",26843,21538,353.61,709,575],
+["2026-06-12","SHLTX_ZM_JUN26 - FB",186125,176606,430.93,1678,584],
+["2026-06-13","GER_ANG_JUN26 - FB",47672,40264,103.27,204,61],
+["2026-06-13","GER_ANG_JUN26 - IG",15767,13745,83.5,20,6],
+["2026-06-13","GER_SA_JUN26 - FB",8702,7631,115.39,72,0],
+["2026-06-13","GER_SA_JUN26 - IG",227,222,7.77,5,4],
+["2026-06-13","IBU2026_S2 - FB",24704,24641,138.02,22,0],
+["2026-06-13","IBU2026_S2 - IG",36073,32934,579.55,34,0],
+["2026-06-13","SHLTX_GH_JUN26 - FB",28693,9925,543.79,2,0],
+["2026-06-13","SHLTX_GH_JUN26 - IG",17743,12890,172.07,293,185],
+["2026-06-13","SHLTX_NG_JUN26 - FB",13255,6096,147.55,0,0],
+["2026-06-13","SHLTX_NG_JUN26 - IG",25624,20452,361.16,720,611],
+["2026-06-13","SHLTX_ZM_JUN26 - FB",210358,194207,482.8,1932,628],
+["2026-06-14","IBU2026_S2 - FB",37275,26233,329.35,86,1],
+["2026-06-14","IBU2026_S2 - IG",491,484,3.65,0,0],
+["2026-06-14","SHLTX_GH_JUN26 - FB",40549,31271,490.77,206,0],
+["2026-06-14","SHLTX_GH_JUN26 - IG2",26589,19331,347.41,134,0],
+["2026-06-14","SHLTX_NG_JUN26 - FB",36152,29914,245.15,193,0],
+["2026-06-14","SHLTX_NG_JUN26 - IG2",32002,30281,400.15,32,0],
+["2026-06-15","IBU2026_S2 - FB",22791,10679,272.55,2,0],
+["2026-06-15","IBU2026_S2 - IG",830,830,4.91,0,0],
+["2026-06-15","SHLTX_GH_JUN26 - FB",27401,16031,437.56,62,0],
+["2026-06-15","SHLTX_GH_JUN26 - IG2",16623,8176,313.14,18,0],
+["2026-06-15","SHLTX_NG_JUN26 - FB",20243,11196,219.25,23,0],
+["2026-06-15","SHLTX_NG_JUN26 - IG2",29411,28334,390.48,28,0],
+["2026-06-16","IBU2026_S2 - FB",21307,9578,279.6,1,0],
+["2026-06-16","IBU2026_S2 - IG",1121,1110,6.49,0,0],
+["2026-06-16","SHLA NG DR Renner Collab - FB",145052,131445,1063.38,1162,0],
+["2026-06-16","SHLA NG DR Renner Collab - IG",175538,128885,2229.65,500,2],
+["2026-06-16","SHLTX_GH_JUN26 - FB",29503,17229,413.83,84,0],
+["2026-06-16","SHLTX_GH_JUN26 - IG2",15858,7658,287.03,14,0],
+["2026-06-16","SHLTX_NG_JUN26 - FB",26358,19190,270.76,71,0],
+["2026-06-16","SHLTX_NG_JUN26 - IG2",31723,29919,450.31,30,0],
+["2026-06-17","IBU2026_S2 - FB",18599,10175,232.81,2,0],
+["2026-06-17","IBU2026_S2 - IG",100,100,1.19,0,0],
+["2026-06-17","SHLA NG DR Renner Collab - FB",159309,146631,1211.33,1187,0],
+["2026-06-17","SHLA NG DR Renner Collab - IG",221418,158721,2737.04,527,3],
+["2026-06-17","SHLTX_GH_JUN26 - FB",33779,21858,470.9,98,0],
+["2026-06-17","SHLTX_GH_JUN26 - IG2",19655,11969,311.86,27,0],
+["2026-06-17","SHLTX_NG_JUN26 - FB",50864,39181,429.5,197,0],
+["2026-06-17","SHLTX_NG_JUN26 - IG2",51988,49184,759.3,46,0],
+["2026-06-18","DRC_ORG_Shalina - World Cup",27711,27711,32.58,95,0],
+["2026-06-18","FLO_SA_JUN26 - FB",10475,10415,60.95,21,12],
+["2026-06-18","FLO_SA_JUN26 - IG2",3334,1914,141.27,7,7],
+["2026-06-18","GER_ANG_JUN26 - FB",36003,28052,138.34,137,72],
+["2026-06-18","GER_ANG_JUN26 - IG",984,950,1.77,1,1],
+["2026-06-18","GER_SA_JUN26 - FB",6910,5322,112.55,23,18],
+["2026-06-18","GER_SA_JUN26 - IG2",11124,10362,274.68,10,5],
+["2026-06-18","IBU2026_S2 - FB",17342,8868,224.79,1,0],
+["2026-06-18","IBU2026_S2 - IG",1366,1358,7.11,0,0],
+["2026-06-18","SHLA NG DR Renner Collab - FB",79642,77286,597.29,649,0],
+["2026-06-18","SHLA NG DR Renner Collab - IG",69987,56160,970.2,102,0],
+["2026-06-18","SHLTX_GH_JUN26 - FB",82036,57320,1131.23,332,0],
+["2026-06-18","SHLTX_GH_JUN26 - IG2",39312,25669,585.69,122,0],
+["2026-06-18","SHLTX_NG_JUN26 - FB",34710,20742,397.04,69,0],
+["2026-06-18","SHLTX_NG_JUN26 - IG2",41829,40605,723.55,36,0],
+["2026-06-19","DRC_ORG_Shalina - World Cup",84938,81278,63.3,321,0],
+["2026-06-19","DRC_ORG_Shalina - World Cup - IG",792,772,12.25,1,0],
+["2026-06-19","FLO_SA_JUN26 - FB",4202,4202,25.76,2,0],
+["2026-06-19","FLO_SA_JUN26 - IG2",904,356,53.71,3,3],
+["2026-06-19","GER_ANG_JUN26 - FB",6867,2385,60.61,12,11],
+["2026-06-19","GER_ANG_JUN26 - IG",412,409,0.84,0,0],
+["2026-06-19","GER_SA_JUN26 - FB",2308,1728,45.7,4,3],
+["2026-06-19","GER_SA_JUN26 - IG2",4870,4859,126.77,8,3],
+["2026-06-19","GHA_ORG_Shalina - World Cup - FB",5562,5546,6.56,3,0],
+["2026-06-19","GHA_ORG_Shalina - World Cup - IG",5720,5598,6.47,14,0],
+["2026-06-19","IBU2026_S2 - FB",5823,2758,82.07,0,0],
+["2026-06-19","IBU2026_S2 - IG",87,87,0.78,0,0],
+["2026-06-19","SHLA NG DR Renner Collab - FB",17614,17614,90.12,163,0],
+["2026-06-19","SHLTX_GH_JUN26 - FB",21890,11199,387.47,33,0],
+["2026-06-19","SHLTX_GH_JUN26 - IG2",5523,3194,101.49,4,0],
+["2026-06-19","SHLTX_NG_JUN26 - FB",16856,12709,151.64,54,0],
+["2026-06-19","SHLTX_NG_JUN26 - IG2",23542,23179,390.61,25,0],
+["2026-06-28","GER_SA_JUN26 - FB",1259,843,23.85,3,1],
+["2026-06-29","FLO_ANG_JUN26 - FB",5834,5233,38.13,54,19],
+["2026-06-29","FLO_SA_JUN26 - FB",77450,71524,541.2,305,155],
+["2026-06-29","GER_ANG_JUN26 - FB",96302,74492,404.96,665,274],
+["2026-06-29","GER_ANG_JUN26 - IG",577,575,1.22,0,0],
+["2026-06-29","GER_SA_JUN26 - FB",1590,1337,22.73,7,5],
+["2026-06-29","SHLTX_ANG_JUN2026 BE",28440,25416,114.09,210,0],
+["2026-06-30","FLO_ANG_JUN26 - FB",57440,33082,580.41,346,211],
+["2026-06-30","FLO_SA_JUN26 - FB",120660,111493,763.91,357,151],
+["2026-06-30","GER_ANG_JUN26 - FB",116250,76802,699.68,694,390],
+["2026-06-30","GER_ANG_JUN26 - IG",1036,1010,2.28,0,0],
+["2026-06-30","GER_SA_JUN26 - FB",3924,3434,54.46,22,11],
+["2026-06-30","SHLTX_ANG_JUN2026 BE",50182,45845,176.96,429,0],
+["2026-07-01","FLO_ANG_JUN26 - FB",82957,41339,580.95,607,252],
+["2026-07-01","FLO_SA_JUN26 - FB",135540,120053,647.1,401,110],
+["2026-07-01","GER_ANG_JUN26 - FB",57385,21808,452.79,270,244],
+["2026-07-01","GER_ANG_JUN26 - IG",724,704,1.52,0,0],
+["2026-07-01","GER_SA_JUN26 - FB",86814,72007,1058.59,625,439],
+["2026-07-01","SHLTX_ANG_JUN2026 BE",252660,182621,783.46,2136,0],
+["2026-07-01","SHLTX_GH_JUN26 - FB",3368,3230,25.49,30,0],
+["2026-07-01","SHLTX_NG_JUN26 - FB",65300,52107,557.27,98,0],
+["2026-07-01","SHLTX_NG_JUN26 - IG2",8235,7897,49.06,1,0],
+["2026-07-01","SHLTX_ZM_JUN26 - FB",11162,10709,22.44,77,0],
+["2026-07-02","FLO_ANG_JUN26 - FB",68753,65938,215.04,533,0],
+["2026-07-02","FLO_SA_JUN26 - FB",136469,122155,628.71,477,106],
+["2026-07-02","GER_ANG_JUN26 - FB",17692,5420,167.34,109,103],
+["2026-07-02","GER_SA_JUN26 - FB",88,72,1.34,1,0],
+["2026-07-02","SHLTX_ANG_JUN2026 BE",305410,229763,932.82,2585,0],
+["2026-07-02","SHLTX_GH_JUN26 - FB",145133,85692,1620.49,372,0],
+["2026-07-02","SHLTX_GH_JUN26 - IG2",14044,6515,172.4,5,0],
+["2026-07-02","SHLTX_GH_MAY2026 - META",71584,70011,116.27,134,0],
+["2026-07-02","SHLTX_NG_JUN26 - FB",255846,141917,2149.82,200,0],
+["2026-07-02","SHLTX_NG_JUN26 - IG2",128194,90465,1200.6,105,0],
+["2026-07-02","SHLTX_NG_MAY2026 - META",175544,173804,171.67,462,0],
+["2026-07-02","SHLTX_ZM_JUN26 - FB",888127,659340,3870.22,9518,1],
+["2026-07-02","SHLTX_ZM_JUN26 - IG",130946,101044,691.34,2223,0],
+["2026-07-03","FLO_ANG_JUN26 - FB",69780,65157,233.45,603,0],
+["2026-07-03","FLO_SA_JUN26 - FB",80852,76866,391.96,328,40],
+["2026-07-03","GER_ANG_JUN26 - FB",17170,8145,189.69,98,59],
+["2026-07-03","GER_SA_JUN26 - FB",3318,2375,70.41,27,10],
+["2026-07-03","IBU2026_S2 - FB",22787,22373,150.55,140,0],
+["2026-07-03","IBU2026_S2 - IG",3506,3404,20.43,1,0],
+["2026-07-03","SHLTX_ANG_JUN2026 BE",299784,245274,1011.18,2728,0],
+["2026-07-03","SHLTX_GH_JUN26 - FB",153440,46845,2086.35,74,0],
+["2026-07-03","SHLTX_GH_JUN26 - IG2",12452,6103,168.76,9,0],
+["2026-07-03","SHLTX_GH_MAY2026 - META",127090,123633,233.74,237,0],
+["2026-07-03","SHLTX_NG_JUN26 - FB",233506,111373,2138.3,132,0],
+["2026-07-03","SHLTX_NG_JUN26 - IG2",120841,88003,1241.43,84,0],
+["2026-07-03","SHLTX_NG_MAY2026 - META",286207,280352,270,499,1],
+["2026-07-03","SHLTX_ZM_JUN26 - FB",908529,657662,4793.35,8225,1],
+["2026-07-03","SHLTX_ZM_JUN26 - IG",154942,124075,991.89,2282,0],
+["2026-07-04","FLO_ANG_JUN26 - FB",80006,74869,241.25,690,0],
+["2026-07-04","FLO_SA_JUN26 - FB",84852,83679,415.34,334,35],
+["2026-07-04","GER_SA_JUN26 - FB",1199,728,46.72,6,2],
+["2026-07-04","IBU2026_S2 - FB",173840,139671,1036.11,1024,0],
+["2026-07-04","IBU2026_S2 - IG",94488,75323,1314.83,85,0],
+["2026-07-04","SHLTX_GH_JUN26 - FB",138793,29352,1853.59,58,0],
+["2026-07-04","SHLTX_GH_JUN26 - IG2",13166,6381,174.23,10,0],
+["2026-07-04","SHLTX_GH_MAY2026 - META",148300,138778,244.85,315,1],
+["2026-07-04","SHLTX_NG_JUN26 - FB",198344,73333,2021.82,80,0],
+["2026-07-04","SHLTX_NG_JUN26 - IG2",139447,97035,1327.88,97,0],
+["2026-07-04","SHLTX_NG_MAY2026 - META",314703,314703,279.5,821,1],
+["2026-07-04","SHLTX_ZM_JUN26 - FB",781946,569150,4716.77,6402,1],
+["2026-07-04","SHLTX_ZM_JUN26 - IG",125756,96202,1003.89,1788,0],
+["2026-07-05","FLO_ANG_JUN26 - FB",78593,73042,227.04,682,0],
+["2026-07-05","FLO_SA_JUN26 - FB",87533,79475,411.88,313,29],
+["2026-07-05","GER_SA_JUN26 - FB",2203,961,60.97,6,3],
+["2026-07-05","IBU2026_S2 - FB",105355,67714,892.44,467,0],
+["2026-07-05","IBU2026_S2 - IG",90682,81835,1365.79,88,0],
+["2026-07-05","SHLTX_GH_JUN26 - FB",129247,30605,1683.9,61,0],
+["2026-07-05","SHLTX_GH_JUN26 - IG2",9847,5293,122.75,6,0],
+["2026-07-05","SHLTX_GH_MAY2026 - META",135083,135083,230.14,349,1],
+["2026-07-05","SHLTX_NG_JUN26 - FB",203112,86508,2024.22,118,0],
+["2026-07-05","SHLTX_NG_JUN26 - IG2",140052,98761,1324.04,105,0],
+["2026-07-05","SHLTX_NG_MAY2026 - META",305307,287520,266.09,880,0],
+["2026-07-05","SHLTX_ZM_JUN26 - FB",735943,558746,4423.12,6104,0],
+["2026-07-05","SHLTX_ZM_JUN26 - IG",115475,92016,877.95,1520,0],
+["2026-07-06","GER_SA_JUN26 - FB",297,250,5.68,3,1],
+["2026-07-06","IBU2026_S2 - FB",88854,48797,835.05,245,0],
+["2026-07-06","IBU2026_S2 - IG",99941,82935,1342.39,77,0],
+["2026-07-06","SHLTX_NG_JUN26 - FB",126898,119687,633.79,1114,0],
+["2026-07-06","SHLTX_NG_JUN26 - IG2",3254,3178,32.6,1,0],
+["2026-07-07","IBU2026_S2 - FB",84574,43443,843.64,197,0],
+["2026-07-07","IBU2026_S2 - IG",97202,79865,1283.58,68,0],
+["2026-07-07","SHLA_GH_JUN26 - FB",92172,80368,409.41,850,0],
+["2026-07-07","SHLA_GH_JUN26 - IG",6936,4709,138.73,4,0],
+["2026-07-07","SHLA_NG_JUN26 - FB",48210,43924,208.69,603,0],
+["2026-07-07","SHLA_NG_JUN26 - IG",16341,15522,184.78,29,0],
+["2026-07-07","SHLTX_GH_JUN26 - FB",115929,61605,1210.64,443,0],
+["2026-07-07","SHLTX_GH_JUN26 - IG2",15132,13774,148.28,10,0],
+["2026-07-07","SHLTX_NG_JUN26 - FB",192795,173539,1022.71,1329,0],
+["2026-07-07","SHLTX_NG_JUN26 - IG2",30539,28951,366.07,35,0],
+["2026-07-08","FLO_ANG_JUN26 - Vid01 - Re Boost",20749,19177,102.86,124,1],
+["2026-07-08","GER_ANG_JUN26 - Vid01 - META",304078,296225,320.51,1119,658],
+["2026-07-08","GER_SA_JUN26 Vid02 – META - Re boost",9655,6411,342.83,63,29],
+["2026-07-08","GER_SA_JUN26 Vid03 – META - Re boost 2",6479,2723,336.7,18,16],
+["2026-07-08","IBU2026_S2 - FB",73199,34347,813.8,157,0],
+["2026-07-08","IBU2026_S2 - IG",83584,74939,1251.85,50,0],
+["2026-07-08","SHLA_GH_JUN26 - FB",256275,206278,1183.6,3211,0],
+["2026-07-08","SHLA_GH_JUN26 - IG",72491,27030,1445.33,16,0],
+["2026-07-08","SHLA_NG_JUN26 - FB",269649,212275,827.34,4019,2],
+["2026-07-08","SHLA_NG_JUN26 - IG",81337,70193,822.08,73,0],
+["2026-07-08","SHLTX_GH_JUN26 - FB",80846,22611,1026.28,34,1],
+["2026-07-08","SHLTX_GH_JUN26 - IG2",17867,16693,203.89,14,0],
+["2026-07-08","SHLTX_NG_JUN26 - FB",102904,68780,903.68,439,1],
+["2026-07-08","SHLTX_NG_JUN26 - IG2",27211,26173,340.19,24,0],
+["2026-07-09","FLO_ANG_JUN26 - Vid01 - Re Boost",36854,29977,237.27,130,2],
+["2026-07-09","GER_ANG_JUN26 - Vid01 - META",412006,412006,486.09,1650,919],
+["2026-07-09","GER_SA_JUN26 Vid02 – META - Re boost",14670,8700,627.92,79,40],
+["2026-07-09","GER_SA_JUN26 Vid03 – META - Re boost 2",10924,5340,591.17,45,39],
+["2026-07-09","IBU2026_S2 - IG",89255,75849,1309.9,82,1],
+["2026-07-09","SHLA_GH_JUN26 - FB",198662,166738,1071.83,2046,0],
+["2026-07-09","SHLA_GH_JUN26 - IG",56521,15587,851.01,0,0],
+["2026-07-09","SHLA_NG_JUN26 - FB",213943,185425,643.44,3119,0],
+["2026-07-09","SHLA_NG_JUN26 - IG",69488,62465,727.57,74,0],
+["2026-07-09","SHLTX_GH_JUN26 - FB",85808,26690,1158.42,28,0],
+["2026-07-09","SHLTX_GH_JUN26 - IG2",15948,15043,205.08,21,0],
+["2026-07-09","SHLTX_NG_JUN26 - FB",93050,60360,896.96,374,0],
+["2026-07-09","SHLTX_NG_JUN26 - IG2",28069,26807,359.29,28,1],
+["2026-07-10","FLO_ANG_JUN26 - Vid01 - Re Boost",12275,11080,106.93,36,0],
+["2026-07-10","GER_SA_JUN26 Vid02 – META - Re boost",2721,1140,167.26,11,8],
+["2026-07-10","GER_SA_JUN26 Vid03 – META - Re boost 2",3853,1912,216.69,15,11],
+["2026-07-10","IBU2026_S2 - IG",81782,69585,1329.5,67,0],
+["2026-07-10","SHLA_GH_JUN26 - FB",182215,153926,1038.27,1837,1],
+["2026-07-10","SHLA_GH_JUN26 - IG",49820,15156,796.99,1,0],
+["2026-07-10","SHLA_NG_JUN26 - FB",228852,203604,686.07,3204,0],
+["2026-07-10","SHLA_NG_JUN26 - IG",67210,65642,746.86,62,0],
+["2026-07-10","SHLTX_GH_JUN26 - FB",77397,28972,1082.82,57,0],
+["2026-07-10","SHLTX_GH_JUN26 - IG2",15366,14403,220.43,22,0],
+["2026-07-10","SHLTX_NG_JUL26 - FB",8956,8705,58.48,68,0],
+["2026-07-10","SHLTX_NG_JUL26 - IG",2395,2384,16.87,18,0],
+["2026-07-10","SHLTX_NG_JUN26 - IG2",25362,25094,383.48,28,0],
+["2026-07-11","FLO_SA_JUL26 – FB",3523,3447,59.7,32,0],
+["2026-07-11","FLO_SA_JUL26 – IG",1539,1518,28.42,9,0],
+["2026-07-11","GER_ANG_JUL26 - META",2246,1212,107.08,0,0],
+["2026-07-11","GER_SA_JUL26 - FB",7419,7396,82.53,46,0],
+["2026-07-11","GER_SA_JUL26 - IG",3439,3286,53.49,21,4],
+["2026-07-11","SHLA_GH_JUN26 - FB",190012,166216,1141.12,1982,0],
+["2026-07-11","SHLA_GH_JUN26 - IG",46282,14342,825.63,0,0],
+["2026-07-11","SHLA_NG_JUN26 - FB",228482,196028,741.34,3189,1],
+["2026-07-11","SHLA_NG_JUN26 - IG",64273,59889,810.81,73,0],
+["2026-07-11","SHLTX_ANG_JUL2026 BE",119152,97882,438.66,1184,0],
+["2026-07-11","SHLTX_GH_JUL26 - FB",18159,12211,280.94,36,0],
+["2026-07-11","SHLTX_GH_JUL26 - IG",6177,4621,90.22,19,0],
+["2026-07-11","SHLTX_GH_JUN26 - FB",45977,20046,712.52,53,0],
+["2026-07-11","SHLTX_GH_JUN26 - IG2",13218,12868,210.17,12,0],
+["2026-07-11","SHLTX_NG_JUL26 - FB",63597,42578,621.14,301,0],
+["2026-07-11","SHLTX_NG_JUL26 - IG",24250,18146,210.43,108,0],
+["2026-07-11","SHLTX_ZM_JUL26 - FB",41686,36436,300.02,628,0],
+["2026-07-11","SHLTX_ZM_JUL26 - IG",17633,16940,96.47,294,0],
+["2026-07-12","FLO_SA_JUL26 – FB",8377,7604,148.49,80,0],
+["2026-07-12","FLO_SA_JUL26 – IG",4516,4288,70.79,39,0],
+["2026-07-12","GER_ANG_JUL26 - META",11346,8920,294.96,58,0],
+["2026-07-12","GER_SA_JUL26 - FB",22561,22561,194.8,158,0],
+["2026-07-12","GER_SA_JUL26 - IG",12445,12363,114.26,92,31],
+["2026-07-12","SHLA_GH_JUN26 - FB",244960,206128,1503.87,2729,0],
+["2026-07-12","SHLA_GH_JUN26 - IG",55528,16560,1039.56,0,0],
+["2026-07-12","SHLA_NG_JUN26 - FB",304962,257528,932.77,4227,1],
+["2026-07-12","SHLA_NG_JUN26 - IG",81412,77120,970.06,101,0],
+["2026-07-12","SHLTX_ANG_JUL2026 BE",235207,191329,818.42,2344,0],
+["2026-07-12","SHLTX_GH_JUL26 - FB",13741,6803,248.83,8,0],
+["2026-07-12","SHLTX_GH_JUL26 - IG",6937,4107,124.57,6,0],
+["2026-07-12","SHLTX_GH_JUN26 - FB",38876,20628,599.42,94,0],
+["2026-07-12","SHLTX_NG_JUL26 - FB",39258,16656,468.98,19,0],
+["2026-07-12","SHLTX_NG_JUL26 - IG",15470,8490,168.66,11,0],
+["2026-07-12","SHLTX_ZM_JUL26 - FB",73248,47761,674.43,671,0],
+["2026-07-12","SHLTX_ZM_JUL26 - IG",29277,21474,232.07,296,0],
+["2026-07-13","FLO_SA_JUL26 – FB",9634,8677,182.77,65,0],
+["2026-07-13","FLO_SA_JUL26 – IG",4898,4509,86.49,36,0],
+["2026-07-13","GER_ANG_JUL26 - META",12762,10004,320.64,60,0],
+["2026-07-13","GER_SA_JUL26 - FB",19611,19005,160.88,135,0],
+["2026-07-13","GER_SA_JUL26 - IG",10865,10704,99.99,91,26],
+["2026-07-13","SHLA_GH_JUN26 - FB",232996,183787,1500.7,2469,0],
+["2026-07-13","SHLA_GH_JUN26 - IG",13096,5473,224.44,0,0],
+["2026-07-13","SHLA_NG_JUN26 - FB",270189,218632,866.18,3504,0],
+["2026-07-13","SHLA_NG_JUN26 - IG",14013,13167,163.4,9,0],
+["2026-07-13","SHLTX_ANG_JUL2026 BE",198399,165832,749.35,1847,1],
+["2026-07-13","SHLTX_GH_JUL26 - FB",19870,13102,244.16,84,0],
+["2026-07-13","SHLTX_GH_JUL26 - IG",6759,4530,91.57,19,0],
+["2026-07-13","SHLTX_GH_JUN26 - FB",48213,29187,621.31,194,0],
+["2026-07-13","SHLTX_NG_JUL26 - FB",33904,14141,431.61,35,0],
+["2026-07-13","SHLTX_NG_JUL26 - IG",12222,6966,147.02,16,0],
+["2026-07-13","SHLTX_ZM_JUL26 - FB",54133,25324,556.24,199,0],
+["2026-07-13","SHLTX_ZM_JUL26 - IG",18874,10527,191.48,84,0],
+["2026-07-14","FLO_ANG_JUL26 – FB",28289,25144,105.28,197,0],
+["2026-07-14","FLO_SA_JUL26 – FB",5061,4442,103.07,38,0],
+["2026-07-14","FLO_SA_JUL26 – IG",3023,2909,54.79,19,0],
+["2026-07-14","GER_ANG_JUL26 - META",4984,3565,155.67,23,0],
+["2026-07-14","GER_SA_JUL26 - FB",13840,13840,115.87,97,0],
+["2026-07-14","GER_SA_JUL26 - IG",6722,6308,67.7,47,16],
+["2026-07-14","SHLA_GH_JUN26 - FB",142023,114507,1004.85,1283,0],
+["2026-07-14","SHLA_GH_JUN26 - IG",9059,4123,154.91,0,0],
+["2026-07-14","SHLA_NG_JUN26 - FB",175331,152788,594.97,2534,0],
+["2026-07-14","SHLA_NG_JUN26 - IG",9445,9080,114.96,10,0],
+["2026-07-14","SHLTX_ANG_JUL2026 BE",136014,119648,551.42,1350,0],
+["2026-07-14","SHLTX_GH_JUL26 - FB",9560,5101,162.98,6,0],
+["2026-07-14","SHLTX_GH_JUL26 - IG",3732,2119,65.18,5,0],
+["2026-07-14","SHLTX_GH_JUN26 - FB",24554,11162,403.01,34,0],
+["2026-07-14","SHLTX_NG_JUL26 - FB",25693,12311,331.2,60,0],
+["2026-07-14","SHLTX_NG_JUL26 - IG",9589,6510,110.94,26,0],
+["2026-07-14","SHLTX_ZM_JUL26 - FB",28749,8021,349.23,14,0],
+["2026-07-14","SHLTX_ZM_JUL26 - IG",9771,3971,118.98,7,0],
+["2026-07-15","FLO_ANG_JUL26 – FB",45441,41786,185.93,314,0],
+["2026-07-15","FLO_SA_JUL26 – FB",4560,4095,109.4,37,0],
+["2026-07-15","FLO_SA_JUL26 – IG",2217,2179,54.75,17,0],
+["2026-07-15","GER_ANG_JUL26 - META",5927,3844,214.92,20,0],
+["2026-07-15","GER_SA_JUL26 - FB",14168,14104,129.93,101,0],
+["2026-07-15","GER_SA_JUL26 - IG",8735,8318,112.54,73,29],
+["2026-07-15","SHLA_GH_JUN26 - FB",16992,7244,275.57,16,0],
+["2026-07-15","SHLA_GH_JUN26 - IG",9476,4168,162.57,0,0],
+["2026-07-15","SHLA_NG_JUN26 - FB",35023,33596,160.69,419,0],
+["2026-07-15","SHLA_NG_JUN26 - IG",12446,11923,141.15,8,0],
+["2026-07-15","SHLTX_ANG_JUL2026 BE",143746,126521,564.2,1280,0],
+["2026-07-15","SHLTX_GH_JUL26 - FB",8994,3497,162.89,1,0],
+["2026-07-15","SHLTX_GH_JUL26 - IG",4768,2327,77.09,1,0],
+["2026-07-15","SHLTX_NG_JUL26 - FB",26805,11621,395.34,46,0],
+["2026-07-15","SHLTX_NG_JUL26 - IG",9876,5359,143.83,12,0],
+["2026-07-15","SHLTX_ZM_JUL26 - FB",27507,6600,381.75,13,0],
+["2026-07-15","SHLTX_ZM_JUL26 - IG",9411,3436,129.81,7,0],
+["2026-07-16","FLO_ANG_JUL26 – FB",65939,52978,360.38,360,0],
+["2026-07-16","FLO_SA_JUL26 – FB",8079,6993,149.16,54,0],
+["2026-07-16","GER_ANG_JUL26 - META",7707,5433,274.46,27,0],
+["2026-07-16","GER_SA_JUL26 - FB",20094,19470,190.38,145,0],
+["2026-07-16","SHLA_GH_JUN26 - FB",23927,11623,392.6,42,0],
+["2026-07-16","SHLA_GH_JUN26 - IG",12510,5604,231.07,0,0],
+["2026-07-16","SHLA_GH_JUN26 -Radio Contest - IG",115811,90388,232.51,168,0],
+["2026-07-16","SHLA_NG_JUN26 - FB",50834,47106,247.74,534,0],
+["2026-07-16","SHLA_NG_JUN26 - IG",17164,16894,193.07,13,0],
+["2026-07-16","SHLTX_ANG_JUL2026 BE",230387,195920,997.5,1973,1],
+["2026-07-16","SHLTX_GH_JUL26 - FB",36855,27021,406.75,94,0],
+["2026-07-16","SHLTX_GH_JUL26 - IG",2780,1370,49.01,0,0],
+["2026-07-16","SHLTX_NG_JUL26 - FB",145648,122203,933.24,845,0],
+["2026-07-16","SHLTX_NG_JUL26 - IG",19344,8226,327.37,13,0],
+["2026-07-16","SHLTX_ZM_JUL26 - FB",81460,44155,878.36,533,0],
+["2026-07-16","SHLTX_ZM_JUL26 - IG",20714,7555,361.86,5,0],
+["2026-07-17","FLO_ANG_JUL26 – FB",55327,45637,315.29,338,0],
+["2026-07-17","FLO_SA_JUL26 – FB",7564,6638,146.37,55,0],
+["2026-07-17","GER_ANG_JUL26 - META",6142,4632,235.38,32,0],
+["2026-07-17","GER_SA_JUL26 - FB",17690,16829,175.01,133,0],
+["2026-07-17","SHLA_GH_JUN26 - FB",19149,9545,353.15,55,0],
+["2026-07-17","SHLA_GH_JUN26 - IG",9007,4102,183.07,0,0],
+["2026-07-17","SHLA_GH_JUN26 -Radio Contest - IG",127031,99181,289.73,172,1],
+["2026-07-17","SHLA_NG_JUN26 - FB",47711,45227,227.33,525,0],
+["2026-07-17","SHLA_NG_JUN26 - IG",13454,13383,173.03,15,0],
+["2026-07-17","SHLTX_ANG_JUL2026 BE",181072,161565,877.63,1612,1],
+["2026-07-17","SHLTX_GH_JUL26 - FB",37944,29228,390.67,186,0],
+["2026-07-17","SHLTX_GH_JUL26 - IG",2369,697,48.87,0,0],
+["2026-07-17","SHLTX_NG_JUL26 - FB",151900,127186,878.95,1108,0],
+["2026-07-17","SHLTX_NG_JUL26 - IG",17489,7142,267.9,21,0],
+["2026-07-17","SHLTX_ZM_JUL26 - FB",66781,27943,806.51,256,0],
+["2026-07-17","SHLTX_ZM_JUL26 - IG",16068,5507,253.24,3,0],
+["2026-07-18","FLO_ANG_JUL26 – FB",61162,50922,330.77,342,0],
+["2026-07-18","GER_ANG_JUL26 - META",51280,31330,244.5,298,0],
+["2026-07-18","GER_SA_JUL26 - FB",14288,13064,174.36,115,0],
+["2026-07-18","GER_SA_JUL26 - IG",8672,8203,103.04,59,1],
+["2026-07-18","SHLA_GH_JUN26 -Radio Contest - IG",134822,111369,319.43,192,1],
+["2026-07-18","SHLTX_GH_JUL26 - FB",59356,49474,556.04,446,0],
+["2026-07-18","SHLTX_GH_JUL26 - IG",8486,7362,84.1,66,0],
+["2026-07-18","SHLTX_NG_JUL26 - FB",159241,143908,547.72,1264,0],
+["2026-07-18","SHLTX_NG_JUL26 - IG",20621,15769,191.96,109,0],
+["2026-07-18","SHLTX_ZM_JUL26 - FB",36652,21153,344.01,203,0],
+["2026-07-18","SHLTX_ZM_JUL26 - IG",16940,8647,179.64,65,0],
+["2026-07-19","FLO_ANG_JUL26 – FB",56736,46858,297.34,358,0],
+["2026-07-19","GER_ANG_JUL26 - META",41903,17328,241,117,0],
+["2026-07-19","GER_SA_JUL26 - FB",19995,19663,229.44,127,0],
+["2026-07-19","GER_SA_JUL26 - IG",8929,8281,106.97,56,0],
+["2026-07-19","SHLA_GH_JUN26 -Radio Contest - IG",133041,108876,306.79,249,0],
+["2026-07-19","SHLTX_GH_JUL26 - FB",74920,66644,457.59,801,0],
+["2026-07-19","SHLTX_GH_JUL26 - IG",16231,14902,131.59,129,0],
+["2026-07-19","SHLTX_NG_JUL26 - FB",313703,288871,975.39,3127,0],
+["2026-07-19","SHLTX_NG_JUL26 - IG",77550,70745,332.43,634,0],
+["2026-07-19","SHLTX_ZM_JUL26 - FB",169626,138051,953.96,2327,0],
+["2026-07-19","SHLTX_ZM_JUL26 - IG",59402,50835,323.92,749,0],
+["2026-07-20","GER_ANG_JUL26 - META",19238,7122,112.36,45,0],
+["2026-07-20","GER_SA_JUL26 - FB",11576,10902,120.65,89,0],
+["2026-07-20","GER_SA_JUL26 - IG",5205,4801,55.58,31,0],
+["2026-07-20","SHLA_GH_JUN26 -Radio Contest - IG",75796,66127,164.85,90,0],
+["2026-07-20","SHLA_NG_JUN26 - FB",2129,1852,10.53,9,0],
+["2026-07-20","SHLTX_GH_JUL26 - FB",41181,36675,243.97,387,0],
+["2026-07-20","SHLTX_GH_JUL26 - IG",8253,7620,63.61,72,0],
+["2026-07-20","SHLTX_NG_JUL26 - FB",157592,146421,479.06,1409,0],
+["2026-07-20","SHLTX_NG_JUL26 - IG",40073,36133,162.74,297,0],
+["2026-07-20","SHLTX_ZM_JUL26 - FB",71887,56141,414.93,812,0],
+["2026-07-20","SHLTX_ZM_JUL26 - IG",27901,23681,150.49,293,0]
+];
+const TT = [
+["2026-04-22","SHLA NG WMD 2026",246292,233962,957.7,0,0],
+["2026-04-23","SHLA NG WMD 2026",442105,400963,1934.64,5,0],
+["2026-04-24","SHLA NG WMD 2026",510833,479148,2189.14,7,0],
+["2026-04-25","SHLA NG WMD 2026",490005,449666,2159.17,10,0],
+["2026-04-26","SHLA NG WMD 2026",490040,453801,2155.92,7,0],
+["2026-04-27","SHLA NG WMD 2026",563906,508225,2446.75,9,0],
+["2026-04-28","SHLA NG WMD 2026",1101790,870654,5202.16,9,0],
+["2026-04-29","SHLA NG WMD 2026",1356633,1050485,6421.77,10,0],
+["2026-04-30","SHLA NG WMD 2026",643699,544902,3536.85,1,0],
+["2026-05-01","SHLA NG WMD 2026",101284,97112,648.74,0,0],
+["2026-05-18","IBU2026_S1 Reboost",59020,53767,935.7,0,0],
+["2026-05-19","IBU2026_S1 Reboost",82243,78723,1097.81,0,0],
+["2026-05-20","IBU2026_S1 Reboost",88211,85588,1058.41,0,0],
+["2026-05-21","IBU2026_S1 Reboost",107017,102749,1163.7,1,0],
+["2026-05-22","IBU2026_S1 Reboost",99319,95206,389,1,0],
+["2026-05-23","IBU2026_S1 Reboost",90136,85897,373.84,1,0],
+["2026-05-24","IBU2026_S1 Reboost",172026,150864,740.97,0,0],
+["2026-05-24","SHLA NG DR Renner",52574,50690,438.92,0,0],
+["2026-05-25","IBU2026_S1 Reboost",170486,153116,752.93,0,0],
+["2026-05-25","SHLA NG DR Renner",56134,54304,473.84,0,0],
+["2026-05-26","IBU2026_S1 Reboost",153663,139358,749.43,1,0],
+["2026-05-26","SHLA NG DR Renner",65470,64564,475.02,0,0],
+["2026-05-27","IBU2026_S1 Reboost",136693,120809,740.13,0,0],
+["2026-05-27","SHLA NG DR Renner",69259,67936,474.99,0,0],
+["2026-05-28","IBU2026_S1 Reboost",114043,102629,636.51,0,0],
+["2026-05-28","SHLA NG DR Renner",63434,62045,473.86,0,0],
+["2026-05-29","IBU2026_S1 Reboost",112149,102959,508.14,0,0],
+["2026-05-29","SHLA NG DR Renner",66435,64001,457.91,0,0],
+["2026-05-30","IBU2026_S1 Reboost",168281,144027,875.78,1,0],
+["2026-05-30","SHLA NG DR Renner",60460,58506,404.26,0,0],
+["2026-05-31","IBU2026_S1 Reboost",122557,112144,594.72,0,0],
+["2026-06-01","IBU2026_S1 Reboost",128295,119048,596.89,0,0],
+["2026-06-02","IBU2026_S1 Reboost",139961,131355,600.89,1,0],
+["2026-06-03","IBU2026_S1 Reboost",152207,137029,739.13,0,0],
+["2026-06-03","SHLTX_NG_MAY2026 TK",27195,26897,93.25,1,0],
+["2026-06-04","IBU2026_S1 Reboost",168020,147950,853.52,2,0],
+["2026-06-04","SHLTX_NG_MAY2026 TK",44179,43340,155.99,1,0],
+["2026-06-05","IBU2026_S1 Reboost",150767,132750,801.81,0,0],
+["2026-06-05","SHLTX_NG_MAY2026 TK",41407,40623,154.75,0,0],
+["2026-06-06","IBU2026_S1 Reboost",65589,61486,272.89,0,0],
+["2026-06-06","IBU2026_S2",75394,72109,587.61,0,0],
+["2026-06-06","SHLTX_NG_JUN26 - TK",52865,50177,323.74,0,0],
+["2026-06-06","SHLTX_NG_MAY2026 TK",41648,40393,150.92,0,0],
+["2026-06-07","IBU2026_S1 Reboost",62374,58177,265.83,0,0],
+["2026-06-07","IBU2026_S2",92079,85412,688.5,2,0],
+["2026-06-07","SHLTX_NG_JUN26 - TK",76929,70887,464.45,2,0],
+["2026-06-07","SHLTX_NG_MAY2026 TK",40606,39079,146.41,0,0],
+["2026-06-08","IBU2026_S1 Reboost",59760,56570,260.73,0,0],
+["2026-06-08","IBU2026_S2",99611,94929,692.29,0,0],
+["2026-06-08","SHLTX_NG_JUN26 - TK",72392,67550,461.99,0,0],
+["2026-06-08","SHLTX_NG_MAY2026 TK",34190,33445,123.68,0,0],
+["2026-06-09","IBU2026_S1 Reboost",57426,54599,245.46,0,0],
+["2026-06-09","IBU2026_S2",91465,86166,710.55,0,0],
+["2026-06-09","SHLTX_NG_JUN26 - TK",71832,67470,458.91,1,0],
+["2026-06-10","IBU2026_S2",84035,79913,689.98,1,0],
+["2026-06-10","SHLTX_NG_JUN26 - TK",76290,72071,445.66,4,0],
+["2026-06-11","IBU2026_S2",75885,72657,700.75,1,0],
+["2026-06-11","SHLTX_NG_JUN26 - TK",73767,69905,460.32,2,0],
+["2026-06-12","IBU2026_S2",49504,47031,715.56,0,0],
+["2026-06-12","SHLTX_NG_JUN26 - TK",64378,60872,446.45,1,0],
+["2026-06-13","IBU2026_S2",52694,49541,709.08,2,0],
+["2026-06-13","SHLTX_NG_JUN26 - TK",59174,55856,395.82,0,0],
+["2026-06-14","IBU2026_S2",181119,174119,893.51,0,0],
+["2026-06-14","SHLTX_NG_JUN26 - TK",67775,65333,421.03,1,0],
+["2026-06-15","IBU2026_S2",156477,151502,890.04,0,0],
+["2026-06-15","SHLTX_NG_JUN26 - TK",66557,64853,405.6,3,0],
+["2026-06-16","IBU2026_S2",148356,142764,881.93,1,0],
+["2026-06-16","SHLA NG DR Renner Collabs",657049,527199,3104.42,1,0],
+["2026-06-16","SHLTX_NG_JUN26 - TK",302027,284946,2341.47,3,0],
+["2026-06-17","IBU2026_S2",143747,139970,861.19,0,0],
+["2026-06-17","SHLA NG DR Renner Collabs",786550,660838,3930.02,0,0],
+["2026-06-17","SHLTX_NG_JUN26 - TK",112335,105733,668.29,3,0],
+["2026-06-18","FLO_SA_JUN26 - Vid01",17971,17432,95.91,93,0],
+["2026-06-18","FLO_SA_JUN26 - Vid02",17420,16795,113.27,75,0],
+["2026-06-18","GER_SA_JUN26 - TK",21164,19474,123.44,134,0],
+["2026-06-18","IBU2026_S2",146318,141428,889.82,0,0],
+["2026-06-18","SHLA NG DR Renner Collabs",482844,440036,2355.09,0,0],
+["2026-06-18","SHLTX_NG_JUN26 - TK",89738,83731,581.35,2,0],
+["2026-06-19","FLO_SA_JUN26 - Vid01",20029,19503,107.1,114,0],
+["2026-06-19","FLO_SA_JUN26 - Vid02",17595,16910,120.96,94,0],
+["2026-06-19","GER_SA_JUN26 - TK",22358,20426,123.42,169,0],
+["2026-06-19","IBU2026_S2",144431,139230,851.19,1,0],
+["2026-06-19","SHLA NG DR Renner Collabs",127431,125686,519.73,0,0],
+["2026-06-19","SHLTX_NG_JUN26 - TK",89640,82413,565.13,5,0],
+["2026-06-20","FLO_SA_JUN26 - Vid01",11150,10849,60.23,57,0],
+["2026-06-20","FLO_SA_JUN26 - Vid02",9645,9409,67.8,44,0],
+["2026-06-20","GER_SA_JUN26 - TK",12499,11390,72.97,90,0],
+["2026-06-20","SHLTX_NG_JUN26 - TK",52199,48322,311.77,0,0],
+["2026-06-21","FLO_SA_JUN26 - Vid01",148,142,0.71,1,0],
+["2026-06-21","FLO_SA_JUN26 - Vid02",68,66,0.35,1,0],
+["2026-06-21","GER_SA_JUN26 - TK",131,118,0.42,2,0],
+["2026-06-21","SHLTX_NG_JUN26 - TK",2247,2135,7.61,0,0],
+["2026-06-22","FLO_SA_JUN26 - Vid01",72,68,0.35,0,0],
+["2026-06-22","FLO_SA_JUN26 - Vid02",40,36,0.3,1,0],
+["2026-06-22","GER_SA_JUN26 - TK",54,51,0.13,2,0],
+["2026-06-22","SHLTX_NG_JUN26 - TK",524,488,2.23,0,0],
+["2026-06-23","FLO_SA_JUN26 - Vid01",42,40,0.1,0,0],
+["2026-06-23","FLO_SA_JUN26 - Vid02",12,12,0.08,0,0],
+["2026-06-23","GER_SA_JUN26 - TK",31,28,0.15,1,0],
+["2026-06-23","SHLTX_NG_JUN26 - TK",313,301,1.32,0,0],
+["2026-06-24","FLO_SA_JUN26 - Vid01",26,24,0.08,0,0],
+["2026-06-24","FLO_SA_JUN26 - Vid02",10,9,0.08,0,0],
+["2026-06-24","GER_SA_JUN26 - TK",11,11,0.05,0,0],
+["2026-06-25","FLO_SA_JUN26 - Vid01",15,15,0.1,0,0],
+["2026-06-25","GER_SA_JUN26 - TK",8,8,0.01,0,0],
+["2026-07-01","FLO_SA_JUN26 - Vid01 – TK",110194,92791,616.5,639,0],
+["2026-07-01","GER_SA_JUN26 - TK - Re- boost",79456,67643,408.35,491,0],
+["2026-07-01","SHLTX_NG_JUN26 - TK",141393,121136,700.32,5,0],
+["2026-07-02","FLO_SA_JUN26 - Vid01 – TK",158294,141372,771.32,810,0],
+["2026-07-02","FLO_SA_JUN26 - Vid02",45492,45558,296.09,291,0],
+["2026-07-02","GER_SA_JUN26 - TK - Re- boost",277100,215233,1615.01,1837,0],
+["2026-07-02","SHLTX_NG_JUN26 - TK",368020,264488,2136.6,12,0],
+["2026-07-03","FLO_SA_JUN26 - Vid01 – TK",135310,123477,744.69,802,0],
+["2026-07-03","GER_SA_JUN26 - TK - Re- boost",239925,186090,1596.94,1601,0],
+["2026-07-03","SHLTX_NG_JUN26 - TK",382457,272377,2046.67,13,0],
+["2026-07-04","IBU2026_S2",394656,324185,2254.8,0,0],
+["2026-07-04","SHLTX_NG_JUN26 - TK",410302,292567,2036.45,20,0],
+["2026-07-05","IBU2026_S2",424090,353929,2309,0,0],
+["2026-07-05","SHLTX_NG_JUN26 - TK",389399,286003,1971.39,16,0],
+["2026-07-06","IBU2026_S2",408561,348113,2276.92,0,0],
+["2026-07-06","SHLTX_NG_JUN26 - TK",53303,52869,247.66,0,0],
+["2026-07-07","IBU2026_S2",407193,347087,2310.63,1,0],
+["2026-07-07","SHLA_NG_JUN26 - TK",75681,71115,281.28,0,0],
+["2026-07-07","SHLTX_NG_JUN26 - TK",151666,146913,576.29,0,0],
+["2026-07-08","FLO_SA_JUN26 - Vid02 - Re Boost",43104,42294,640.2,0,0],
+["2026-07-08","IBU2026_S2",345269,296220,2288.84,1,0],
+["2026-07-08","SHLA_NG_JUN26 - TK",562725,472648,1728.98,1,0],
+["2026-07-08","SHLTX_NG_JUN26 - TK",138467,136490,572.99,0,0],
+["2026-07-09","FLO_SA_JUN26 - Vid02 - Re Boost",47447,45255,656.13,0,0],
+["2026-07-09","IBU2026_S2",260359,225837,2325.36,1,0],
+["2026-07-09","SHLA_NG_JUN26 - TK",526089,455639,1767.63,1,0],
+["2026-07-09","SHLTX_NG_JUN26 - TK",127925,123856,563.39,0,0],
+["2026-07-10","FLO_SA_JUN26 - Vid02 - Re Boost",5219,5161,103.17,0,0],
+["2026-07-10","IBU2026_S2",208025,182820,2257.45,0,0],
+["2026-07-10","SHLA_NG_JUN26 - TK",576572,506680,1925.13,2,0],
+["2026-07-10","SHLTX_NG_JUL26 - TK",5971,5955,29.36,0,0],
+["2026-07-10","SHLTX_NG_JUN26 - TK",139818,137486,608.78,0,0],
+["2026-07-11","FLO_SA_JUL26 - TK",11543,11327,99.32,65,0],
+["2026-07-11","GER_SA_JUL26 - TK",20140,20002,158.71,140,0],
+["2026-07-11","SHLA_NG_JUN26 - TK",496525,431710,1844.91,3,0],
+["2026-07-11","SHLTX_NG_JUL26 - TK",56139,55197,332.18,0,0],
+["2026-07-11","SHLTX_NG_JUN26 - TK",128180,125662,573.79,0,0],
+["2026-07-12","FLO_SA_JUL26 - TK",32679,32172,230.18,194,0],
+["2026-07-12","GER_SA_JUL26 - TK",44081,43556,223.05,264,0],
+["2026-07-12","SHLA_NG_JUN26 - TK",481467,412506,2008.71,1,0],
+["2026-07-12","SHLTX_NG_JUL26 - TK",54257,53294,291.96,0,0],
+["2026-07-12","SHLTX_NG_JUN26 - TK",119574,117063,538.04,0,0],
+["2026-07-13","FLO_SA_JUL26 - TK",31324,30498,251.22,201,0],
+["2026-07-13","GER_SA_JUL26 - TK",43363,41818,265.61,287,0],
+["2026-07-13","SHLA_NG_JUN26 - TK",101174,97400,355.84,1,0],
+["2026-07-13","SHLTX_NG_JUL26 - TK",59510,58422,324.61,0,0],
+["2026-07-13","SHLTX_NG_JUN26 - TK",69724,69218,272.87,1,0],
+["2026-07-14","FLO_SA_JUL26 - TK",29818,28713,243.82,184,0],
+["2026-07-14","GER_SA_JUL26 - TK",43681,42655,252.13,258,0],
+["2026-07-14","SHLA_NG_JUN26 - TK",106125,102299,361.62,1,0],
+["2026-07-14","SHLTX_NG_JUL26 - TK",60352,58724,318.29,0,0],
+["2026-07-15","SHLA_NG_JUN26 - TK",106225,102639,360.11,0,0],
+["2026-07-15","SHLTX_NG_JUL26 - TK",60222,58506,319.03,0,0],
+["2026-07-16","IBU2026_S2",121932,116637,577.52,0,0],
+["2026-07-16","SHLA_NG_JUN26 - TK",103267,100780,369.75,4,0],
+["2026-07-16","SHLTX_NG_JUL26 - TK",157253,151569,579.48,7,0],
+["2026-07-17","GER_SA_JUL26 - TK",69,69,0.37,0,0],
+["2026-07-17","IBU2026_S2",142341,135844,686.48,0,0],
+["2026-07-17","SHLA_NG_JUN26 - TK",95267,91660,355.94,2,0],
+["2026-07-17","SHLTX_NG_JUL26 - TK",182555,175865,607.29,3,0],
+["2026-07-18","GER_SA_JUL26 - TK",33917,32915,248.85,230,0],
+["2026-07-18","IBU2026_S2",144041,138664,685.33,0,0],
+["2026-07-18","SHLTX_NG_JUL26 - TK",161073,156367,460.06,7,0],
+["2026-07-19","GER_SA_JUL26 - TK",30759,29469,231.72,233,0],
+["2026-07-19","IBU2026_S2",136899,129435,684.22,1,0],
+["2026-07-19","SHLTX_NG_JUL26 - TK",223178,214413,630.33,3,0],
+["2026-07-20","GER_SA_JUL26 - TK",12688,8026,108.5,93,0],
+["2026-07-20","IBU2026_S2",64997,40858,346.2,0,0],
+["2026-07-20","SHLTX_NG_JUL26 - TK",106249,68850,348.32,2,0]
+];
+
+/* YT rows: [date, channel, views, watchMinutes, likes, subsGained] — organic channel data,
+   pulled 2026-07-20 after staff connected 9 brand channels. All-zero rows stripped. */
+const YT = [
+["2026-05-15","IBUCAP",10890,1970,32,0],
+["2026-05-16","IBUCAP",43589,4413,346,0],
+["2026-05-17","IBUCAP",21535,2754,219,0],
+["2026-05-18","IBUCAP",24678,3037,184,2],
+["2026-05-19","IBUCAP",29434,4446,168,0],
+["2026-05-20","IBUCAP",46736,5710,305,1],
+["2026-05-20","Shal'Artem Nigeria",0,0,0,1],
+["2026-05-21","IBUCAP",15529,2177,217,0],
+["2026-05-21","Shal'Artem Nigeria",12,0,0,0],
+["2026-05-21","Shaltoux Zambia",18,7,0,1],
+["2026-05-22","IBUCAP",16160,2008,183,0],
+["2026-05-22","Shal'Artem Nigeria",16,1,0,0],
+["2026-05-22","Shaltoux Zambia",8,3,0,0],
+["2026-05-23","IBUCAP",15951,1969,146,0],
+["2026-05-23","Shal'Artem Nigeria",28,1,0,0],
+["2026-05-23","Shaltoux Zambia",1,0,0,0],
+["2026-05-24","IBUCAP",14516,2163,118,0],
+["2026-05-24","Shal'Artem Nigeria",5,0,0,0],
+["2026-05-25","IBUCAP",14469,2629,113,0],
+["2026-05-25","Shal'Artem Nigeria",1,0,0,0],
+["2026-05-25","Shaltoux Zambia",1,4,0,0],
+["2026-05-26","IBUCAP",18197,2576,117,0],
+["2026-05-26","Shaltoux Zambia",1,0,0,0],
+["2026-05-27","IBUCAP",40465,3705,384,1],
+["2026-05-27","Shal'Artem Nigeria",1,0,0,0],
+["2026-05-27","Shaltoux Zambia",43,18,1,0],
+["2026-05-28","IBUCAP",29697,3740,324,1],
+["2026-05-28","Shaltoux Zambia",2555,415,0,0],
+["2026-05-29","Germol Angola",2,0,0,0],
+["2026-05-29","Germol South Africa",2,0,0,0],
+["2026-05-29","IBUCAP",26251,3646,395,0],
+["2026-05-29","Shal'Artem Nigeria",1,0,0,0],
+["2026-05-29","Shaltoux Zambia",4159,543,0,2],
+["2026-05-30","IBUCAP",34800,4344,282,2],
+["2026-05-30","Shaltoux Zambia",4177,553,0,1],
+["2026-05-31","Germol South Africa",1,0,0,0],
+["2026-05-31","IBUCAP",36707,4618,339,1],
+["2026-05-31","Shal'Artem Nigeria",9,4,0,0],
+["2026-05-31","Shaltoux Zambia",4307,537,0,0],
+["2026-06-01","IBUCAP",37821,6039,350,2],
+["2026-06-01","Shaltoux Zambia",4566,593,2,0],
+["2026-06-02","IBUCAP",39172,4959,343,1],
+["2026-06-02","Shaltoux Zambia",4261,573,1,0],
+["2026-06-03","IBUCAP",26678,3242,214,0],
+["2026-06-03","Shaltoux Zambia",4340,599,0,0],
+["2026-06-04","IBUCAP",31307,4568,261,0],
+["2026-06-04","Shaltoux Zambia",4206,579,0,0],
+["2026-06-05","Flodent Angola",3,0,0,0],
+["2026-06-05","Flodent South Africa",484,102,1,0],
+["2026-06-05","Germol South Africa",157,17,1,0],
+["2026-06-05","IBUCAP",32616,5172,273,2],
+["2026-06-05","Shal'Artem Nigeria",1,0,0,0],
+["2026-06-05","Shaltoux Zambia",7,1,0,0],
+["2026-06-06","Flodent Angola",1,0,0,0],
+["2026-06-06","Flodent South Africa",4614,1012,6,1],
+["2026-06-06","Germol South Africa",5432,784,9,1],
+["2026-06-06","IBUCAP",64274,7924,468,1],
+["2026-06-06","Shaltoux Zambia",6631,669,0,0],
+["2026-06-07","Flodent Angola",2,0,0,0],
+["2026-06-07","Flodent South Africa",8334,1150,22,1],
+["2026-06-07","Germol South Africa",7761,751,24,0],
+["2026-06-07","IBUCAP",65117,9100,565,1],
+["2026-06-07","Shaltoux Zambia",7551,749,2,3],
+["2026-06-08","Flodent South Africa",7091,926,17,0],
+["2026-06-08","Germol South Africa",11039,1252,29,0],
+["2026-06-08","IBUCAP",43050,7583,410,0],
+["2026-06-08","Shaltoux Zambia",7529,779,0,0],
+["2026-06-09","Flodent South Africa",7831,1417,21,0],
+["2026-06-09","Germol South Africa",12734,2218,43,1],
+["2026-06-09","IBUCAP",42940,7012,372,2],
+["2026-06-09","Shaltoux Zambia",7944,845,0,1],
+["2026-06-10","Flodent South Africa",9640,1391,19,0],
+["2026-06-10","Germol South Africa",13891,1851,57,0],
+["2026-06-10","IBUCAP",41267,7442,294,3],
+["2026-06-10","Shaltoux Zambia",7530,789,0,0],
+["2026-06-11","Flodent South Africa",10734,1985,14,0],
+["2026-06-11","Germol South Africa",2,0,0,0],
+["2026-06-11","IBUCAP",30945,4517,202,3],
+["2026-06-11","Shaltoux Zambia",6245,630,0,2],
+["2026-06-12","Flodent Angola",1,0,0,0],
+["2026-06-12","Flodent South Africa",3,0,0,0],
+["2026-06-12","Germol South Africa",2,0,0,0],
+["2026-06-12","IBUCAP",28191,3838,157,1],
+["2026-06-12","Shal'Artem Nigeria",173,12,0,0],
+["2026-06-12","Shaltoux Zambia",6656,737,2,2],
+["2026-06-13","Flodent South Africa",3,0,0,0],
+["2026-06-13","IBUCAP",41576,6424,126,1],
+["2026-06-13","Shal'Artem Nigeria",2,0,0,0],
+["2026-06-13","Shaltoux Zambia",9,3,0,0],
+["2026-06-14","Flodent South Africa",0,0,-1,0],
+["2026-06-14","Germol South Africa",2,0,0,0],
+["2026-06-14","IBUCAP",29631,3265,233,2],
+["2026-06-14","Shaltoux Zambia",15,2,0,0],
+["2026-06-15","Flodent Angola",1,0,0,0],
+["2026-06-15","Flodent South Africa",2,0,0,0],
+["2026-06-15","Germol South Africa",1,0,0,0],
+["2026-06-15","IBUCAP",43070,5732,365,3],
+["2026-06-15","Shal'Artem Nigeria",1,0,0,0],
+["2026-06-15","Shaltoux Zambia",21,6,0,0],
+["2026-06-16","IBUCAP",41095,5297,267,3],
+["2026-06-16","Shaltoux Zambia",22,1,0,0],
+["2026-06-17","Flodent Angola",2,0,1,0],
+["2026-06-17","Flodent South Africa",724,95,3,0],
+["2026-06-17","Germol South Africa",463,60,0,0],
+["2026-06-17","IBUCAP",41098,5301,201,2],
+["2026-06-17","Shaltoux Zambia",28,2,0,0],
+["2026-06-18","Flodent South Africa",5356,584,11,1],
+["2026-06-18","Germol South Africa",2948,357,6,0],
+["2026-06-18","IBUCAP",42543,5070,181,1],
+["2026-06-18","Shaltoux Zambia",1,0,0,0],
+["2026-06-19","Flodent Angola",1,0,0,0],
+["2026-06-19","Flodent South Africa",7341,776,23,1],
+["2026-06-19","Germol South Africa",6145,633,15,0],
+["2026-06-19","IBUCAP",37286,4436,154,2],
+["2026-06-19","Shal'Artem Nigeria",19,41,0,0],
+["2026-06-19","Shaltoux Zambia",2,7,0,0],
+["2026-06-20","Flodent South Africa",6458,831,34,0],
+["2026-06-20","Germol South Africa",6683,831,11,0],
+["2026-06-20","IBUCAP",27,9,-4,0],
+["2026-06-20","Shal'Artem Nigeria",11,2,1,0],
+["2026-06-20","Shaltoux Zambia",2,4,0,0],
+["2026-06-21","Flodent South Africa",6912,2434,33,0],
+["2026-06-21","Germol South Africa",8447,1138,36,0],
+["2026-06-21","IBUCAP",5,0,0,0],
+["2026-06-21","Shal'Artem Nigeria",3,0,0,0],
+["2026-06-21","Shaltoux Zambia",2,4,0,0],
+["2026-06-22","Flodent Angola",8,1,0,1],
+["2026-06-22","Flodent South Africa",6444,673,35,0],
+["2026-06-22","Germol South Africa",9074,1161,17,1],
+["2026-06-22","IBUCAP",6,0,0,0],
+["2026-06-22","Shal'Artem Nigeria",4,0,1,0],
+["2026-06-22","Shaltoux Zambia",1,0,0,0],
+["2026-06-23","Flodent Angola",1,0,0,0],
+["2026-06-23","Flodent South Africa",6950,604,22,0],
+["2026-06-23","Germol South Africa",7769,979,21,0],
+["2026-06-23","IBUCAP",4,0,-1,0],
+["2026-06-23","Shaltoux Zambia",3,0,0,0],
+["2026-06-24","Flodent Angola",2,0,0,0],
+["2026-06-24","Flodent South Africa",7852,903,29,0],
+["2026-06-24","Germol South Africa",7835,922,21,0],
+["2026-06-24","IBUCAP",1,0,0,0],
+["2026-06-24","Shaltoux Zambia",2,0,0,0],
+["2026-06-25","Flodent South Africa",7353,1003,18,0],
+["2026-06-25","Germol South Africa",8816,982,24,0],
+["2026-06-25","IBUCAP",2,1,0,0],
+["2026-06-26","Flodent South Africa",3,0,0,0],
+["2026-06-26","Germol South Africa",1,0,0,0],
+["2026-06-26","IBUCAP",2,0,0,0],
+["2026-06-27","Flodent South Africa",1,0,0,0],
+["2026-06-27","Germol South Africa",284,43,0,0],
+["2026-06-27","Shaltoux Zambia",2,0,0,0],
+["2026-06-28","Flodent South Africa",56,13,0,0],
+["2026-06-28","Germol South Africa",2763,373,4,0],
+["2026-06-28","IBUCAP",7,4,0,0],
+["2026-06-28","Shal'Artem Nigeria",1,0,0,0],
+["2026-06-29","Flodent South Africa",1858,391,5,1],
+["2026-06-29","Germol South Africa",8095,1273,14,0],
+["2026-06-29","IBUCAP",4,1,1,0],
+["2026-06-29","Shal'Artem Nigeria",1,0,0,0],
+["2026-06-29","Shaltoux Zambia",2,0,0,0],
+["2026-06-30","Flodent South Africa",4310,875,21,0],
+["2026-06-30","Germol South Africa",2906,446,5,0],
+["2026-06-30","IBUCAP",3,0,0,0],
+["2026-06-30","Shaltoux Zambia",1,0,0,0],
+["2026-07-01","Flodent South Africa",9039,1982,28,0],
+["2026-07-01","Germol South Africa",9720,1167,29,0],
+["2026-07-01","IBUCAP",2,0,-2,0],
+["2026-07-01","Shaltoux Zambia",2,0,0,0],
+["2026-07-02","Aco Limpeza",4,0,0,0],
+["2026-07-02","Flodent South Africa",16535,3422,45,0],
+["2026-07-02","Germol South Africa",11626,1439,35,0],
+["2026-07-02","IBUCAP",17,7,0,0],
+["2026-07-02","Shaltoux Zambia",86550,8759,13,6],
+["2026-07-03","Flodent South Africa",8905,934,22,0],
+["2026-07-03","Germol Angola",1,0,0,0],
+["2026-07-03","Germol South Africa",1,0,-12,0],
+["2026-07-03","IBUCAP",14011,5068,10,0],
+["2026-07-03","Shal'Artem Nigeria",2,0,0,0],
+["2026-07-03","Shaltoux Zambia",170605,18370,22,8],
+["2026-07-04","Flodent Angola",853,134,0,0],
+["2026-07-04","Flodent South Africa",10458,1422,32,0],
+["2026-07-04","Germol Angola",3,0,0,0],
+["2026-07-04","Germol South Africa",1,0,-1,0],
+["2026-07-04","IBUCAP",94726,13904,477,2],
+["2026-07-04","Shal'Artem Nigeria",2,0,0,0],
+["2026-07-04","Shaltoux Zambia",199814,20726,23,5],
+["2026-07-05","Flodent Angola",11393,2236,2,1],
+["2026-07-05","Flodent South Africa",11094,1789,37,0],
+["2026-07-05","IBUCAP",92353,16712,741,0],
+["2026-07-05","Shaltoux Zambia",212268,22400,21,11],
+["2026-07-06","Flodent Angola",16587,3629,1,2],
+["2026-07-06","Flodent South Africa",5,0,-1,0],
+["2026-07-06","Germol South Africa",1,0,0,0],
+["2026-07-06","IBUCAP",98623,18712,556,1],
+["2026-07-06","Shal'Artem Nigeria",2,0,0,0],
+["2026-07-06","Shaltoux Zambia",158,66,0,0],
+["2026-07-07","Aco Limpeza",2,0,0,0],
+["2026-07-07","Flodent Angola",1,0,0,0],
+["2026-07-07","Flodent South Africa",1,0,0,0],
+["2026-07-07","Germol South Africa",0,0,-1,0],
+["2026-07-07","IBUCAP",96754,18398,526,1],
+["2026-07-07","Shal'Artem Nigeria",2460,727,3,0],
+["2026-07-07","Shaltoux Zambia",34,13,0,0],
+["2026-07-08","Flodent South Africa",6,0,0,0],
+["2026-07-08","Germol South Africa",2,0,0,0],
+["2026-07-08","IBUCAP",94525,17350,385,0],
+["2026-07-08","Shal'Artem Nigeria",10483,2125,53,0],
+["2026-07-08","Shaltoux Zambia",35,15,-2,0],
+["2026-07-09","Aco Limpeza",1,0,0,0],
+["2026-07-09","Flodent Angola",4350,370,0,0],
+["2026-07-09","Flodent South Africa",2,0,0,0],
+["2026-07-09","Germol Angola",4130,807,0,3],
+["2026-07-09","Germol South Africa",2,0,2,1],
+["2026-07-09","IBUCAP",98805,17122,393,1],
+["2026-07-09","Shal'Artem Nigeria",23947,4358,251,0],
+["2026-07-09","Shaltoux Zambia",17,5,0,0],
+["2026-07-10","Flodent Angola",16243,1884,4,0],
+["2026-07-10","Flodent South Africa",3,1,0,0],
+["2026-07-10","Germol Angola",10484,2492,1,0],
+["2026-07-10","Germol South Africa",22,1,0,0],
+["2026-07-10","IBUCAP",92518,16570,387,2],
+["2026-07-10","Shal'Artem Nigeria",26525,5181,284,0],
+["2026-07-10","Shaltoux Zambia",16,5,0,0],
+["2026-07-11","Flodent Angola",19321,2395,2,0],
+["2026-07-11","Flodent South Africa",1113,154,4,0],
+["2026-07-11","Germol Angola",12699,3161,1,0],
+["2026-07-11","Germol South Africa",510,89,0,0],
+["2026-07-11","IBUCAP",68,17,-7,0],
+["2026-07-11","Shal'Artem Nigeria",26977,5513,220,0],
+["2026-07-11","Shaltoux Zambia",11607,1083,0,0],
+["2026-07-12","Flodent Angola",19859,2565,3,1],
+["2026-07-12","Flodent South Africa",7669,1255,17,0],
+["2026-07-12","Germol Angola",14138,3338,0,0],
+["2026-07-12","Germol South Africa",3224,533,10,0],
+["2026-07-12","IBUCAP",16,4,1,0],
+["2026-07-12","Shal'Artem Nigeria",8,3,-3,0],
+["2026-07-12","Shaltoux Zambia",28406,2583,0,0],
+["2026-07-13","Flodent Angola",4,0,0,0],
+["2026-07-13","Flodent South Africa",7854,1332,32,0],
+["2026-07-13","Germol Angola",4466,578,0,0],
+["2026-07-13","Germol South Africa",3289,490,11,0],
+["2026-07-13","IBUCAP",10,5,0,0],
+["2026-07-13","Shal'Artem Nigeria",4,0,1,0],
+["2026-07-13","Shaltoux Zambia",35589,2858,1,1],
+["2026-07-14","Flodent Angola",4585,436,0,0],
+["2026-07-14","Flodent South Africa",11481,2107,34,0],
+["2026-07-14","Germol Angola",3716,475,3,0],
+["2026-07-14","Germol South Africa",6009,831,23,0],
+["2026-07-14","IBUCAP",12,2,1,0],
+["2026-07-14","Shal'Artem Nigeria",5,0,0,0],
+["2026-07-14","Shaltoux Zambia",33568,2689,0,0],
+["2026-07-15","Flodent Angola",16558,2225,3,0],
+["2026-07-15","Flodent South Africa",9695,1814,38,0],
+["2026-07-15","Germol Angola",2214,267,0,0],
+["2026-07-15","Germol South Africa",9437,1485,18,0],
+["2026-07-15","IBUCAP",14,3,-1,0],
+["2026-07-15","Shal'Artem Nigeria",8,0,0,0],
+["2026-07-15","Shaltoux Zambia",22711,1946,0,1],
+["2026-07-16","Flodent Angola",18710,2453,1,0],
+["2026-07-16","Flodent South Africa",2,0,0,0],
+["2026-07-16","Germol Angola",2,0,0,0],
+["2026-07-16","Germol South Africa",9868,2855,16,0],
+["2026-07-16","IBUCAP",7,0,0,0],
+["2026-07-16","Shal'Artem Nigeria",1,0,0,0],
+["2026-07-16","Shaltoux Zambia",23411,1837,0,1],
+["2026-07-17","Aco Limpeza",1,0,0,0],
+["2026-07-17","Flodent Angola",8199,1051,1,0],
+["2026-07-17","Germol Angola",323,39,1,0],
+["2026-07-17","Germol South Africa",2046,498,12,2],
+["2026-07-17","IBUCAP",11,4,0,0],
+["2026-07-17","Shal'Artem Nigeria",1,0,0,0],
+["2026-07-17","Shaltoux Zambia",12415,931,0,1]
+];
+
+const END = new Date("2026-07-20");
+const fmt = n => n>=1e6 ? (n/1e6).toFixed(2)+"M" : n>=1e3 ? (n/1e3).toFixed(1)+"k" : (Math.round(n*100)/100).toLocaleString();
+const isIG   = n => /(\bIG2?\b|– IG|- IG)/i.test(n);
+const isFB   = n => /\bFB\b/i.test(n) || /META|\bBE\b/i.test(n) || (!isIG(n));
+const tokens = s => s.trim().toUpperCase().split(/\s+/).filter(Boolean);
+const inBrand = (name, brand) => {
+  if(brand==="ALL") return true;
+  if(brand==="Corporate ·other")
+    return !Object.entries(BRANDS).some(([b,ts])=>b!==brand && ts.some(t=>name.toUpperCase().includes(t)));
+  return BRANDS[brand].some(t => name.toUpperCase().includes(t));
+};
+const sieveOK = (name, toks) => toks.every(t => name.toUpperCase().includes(t));
+
+let brand = "ALL";
+
+/* market detection: exact token match on the campaign/channel name */
+const MK_WORDS={NIGERIA:"NG",GHANA:"GH",GHA:"GH",ZAMBIA:"ZM",ANGOLA:"ANG",CONGO:"DRC",KENYA:"KE"};
+function mkMatch(name,mk){
+  if(mk==="ALL") return true;
+  const toks=name.toUpperCase().split(/[^A-Z]+/).filter(Boolean);
+  if(toks.includes(mk)) return true;
+  if(mk==="SA" && toks.includes("SOUTH") && toks.includes("AFRICA")) return true;
+  return toks.some(t=>MK_WORDS[t]===mk);
+}
+
+function initMenu(){
+  const sel=document.getElementById('brandSel'); sel.innerHTML='';
+  const all=document.createElement('option'); all.value="ALL"; all.textContent="All brands"; sel.appendChild(all);
+  Object.keys(BRANDS).forEach(b=>{
+    const has = META.concat(TT).concat(YT).some(r=>inBrand(r[1],b));
+    const o=document.createElement('option'); o.value=b;
+    o.textContent=b+(has?"":"  — no activity yet");
+    sel.appendChild(o);
+  });
+  sel.value=brand;
+  sel.onchange=()=>{brand=sel.value;render();};
+  document.getElementById('marketSel').onchange=render;
+}
+function resetMenu(){
+  brand="ALL"; document.getElementById('brandSel').value="ALL";
+  document.getElementById('marketSel').value="ALL";
+  document.getElementById('period').value="30";
+  document.getElementById('sieve').value=""; render();
+}
+
+function filterRows(src,ignorePeriod){
+  const days=+document.getElementById('period').value;
+  const start=new Date(END); start.setDate(start.getDate()-(ignorePeriod?9999:days)+1);
+  const toks=tokens(document.getElementById('sieve').value);
+  const mk=document.getElementById('marketSel').value;
+  return src.filter(r=>{
+    const d=new Date(r[0]);
+    return d>=start && d<=END && inBrand(r[1],brand) && mkMatch(r[1],mk) && (toks.length===0||sieveOK(r[1],toks)) && r[2]>0;
+  });
+}
+
+function agg(rows){
+  const a={imp:0,reach:0,cost:0,clicks:0,byDay:{},byCamp:{}};
+  rows.forEach(r=>{
+    a.imp+=r[2]; a.reach+=r[3]; a.cost+=r[4]; a.clicks+=r[5];
+    a.byDay[r[0]]=(a.byDay[r[0]]||0)+r[2];
+    const c=a.byCamp[r[1]]=a.byCamp[r[1]]||{imp:0,cost:0,clicks:0};
+    c.imp+=r[2]; c.cost+=r[4]; c.clicks+=r[5];
+  });
+  return a;
+}
+
+function spark(cv,byDay){
+  const ctx=cv.getContext('2d'); const W=cv.width=cv.clientWidth*2; const H=cv.height=148;
+  ctx.clearRect(0,0,W,H);
+  const days=+document.getElementById('period').value;
+  const xs=[]; for(let i=days-1;i>=0;i--){const d=new Date(END);d.setDate(d.getDate()-i);xs.push(d.toISOString().slice(0,10));}
+  const vals=xs.map(k=>byDay[k]||0); const mx=Math.max(...vals,1);
+  ctx.beginPath();
+  vals.forEach((v,i)=>{const x=i/(vals.length-1)*(W-16)+8, y=H-10-(v/mx)*(H-26);
+    i?ctx.lineTo(x,y):ctx.moveTo(x,y);});
+  ctx.strokeStyle='#B08D57'; ctx.lineWidth=2.5; ctx.stroke();
+  ctx.lineTo(W-8,H-8); ctx.lineTo(8,H-8); ctx.closePath();
+  ctx.fillStyle='rgba(176,141,87,0.13)'; ctx.fill();
+}
+
+function panelHTML(id,title,ledClass,note){
+  return `<section class="panel raised" id="p_${id}">
+    <span class="screw" style="top:7px;left:7px"></span><span class="screw" style="top:7px;right:7px"></span>
+    <span class="screw" style="bottom:7px;left:7px"></span><span class="screw" style="bottom:7px;right:7px"></span>
+    <h2><i class="led ${ledClass}"></i>${title}<span class="feedNote">${note}</span></h2>
+    <div class="body"></div></section>`;
+}
+
+/* Benchmark strip: selected period vs the same brand+platform's full-window average.
+   Self-referential by design — no external industry figures unless Shane rules a source. */
+function bmStrip(a,base){
+  if(!a.imp||!base.imp) return '';
+  const m=(c,i)=>i?c/i*1000:0, cl=(c,k)=>k?c/k:0, ct=(k,i)=>i?k/i*100:0;
+  const rows=[["CPM",m(a.cost,a.imp),m(base.cost,base.imp),true],
+              ["CPC",cl(a.cost,a.clicks),cl(base.cost,base.clicks),true],
+              ["CTR",ct(a.clicks,a.imp),ct(base.clicks,base.imp),false]];
+  const cells=rows.map(([k,now,ref,lowGood])=>{
+    if(!ref) return `<span>${k} —</span>`;
+    const d=(now-ref)/ref*100;
+    const good=lowGood? d<=0 : d>=0;
+    const col=Math.abs(d)<5? 'var(--engrave)' : good? 'var(--led)':'var(--fault)';
+    return `<span>${k} ${now.toFixed(2)}${k==='CTR'?'%':''} <b style="color:${col}">${d>=0?'+':''}${d.toFixed(0)}%</b> vs 90d</span>`;
+  }).join(' · ');
+  return `<div style="font-family:var(--mono);font-size:10.5px;color:#B9BEC4;letter-spacing:0.06em;margin:-6px 0 12px 2px">BENCH · ${cells}</div>`;
+}
+
+function fillLive(sec,rows,baseRows){
+  const a=agg(rows);
+  const base=agg(baseRows||rows);
+  const ctr=a.imp?((a.clicks/a.imp)*100).toFixed(2)+"%":"—";
+  let top=Object.entries(a.byCamp).sort((x,y)=>y[1].imp-x[1].imp).slice(0,8);
+  sec.querySelector('.body').innerHTML = rows.length===0
+   ? `<div class="darkNote sunk">no campaigns matched this brand + sieve + period<br>the panel stays honest — nothing ran, nothing shown</div>`
+   : `<div class="tiles">
+      <div class="tile sunk"><div class="v">${fmt(a.imp)}</div><div class="k engraved">Impressions</div></div>
+      <div class="tile sunk"><div class="v">${fmt(a.reach)}</div><div class="k engraved">Reach</div></div>
+      <div class="tile sunk"><div class="v">${fmt(a.cost)}</div><div class="k engraved">Spend</div></div>
+      <div class="tile sunk"><div class="v">${fmt(a.clicks)}</div><div class="k engraved">Clicks</div></div>
+      <div class="tile sunk"><div class="v">${ctr}</div><div class="k engraved">CTR</div></div></div>
+     ${bmStrip(a,base)}
+     <canvas class="spark sunk"></canvas>
+     <div class="tape"><table><tr><th>campaign</th><th>impr</th><th>spend</th><th>clicks</th></tr>${
+       top.map(([n,c])=>`<tr><td>${n}</td><td>${fmt(c.imp)}</td><td>${fmt(c.cost)}</td><td>${fmt(c.clicks)}</td></tr>`).join('')
+     }</table></div>`;
+  if(rows.length) spark(sec.querySelector('canvas'),a.byDay);
+}
+
+function fillDark(sec,msg){ sec.querySelector('.body').innerHTML=`<div class="darkNote sunk">${msg}</div>`; }
+
+function filterYT(){
+  const days=+document.getElementById('period').value;
+  const start=new Date(END); start.setDate(start.getDate()-days+1);
+  const toks=tokens(document.getElementById('sieve').value);
+  const mk=document.getElementById('marketSel').value;
+  return YT.filter(r=>{
+    const d=new Date(r[0]);
+    return d>=start && d<=END && inBrand(r[1],brand) && mkMatch(r[1],mk) && (toks.length===0||sieveOK(r[1],toks));
+  });
+}
+
+function fillYT(sec,rows){
+  const a={views:0,mins:0,likes:0,subs:0,byDay:{},byCh:{}};
+  rows.forEach(r=>{
+    a.views+=r[2]; a.mins+=r[3]; a.likes+=r[4]; a.subs+=r[5];
+    a.byDay[r[0]]=(a.byDay[r[0]]||0)+r[2];
+    const c=a.byCh[r[1]]=a.byCh[r[1]]||{views:0,mins:0,subs:0};
+    c.views+=r[2]; c.mins+=r[3]; c.subs+=r[5];
+  });
+  const avgMin=a.views?(a.mins/a.views*60).toFixed(0)+"s":"—";
+  const top=Object.entries(a.byCh).sort((x,y)=>y[1].views-x[1].views).slice(0,8);
+  sec.querySelector('.body').innerHTML = rows.length===0
+   ? `<div class="darkNote sunk">no channel activity matched this brand + sieve + period</div>`
+   : `<div class="tiles">
+      <div class="tile sunk"><div class="v">${fmt(a.views)}</div><div class="k engraved">Views</div></div>
+      <div class="tile sunk"><div class="v">${fmt(a.mins)}</div><div class="k engraved">Watch min</div></div>
+      <div class="tile sunk"><div class="v">${fmt(a.likes)}</div><div class="k engraved">Likes</div></div>
+      <div class="tile sunk"><div class="v">${a.subs>0?"+":""}${fmt(a.subs)}</div><div class="k engraved">Subs</div></div>
+      <div class="tile sunk"><div class="v">${avgMin}</div><div class="k engraved">Avg view</div></div></div>
+     <canvas class="spark sunk"></canvas>
+     <div class="tape"><table><tr><th>channel</th><th>views</th><th>watch min</th><th>subs</th></tr>${
+       top.map(([n,c])=>`<tr><td>${n}</td><td>${fmt(c.views)}</td><td>${fmt(c.mins)}</td><td>${c.subs>0?"+":""}${c.subs}</td></tr>`).join('')
+     }</table></div>`;
+  if(rows.length) spark(sec.querySelector('canvas'),a.byDay);
+}
+
+function render(){
+  const P=document.getElementById('panels');
+  P.innerHTML =
+    panelHTML('fb','Facebook','on','META ADS · paid') +
+    panelHTML('ig','Instagram','on','META ADS · IG-suffix campaigns · paid') +
+    panelHTML('yt','YouTube','on','ORGANIC · 9 brand channels · pulled 07-20') +
+    panelHTML('tt','TikTok','on','TIKTOK ADS · paid');
+  const meta=filterRows(META), metaAll=filterRows(META,true), ttAll=filterRows(TT,true);
+  fillLive(document.getElementById('p_fb'), meta.filter(r=>!isIG(r[1])), metaAll.filter(r=>!isIG(r[1])));
+  fillLive(document.getElementById('p_ig'), meta.filter(r=>isIG(r[1])),  metaAll.filter(r=>isIG(r[1])));
+  fillLive(document.getElementById('p_tt'), filterRows(TT), ttAll);
+  fillYT(document.getElementById('p_yt'), filterYT());
+}
+
+document.getElementById('period').onchange=render;
+document.getElementById('sieve').oninput=()=>render();
+initMenu(); render();
+</script>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

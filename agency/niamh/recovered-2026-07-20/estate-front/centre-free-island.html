@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Centre Free</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#020810;overflow:hidden;width:100vw;height:100vh;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+#c{display:block;cursor:grab}
+#c.pan{cursor:grabbing}
+
+/* ── Bottom UI ── */
+#ui{
+  position:fixed;bottom:38px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:10px;z-index:10
+}
+.btn{
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.88);padding:9px 22px;border-radius:22px;
+  font-size:12px;letter-spacing:.5px;cursor:pointer;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  transition:background .15s,border-color .15s;user-select:none
+}
+.btn:hover{background:rgba(255,255,255,.18)}
+.btn.on{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.42)}
+.sz{width:40px;padding:9px 0;text-align:center}
+#zr{color:rgba(255,255,255,.3);font-size:11px;min-width:44px;text-align:center;letter-spacing:.5px;user-select:none}
+
+/* ── Labels ── */
+#wm{
+  position:fixed;top:28px;left:50%;transform:translateX(-50%);
+  color:rgba(255,255,255,.28);font-size:10px;letter-spacing:6px;text-transform:uppercase;
+  pointer-events:none
+}
+#ml{
+  position:fixed;top:50px;left:50%;transform:translateX(-50%);
+  color:rgba(255,255,255,.15);font-size:9px;letter-spacing:3.5px;text-transform:uppercase;
+  pointer-events:none;transition:opacity .4s
+}
+#prog{
+  position:fixed;bottom:82px;left:50%;transform:translateX(-50%);
+  color:rgba(255,255,255,.2);font-size:10px;letter-spacing:2px;
+  transition:opacity .8s;pointer-events:none
+}
+#hint{
+  position:fixed;bottom:82px;right:40px;
+  color:rgba(255,255,255,.12);font-size:10px;letter-spacing:1px;line-height:1.9;
+  text-align:right;pointer-events:none
+}
+
+/* ── World Builder Panel ── */
+#wb{
+  position:fixed;top:50%;right:0;transform:translateY(-50%);
+  z-index:20;display:flex;align-items:stretch;
+  transition:transform .35s cubic-bezier(.4,0,.2,1)
+}
+#wb.collapsed{transform:translateY(-50%) translateX(calc(100% - 42px))}
+
+#wb-tab{
+  width:42px;flex-shrink:0;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+  border-right:none;border-radius:12px 0 0 12px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:background .15s;writing-mode:vertical-rl;
+  color:rgba(255,255,255,.5);font-size:10px;letter-spacing:3px;
+  text-transform:uppercase;padding:20px 0;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  user-select:none
+}
+#wb-tab:hover{background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+
+#wb-panel{
+  width:230px;
+  background:rgba(6,14,28,.85);border:1px solid rgba(255,255,255,.12);
+  border-radius:12px 0 0 12px;border-right:none;
+  padding:24px 20px;
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  display:flex;flex-direction:column;gap:18px;
+  overflow:hidden
+}
+
+#wb-panel h3{
+  color:rgba(255,255,255,.55);font-size:9px;letter-spacing:4px;
+  text-transform:uppercase;margin-bottom:2px
+}
+
+.wrow{display:flex;flex-direction:column;gap:6px}
+.wlbl{
+  display:flex;justify-content:space-between;
+  color:rgba(255,255,255,.45);font-size:10px;letter-spacing:.3px
+}
+.wval{color:rgba(255,255,255,.7);font-size:10px;min-width:32px;text-align:right}
+input[type=range]{
+  width:100%;height:3px;border-radius:2px;outline:none;border:none;cursor:pointer;
+  -webkit-appearance:none;background:rgba(255,255,255,.15)
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:12px;height:12px;border-radius:50%;
+  background:rgba(255,255,255,.7);cursor:pointer
+}
+input[type=range]::-moz-range-thumb{
+  width:12px;height:12px;border-radius:50%;
+  background:rgba(255,255,255,.7);cursor:pointer;border:none
+}
+
+#wSeed{
+  width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+  color:rgba(255,255,255,.7);font-size:11px;padding:6px 10px;border-radius:8px;
+  outline:none;letter-spacing:1px
+}
+
+.wbtn{
+  width:100%;padding:9px;border-radius:10px;border:1px solid rgba(255,255,255,.2);
+  background:rgba(255,255,255,.08);color:rgba(255,255,255,.8);font-size:11px;
+  letter-spacing:.5px;cursor:pointer;transition:background .15s
+}
+.wbtn:hover{background:rgba(255,255,255,.15)}
+.wbtn.primary{background:rgba(100,200,180,.2);border-color:rgba(100,200,180,.4);color:rgba(180,240,225,.9)}
+.wbtn.primary:hover{background:rgba(100,200,180,.32)}
+
+#wb-status{
+  color:rgba(100,200,180,.6);font-size:9px;letter-spacing:1px;
+  text-align:center;min-height:14px;transition:opacity .4s
+}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="wm">Centre Free</div>
+<div id="ml">Gradient Map</div>
+<div id="ui">
+  <div class="btn sz" id="bo">−</div>
+  <div id="zr">1×</div>
+  <div class="btn sz" id="bi">+</div>
+  <div class="btn on" id="bt">Gradient Map</div>
+</div>
+<div id="prog">building island…</div>
+<div id="hint">Scroll to zoom · Drag to pan<br>0 to reset · G / S keys</div>
+
+<!-- World Builder -->
+<div id="wb" class="collapsed">
+  <div id="wb-tab">World Builder</div>
+  <div id="wb-panel">
+    <h3>World Builder</h3>
+
+    <div class="wrow">
+      <div class="wlbl">Main Peak <span class="wval" id="vPH">0.92</span></div>
+      <input type="range" id="sPH" min=".25" max="1.1" step=".01" value=".92">
+    </div>
+    <div class="wrow">
+      <div class="wlbl">Secondary Peak <span class="wval" id="vPH2">0.58</span></div>
+      <input type="range" id="sPH2" min=".1" max=".9" step=".01" value=".58">
+    </div>
+    <div class="wrow">
+      <div class="wlbl">Island Width <span class="wval" id="vIW">0.22</span></div>
+      <input type="range" id="sIW" min=".10" max=".42" step=".01" value=".22">
+    </div>
+    <div class="wrow">
+      <div class="wlbl">Lagoon Radius <span class="wval" id="vLR">0.72</span></div>
+      <input type="range" id="sLR" min=".38" max=".90" step=".01" value=".72">
+    </div>
+    <div class="wrow">
+      <div class="wlbl">Reef Distance <span class="wval" id="vRR">0.76</span></div>
+      <input type="range" id="sRR" min=".50" max="1.0" step=".01" value=".755">
+    </div>
+    <div class="wrow">
+      <div class="wlbl">Motus Count <span class="wval" id="vMC">5</span></div>
+      <input type="range" id="sMC" min="0" max="9" step="1" value="5">
+    </div>
+    <div class="wrow">
+      <div class="wlbl">Terrain Noise <span class="wval" id="vNS">0.07</span></div>
+      <input type="range" id="sNS" min=".0" max=".18" step=".005" value=".07">
+    </div>
+    <div class="wrow">
+      <div class="wlbl">Noise Seed</div>
+      <input type="text" id="wSeed" placeholder="e.g. 42" value="0">
+    </div>
+
+    <div id="wb-status"></div>
+    <button class="wbtn primary" id="wRegen">⟳ Regenerate Island</button>
+    <button class="wbtn" id="wReset">Reset Defaults</button>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ── Canvas ────────────────────────────────────────────────────────────────────
+const cv=document.getElementById('c');
+const cx=cv.getContext('2d');
+let W,H;
+function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;draw()}
+addEventListener('resize',resize);
+
+// ── Noise ─────────────────────────────────────────────────────────────────────
+let SEED=0;
+function hash(x,y){
+  let h=((x*1619+SEED*7919)^(y*31337+SEED*6271))>>>0;
+  h=Math.imul(h^(h>>>16),0x45d9f3b)>>>0;
+  h=Math.imul(h^(h>>>13),0xc2b2ae35)>>>0;
+  return(h^(h>>>16))/0xffffffff
+}
+function vn(x,y){
+  const ix=x|0,iy=y|0,fx=x-ix,fy=y-iy;
+  const ux=fx*fx*(3-2*fx),uy=fy*fy*(3-2*fy);
+  const a=hash(ix,iy),b=hash(ix+1,iy),c=hash(ix,iy+1),d=hash(ix+1,iy+1);
+  return a+(b-a)*ux+(c-a)*uy+(a-b-c+d)*ux*uy
+}
+function fbm(x,y,n){
+  n=n||5;let v=0,a=.5,f=1,m=0;
+  for(let i=0;i<n;i++){v+=vn(x*f,y*f)*a;m+=a;a*=.5;f*=2.1}
+  return v/m
+}
+
+// ── World Parameters ──────────────────────────────────────────────────────────
+const WP={
+  peakH:.92,   // main peak amplitude
+  peak2H:.58,  // secondary peak
+  islandW:.22, // base skirt width
+  lagoonR:.72, // lagoon outer radius
+  reefR:.755,  // reef centre radius
+  motuN:5,     // number of motus
+  noiseAmp:.07 // terrain noise strength
+};
+const SEA=.065;
+
+function G(dx,dy,sx,sy,amp){
+  return amp*Math.exp(-(dx*dx)/(2*sx*sx)-(dy*dy)/(2*sy*sy))
+}
+
+function elev(wx,wy){
+  const r=Math.hypot(wx,wy);
+  const a=Math.atan2(wy,wx);
+
+  // Twin volcanic peaks — NE taller, SW secondary
+  let h=G(wx-.04,wy+.10,.17,.13,WP.peakH)
+       +G(wx+.12,wy-.06,.10,.09,WP.peak2H)
+       +G(wx+.01,wy+.01,WP.islandW+.04,WP.islandW,.18);
+
+  // Terrain texture (3 scales)
+  h+=WP.noiseAmp*(fbm(wx*7,wy*7)-.5)
+    +WP.noiseAmp*.35*(fbm(wx*18,wy*18)-.5)
+    +WP.noiseAmp*.12*(fbm(wx*45,wy*45)-.5);
+
+  // Lagoon trough
+  if(r>.33&&r<WP.lagoonR){
+    const lf=.01+.004*(fbm(wx*25,wy*25)-.5);
+    h=Math.min(h, SEA-.014+lf*.3)
+  }
+
+  // Coral reef ring
+  const rd=Math.abs(r-WP.reefR);
+  if(rd<.038) h=Math.max(h, SEA+.025*(1-rd/.038));
+
+  // Motus (evenly spaced, with slight noise offset)
+  if(WP.motuN>0){
+    const step=Math.PI*2/WP.motuN;
+    for(let i=0;i<WP.motuN;i++){
+      const ma=i*step+(fbm(i*3.7,0)-.5)*.4;
+      let ad=Math.abs(a-ma);
+      if(ad>Math.PI)ad=2*Math.PI-ad;
+      if(rd<.05&&ad<.13) h=Math.max(h, SEA+.13*(1-ad/.13)*(1-rd/.05))
+    }
+  }
+
+  // Open ocean deepens with distance
+  if(r>WP.reefR+.035&&h<SEA){
+    const d=Math.min(1,(r-WP.reefR-.035)/.9);
+    h=Math.min(h, SEA-.016-.6*d)
+  }
+
+  return h
+}
+
+// ── Colour palettes ───────────────────────────────────────────────────────────
+function lp(a,b,t){
+  t=t<0?0:t>1?1:t;
+  return[a[0]+(b[0]-a[0])*t|0,a[1]+(b[1]-a[1])*t|0,a[2]+(b[2]-a[2])*t|0]
+}
+
+function gCol(h){ // Soft pastel gradient fill + white contour lines
+  const INTERVAL=.042;
+  const INDEX=5;
+  const THRESH=.07;   // line half-width
+  const ITHRESH=.12;  // index contour half-width
+  const base=-0.72;
+  const k=Math.floor((h-base)/INTERVAL);
+  const rem=(h-base-k*INTERVAL)/INTERVAL;
+  const dist=Math.min(rem,1-rem);
+  const isIdx=(((k%INDEX)+INDEX)%INDEX===0);
+  const thresh=isIdx?ITHRESH:THRESH;
+
+  // On a contour line → white
+  if(dist<=thresh) return[248,250,255];
+
+  // Pastel gradient fill by elevation
+  if(h>SEA+.70) return[225,210,200]; // peak: warm cream
+  if(h>SEA+.45) return[205,172,138]; // upper rock: muted peach-sand
+  if(h>SEA+.28) return[195,152,88];  // high slope: warm ochre
+  if(h>SEA+.12) return[132,182,112]; // forest: soft sage-green
+  if(h>SEA+.01) return[152,208,132]; // coastal: pale green
+  if(h>SEA-.015)return[225,208,152]; // beach: warm sand-gold
+  if(h>SEA-.06) return[122,202,188]; // lagoon: soft aqua-teal
+  if(h>SEA-.16) return[102,168,205]; // inner sea: soft sky-blue
+  if(h>SEA-.35) return[92,135,195];  // ocean: soft periwinkle
+  return[82,108,175];                 // deep: muted indigo
+}
+
+function sCol(h){ // Satellite / realism (procedural fallback)
+  const s=SEA;
+  if(h>s+.79) return lp([238,243,248],[255,255,255],(h-s-.79)/.13);
+  if(h>s+.61) return lp([152,132,108],[238,243,248],(h-s-.61)/.18);
+  if(h>s+.43) return lp([105,82,52],[152,132,108],(h-s-.43)/.18);
+  if(h>s+.28) return lp([26,64,34],[105,82,52],(h-s-.28)/.15);
+  if(h>s+.14) return lp([20,122,52],[26,64,34],(h-s-.14)/.14);
+  if(h>s+.01) return lp([24,150,62],[20,122,52],(h-s-.01)/.13);
+  if(h>s-.015) return[188,160,108];
+  if(h>s-.04)  return lp([120,208,192],[188,160,108],(h-s+.04)/.025);
+  if(h>s-.07)  return lp([0,165,148],[120,208,192],(h-s+.07)/.03);
+  if(h>s-.13)  return lp([0,118,112],[0,165,148],(h-s+.13)/.06);
+  if(h>s-.26)  return lp([0,68,90],[0,118,112],(h-s+.26)/.13);
+  if(h>s-.52)  return lp([3,28,56],[0,68,90],(h-s+.52)/.26);
+  return[1,10,28]
+}
+
+// ── Higgsfield photo layers ───────────────────────────────────────────────────
+// Square 1:1 (for zoomed/panned realism blend)
+const HIGGS_SQ='https://d8j0ntlcm91z4.cloudfront.net/user_34b7NCE9mAjdUiV7jFrh0aG61zI/hf_20260627_113042_a2a68763-740a-4bb8-8a7c-9d65615df7cc.png';
+// Widescreen 16:9 — primary for satellite full-screen mode
+const HIGGS_W='https://d8j0ntlcm91z4.cloudfront.net/user_34b7NCE9mAjdUiV7jFrh0aG61zI/hf_20260627_120307_fc331429-e390-4fef-a16b-899b946fd115.png';
+const HIGGS_W_AR=1376/768; // aspect ratio of the 16:9 image
+
+const higgsImg=new Image(),higgs16=new Image();
+let higgsReady=false,higgs16Ready=false;
+let canvasTainted=false;
+higgsImg.crossOrigin='anonymous';higgsImg.src=HIGGS_SQ;
+higgsImg.onload=()=>{higgsReady=true;draw()};
+higgs16.crossOrigin='anonymous';higgs16.src=HIGGS_W;
+higgs16.onload=()=>{higgs16Ready=true;draw()};
+
+// ── Offscreen render (chunked) ────────────────────────────────────────────────
+const SZ=1440;
+const SPAN=1.5;
+const osG=document.createElement('canvas'),osR=document.createElement('canvas');
+osG.width=osG.height=osR.width=osR.height=SZ;
+const octG=osG.getContext('2d'),octR=osR.getContext('2d');
+let imgG=octG.createImageData(SZ,SZ),imgR=octR.createImageData(SZ,SZ);
+let dG=imgG.data,dR=imgR.data;
+let renderY=0,ready=false;
+const prog=document.getElementById('prog');
+
+function renderChunk(){
+  const end=Math.min(renderY+48,SZ);
+  for(let py=renderY;py<end;py++){
+    for(let px=0;px<SZ;px++){
+      const wx=((px/SZ)-.5)*2*SPAN;
+      const wy=((py/SZ)-.5)*2*SPAN;
+      const h=elev(wx,wy);
+      const cg=gCol(h),cr=sCol(h);
+      const i=(py*SZ+px)*4;
+      dG[i]=cg[0];dG[i+1]=cg[1];dG[i+2]=cg[2];dG[i+3]=255;
+      dR[i]=cr[0];dR[i+1]=cr[1];dR[i+2]=cr[2];dR[i+3]=255;
+    }
+  }
+  renderY=end;
+  if(renderY>=SZ){
+    octG.putImageData(imgG,0,0);
+    octR.putImageData(imgR,0,0);
+    ready=true;
+    prog.style.opacity='0';
+    setStatus('');
+    draw();
+  } else {
+    prog.textContent='building island… '+Math.round(renderY/SZ*100)+'%';
+    requestAnimationFrame(renderChunk);
+  }
+}
+
+function startRender(){
+  ready=false;renderY=0;
+  imgG=octG.createImageData(SZ,SZ);imgR=octR.createImageData(SZ,SZ);
+  dG=imgG.data;dR=imgR.data;
+  prog.textContent='building island… 0%';prog.style.opacity='1';
+  requestAnimationFrame(renderChunk);
+}
+startRender();
+
+// ── View state ────────────────────────────────────────────────────────────────
+let zoom=1,tz=1,panX=0,panY=0,mode='g';
+let drag=false,lx=0,ly=0,raf=null;
+
+function draw(){if(!raf)raf=requestAnimationFrame(_draw)}
+function _draw(){
+  raf=null;
+  zoom+=(tz-zoom)*.12;
+  if(Math.abs(tz-zoom)>.0008)draw();else zoom=tz;
+
+  cx.clearRect(0,0,W,H);
+  cx.fillStyle='#020810';
+  cx.fillRect(0,0,W,H);
+
+  if(ready){
+    const base=Math.min(W,H)*.72/SZ;
+    const s=base*zoom;
+    const ox=W/2+panX-SZ*s/2;
+    const oy=H/2+panY-SZ*s/2;
+
+    cx.imageSmoothingEnabled=true;
+    cx.imageSmoothingQuality='high';
+
+    if(mode==='g'){
+      cx.drawImage(osG,ox,oy,SZ*s,SZ*s);
+    } else {
+      // Satellite mode: widescreen Higgsfield photo fills screen, zoom/pan applies
+      if(higgs16Ready&&!canvasTainted){
+        try{
+          // Scale 16:9 image to cover viewport, centred, with zoom/pan
+          const sr=W/H;
+          let iw,ih;
+          if(sr>HIGGS_W_AR){iw=W*zoom;ih=iw/HIGGS_W_AR;}
+          else{ih=H*zoom;iw=ih*HIGGS_W_AR;}
+          const ix=W/2+panX-iw/2;
+          const iy=H/2+panY-ih/2;
+          cx.drawImage(higgs16,ix,iy,iw,ih);
+        }catch(e){
+          canvasTainted=true;
+          cx.drawImage(osR,ox,oy,SZ*s,SZ*s);
+        }
+      } else if(higgsReady&&!canvasTainted){
+        // Fallback: square photo composited over procedural sat
+        try{
+          cx.drawImage(osR,ox,oy,SZ*s,SZ*s);
+          cx.save();cx.globalAlpha=.72;
+          cx.drawImage(higgsImg,ox,oy,SZ*s,SZ*s);
+          cx.restore();
+        }catch(e){canvasTainted=true;cx.drawImage(osR,ox,oy,SZ*s,SZ*s)}
+      } else {
+        cx.drawImage(osR,ox,oy,SZ*s,SZ*s); // procedural sat fallback
+      }
+    }
+
+    // Vignette
+    const vg=cx.createRadialGradient(W/2,H/2,Math.min(W,H)*.22,W/2,H/2,Math.min(W,H)*.82);
+    vg.addColorStop(0,'rgba(0,0,0,0)');
+    vg.addColorStop(.7,'rgba(2,8,16,.1)');
+    vg.addColorStop(1,'rgba(2,8,16,.6)');
+    cx.fillStyle=vg;cx.fillRect(0,0,W,H);
+
+    // Scale bar
+    const mPerUnit=1500; // 1 world unit ≈ 1500m (island at r=0.33 is ~500m wide)
+    const unitPerPx=(SPAN*2)/(SZ*s/SZ); // world units per pixel
+    const mPerPx=mPerUnit*unitPerPx/zoom;
+    const nice=niceScale(mPerPx*100);
+    const barPx=nice/mPerPx;
+    if(barPx<300)drawBar(W-56-barPx, H-56, barPx, nice);
+  }
+
+  document.getElementById('zr').textContent=(zoom<2?zoom.toFixed(1):Math.round(zoom))+'×';
+}
+
+function niceScale(m){
+  const st=[10,25,50,100,200,500,1000,2000,5000];
+  for(const s of st)if(s>m*.6)return s;
+  return 1000
+}
+function drawBar(x,y,w,m){
+  const lbl=m>=1000?(m/1000)+'km':m+'m';
+  cx.strokeStyle='rgba(255,255,255,.3)';cx.lineWidth=1;
+  cx.beginPath();cx.moveTo(x,y-4);cx.lineTo(x,y);cx.lineTo(x+w,y);cx.lineTo(x+w,y-4);cx.stroke();
+  cx.fillStyle='rgba(255,255,255,.28)';cx.font='9px -apple-system';cx.textAlign='center';
+  cx.fillText(lbl,x+w/2,y+12)
+}
+
+// ── Interaction ───────────────────────────────────────────────────────────────
+cv.addEventListener('wheel',e=>{
+  e.preventDefault();
+  tz=Math.max(.2,Math.min(80,tz*(e.deltaY<0?1.12:.89)));draw()
+},{passive:false});
+
+cv.addEventListener('mousedown',e=>{drag=true;lx=e.clientX;ly=e.clientY;cv.classList.add('pan')});
+addEventListener('mousemove',e=>{if(!drag)return;panX+=e.clientX-lx;panY+=e.clientY-ly;lx=e.clientX;ly=e.clientY;draw()});
+addEventListener('mouseup',()=>{drag=false;cv.classList.remove('pan')});
+
+cv.addEventListener('touchstart',e=>{
+  if(e.touches.length===1){drag=true;lx=e.touches[0].clientX;ly=e.touches[0].clientY}
+},{passive:true});
+cv.addEventListener('touchmove',e=>{
+  if(drag&&e.touches.length===1){
+    panX+=e.touches[0].clientX-lx;panY+=e.touches[0].clientY-ly;
+    lx=e.touches[0].clientX;ly=e.touches[0].clientY;draw()
+  }
+},{passive:true});
+cv.addEventListener('touchend',()=>{drag=false});
+
+let pinchD=null;
+cv.addEventListener('touchstart',e=>{if(e.touches.length===2)pinchD=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY)},{passive:true});
+cv.addEventListener('touchmove',e=>{if(e.touches.length===2&&pinchD){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);tz=Math.max(.2,Math.min(80,tz*(d/pinchD)));pinchD=d;draw()}},{passive:true});
+cv.addEventListener('touchend',()=>{pinchD=null});
+
+document.getElementById('bi').addEventListener('click',()=>{tz=Math.min(80,tz*1.5);draw()});
+document.getElementById('bo').addEventListener('click',()=>{tz=Math.max(.2,tz/1.5);draw()});
+document.getElementById('bt').addEventListener('click',toggle);
+
+function toggle(){
+  mode=mode==='g'?'r':'g';
+  const lbl=mode==='g'?'Gradient Map':'Satellite';
+  document.getElementById('bt').textContent=lbl;
+  document.getElementById('ml').textContent=lbl.toUpperCase();
+  draw()
+}
+
+addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT')return;
+  if(e.key==='g'||e.key==='G'){mode='g';document.getElementById('bt').textContent='Gradient Map';document.getElementById('ml').textContent='GRADIENT MAP';draw()}
+  if(e.key==='s'||e.key==='S'){mode='r';document.getElementById('bt').textContent='Satellite';document.getElementById('ml').textContent='SATELLITE';draw()}
+  if(e.key==='+'||e.key==='='){tz=Math.min(80,tz*1.4);draw()}
+  if(e.key==='-'){tz=Math.max(.2,tz/1.4);draw()}
+  if(e.key==='0'){tz=1;panX=0;panY=0;draw()}
+  if(e.key==='w'||e.key==='W'){toggleWB()}
+});
+
+// ── World Builder ─────────────────────────────────────────────────────────────
+const DEFAULTS={peakH:.92,peak2H:.58,islandW:.22,lagoonR:.72,reefR:.755,motuN:5,noiseAmp:.07};
+
+const wbEl=document.getElementById('wb');
+function toggleWB(){wbEl.classList.toggle('collapsed')}
+document.getElementById('wb-tab').addEventListener('click',toggleWB);
+
+function setStatus(msg){
+  const el=document.getElementById('wb-status');
+  el.textContent=msg;el.style.opacity=msg?'1':'0'
+}
+
+// Bind sliders
+function bindSlider(id,valId,wpKey,fmt){
+  const sl=document.getElementById(id);
+  const vl=document.getElementById(valId);
+  sl.addEventListener('input',()=>{
+    const v=parseFloat(sl.value);
+    WP[wpKey]=wpKey==='motuN'?Math.round(v):v;
+    vl.textContent=fmt?fmt(v):v.toFixed(2)
+  })
+}
+bindSlider('sPH','vPH','peakH');
+bindSlider('sPH2','vPH2','peak2H');
+bindSlider('sIW','vIW','islandW');
+bindSlider('sLR','vLR','lagoonR');
+bindSlider('sRR','vRR','reefR');
+bindSlider('sMC','vMC','motuN',v=>Math.round(v));
+bindSlider('sNS','vNS','noiseAmp');
+
+function syncSliders(){
+  document.getElementById('sPH').value=WP.peakH;document.getElementById('vPH').textContent=WP.peakH.toFixed(2);
+  document.getElementById('sPH2').value=WP.peak2H;document.getElementById('vPH2').textContent=WP.peak2H.toFixed(2);
+  document.getElementById('sIW').value=WP.islandW;document.getElementById('vIW').textContent=WP.islandW.toFixed(2);
+  document.getElementById('sLR').value=WP.lagoonR;document.getElementById('vLR').textContent=WP.lagoonR.toFixed(2);
+  document.getElementById('sRR').value=WP.reefR;document.getElementById('vRR').textContent=WP.reefR.toFixed(2);
+  document.getElementById('sMC').value=WP.motuN;document.getElementById('vMC').textContent=WP.motuN;
+  document.getElementById('sNS').value=WP.noiseAmp;document.getElementById('vNS').textContent=WP.noiseAmp.toFixed(3);
+}
+
+document.getElementById('wRegen').addEventListener('click',()=>{
+  SEED=parseInt(document.getElementById('wSeed').value)||0;
+  setStatus('rendering…');
+  startRender();
+});
+
+document.getElementById('wReset').addEventListener('click',()=>{
+  Object.assign(WP,DEFAULTS);
+  document.getElementById('wSeed').value='0';
+  SEED=0;
+  syncSliders();
+  setStatus('rendering…');
+  startRender();
+});
+
+resize();
+</script>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

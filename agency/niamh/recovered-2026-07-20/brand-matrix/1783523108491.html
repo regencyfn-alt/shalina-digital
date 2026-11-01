@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Shalina Brand Matrix",
+  "schemaVersion": 1,
+  "description": "Live previewer over the Shalina Focus Brands 2026 Airtable (Brand Matrix table) — sortable columns with show/hide chips, inline cell editing, add and delete records, funded-cell totals. Data pulls fresh from Airtable on each open.",
+  "mcpTools": [
+    "mcp__97f1c3ba-ee21-4171-addb-bb5937faf9c2__list_records_for_table",
+    "mcp__97f1c3ba-ee21-4171-addb-bb5937faf9c2__create_records_for_table",
+    "mcp__97f1c3ba-ee21-4171-addb-bb5937faf9c2__update_records_for_table",
+    "mcp__97f1c3ba-ee21-4171-addb-bb5937faf9c2__delete_records_for_table"
+  ],
+  "mcpServerNames": [
+    "Airtable",
+    "Airtable",
+    "Airtable",
+    "Airtable"
+  ]
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Shalina Brand Matrix</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:16px; background:#fdfdfc; color:#1d2b36; font:14px/1.45 "Segoe UI", system-ui, sans-serif; }
+  h1 { font-size:18px; margin:0 0 2px; color:#0b3c5d; }
+  .sub { font-size:12px; color:#5a6b78; margin-bottom:12px; }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+  .chip { border:1px solid #d5dfe8; background:#fff; border-radius:14px; padding:3px 11px; font-size:12px; cursor:pointer; user-select:none; color:#5a6b78; }
+  .chip.on { background:#0b3c5d; border-color:#0b3c5d; color:#fff; }
+  table { border-collapse:collapse; width:auto; background:#fff; box-shadow:0 1px 5px rgba(11,60,93,.08); border-radius:8px; overflow:hidden; }
+  th { background:#31586f; color:#fff; font-size:11px; font-weight:600; text-align:left; padding:5px 7px; white-space:nowrap; position:sticky; top:0; cursor:pointer; border-right:1px solid rgba(255,255,255,.12); }
+  th .arr { opacity:.7; font-size:9px; }
+  td { border-bottom:1px solid #eef1f3; border-right:1px solid #f2f4f6; padding:3px 7px; white-space:nowrap; font-size:12.5px; }
+  td:last-child, th:last-child { border-right:none; }
+  td.num { text-align:right; font-variant-numeric:tabular-nums; }
+  tr.brandhead td { font-size:12px; padding:5px 7px; border-bottom:none; }
+  tr.brandhead .bname { font-weight:700; color:#22333f; font-size:13px; margin-right:10px; }
+  tr.brandhead .bsum { color:#44586a; }
+  tr.brandhead .extra { font-weight:700; color:#2E7D32; }
+  tr.dormant td { color:#9aa8b3; font-style:italic; }
+  td.editable { cursor:text; }
+  td.editing { outline:2px solid #d9822b; background:#fff8ef; }
+  td.saved { background:#e7f4e8 !important; transition:background .3s; }
+  td.err { background:#fbe6e6 !important; }
+  tfoot td { font-weight:600; border-top:2px solid #31586f; background:#f2f6f9; }
+  tfoot tr.grand td { font-weight:700; background:#e8eff5; }
+  .del { color:#b98787; cursor:pointer; border:none; background:none; font-size:13px; padding:0 4px; }
+  .del:hover { color:#b23b3b; }
+  .bar { display:flex; gap:8px; align-items:center; margin:12px 0; }
+  button.act { background:#0b3c5d; color:#fff; border:none; border-radius:6px; padding:6px 14px; font-size:13px; cursor:pointer; }
+  button.act.sec { background:#fff; color:#0b3c5d; border:1px solid #9db4c4; }
+  #status { font-size:12px; color:#5a6b78; }
+  #addForm { display:none; background:#fff; border:1px solid #d5dfe8; border-radius:8px; padding:12px; margin-bottom:12px; }
+  #addForm .grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:10px; }
+  #addForm label { font-size:11px; color:#5a6b78; display:block; }
+  #addForm input, #addForm select { width:100%; padding:5px 7px; border:1px solid #d5dfe8; border-radius:5px; font-size:13px; }
+  .hint { font-size:11px; color:#8a99a5; margin-top:10px; }
+</style>
+</head>
+<body>
+  <h1>Shalina Focus Brands 2026 — Brand Matrix</h1>
+  <div class="sub">Live from Airtable · Ratified real card: 5s $4 · 15s $10 · 30s $20 · 45s $30 · Each brand's monthly allowance: $744.22 (its $2,232.67/q contribution). Double-click any cell to edit.</div>
+
+  <div id="costCard" style="margin:0 0 14px;"></div>
+
+  <div class="chips" id="chips"></div>
+
+  <div class="bar">
+    <button class="act" id="btnAdd">+ Add row</button>
+    <button class="act sec" id="btnDormant">Show dormant</button>
+    <span id="status">Loading…</span>
+  </div>
+
+  <div id="addForm">
+    <div class="grid" id="addGrid"></div>
+    <button class="act" id="btnCreate">Create in Airtable</button>
+    <button class="act sec" id="btnCancel">Cancel</button>
+  </div>
+
+  <div style="overflow:auto; max-height:70vh;">
+    <table id="tbl"><thead></thead><tbody></tbody><tfoot></tfoot></table>
+  </div>
+  <div class="hint">Brand header line: <b>available</b> = the brand's share of the digital + AI envelope per month · <b>we give</b> = real cost of its content at the ratified card · <b>extra</b> = what's left. Column chips hide/show (display only); ✕ deletes the record after a confirm.</div>
+
+<script>
+const BASE = "apphSQ5vLGcZtdaBx", TABLE = "tblfrcat7sLWvM7MF";
+const T = "mcp__97f1c3ba-ee21-4171-addb-bb5937faf9c2__";
+const FIELDS = [
+  { id:"fldtCP8bPcG9iMEJu", name:"Cell",               type:"text",   edit:true  },
+  { id:"fldMBUmm4sthWbsyU", name:"Tier",               type:"select", edit:true  },
+  { id:"fldbPM6IBPB1gj0Ht", name:"Media budget FY26",  type:"cur",    edit:true  },
+  { id:"fldNgw0FtlqW7tNYg", name:"Brand contribution /q (fixed)", type:"cur", edit:true },
+  { id:"fldm2j7ZOx06VSvDH", name:"Country allocation /q", type:"cur", edit:true },
+  { id:"fldnpxp5sKeA2Rj2W", name:"Real platform cost /q", type:"cur", edit:true },
+  { id:"fld5R7ynVTWTT0dv5", name:"Posts /mo",          type:"num",    edit:true  },
+  { id:"fld8cL5ZsRpw09HVs", name:"Static /mo",         type:"num",    edit:true  },
+  { id:"fld6l7rP4ez5drRTH", name:"Real cost /mo",      type:"cur",    edit:true  },
+  { id:"fld19wVzLhLA72nVV", name:"Discount vs plan /mo", type:"cur",  edit:true  },
+  { id:"fldqFqRcEl2xY0eyZ", name:"Production /mo",     type:"cur",    edit:true  },
+  { id:"fldiu5ncXrBjxHZR4", name:"Platform /mo",       type:"cur",    edit:true  },
+  { id:"fldrrd7dxVv7m6cI7", name:"Profit /mo",         type:"cur",    edit:true  },
+  { id:"fld9OxZQ2fcxicgOj", name:"Production Jul–Dec", type:"cur",    edit:true  },
+  { id:"fldb8LWPNgtxCHXrV", name:"Production FY26 (9mo)", type:"cur", edit:true  },
+  { id:"fldyxiyBlSd8EG258", name:"Notes",              type:"text",   edit:true  },
+];
+const DEFAULT_ON = ["Cell","Tier","Media budget FY26","Brand contribution /q (fixed)","Real cost /mo","Discount vs plan /mo","Production /mo"];
+const REAL_MO = "fld6l7rP4ez5drRTH", CELLF = "fldtCP8bPcG9iMEJu", TIERF = "fldMBUmm4sthWbsyU";
+const ALLOWANCE_MO = 2232.67/3;   // per active brand
+const BRAND_META = {
+  "ACO":        { row:"#EDF7F1", head:"#D7EDE0" },
+  "Ibucap":     { row:"#EDF3F9", head:"#D8E6F2" },
+  "Shal'Artem": { row:"#F2EEF9", head:"#E3DAF1" },
+  "Shaltoux":   { row:"#FDF3E9", head:"#F6E3CB" },
+  "Germol":     { row:"#EFF7EC", head:"#DCEDD5" },
+  "Flodent":    { row:"#FAEFF1", head:"#F1DBE0" },
+};
+const OTHER_META = { row:"#F5F7F8", head:"#E8ECEF" };
+let visible = JSON.parse(localStorage.getItem("smx_cols_v6") || "null") || DEFAULT_ON.slice();
+let showDormant = localStorage.getItem("smx_dorm") === "1";
+let records = [], sortKey = "Media budget FY26", sortDir = -1;
+
+const $ = s => document.querySelector(s);
+const money = (v,dp=2) => v==null||v==="" ? "" : "$"+Number(v).toLocaleString("en-US",{minimumFractionDigits:dp,maximumFractionDigits:dp});
+const fmt = (f,v) => v==null||v==="" ? "" : (f.type==="cur" ? money(v) : (f.type==="select" ? (v.name||v) : v));
+const raw = (f,v) => v==null ? "" : (f.type==="select" ? (v.name||v) : v);
+const brandOf = r => String(r.v[CELLF]||"").split("·")[0].trim() || "—";
+const isDormant = r => { const t=r.v[TIERF]; return (t&&(t.name||t))==="Dormant"; };
+
+function unwrap(r){ if(r.isError) throw new Error((r.content&&r.content[0]&&r.content[0].text)||"tool error");
+  return r.structuredContent ?? JSON.parse(r.content[0].text); }
+async function call(tool, args){ return unwrap(await window.cowork.callMcpTool(T+tool, args)); }
+
+async function load(){
+  $("#status").textContent = "Loading…";
+  try {
+    const d = await call("list_records_for_table", { baseId:BASE, tableId:TABLE });
+    records = d.records.map(r => ({ id:r.id, v:r.cellValuesByFieldId||{} }));
+    $("#status").textContent = records.length + " records · loaded " + new Date().toLocaleTimeString();
+    render();
+  } catch(e){ $("#status").textContent = "Load failed: " + e.message; }
+}
+
+function render(){
+  $("#chips").innerHTML = FIELDS.map(f =>
+    `<span class="chip ${visible.includes(f.name)?"on":""}" data-c="${f.name}">${f.name}</span>`).join("");
+  document.querySelectorAll(".chip").forEach(ch => ch.onclick = () => {
+    const n = ch.dataset.c;
+    visible = visible.includes(n) ? visible.filter(x=>x!==n) : FIELDS.filter(f=>visible.includes(f.name)||f.name===n).map(f=>f.name);
+    localStorage.setItem("smx_cols_v6", JSON.stringify(visible)); render();
+  });
+  const cols = FIELDS.filter(f => visible.includes(f.name));
+  $("#tbl thead").innerHTML = "<tr>" + cols.map(f =>
+    `<th data-s="${f.name}">${f.name}${sortKey===f.name?` <span class="arr">${sortDir>0?"▲":"▼"}</span>`:""}</th>`).join("") + "<th></th></tr>";
+  document.querySelectorAll("th[data-s]").forEach(th => th.onclick = () => {
+    const n = th.dataset.s; sortDir = (sortKey===n) ? -sortDir : -1; sortKey = n; render();
+  });
+
+  // group by brand
+  const groups = {};
+  records.filter(r => showDormant || !isDormant(r)).forEach(r => {
+    const b = brandOf(r); (groups[b] = groups[b] || []).push(r);
+  });
+  const sf = FIELDS.find(f=>f.name===sortKey);
+  const cmp = (a,b) => {
+    let x = raw(sf, a.v[sf.id]), y = raw(sf, b.v[sf.id]);
+    if (x===""&&y!=="") return 1; if (y===""&&x!=="") return -1;
+    return (typeof x==="number"&&typeof y==="number" ? x-y : String(x).localeCompare(String(y))) * sortDir;
+  };
+  const brandOrder = Object.keys(groups).sort((A,B) => {
+    const s = g => groups[g].reduce((a,r)=>a+(Number(raw(FIELDS[2],r.v[FIELDS[2].id]))||0),0);
+    return s(B)-s(A);
+  });
+
+  let html = "", totAvail = 0, totReal = 0;
+  for (const b of brandOrder) {
+    const meta = BRAND_META[b] || OTHER_META;
+    const rows = groups[b].slice().sort(cmp);
+    const funded = rows.filter(r=>!isDormant(r));
+    const realMo = funded.reduce((a,r)=> a + (Number(r.v[REAL_MO])||0), 0);
+    const active = BRAND_META[b] && funded.length > 0;
+    const avail = active ? ALLOWANCE_MO : 0;
+    if (active) { totAvail += avail; totReal += realMo; }
+    const sum = active
+      ? `<span class="bsum">available <b>${money(avail)}</b>/mo &nbsp;·&nbsp; we give <b>${money(realMo)}</b>/mo &nbsp;·&nbsp; <span class="extra">extra ${money(avail-realMo)}/mo</span></span>`
+      : `<span class="bsum" style="color:#9aa8b3;">dormant — no allowance</span>`;
+    html += `<tr class="brandhead" style="background:${meta.head};"><td colspan="${cols.length+1}"><span class="bname">${b}</span>${sum}</td></tr>`;
+    html += rows.map(r => `<tr class="${isDormant(r)?"dormant":""}" style="background:${meta.row};" data-r="${r.id}">` +
+      cols.map(f => `<td class="${f.type==="cur"||f.type==="num"?"num ":""}${f.edit?"editable":""}" data-f="${f.id}">${fmt(f, r.v[f.id])}</td>`).join("") +
+      `<td><button class="del" title="Delete record">✕</button></td></tr>`).join("");
+  }
+  $("#tbl tbody").innerHTML = html;
+
+  // totals
+  const funded = records.filter(r => !isDormant(r));
+  $("#tbl tfoot").innerHTML =
+    "<tr>" + cols.map((f,i) => {
+      if (i===0) return `<td>TOTAL · ${funded.length} funded cells</td>`;
+      if (f.type==="cur"||f.type==="num") {
+        const s = funded.reduce((a,r)=> a + (Number(raw(f,r.v[f.id]))||0), 0);
+        return `<td class="num">${f.type==="cur" ? money(s) : s}</td>`;
+      } return "<td></td>";
+    }).join("") + "<td></td></tr>" +
+    `<tr class="grand"><td colspan="${cols.length+1}">SIX BRANDS · available ${money(totAvail)}/mo · we give ${money(totReal)}/mo · <span style="color:#2E7D32;">EXTRA ${money(totAvail-totReal)}/mo (${money((totAvail-totReal)*3)}/q)</span></td></tr>`;
+
+  document.querySelectorAll("td.editable").forEach(td => td.ondblclick = () => startEdit(td));
+  document.querySelectorAll(".del").forEach(bn => bn.onclick = async ev => {
+    const tr = ev.target.closest("tr"), id = tr.dataset.r;
+    const rec = records.find(r=>r.id===id), nm = raw(FIELDS[0], rec.v[FIELDS[0].id]) || id;
+    if (!confirm(`Delete "${nm}" from Airtable? This removes the record itself.`)) return;
+    try { await call("delete_records_for_table", { baseId:BASE, tableId:TABLE, recordIds:[id] });
+      records = records.filter(r=>r.id!==id); render();
+    } catch(e){ alert("Delete failed: " + e.message); }
+  });
+}
+
+function startEdit(td){
+  if (td.classList.contains("editing")) return;
+  const tr = td.closest("tr"), recId = tr.dataset.r, fid = td.dataset.f;
+  const f = FIELDS.find(x=>x.id===fid), rec = records.find(r=>r.id===recId);
+  const orig = raw(f, rec.v[fid]);
+  td.classList.add("editing"); td.contentEditable = "true"; td.textContent = orig; td.focus();
+  document.execCommand && document.execCommand("selectAll", false, null);
+  const finish = async commit => {
+    td.contentEditable = "false"; td.classList.remove("editing");
+    const txt = td.textContent.trim();
+    if (!commit || txt === String(orig)) { td.textContent = fmt(f, rec.v[fid]); return; }
+    let val = txt;
+    if (f.type==="cur"||f.type==="num") { val = parseFloat(txt.replace(/[$,\s]/g,"")); if (isNaN(val)) { td.classList.add("err"); setTimeout(()=>{td.classList.remove("err"); td.textContent=fmt(f,rec.v[fid]);},900); return; } }
+    try {
+      await call("update_records_for_table", { baseId:BASE, tableId:TABLE, typecast:true,
+        records:[{ id:recId, fields:{ [fid]: val } }] });
+      rec.v[fid] = (f.type==="select") ? { name: val } : val;
+      render();
+    } catch(e){ td.classList.add("err"); td.textContent = fmt(f, rec.v[fid]); alert("Save failed: " + e.message); }
+  };
+  td.onblur = () => finish(true);
+  td.onkeydown = ev => { if (ev.key==="Enter"){ ev.preventDefault(); td.blur(); } if (ev.key==="Escape"){ td.onblur=null; finish(false); } };
+}
+
+const ADD_FIELDS = FIELDS.filter(f => !["Notes","Discount vs plan /mo","Production Jul–Dec","Production FY26 (9mo)","Platform /mo","Profit /mo"].includes(f.name));
+$("#btnAdd").onclick = () => {
+  $("#addGrid").innerHTML = ADD_FIELDS.map(f =>
+    `<div><label>${f.name}</label>${f.name==="Tier"
+      ? `<select data-af="${f.id}"><option></option><option>T1</option><option>T2</option><option>Dormant</option></select>`
+      : `<input data-af="${f.id}" placeholder="${f.type==="cur"?"$":""}">`}</div>`).join("");
+  $("#addForm").style.display = "block";
+};
+$("#btnCancel").onclick = () => $("#addForm").style.display = "none";
+$("#btnCreate").onclick = async () => {
+  const fields = {};
+  document.querySelectorAll("[data-af]").forEach(el => {
+    let v = el.value.trim(); if (!v) return;
+    const f = FIELDS.find(x=>x.id===el.dataset.af);
+    fields[el.dataset.af] = (f.type==="cur"||f.type==="num") ? parseFloat(v.replace(/[$,\s]/g,"")) : v;
+  });
+  if (!fields[CELLF]) { alert("Cell name is required (Brand · Market)."); return; }
+  try {
+    await call("create_records_for_table", { baseId:BASE, tableId:TABLE, typecast:true, records:[{ fields }] });
+    $("#addForm").style.display = "none"; await load();
+  } catch(e){ alert("Create failed: " + e.message); }
+};
+
+$("#btnDormant").onclick = () => { showDormant = !showDormant; localStorage.setItem("smx_dorm", showDormant?"1":"0");
+  $("#btnDormant").textContent = showDormant ? "Hide dormant" : "Show dormant"; render(); };
+$("#btnDormant").textContent = showDormant ? "Hide dormant" : "Show dormant";
+
+async function loadCostCard(){
+  try {
+    const d = await call("list_records_for_table", { baseId:BASE, tableId:"tbll410l9LZ24HCOT" });
+    const F = { len:"fld0VK52VHaoG9d2b", clean:"fldG1b0pCi7CpVjrV", real:"fldq7lb5pTBZdxDRr", psec:"fldMiL0LaWQXS5Jli" };
+    const recs = d.records.slice().sort((a,b)=> parseInt(a.cellValuesByFieldId[F.len]) - parseInt(b.cellValuesByFieldId[F.len]));
+    $("#costCard").innerHTML =
+      `<div style="font-size:12px;font-weight:600;color:#0b3c5d;margin-bottom:4px;">RATIFIED REAL COST CARD (Shane, 2026-07-08) — all-in hi-res, labour separate</div>` +
+      `<table style="width:auto;"><thead><tr><th>Length</th><th style="text-align:right;">Real all-in</th><th style="text-align:right;">$/sec</th></tr></thead><tbody>` +
+      recs.map(r => { const v = r.cellValuesByFieldId; return `<tr style="background:#F5F8FA;"><td>${v[F.len]||""}</td><td class="num" style="font-weight:600;">${money(v[F.real])}</td><td class="num">${money(v[F.psec],3)}</td></tr>`; }).join("") +
+      `</tbody></table>`;
+  } catch(e){ $("#costCard").innerHTML = `<span style="font-size:12px;color:#b23b3b;">Cost card failed to load: ${e.message}</span>`; }
+}
+
+load();
+loadCostCard();
+</script>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

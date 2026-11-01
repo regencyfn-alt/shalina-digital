@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOUNCE BACK — Campaign Brief · Shal'Artem Nigeria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#1F4598; --blue-900:#15306B; --orange:#F17025; --orange-700:#C9531A;
+    --sky:#55B8ED; --parchment:#F7EFE0; --parchment-deep:#EFE3CC; --parchment-edge:#E4D6BC;
+    --paper:#FBF7EF; --charcoal:#1A1A1A; --ink-500:#4A4A4A; --ink-300:#7C7A75;
+    --gold:#C68A1E; --gold-bright:#D98600; --border-soft:#E3E0D9; --divider:#E7E3DB;
+    --ok:#1F8A5B; --warn:#F17025;
+    --font-display:'Playfair Display',Georgia,serif;
+    --font-text:'Source Sans 3','Segoe UI',system-ui,sans-serif;
+    --font-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    --shadow-sm:0 2px 6px rgba(26,26,26,.07);
+    --shadow-md:0 8px 22px rgba(26,26,26,.10);
+    --shadow-card:0 10px 30px rgba(31,48,107,.10);
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--parchment); color:var(--charcoal);
+    font-family:var(--font-text); font-size:17px; line-height:1.55;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px}
+  .eyebrow{
+    font-family:var(--font-text);font-weight:600;font-size:.72rem;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--orange);margin:0 0 14px
+  }
+  .eyebrow.blue{color:var(--blue)}
+  .eyebrow.muted{color:var(--ink-300)}
+  h1,h2,h3{font-family:var(--font-display);letter-spacing:-.015em;margin:0}
+  h2{font-size:2.5rem;font-weight:700;line-height:1.1;color:var(--blue-900)}
+  h3{font-size:1.4rem;font-weight:600;line-height:1.2;color:var(--charcoal)}
+  .gold{color:var(--gold)}
+  .orange{color:var(--orange)}
+  .blue{color:var(--blue)}
+  p{margin:0 0 16px;text-wrap:pretty}
+  a{color:var(--blue);text-underline-offset:2px}
+  strong{font-weight:700}
+
+  /* ---- MASTHEAD ---- */
+  header.mast{
+    background:
+      radial-gradient(120% 80% at 78% 12%, rgba(85,184,237,.10) 0%, rgba(85,184,237,0) 55%),
+      linear-gradient(180deg,var(--paper) 0%, var(--parchment) 100%);
+    border-bottom:1px solid var(--parchment-edge);
+    padding:70px 0 54px;
+  }
+  .kicker{
+    font-family:var(--font-text);font-weight:600;font-size:.72rem;letter-spacing:.28em;
+    text-transform:uppercase;color:var(--ink-300);margin:0 0 22px
+  }
+  .kicker b{color:var(--blue);font-weight:700}
+  h1.title{
+    font-family:var(--font-display);font-weight:900;font-size:5.4rem;line-height:.94;
+    letter-spacing:-.02em;color:var(--charcoal);margin:0
+  }
+  .subhead{
+    font-family:var(--font-display);font-weight:500;font-size:2rem;line-height:1.15;
+    color:var(--charcoal);margin:18px 0 20px
+  }
+  .lede{font-size:1.2rem;line-height:1.5;color:var(--ink-500);max-width:640px;margin:0}
+
+  /* at-a-glance strip */
+  .glance{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+    background:var(--parchment-edge);border:1px solid var(--parchment-edge);
+    margin:44px 0 0
+  }
+  .glance div{background:var(--paper);padding:18px 20px}
+  .glance .k{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-300);font-weight:600;margin:0 0 6px}
+  .glance .v{font-family:var(--font-display);font-weight:700;font-size:1.5rem;color:var(--blue-900);line-height:1.05}
+  .glance .v small{display:block;font-family:var(--font-text);font-weight:500;font-size:.8rem;color:var(--ink-500);letter-spacing:0;margin-top:3px}
+
+  /* ---- VERDICT / summary bar ---- */
+  .verdict{
+    background:var(--blue-900);color:#F4F1EA;padding:30px 0;
+  }
+  .verdict .wrap{display:flex;align-items:baseline;gap:22px;flex-wrap:wrap}
+  .verdict .badge{
+    font-family:var(--font-text);font-weight:700;font-size:.72rem;letter-spacing:.18em;
+    text-transform:uppercase;color:#0e1f47;background:var(--gold-bright);
+    padding:7px 14px;border-radius:2px;white-space:nowrap
+  }
+  .verdict p{margin:0;color:#DCE4F5;font-size:1.05rem;max-width:760px;line-height:1.45}
+  .verdict b{color:#fff}
+
+  /* ---- sections ---- */
+  section{padding:62px 0;border-bottom:1px solid var(--divider)}
+  section.tint{background:var(--parchment-deep)}
+  .sec-head{margin:0 0 34px}
+  .sec-head h2{margin-top:6px}
+
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+  .biglead{
+    font-family:var(--font-display);font-weight:600;font-size:1.9rem;line-height:1.2;color:var(--charcoal)
+  }
+
+  /* count motif */
+  .counts{display:flex;align-items:flex-end;gap:14px;height:150px;margin-top:8px}
+  .counts .bar{width:52px;background:var(--parchment-edge);position:relative;border-radius:2px 2px 0 0}
+  .counts .bar span{position:absolute;bottom:-26px;left:0;right:0;text-align:center;font-family:var(--font-mono);font-size:.82rem;color:var(--ink-300)}
+  .counts .bar.b1{height:46%} .counts .bar.b2{height:38%} .counts .bar.b3{height:30%}
+  .counts .bar.b4{height:100%;background:var(--gold)}
+  .counts .bar.b4 span{color:var(--gold);font-weight:600}
+
+  /* step cards */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .card{
+    background:var(--paper);border:1px solid var(--border-soft);border-radius:12px;
+    padding:26px 24px;box-shadow:var(--shadow-sm)
+  }
+  .card .num{font-family:var(--font-display);font-weight:700;font-size:2rem;color:var(--gold);line-height:1;margin:0 0 14px}
+  .card h4{font-family:var(--font-text);font-weight:700;font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin:0 0 10px}
+  .card p{font-size:.98rem;color:var(--ink-500);margin:0}
+
+  /* tiers */
+  .tier{display:grid;grid-template-columns:180px 1fr;gap:26px;padding:26px 0;border-top:1px solid var(--divider)}
+  .tier:first-of-type{border-top:none}
+  .tier .tag{font-family:var(--font-display);font-weight:700;font-size:1.25rem;color:var(--blue-900)}
+  .tier .tag small{display:block;font-family:var(--font-text);font-weight:600;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);margin-bottom:6px}
+  .tier p{margin:0;color:var(--ink-500);font-size:1rem}
+
+  /* cycle steps */
+  .cycle{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;counter-reset:c}
+  .cycle .st{background:var(--paper);border:1px solid var(--border-soft);border-radius:10px;padding:20px 18px;position:relative;box-shadow:var(--shadow-sm)}
+  .cycle .st .d{font-family:var(--font-text);font-weight:700;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin:0 0 8px}
+  .cycle .st h4{font-family:var(--font-display);font-weight:600;font-size:1.1rem;color:var(--blue-900);margin:0 0 8px}
+  .cycle .st p{margin:0;font-size:.9rem;color:var(--ink-500)}
+
+  /* tables */
+  table{width:100%;border-collapse:collapse;font-size:.98rem;background:var(--paper);border:1px solid var(--border-soft)}
+  th,td{text-align:left;padding:14px 18px;border-bottom:1px solid var(--divider);vertical-align:top}
+  thead th{background:var(--blue-900);color:#EAF0FB;font-family:var(--font-text);font-weight:600;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase}
+  tbody tr:last-child td{border-bottom:none}
+  td.amt{font-family:var(--font-mono);font-weight:600;color:var(--blue-900);white-space:nowrap}
+  tr.sub td{background:#F1EADB;font-weight:600;font-size:.86rem}
+  tr.sub td.amt{color:var(--blue-900)}
+  tr.total td{background:var(--parchment-deep);font-weight:700}
+  tr.total td.amt{color:var(--orange-700);font-size:1.05rem}
+  .weeknum{font-family:var(--font-display);font-weight:700;color:var(--gold);white-space:nowrap}
+  .rise td{box-shadow:inset 3px 0 0 var(--blue)}
+
+  /* moment made hero */
+  .hero-prize{display:grid;grid-template-columns:1fr 1.2fr;gap:44px;align-items:center}
+  .hero-prize .big{font-family:var(--font-display);font-weight:800;font-size:4rem;line-height:.95;color:var(--gold);letter-spacing:-.02em}
+  .hero-prize .lbl{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-300);font-weight:600;margin-top:14px}
+  .podium{display:flex;gap:14px;margin-top:26px}
+  .podium div{flex:1;background:var(--paper);border:1px solid var(--border-soft);border-radius:10px;padding:16px 14px;text-align:center;box-shadow:var(--shadow-sm)}
+  .podium .p{font-family:var(--font-display);font-weight:700;font-size:1.5rem;color:var(--blue-900)}
+  .podium .r{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-300);font-weight:600;margin-top:4px}
+  .podium .win1 .p{color:var(--gold)}
+
+  /* checklist */
+  ul.check{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+  ul.check li{position:relative;padding-left:34px;color:var(--ink-500);font-size:1rem}
+  ul.check li::before{content:"";position:absolute;left:0;top:3px;width:20px;height:20px;border-radius:50%;border:2px solid var(--ok)}
+  ul.check li.done::before{background:var(--ok);border-color:var(--ok)}
+  ul.check li.gate::before{border-color:var(--orange);border-style:solid}
+  ul.check li b{color:var(--charcoal)}
+  ul.check li .flag{display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+  ul.check li .flag.g{background:#E7F3EC;color:var(--ok)}
+  ul.check li .flag.o{background:#FDEDE2;color:var(--orange-700)}
+
+  /* compliance grid */
+  .comp{display:grid;grid-template-columns:1fr 1fr;gap:14px 32px}
+  .comp .item{display:flex;gap:12px;font-size:.96rem;color:var(--ink-500);padding:10px 0;border-bottom:1px solid var(--divider)}
+  .comp .item b{color:var(--charcoal);font-weight:600}
+  .comp .n{font-family:var(--font-mono);color:var(--blue);font-weight:600;flex:none}
+
+  .note{background:var(--paper);border-left:3px solid var(--orange);padding:18px 22px;border-radius:0 8px 8px 0;box-shadow:var(--shadow-sm);margin-top:8px}
+  .note p{margin:0;font-size:.98rem;color:var(--ink-500)}
+  .note b{color:var(--charcoal)}
+  .note.blue{border-left-color:var(--blue)}
+
+  /* footer */
+  footer{background:var(--charcoal);color:#F4F1EA;padding:52px 0 40px;text-align:center}
+  footer .claim{font-family:var(--font-display);font-weight:700;font-size:1.7rem;color:#fff}
+  footer .claim .gold{color:var(--gold)}
+  footer .claim em{font-style:italic;font-weight:500;color:#D8D3C8}
+  footer .fine{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:#8b8880;margin-top:20px}
+
+  :root{ --shadow-lg:0 18px 48px rgba(26,26,26,.14); }
+  .mast-top{display:grid;grid-template-columns:1.32fr .9fr;gap:46px;align-items:center;margin-bottom:8px}
+  .mast-art{margin:0;position:relative}
+  .mast-art img{width:100%;height:auto;display:block;border-radius:0;border:1px solid var(--parchment-edge);box-shadow:var(--shadow-lg)}
+  .mast-art figcaption{font-family:var(--font-text);font-weight:600;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-300);margin-top:12px;text-align:right}
+  .phone{margin:0 auto;max-width:290px;text-align:center}
+  .phone video{width:100%;height:auto;display:block;border-radius:26px;background:#0b0d12;border:7px solid #12151b;box-shadow:var(--shadow-lg)}
+  .phone figcaption{font-family:var(--font-text);font-size:.82rem;color:var(--ink-500);margin-top:14px;line-height:1.4}
+  .phone .cue{display:inline-block;font-size:.64rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);background:#FDEDE2;padding:3px 10px;border-radius:3px;margin-bottom:8px}
+
+  @media(max-width:820px){
+    .wrap{padding:0 22px}
+    h1.title{font-size:3.3rem}
+    .subhead{font-size:1.5rem}
+    h2{font-size:1.9rem}
+    .glance{grid-template-columns:repeat(2,1fr)}
+    .twocol,.steps,.hero-prize,.comp{grid-template-columns:1fr;gap:26px}
+    .cycle{grid-template-columns:1fr 1fr}
+    .tier{grid-template-columns:1fr;gap:8px}
+    .verdict .wrap{gap:14px}
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="mast">
+  <div class="wrap">
+    <div class="brandbar">
+      <img class="logo" src="bb-logo-shalartem.png" alt="Shal'Artem">
+      <div class="lockup"><span class="by">A Shalina Healthcare brand</span><img class="logo" src="bb-logo-shalina.png" alt="Shalina Healthcare"></div>
+    </div>
+    <div class="mast-top">
+      <div class="mast-copy">
+        <p class="kicker"><b>Shal'Artem</b> presents &nbsp;·&nbsp; Nigeria &nbsp;·&nbsp; A National Dance Competition</p>
+        <h1 class="title">BOUNCE BACK</h1>
+        <p class="subhead">Three counts down. <span class="gold">Rise</span> on four.</p>
+        <p class="lede">Not the three days — what you do after them. Nigeria's comeback dance, open to everyone with a body and a moment worth rising for. This is the working brief: the move, the money, the timeline, and the guardrails.</p>
+      </div>
+      <figure class="mast-art">
+        <img alt="A dancer rising into the fourth count under stadium light" src="bb-hero.png">
+        <figcaption>Count four — the rise.</figcaption>
+      </figure>
+    </div>
+
+    <div class="glance">
+      <div><p class="k">Budget</p><p class="v">$10,000<small>$7k ops + $3k prizes</small></p></div>
+      <div><p class="k">Build</p><p class="v">8 days<small>live on day 9</small></p></div>
+      <div><p class="k">Run</p><p class="v">4 weeks<small>Nigeria · NMA-endorsed</small></p></div>
+      <div><p class="k">Grand prize</p><p class="v">$1,200<small>"Moment Made"</small></p></div>
+    </div>
+  </div>
+</header>
+
+<!-- VERDICT / SUMMARY -->
+<div class="verdict">
+  <div class="wrap">
+    <span class="badge">The idea in one line</span>
+    <p><b>Three counts down, rise on four.</b> A signature move anyone can do in a doorway, a market, a stadium — the body telling the brand's truth: the fever takes three days; the moment you rise is yours. We don't ask Nigeria to talk about malaria. We ask Nigeria to show us the comeback.</p>
+  </div>
+</div>
+
+<!-- WHY DANCE -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Why dance carries this</p>
+      <h2>The move <span class="gold">is</span> the message.</h2>
+    </div>
+    <div class="twocol">
+      <div>
+        <p><strong>The theme is physical.</strong> "Bounce back" is literally a movement — no brand metaphor to explain. Down, down, down, UP.</p>
+        <p><strong>It's the house's proven format.</strong> Street style + user content + micro-influencers is the machine Shalina already runs in Nigeria. We're loading a proven gun with a sharper bullet.</p>
+        <p><strong>Dance travels where copy can't.</strong> A move needs no literacy, no language split, no caption. Lagos to Kano, one grammar.</p>
+      </div>
+      <div>
+        <p><strong>It keeps us clean.</strong> Nobody dances a medical claim. The clinical truth stays in the brand's own endorsed line; the public's contribution is joy, recovery-energy, life resumed — the safest compliance posture available, safer even than testimony.</p>
+        <p><strong>Sound + move = algorithm.</strong> An ownable audio plus a copyable signature move is the one UGC format that reliably compounds on TikTok and Reels in Nigeria — and we own the sound outright.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE MOVE -->
+<style>
+/* ── media additions 2026-07-22 · teaser video · image strip · anthem players ── */
+.media-figure{margin:0}
+.teaser-vid{width:100%;max-width:420px;margin:0 auto;display:block;background:#000;border:1px solid var(--parchment-edge);box-shadow:var(--shadow-card)}
+.teaser-vid video{width:100%;display:block}
+.media-figure figcaption{font-size:.92rem;color:var(--ink-500);margin:16px auto 0;text-align:center;max-width:540px;line-height:1.5}
+.imgstrip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:36px}
+.imgstrip figure{margin:0}
+.imgstrip img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;border:1px solid var(--parchment-edge);box-shadow:var(--shadow-sm)}
+.imgstrip figcaption{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-300);font-weight:600;margin-top:10px}
+.anthem-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:6px}
+.trackcard{background:var(--paper);border:1px solid var(--parchment-edge);border-radius:18px;padding:22px 22px 20px;box-shadow:var(--shadow-card)}
+.trackcard.pick{border-color:var(--gold);box-shadow:0 10px 30px rgba(198,138,30,.18)}
+.trackcard .tk{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:4px}
+.trackcard .tn{font-family:var(--font-display);font-weight:700;font-size:1.25rem;color:var(--blue-900);margin:0}
+.trackcard .tag{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:#0e1f47;background:var(--gold-bright);padding:3px 8px;border-radius:3px;white-space:nowrap}
+.trackcard .td{font-size:.9rem;color:var(--ink-500);margin:0 0 14px}
+.trackcard audio{width:100%;height:38px}
+@media(max-width:640px){.imgstrip{grid-template-columns:1fr 1fr}.anthem-grid{grid-template-columns:1fr}}
+.brandbar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:24px;margin-bottom:28px;border-bottom:1px solid var(--parchment-edge);flex-wrap:wrap}
+.brandbar .lockup{display:flex;align-items:center;gap:14px}
+.brandbar img.logo,.brandfoot img.logo{width:auto;display:block;background:#fff;border:1px solid var(--parchment-edge);border-radius:12px;box-shadow:var(--shadow-sm)}
+.brandbar img.logo{height:46px;padding:8px 13px}
+.brandbar .by{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-300);font-weight:600}
+.brandfoot{display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;margin:0 0 28px}
+.brandfoot img.logo{height:58px;padding:10px 16px;border-radius:14px}
+.brandfoot .by{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-300);font-weight:600}
+</style>
+
+<!-- TEASER VIDEO + IMAGE STRIP · added 2026-07-22 -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">The teaser · first drop Friday</p>
+      <h2>Thirty seconds <span class="gold">to start a street.</span></h2>
+    </div>
+    <figure class="media-figure">
+      <div class="teaser-vid">
+        <img src="bb-img-stadium.png" style="width:100%;display:block">
+      </div>
+      <figcaption>The teaser — dance only, no singers: a market cypher at golden hour, three counts down, rise on four, cut to the anthem. First drop: Friday.</figcaption>
+    </figure>
+    <div class="imgstrip">
+      <figure><img src="bb-img-stadium.png" alt="Bounce Back key art"><figcaption>Key art</figcaption></figure>
+      <figure><img src="bb-img-firststeps.png" alt="Bounce Back the floor"><figcaption>The floor</figcaption></figure>
+      <figure><img src="bb-img-graduation.png" alt="Bounce Back the rise"><figcaption>The rise</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="tint">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">The signature move · "3 down, rise on 4"</p>
+      <h2>Everyone starts identical. <span class="gold">Everyone finishes different.</span></h2>
+    </div>
+    <div class="twocol">
+      <div>
+        <p><strong>Counts 1&nbsp;–&nbsp;2&nbsp;–&nbsp;3:</strong> low, heavy, coiled — shoulders drop a beat each count. The weight. The three days.</p>
+        <p><strong>Count 4 — the RISE:</strong> explode up into YOUR move. Shaku, gbese, zanku, a spin, a leap. The first three counts belong to the brand; <strong class="orange">the fourth count belongs to Nigeria.</strong></p>
+        <p>Filmable in 15 seconds: three-down-rise-on-four twice, then freestyle out. Judges score the fourth count — originality — which is what turns a challenge into a competition.</p>
+        <p style="margin-top:24px">
+          <span class="biglead">The first three counts belong to the brand.<br><span class="orange">The fourth belongs to Nigeria.</span></span>
+        </p>
+      </div>
+      <div>
+        <figure class="phone">
+          <span class="cue">Sound on</span>
+          <img src="bb-img-stadium.png" style="width:100%;display:block">
+          <figcaption>The move, live — a Lagos crew: three counts down, rise on four, each dancer&rsquo;s own fourth count.</figcaption>
+        </figure>
+        <div class="note blue" style="margin-top:44px">
+          <p><b>We make the anthem in-house.</b> One 30–45s Afrobeats track with the count baked into the hook — <em>"one, two, three… RISE."</em> Produced by us, so we own it clean — full commercial + TikTok/Meta sound rights, no licensing exposure, no third-party takedown risk. The sound is the campaign's most valuable asset: every use is an impression with the mechanic embedded.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO ENTER -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">How to enter</p>
+      <h2>Three ways in. <span class="gold">No purchase.</span></h2>
+    </div>
+    <div class="steps">
+      <div class="card">
+        <p class="num">1</p>
+        <h4>Do the move</h4>
+        <p>15 seconds. The count, then your fourth-count freestyle. Solo, crew, family, market, church steps — anywhere.</p>
+      </div>
+      <div class="card">
+        <p class="num">2</p>
+        <h4>Post it</h4>
+        <p>Use the Bounce Back sound and the campaign hashtag on TikTok, Instagram or Facebook. One line in the caption: <em>"The moment I'll never miss: ___."</em></p>
+      </div>
+      <div class="card">
+        <p class="num">3</p>
+        <h4>Or WhatsApp it</h4>
+        <p>Not one for posting? Send your clip straight to the campaign WhatsApp line. Same competition, same prizes, private entry.</p>
+      </div>
+    </div>
+    <div class="note" style="margin-top:24px">
+      <p><b>Enter as often as you like.</b> Every week is a fresh chance — entries close <strong>Sunday 12:00&nbsp;pm</strong>. Haven't won yet? Re-enter as many times as you want, every week. Past winners step back from the ladder so the prizes keep spreading.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW A WEEK WORKS -->
+<section class="tint">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">The weekly cycle · repeats for four weeks</p>
+      <h2>Enter, close, <span class="gold">vote, rise.</span></h2>
+    </div>
+    <div class="cycle">
+      <div class="st"><p class="d">Mon – Sun</p><h4>Enter</h4><p>Post the move all week. Re-enter as often as you like.</p></div>
+      <div class="st"><p class="d">Sunday 12pm</p><h4>Close</h4><p>The week's entry window shuts on the dot.</p></div>
+      <div class="st"><p class="d">Mon</p><h4>Shortlist</h4><p>Jury pre-screens for compliance and craft, draws the shortlist.</p></div>
+      <div class="st"><p class="d">Mon – Wed</p><h4>Public vote</h4><p>The shortlist goes to a public vote across the channels.</p></div>
+      <div class="st"><p class="d">Following week</p><h4>Winners</h4><p>Three winners announced &amp; featured in gold treatment.</p></div>
+    </div>
+    <div class="note" style="margin-top:24px">
+      <p><b>Content engine.</b> Three brand video posts per week across Facebook, Instagram and TikTok carry the move, the winners and the moments — with paid media behind them for reach.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE / BUILD -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Timeline · build starts now</p>
+      <h2>Eight days to build. <span class="gold">Live on day nine.</span></h2>
+    </div>
+    <table>
+      <thead><tr><th style="width:150px">Phase</th><th style="width:150px">When</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr><td class="weeknum">Build</td><td><strong>Days 1–8</strong><br><span style="color:var(--ink-300);font-size:.85rem">from today</span></td><td>Anthem produced in-house · the move how-to film · <strong>the first three video posts</strong> · channels, hashtag &amp; WhatsApp line live · T&amp;Cs + NG permits · PV / moderation SOP · 15-influencer roster briefed.</td></tr>
+        <tr class="rise"><td class="weeknum">Launch</td><td><strong class="blue">Day 9</strong></td><td>The move drops. Influencers seed inside a 48h window. The Streets floor opens; the first weekly cycle begins.</td></tr>
+        <tr><td class="weeknum">Weeks 1–3</td><td><strong>The run</strong></td><td>Weekly cycle repeats — enter, Sunday close, public vote, three winners the following week. Three video posts a week, paid media behind them.</td></tr>
+        <tr><td class="weeknum">Week 4</td><td><strong>The Rise</strong></td><td>Final weekly winners + the <strong>$1,200 "Moment Made" grand prize</strong> revealed being made — we film the moment we fund; that film is the finale.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- THREE TIERS -->
+<section class="tint">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Who's in it</p>
+      <h2>The streets, the crews, <span class="gold">the fuse.</span></h2>
+    </div>
+    <div class="tier">
+      <div class="tag"><small>Tier 1 · the floor</small>THE STREETS</div>
+      <p>UGC floor — everyone. Post your Bounce Back, your fourth count, the sound. Solo, family, workplace, market, church-steps after service. Weekly winners voted in by the public. WhatsApp channel for those who won't post publicly — load-bearing in this market.</p>
+    </div>
+    <div class="tier">
+      <div class="tag"><small>Tier 2 · the show</small>THE CREWS</div>
+      <p>Registered dance crews (2–8) battle through the run — the craft tier. Crews bring choreography, costume, location craft, and feed the brand's own video content and future films.</p>
+    </div>
+    <div class="tier">
+      <div class="tag"><small>Tier 3 · the fuse</small>THE IGNITERS</div>
+      <p><strong>15 Nigerian micro-influencers</strong> from our own WhatsApp roster seed the move inside the launch 48-hour window and keep the feed busy through the run. Micro over mega, deliberately: comment-section trust and geographic spread. They <strong class="orange">post their own entries but cannot win</strong> — they're pace-setters who set the standard, with paid-partnership disclosure. The prizes stay with the public floor.</p>
+    </div>
+    <div class="note" style="margin-top:26px">
+      <p><b>The story floor.</b> Every entry caption invites one line — <em>"My moment I'll never miss: ___."</em> The dance carries the reach; the line carries the brand story home and mines the best stories for next season's films.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRIZES -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">The prizes</p>
+      <h2>Three a week, and one that <span class="gold">is the tagline.</span></h2>
+    </div>
+    <div class="hero-prize">
+      <div>
+        <div class="big">MOMENT<br>MADE</div>
+        <p class="lbl">The grand prize · $1,200</p>
+        <div class="podium">
+          <div class="win1"><p class="p">$200</p><p class="r">1st / week</p></div>
+          <div><p class="p">$150</p><p class="r">2nd / week</p></div>
+          <div><p class="p">$100</p><p class="r">3rd / week</p></div>
+        </div>
+      </div>
+      <div>
+        <p><strong>Every week, three winners</strong> — $200, $150, $100 — voted in by the public and featured in gold treatment. Over four weeks that's <strong>$1,800</strong> spread across the floor, plus airtime, data and the feature.</p>
+        <p>Then the grand prize: one winner gets their <strong>actual moment funded and filmed</strong> — the stall launch, the wedding video, the graduation shoot. We don't hand over a gadget. <strong class="gold">We make sure you don't miss your moment.</strong> At $1,200 in Nigeria this genuinely funds a real moment, and filming it being fulfilled gives the campaign its crescendo at production cost.</p>
+        <p style="margin-bottom:0"><strong>How winners are chosen:</strong> jury pre-screens each week's entries for compliance and craft, the shortlist goes to a public vote, winners announced the following week. Influencers can't win; past winners step back so the prizes keep spreading.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANTHEM · 4 INTERACTIVE MIXES · added 2026-07-22 -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">The anthem · four mixes</p>
+      <h2>The hook is the tagline. <span class="gold">Pick the cut.</span></h2>
+    </div>
+    <p style="max-width:660px;color:var(--ink-500);margin:0 0 28px">"One, two, three... rise on four" — built to be sung, chanted, and worn. Four mixes of the same anthem below; the 30-second radio and social edit comes off the selected cut.</p>
+    <div class="anthem-grid">
+      <div class="trackcard pick">
+        <div class="tk"><p class="tn">Mix 1</p><span class="tag">Selected · 48s</span></div>
+        <p class="td">The reference cut for the 30-second edit.</p>
+        <audio controls preload="none" src="anthem/bounce-back-anthem-v1.mp3"></audio>
+      </div>
+      <div class="trackcard">
+        <div class="tk"><p class="tn">Mix 2</p><span class="tag" style="background:var(--parchment-edge);color:var(--ink-500)">44s</span></div>
+        <p class="td">Alternate mix.</p>
+        <audio controls preload="none" src="anthem/bounce-back-anthem-v2.mp3"></audio>
+      </div>
+      <div class="trackcard">
+        <div class="tk"><p class="tn">Mix 3</p><span class="tag" style="background:var(--parchment-edge);color:var(--ink-500)">54s</span></div>
+        <p class="td">Alternate mix.</p>
+        <audio controls preload="none" src="anthem/bounce-back-anthem-v3.mp3"></audio>
+      </div>
+      <div class="trackcard">
+        <div class="tk"><p class="tn">Mix 4</p><span class="tag" style="background:var(--parchment-edge);color:var(--ink-500)">79s</span></div>
+        <p class="td">Extended mix — longest of the four.</p>
+        <audio controls preload="none" src="anthem/bounce-back-anthem-v4.mp3"></audio>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUDGET -->
+<section class="tint">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Budget · the whole envelope</p>
+      <h2>$10,000, allocated to <span class="gold">the cent.</span></h2>
+    </div>
+    <table>
+      <thead><tr><th style="width:220px">Line</th><th style="width:120px">Amount</th><th>What it buys</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Media spend</strong></td><td class="amt">$6,250</td><td>Paid amplification across Facebook, Instagram, TikTok — behind the three video posts per week.</td></tr>
+        <tr><td><strong>Influencers ×15</strong></td><td class="amt">$750</td><td>House WhatsApp roster, $50 each flat. Pace-setters — they post, they can't win.</td></tr>
+        <tr><td><strong>Anthem</strong></td><td class="amt">in-house</td><td>Made by us — $0 external, full rights owned. No producer fee, no licensing exposure.</td></tr>
+        <tr class="sub"><td>Operating budget</td><td class="amt">$7,000</td><td>The working spend — media, seeding, and the sound.</td></tr>
+        <tr><td><strong>Prizes — weekly</strong></td><td class="amt">$1,800</td><td>4 weeks × ($200 + $150 + $100). Public-voted, announced the following week.</td></tr>
+        <tr><td><strong>Prizes — grand</strong></td><td class="amt">$1,200</td><td>"Moment Made" grand prize — funded and filmed at the Week-4 finale.</td></tr>
+        <tr class="sub"><td>Prize pool (on top)</td><td class="amt">$3,000</td><td>Ring-fenced incentive layer — sits on top of the operating budget.</td></tr>
+        <tr class="total"><td>Total</td><td class="amt">$10,000</td><td>Operating 7,000 + prizes 3,000</td></tr>
+      </tbody>
+    </table>
+    <div class="note" style="margin-top:16px">
+      <p><b>Confirmed structure.</b> $7,000 operating — media, 15-influencer seeding, and the sound we make in-house — plus a $3,000 prize pool ring-fenced on top. <b>$10,000 all in.</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- COMPLIANCE -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Compliance · nine guardrails</p>
+      <h2>Clean by <span class="gold">design.</span></h2>
+    </div>
+    <div class="comp">
+      <div class="item"><span class="n">1</span><span><b>No purchase to enter.</b> Ever. Stated on every surface.</span></div>
+      <div class="item"><span class="n">2</span><span><b>Entries are about moments and dance</b> — never malaria testimony.</span></div>
+      <div class="item"><span class="n">3</span><span><b>PV / adverse-event moderation SOP before launch.</b> The gate everything hangs on.</span></div>
+      <div class="item"><span class="n">4</span><span><b>No medical claims</b> in any campaign or entrant copy.</span></div>
+      <div class="item"><span class="n">5</span><span><b>NMA market-specific.</b> Endorsement cited only where valid.</span></div>
+      <div class="item"><span class="n">6</span><span><b>Minors &amp; consent</b> handled per policy; releases on file.</span></div>
+      <div class="item"><span class="n">7</span><span><b>T&amp;Cs + NG promotion permits</b> in place before day one.</span></div>
+      <div class="item"><span class="n">8</span><span><b>The "3 days" reads as brand equity,</b> not a new claim — approved line in brand assets only.</span></div>
+      <div class="item"><span class="n">9</span><span><b>Music rights owned outright</b> — anthem made in-house, full commercial + UGC-platform clearance.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- LAUNCH READINESS -->
+<section class="tint">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Launch readiness · what's locked, what fires it</p>
+      <h2>Eight days out. <span class="gold">Build starts now.</span></h2>
+    </div>
+    <div class="twocol">
+      <div>
+        <p class="eyebrow blue" style="margin-bottom:18px">Locked and in hand</p>
+        <ul class="check">
+          <li class="done"><b>The concept</b> — dance spine, three tiers, story floor <span class="flag g">Done</span></li>
+          <li class="done"><b>Budget</b> — $10k allocated to the cent <span class="flag g">Done</span></li>
+          <li class="done"><b>Weekly mechanic</b> — Sunday close, public vote, 3 winners <span class="flag g">Done</span></li>
+          <li class="done"><b>Pitch deck</b> + brand one-pager + campaign pages <span class="flag g">Done</span></li>
+          <li class="done"><b>Compliance spine</b> — nine guardrails carried whole <span class="flag g">Done</span></li>
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow" style="margin-bottom:18px;color:var(--orange)">The 8-day build (starts today)</p>
+        <ul class="check">
+          <li class="gate"><b>Anthem produced in-house</b> — count in the hook <span class="flag o">Day 1–5</span></li>
+          <li class="gate"><b>The first three video posts</b> — how-to + launch trio <span class="flag o">Day 1–8</span></li>
+          <li class="gate"><b>Channels, hashtag &amp; WhatsApp line</b> live <span class="flag o">Day 1–3</span></li>
+          <li class="gate"><b>PV / moderation SOP owner</b> at Shalina — the launch gate <span class="flag o">Shalina</span></li>
+          <li class="gate"><b>15-influencer roster</b> briefed for the 48h drop <span class="flag o">Day 4–8</span></li>
+        </ul>
+        <div class="note blue" style="margin-top:22px">
+          <p><b>Live on day nine.</b> Everything upstream of the fire is designed; the eight days build the assets and open the channels. What remains from the client is the PV owner and Kartik's word on fulfilment.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="brandfoot">
+      <img class="logo" src="bb-logo-shalartem.png" alt="Shal'Artem">
+      <span class="by">endorsed by</span>
+      <img class="logo" src="bb-logo-shalina.png" alt="Shalina Healthcare">
+    </div>
+    <p class="claim">Shal'Artem — Knock out Malaria in <span class="gold">3&nbsp;Days.</span> <em>Never miss your moment.</em></p>
+    <p class="fine">Shalina Healthcare &nbsp;·&nbsp; NMA Endorsed &nbsp;·&nbsp; T&amp;Cs Apply &nbsp;·&nbsp; No Purchase Necessary</p>
+  </div>
+</footer>
+
+</body>
+</html>

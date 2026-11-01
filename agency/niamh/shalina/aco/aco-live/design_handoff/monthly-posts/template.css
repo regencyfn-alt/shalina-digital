@@ -1,0 +1,156 @@
+/* ============================================================================
+   SHALINA — MONTHLY SOCIAL POSTS · EDITABLE TEMPLATE
+   Shared chrome. Each brand page sets the theme variables + display font.
+   Structure mirrors the Shal'Artem brand-plan calendar section:
+     .top  ·  .calhead  ·  .stripe  ·  .fgrid (4×2 .fcard)  ·  .foot
+   Editable: every .cscript / [data-edit] persists to localStorage.
+   Video: each .media holds a real <video> 7s slot (poster + play + drop-to-swap)
+   ============================================================================ */
+
+:root{
+  /* defaults — overridden per brand */
+  --brand:#1F4598; --brand-deep:#15306B; --accent:#F17025; --pop:#FFD338;
+  --ink:#1F1C17; --ink-soft:#5a554d; --muted:#9a917e;
+  --page:#ffffff; --card:#ffffff; --line:#e7e0d2;
+  --display:'Playfair Display',Georgia,serif;
+  --body:'Archivo',system-ui,sans-serif;
+  --shadow:0 12px 30px rgba(31,28,23,.10);
+  --shadow-sm:0 4px 14px rgba(31,28,23,.07);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{ -webkit-text-size-adjust:100% }
+body{
+  font-family:var(--body);background:var(--page);color:var(--ink);
+  -webkit-font-smoothing:antialiased;line-height:1.5;
+  padding:clamp(1.4rem,3vw,2.8rem) clamp(1.2rem,3.4vw,3.4rem) 2rem;
+  max-width:1640px;margin-inline:auto;
+}
+img{display:block;max-width:100%}
+
+/* ---------- top bar ---------- */
+.top{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap}
+.logo{font-family:var(--display);font-weight:900;font-size:clamp(1.25rem,2vw,1.85rem);color:var(--brand);letter-spacing:-.01em}
+.logo .dot{color:var(--ink)}
+.top .meta{font-weight:700;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;color:var(--brand);text-align:right}
+
+/* ---------- calendar head ---------- */
+.calhead{border-bottom:2.5px solid var(--ink);padding-bottom:.85rem;margin-top:.55rem;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:1.4rem;flex-wrap:wrap}
+.lbl{font-weight:700;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);
+  margin-bottom:.5rem;display:flex;align-items:center;gap:.6rem}
+.lbl::before{content:"";width:18px;height:2.5px;background:var(--accent);flex:0 0 auto}
+.calhead h1{font-family:var(--display);font-weight:900;font-size:clamp(2.1rem,5.2vw,4.2rem);line-height:.92;color:var(--ink);letter-spacing:-.01em}
+.calhead h1 .hl{color:var(--brand)}
+.calhead .r{text-align:right;font-weight:700;font-size:.72rem;letter-spacing:.02em;color:var(--ink-soft);line-height:1.7;flex:0 0 auto}
+.calhead .r b{display:block;color:var(--brand);font-family:var(--display);font-size:clamp(1.5rem,2.4vw,2rem);line-height:1}
+.calhead .r .note2{color:var(--accent);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;margin-top:.2rem}
+
+/* ---------- stripe ---------- */
+.stripe{display:flex;gap:clamp(1rem,2.4vw,2.2rem);margin:.95rem 0 1.1rem;font-weight:700;font-size:.62rem;
+  letter-spacing:.14em;text-transform:uppercase;flex-wrap:wrap}
+.stripe span{display:flex;align-items:center;gap:.5rem}
+.stripe span::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.stripe .a{color:var(--brand)} .stripe .a::before{background:var(--brand)}
+.stripe .b{color:var(--accent)} .stripe .c{color:var(--ink-soft)} .stripe .c::before{background:var(--muted)}
+
+/* ---------- grid ---------- */
+.fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(.85rem,1.4vw,1.3rem)}
+@media(max-width:1180px){.fgrid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:880px){.fgrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){
+  .fgrid{grid-template-columns:1fr;gap:1.1rem}
+  /* phone: stand the films up — these are 9:16 vertical clips */
+  .media{aspect-ratio:4/5}
+  .media .slot .scene{font-size:.92rem;max-width:26ch}
+  .media .play{width:64px;height:64px}
+  .cscript{font-size:.86rem}
+}
+
+/* ---------- card ---------- */
+.fcard{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  display:flex;flex-direction:column;box-shadow:var(--shadow-sm);transition:box-shadow .25s,transform .25s}
+.fcard:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
+
+.chead{display:flex;align-items:center;gap:.55rem;padding:.6rem .7rem .5rem}
+.av{width:30px;height:30px;border-radius:50%;background:var(--brand);flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--display);font-weight:900;font-size:.85rem}
+.who .nm{font-weight:800;font-size:.82rem;line-height:1;color:var(--ink)}
+.who .sb{font-size:.6rem;color:var(--muted);margin-top:.15rem}
+.bud{margin-left:auto;flex:0 0 auto;white-space:nowrap;color:#fff;background:var(--brand);padding:.16rem .55rem;border-radius:7px;
+  font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:.01em}
+.bud[contenteditable]{outline:none}
+.bud[contenteditable]:focus{box-shadow:0 0 0 2px #fff,0 0 0 4px var(--accent)}
+
+/* ---------- media / video slot ---------- */
+.media{position:relative;aspect-ratio:16/10;overflow:hidden;background:#111;
+  background-image:var(--ph-grad,linear-gradient(150deg,color-mix(in srgb,var(--brand) 22%,#000),color-mix(in srgb,var(--accent) 30%,#000)));
+  cursor:pointer}
+.media video,.media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.media video{display:none}
+.media.has-video video{display:block}
+.media.has-video img{display:none}
+.media.drop{outline:3px dashed var(--pop);outline-offset:-6px}
+.media.product{background:#fff;background-image:none}
+.media.product img{object-fit:contain;padding:9%}
+.media .beat{position:absolute;top:.5rem;right:.5rem;z-index:4;font-family:var(--display);font-style:italic;font-weight:700;
+  font-size:.6rem;color:#fff;background:var(--accent);padding:.12rem .5rem;border-radius:5px;box-shadow:0 2px 8px rgba(0,0,0,.25);white-space:nowrap}
+.media .beat.alt{background:var(--brand)}
+/* play affordance */
+.media .play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;
+  width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.92);
+  display:flex;align-items:center;justify-content:center;box-shadow:0 6px 22px rgba(0,0,0,.4);transition:transform .2s,opacity .2s}
+.media:hover .play{transform:translate(-50%,-50%) scale(1.06)}
+.media .play::after{content:"";border-style:solid;border-width:9px 0 9px 15px;border-color:transparent transparent transparent var(--brand);margin-left:3px}
+.media.playing .play{opacity:0;pointer-events:none}
+/* pure placeholder (no poster, no clip yet): let the scene direction own the tile */
+.media:not(.has-poster):not(.has-video) .play{display:none}
+/* 7s / status pill bottom-left */
+.media .dur{position:absolute;left:.5rem;bottom:.5rem;z-index:4;font-weight:800;font-size:.56rem;letter-spacing:.08em;
+  text-transform:uppercase;color:#fff;background:rgba(0,0,0,.55);padding:.12rem .45rem;border-radius:20px;display:none;align-items:center;gap:.3rem}
+.media.has-video .dur{display:flex}
+.media .dur .rec{width:6px;height:6px;border-radius:50%;background:var(--pop)}
+/* empty-slot hint (no video file yet) */
+.media .slot{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.55rem;text-align:center;padding:.7rem;color:#fff;pointer-events:none}
+.media .slot .scene{font-family:var(--display);font-style:italic;font-weight:600;font-size:.74rem;line-height:1.2;color:#fff;
+  max-width:24ch;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+.media .slot .add{font-weight:700;font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.85);
+  border:1px solid rgba(255,255,255,.5);padding:.18rem .55rem;border-radius:20px;margin-top:.15rem}
+.media.has-video .slot,.media.has-poster .slot{display:none}
+.media.has-video .play.empty{display:none}
+
+/* ---------- action row ---------- */
+.acts{display:flex;gap:.85rem;align-items:center;padding:.42rem .7rem;border-top:1px solid var(--line)}
+.acts svg{width:17px;height:17px;stroke:var(--ink-soft);fill:none;stroke-width:1.7}
+.acts .spacer{flex:1}
+.acts .save{font-size:.5rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);opacity:0;transition:opacity .3s}
+.acts .save.on{opacity:1;color:var(--brand)}
+
+/* ---------- body ---------- */
+.cbody{flex:1 1 auto;padding:.5rem .75rem .8rem;display:flex;flex-direction:column}
+.cmeta{display:flex;align-items:center;flex-wrap:wrap;gap:.3rem .42rem;margin-bottom:.42rem;font-weight:700;font-size:.56rem;letter-spacing:.03em}
+.cmeta .dt{color:var(--brand)}
+.cmeta .pl{color:var(--accent);text-transform:uppercase}
+.cmeta .sep{color:var(--line)}
+.cmeta [contenteditable]{outline:none;border-radius:3px}
+.cmeta [contenteditable]:focus{box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 35%,transparent)}
+.cscript{font-size:.78rem;line-height:1.42;color:var(--ink-soft);border-radius:6px;
+  outline:1px dashed transparent;transition:outline-color .2s,background .2s;padding:.25rem .3rem;margin:-.1rem -.3rem 0}
+.cscript:hover{outline-color:var(--line)}
+.cscript:focus{outline:1px solid var(--brand);background:color-mix(in srgb,var(--brand) 5%,transparent)}
+.cscript:empty:before{content:attr(data-ph);color:var(--muted);font-style:italic}
+
+/* ---------- footer ---------- */
+.foot{border-top:2.5px solid var(--ink);margin-top:1.3rem;padding-top:.85rem;
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;
+  font-weight:700;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.foot b{color:var(--brand);font-family:var(--display);font-style:italic;text-transform:none;letter-spacing:0;font-size:1rem;font-weight:900}
+
+/* ---------- editing toolbar ---------- */
+.bar{position:fixed;right:1rem;bottom:1rem;z-index:120;display:flex;gap:.5rem;align-items:center;
+  background:var(--ink);color:#fff;padding:.5rem .65rem;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.3);font-size:.66rem}
+.bar button{font:inherit;font-weight:700;color:var(--ink);background:#fff;border:0;border-radius:8px;padding:.4rem .7rem;cursor:pointer;letter-spacing:.04em}
+.bar button.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4)}
+.bar .hint{opacity:.7;font-weight:600;letter-spacing:.02em;max-width:20ch;line-height:1.3}
+@media print{.bar{display:none}}

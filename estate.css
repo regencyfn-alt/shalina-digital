@@ -1,0 +1,100 @@
+/* ============================================================
+   CENTRE FREE — ESTATE THEME BACKBONE v1 (2026-07-06, Shilpa)
+   Source of truth: styleguide.html v3 (Academy Brand Guide v2.6
+   + island environment). Loaded LAST in <head> on every estate
+   page so its tokens override each page's local :root dialect.
+   Dark = Tungsten (default) · Light = Soft Cream.
+   Shane's rulings 2026-07-06: amber inherits the Agency (gold
+   retired as alias); labs full repaint (chrome only).
+   Mirror any change here + styleguide.html + SPEC (one writer).
+   ============================================================ */
+
+:root{
+  /* ── Academy brand core (shared across themes) ── */
+  --cerise:#DE3163;   /* primary action / links */
+  --mint:#A9FFD4;     /* positive / secondary */
+  --amber:#E6B87D;    /* warm / tertiary / THE AGENCY */
+  --steel:#8FA5B8;    /* structural / secondary text */
+  --cream:#F5EFE0;
+  --tungsten:#0F172A;
+
+  /* ── island environment tones (imagery + map) ── */
+  --reef:#2aa4b5; --sand:#d8c48a; --dome:#bfe0ec;
+  --orange:#ff8c42; --green:#57c98a;
+
+  /* ── type (Academy) ── */
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Outfit',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'Roboto Mono',ui-monospace,Menlo,Consolas,monospace;
+  --font:var(--sans);
+  --step-0:13px;--step-1:15px;--step-2:18px;--step-3:22px;--step-4:28px;--step-5:40px;
+  --sp-1:6px;--sp-2:12px;--sp-3:20px;--sp-4:32px;--sp-5:52px;
+  --r-1:6px;--r-2:10px;--r-3:16px;
+
+  /* ── DARK theme (default) — Academy Dark Interface ── */
+  --bg:#0F172A;--bg-2:#16233d;--bg-3:#1d2c49;
+  --line:#2b3b57;--line-soft:#213048;
+  --ink:#F5EFE0;--dim:#8FA5B8;--faint:#61758c;
+  --shadow:rgba(0,0,0,.5);
+
+  /* ── ALIAS MAP — page dialects → estate tokens ──
+     index/island: native names already match.
+     island_v3 / constitution: gold → amber (Agency ruling). */
+  --gold:var(--amber);
+  --gold-soft:rgba(230,184,125,.35);
+  /* agency-room dialect */
+  --border:var(--line);--card:var(--bg-2);--deep:var(--bg);
+  --ocean:var(--bg-2);--ocean2:var(--bg-3);
+  --teal:var(--reef);--violet:var(--cerise);
+  /* studio-room dialect */
+  --panel:var(--bg-2);--line2:var(--line-soft);
+  --ok:var(--green);--rec:var(--cerise);
+  --teal-d:#1d7a87;--teal-soft:rgba(42,164,181,.25);
+  /* constitution dialect */
+  --bg-raised:var(--bg-2);--rule:var(--line);
+  --ink-soft:var(--dim);--ink-faint:var(--faint);
+  /* labs dialect (chrome only — canvas internals draw their own) */
+  --cyan:var(--reef);--accent:var(--reef);
+  --acc:var(--reef);--cy:var(--reef);--mut:var(--dim);
+}
+
+html[data-theme="light"]{
+  /* Academy Standard Surface — cream base, tungsten text */
+  --bg:#F5EFE0;--bg-2:#FFFDF8;--bg-3:#EFE7D4;
+  --line:#E2D8C2;--line-soft:#ECE3D0;
+  --ink:#0F172A;--dim:#55636f;--faint:#8b94a0;
+  --shadow:rgba(15,23,42,.14);
+  --gold-soft:rgba(230,184,125,.5);
+  --teal-soft:rgba(42,164,181,.18);
+}
+
+/* Academy body type estate-wide (loads last, wins ties).
+   Mono stays wherever a page explicitly asks for var(--mono). */
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);
+  transition:background .3s,color .3s}
+
+/* estate widgets (injected by estate-theme.js) */
+.est-fab{position:fixed;z-index:9990;bottom:calc(14px + env(safe-area-inset-bottom));
+  width:44px;height:44px;border-radius:50%;border:1px solid var(--line);
+  background:var(--bg-2);color:var(--ink);font-size:17px;line-height:1;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 4px 18px var(--shadow)}
+.est-fab:hover{border-color:var(--cerise)}
+.est-fab.theme{left:calc(14px + env(safe-area-inset-left))}
+.est-fab.menu{right:calc(14px + env(safe-area-inset-right))}
+.est-overlay{position:fixed;inset:0;z-index:9991;background:rgba(0,0,0,.55);
+  display:none;align-items:flex-end;justify-content:flex-end}
+.est-overlay.open{display:flex}
+.est-sheet{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-3) var(--r-3) 0 0;
+  width:min(420px,100vw);max-height:78vh;overflow-y:auto;
+  padding:var(--sp-3) var(--sp-3) calc(var(--sp-3) + env(safe-area-inset-bottom))}
+.est-sheet h5{font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--faint);margin:var(--sp-2) 0 6px}
+.est-sheet a{display:flex;align-items:center;gap:10px;min-height:44px;
+  padding:6px 10px;border-radius:var(--r-1);color:var(--ink);text-decoration:none;
+  font-family:var(--sans);font-size:var(--step-1)}
+.est-sheet a:hover{background:var(--bg-3)}
+.est-sheet a small{margin-left:auto;font-family:var(--mono);font-size:9px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--faint);
+  border:1px solid var(--line);border-radius:12px;padding:2px 8px}
+@media (prefers-reduced-motion:reduce){body,.est-fab{transition:none}}

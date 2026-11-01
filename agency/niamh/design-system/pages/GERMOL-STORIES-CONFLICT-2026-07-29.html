@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Germol SA — Updated Stories (Conflict Rev A) · CENTREFREE</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --azure: #1B6CA8; --orange: #F47920; --cream: #FDF8F0; --charcoal: #1C1C1C;
+    --mid: #5A5A5A; --light: #E8E0D0; --panel-bg: #F0EBE0; --green: #006838;
+    --conflict: #c0392b; --page-w: 210mm; --page-h: 297mm;
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; background: #d0ccc4; color: var(--charcoal); font-size: 10px; }
+  [contenteditable] { outline: none; border-radius: 2px; transition: background 0.15s; }
+  [contenteditable]:hover { background: rgba(244,121,32,0.08); }
+  [contenteditable]:focus { background: rgba(244,121,32,0.15); box-shadow: 0 0 0 1.5px var(--orange); }
+  @media print { [contenteditable]:focus, [contenteditable]:hover { background: none; box-shadow: none; } }
+  .page { width: var(--page-w); min-height: var(--page-h); background: var(--cream); margin: 12mm auto; padding: 8mm 8mm 10mm; box-shadow: 0 4px 24px rgba(0,0,0,0.18); page-break-after: always; position: relative; }
+  @media print { body { background: white; } .page { margin: 0; box-shadow: none; padding: 6mm 7mm 8mm; page-break-after: always; } .controls { display: none !important; } }
+  .page-header { display: flex; align-items: flex-start; justify-content: space-between; border-bottom: 2.5px solid var(--azure); padding-bottom: 3.5mm; margin-bottom: 4mm; }
+  .header-left .brand-line { font-size: 7.5px; font-weight: 600; color: var(--orange); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1mm; }
+  .header-left .story-title { font-size: 18px; font-weight: 900; color: var(--charcoal); letter-spacing: -0.01em; line-height: 1; }
+  .header-left .story-sub { font-size: 8px; color: var(--mid); margin-top: 1mm; font-weight: 500; }
+  .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 1.5mm; }
+  .page-badge { background: var(--azure); color: white; font-size: 7px; font-weight: 700; padding: 2px 7px; border-radius: 3px; letter-spacing: 0.05em; }
+  .format-badge { background: var(--orange); color: white; font-size: 7px; font-weight: 700; padding: 2px 7px; border-radius: 3px; letter-spacing: 0.05em; }
+  .exec-summary { background: white; border-left: 3px solid var(--orange); padding: 3mm 4mm; margin-bottom: 4mm; border-radius: 0 3px 3px 0; }
+  .exec-summary .es-label { font-size: 6px; font-weight: 800; color: var(--orange); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 1.5mm; }
+  .exec-summary .es-text { font-size: 8.5px; color: var(--charcoal); line-height: 1.5; }
+  .exec-summary .es-text strong { color: var(--azure); }
+  .panels-grid { display: grid; gap: 2.5mm; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, auto); }
+  .panel { background: white; border-radius: 3px; overflow: hidden; border: 1px solid var(--light); display: flex; flex-direction: column; }
+  .panel-header { display: flex; align-items: center; justify-content: space-between; padding: 1.2mm 2mm; background: var(--azure); }
+  .panel-number { font-size: 8px; font-weight: 800; color: white; line-height: 1; }
+  .panel-timecode { font-size: 6.5px; font-weight: 600; color: rgba(255,255,255,0.85); font-variant-numeric: tabular-nums; }
+  .panel-image { width: 100%; aspect-ratio: 16/9; background: var(--panel-bg); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .panel-image.placeholder { flex-direction: column; gap: 1.5mm; }
+  .panel-image.placeholder .ph-icon { font-size: 14px; opacity: 0.3; }
+  .panel-image.placeholder .ph-label { font-size: 6px; color: var(--mid); text-align: center; padding: 0 2mm; line-height: 1.4; font-style: italic; }
+  .phase-tag { position: absolute; top: 1.5mm; left: 1.5mm; background: var(--orange); color: white; font-size: 5.5px; font-weight: 800; padding: 1px 4px; border-radius: 2px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .panel-body { padding: 1.5mm 2mm 2mm; flex: 1; display: flex; flex-direction: column; gap: 1mm; }
+  .panel-scene-name { font-size: 7.5px; font-weight: 800; color: var(--charcoal); line-height: 1.1; }
+  .panel-desc { font-size: 6.5px; color: var(--mid); line-height: 1.4; flex: 1; }
+  .panel-vo { font-size: 6px; color: var(--azure); font-style: italic; border-top: 1px solid var(--light); padding-top: 1mm; line-height: 1.35; }
+  .panel.packshot .panel-header { background: var(--charcoal); }
+  .panel.packshot .panel-image { background: #0a0a0a; flex-direction: column; gap: 1.5mm; padding: 2mm; }
+  .panel.packshot .pack-logo { font-size: 13px; font-weight: 900; color: var(--orange); letter-spacing: 0.05em; line-height: 1; text-align: center; }
+  .panel.packshot .pack-tagline { font-size: 6.5px; color: rgba(255,255,255,0.75); text-align: center; font-style: italic; line-height: 1.3; }
+  .panel.packshot .pack-sub { font-size: 5.5px; color: var(--orange); text-align: center; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+  .page-footer { margin-top: 3.5mm; padding-top: 2.5mm; border-top: 1px solid var(--light); display: flex; align-items: center; justify-content: space-between; }
+  .footer-audio { font-size: 6.5px; color: var(--mid); font-style: italic; }
+  .footer-guardrails { font-size: 6px; color: #aaa; text-align: right; line-height: 1.5; }
+  .footer-logo { font-size: 8px; font-weight: 900; color: var(--azure); letter-spacing: 0.05em; }
+  .controls { width: var(--page-w); margin: 0 auto 6mm; display: flex; gap: 3mm; align-items: center; padding-top: 6mm; flex-wrap: wrap; }
+  .controls button { background: var(--azure); color: white; border: none; padding: 6px 14px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; }
+  .controls button:hover { background: #155a8a; }
+  .controls button.orange { background: var(--orange); }
+  .controls button.orange:hover { background: #d9650f; }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <button class="orange" onclick="window.print()">⬇ Save as PDF</button>
+  <button onclick="document.getElementById('s1').scrollIntoView()">1 · Match Day</button>
+  <button onclick="document.getElementById('s2').scrollIntoView()">2 · A Better End to the Day</button>
+  <button onclick="document.getElementById('s3').scrollIntoView()">3 · Right on Time</button>
+  <button onclick="document.getElementById('s4').scrollIntoView()">4 · Movie Night</button>
+</div>
+
+<!-- ═══════════ STORY 1 · MATCH DAY ═══════════ -->
+<div class="page" id="s1">
+  <div class="page-header">
+    <div class="header-left">
+      <div class="brand-line">Shalina Healthcare · Germol South Africa · FY2026/27 · Updated Stories — Conflict Rev A</div>
+      <div class="story-title">Match Day</div>
+      <div class="story-sub">Germol Antiseptic Liquid &nbsp;|&nbsp; Family Togetherness &nbsp;|&nbsp; Story 1 of 4</div>
+    </div>
+    <div class="header-right">
+      <span class="page-badge">PAGE 1 / 4</span>
+      <span class="format-badge">STORY</span>
+    </div>
+  </div>
+  <div class="exec-summary">
+    <div class="es-label">What the story is about</div>
+    <div class="es-text">
+      <strong>Mom is the one who always misses the anthem because she's the one who makes match day possible — this time, one basin of Germol and a shared two-minute job put her on the couch beside her family.</strong>
+      &nbsp;The conflict is real and personal: her time versus the moment, and Sipho watching her stay behind "again." Germol doesn't star — it makes the together-choice keepable in the time she has.
+      &nbsp;Brand gets: the quiet enabler of togetherness, hygiene as love in motion.
+    </div>
+  </div>
+  <div class="panels-grid">
+    <div class="panel">
+      <div class="panel-header"><span class="panel-number">01</span><span class="panel-timecode" contenteditable="true">ORDINARY WORLD</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag">The World</span><span class="ph-icon">🔥</span><span class="ph-label" contenteditable="true">Wide — braai in full swing, smoke, boerewors, family chatter, Sipho weaving between relatives</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Match Day</div>
+        <div class="panel-desc" contenteditable="true">It's match day. The braai is in full swing. Seven-year-old Sipho runs between relatives, helping where he can, while everyone waits for kickoff.</div>
+        <div class="panel-vo" contenteditable="true">AUDIO: braai sizzle, laughter, distant TV pre-match build.</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="background:var(--conflict)"><span class="panel-number">02</span><span class="panel-timecode" contenteditable="true">CONFLICT</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag" style="background:var(--conflict)">Conflict</span><span class="ph-icon">📺</span><span class="ph-label" contenteditable="true">The house empties toward the TV — Mom alone at the wrecked braai table</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">"It's Starting!"</div>
+        <div class="panel-desc" contenteditable="true">The house empties toward the TV — and Mom looks at the table: grease, bones, sauce, eight pairs of filthy hands heading for her couch. She knows this maths. By the time it's clean, the anthem will be over. It always is.</div>
+        <div class="panel-vo" contenteditable="true">VO: [Silent — her face does the maths.]</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="background:var(--conflict)"><span class="panel-number">03</span><span class="panel-timecode" contenteditable="true">STAKES</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag" style="background:var(--conflict)">Stakes</span><span class="ph-icon">🚪</span><span class="ph-label" contenteditable="true">Sipho hesitates in the doorway, looking back at Mom staying behind</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Again.</div>
+        <div class="panel-desc" contenteditable="true">Sipho hesitates in the doorway, watching her stay behind. Again. Every match, every gathering — she's still wiping the table when the anthem plays.</div>
+        <div class="panel-vo" contenteditable="true">VO: [Silent — the look between them carries it.]</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="background:#e67e22"><span class="panel-number">04</span><span class="panel-timecode" contenteditable="true">DECISION</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag" style="background:#e67e22">Decision</span><span class="ph-icon">🤝</span><span class="ph-label" contenteditable="true">She hands Sipho a cloth — a two-person job now</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Not This Time</div>
+        <div class="panel-desc" contenteditable="true">One basin, warm water, a capful of Germol — and she hands Sipho a cloth. She's gambling the anthem on doing it together rather than losing it doing everything alone.</div>
+        <div class="panel-vo" contenteditable="true">MOM: "Table. You and me. Two minutes."</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="background:var(--green)"><span class="panel-number">05</span><span class="panel-timecode" contenteditable="true">GERMOL ENABLES</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag" style="background:var(--green)">The Germol Moment</span><span class="ph-icon">🧴</span><span class="ph-label" contenteditable="true">Product close-up — capful into basin, the familiar cloudy swirl blooms</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">The Cloudy Swirl</div>
+        <div class="panel-desc" contenteditable="true">The capful goes in; the familiar cloudy swirl blooms through the warm water. Pack visible, no ceremony — a routine she trusts, now working against the clock.</div>
+        <div class="panel-vo" contenteditable="true">AUDIO: water; the crowd inside rising for the teams.</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="background:var(--green)"><span class="panel-number">06</span><span class="panel-timecode" contenteditable="true">TOGETHER</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag" style="background:var(--green)">Together</span><span class="ph-icon">🧽</span><span class="ph-label" contenteditable="true">Two cloths on one table — grease lifting; relatives rinsing hands in the basin</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Two Minutes Flat</div>
+        <div class="panel-desc" contenteditable="true">Together they wipe down the braai table and everyone washes their hands before heading inside. No fuss — a simple routine that keeps life moving.</div>
+        <div class="panel-vo" contenteditable="true">VO: [Silent — pace carries it.]</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><span class="panel-number">07</span><span class="panel-timecode" contenteditable="true">PAYOFF</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag">Payoff</span><span class="ph-icon">🇿🇦</span><span class="ph-label" contenteditable="true">The couch as the anthem begins — Grandad's hand on heart, Sipho copying, Mom BESIDE them</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">She Didn't Miss It</div>
+        <div class="panel-desc" contenteditable="true">The family settles as the anthem begins. Grandad's hand over his heart; Sipho copies him — then glances left. Mom is on the couch beside them. This time she didn't miss the moment she made possible.</div>
+        <div class="panel-vo" contenteditable="true">AUDIO: the anthem, full and live.</div>
+      </div>
+    </div>
+    <div class="panel packshot">
+      <div class="panel-header"><span class="panel-number">08</span><span class="panel-timecode" contenteditable="true">PACKSHOT</span></div>
+      <div class="panel-image"><span class="phase-tag" style="background:var(--orange)">Packshot</span>
+        <div class="pack-logo">GERMOL</div>
+        <div class="pack-sub">Antiseptic Liquid</div>
+        <div class="pack-tagline" contenteditable="true">Shields with Love and Care.</div>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Packshot + Endline</div>
+        <div class="panel-desc" contenteditable="true">Germol Antiseptic Liquid pack, clean frame.</div>
+        <div class="panel-vo" contenteditable="true">ENDLINE: The moments that bring us together deserve a home that's ready for them. Germol Antiseptic Liquid. Shields with Love and Care.</div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <div class="footer-audio" contenteditable="true">AUDIO: Live braai + broadcast sound throughout; anthem carries the close.</div>
+    <div class="footer-logo">Shalina</div>
+    <div class="footer-guardrails">Guardrails: Product incidental · No germ-kill efficacy claims on screen · Routine, not rescue</div>
+  </div>
+</div>
+
+<!-- ═══════════ STORY 2 · A BETTER END TO THE DAY ═══════════ -->
+<div class="page" id="s2">
+  <div class="page-header">
+    <div class="header-left">
+      <div class="brand-line">Shalina Healthcare · Germol South Africa · FY2026/27 · Updated Stories — Conflict Rev A</div>
+      <div class="story-title">A Better End to the Day</div>
+      <div class="story-sub">Germol Aloe Soothe Soap &nbsp;|&nbsp; Gentle Daily Care &nbsp;|&nbsp; Story 2 of 4</div>
+    </div>
+    <div class="header-right">
+      <span class="page-badge">PAGE 2 / 4</span>
+      <span class="format-badge">STORY</span>
+    </div>
+  </div>
+  <div class="exec-summary">
+    <div class="es-label">What the story is about</div>
+    <div class="es-text">
+      <strong>A young woman nearly cancels her best friend's dinner over how the day looks on her skin — she deletes the excuse, keeps her gentle routine, and keeps the night.</strong>
+      &nbsp;The enemy isn't the blemish, it's the unsent message. Germol Aloe Soothe is the routine that lets her leave the day behind — the blemish is still there, simply looking calmer; the confidence is hers.
+      &nbsp;COMPLIANCE: cosmetic language only — the soap cleanses and soothes; it treats nothing.
+    </div>
+  </div>
+  <div class="panels-grid">
+    <div class="panel">
+      <div class="panel-header"><span class="panel-number">01</span><span class="panel-timecode" contenteditable="true">ORDINARY WORLD</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag">The World</span><span class="ph-icon">🪞</span><span class="ph-label" contenteditable="true">She arrives home after a long hot day — bathroom mirror, honest light</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">End of a Long Day</div>
+        <div class="panel-desc" contenteditable="true">Home before dinner with friends. She heads to the bathroom to freshen up and catches her reflection in the mirror.</div>
+        <div class="panel-vo" contenteditable="true">AUDIO: quiet room tone; city fading outside.</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="background:var(--conflict)"><span class="panel-number">02</span><span class="panel-timecode" contenteditable="true">CONFLICT</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag" style="background:var(--conflict)">Conflict</span><span class="ph-icon">📱</span><span class="ph-label" contenteditable="true">Split focus — the mirror, and her thumb already typing the excuse</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">The Unsent Message</div>
+        <div class="panel-desc" contenteditable="true">Tonight is for her best friend — no second run at it. The day sits on her skin: shine, a red, irritated pimple. Her thumb is already moving: "So sorry, feeling off, don't wait for me…" The message sits there, unsent.</div>
+        <div class="panel-vo" contenteditable="true">VO: [Silent — the typed words on screen carry it.]</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="background:var(--conflict)"><span class="panel-number">03</span><span class="panel-timecode" contenteditable="true">STAKES</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag" style="background:var(--conflict)">Stakes</span><span class="ph-icon">⚖️</span><span class="ph-label" contenteditable="true">Close on her face — the choice weighing</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Both Roads Cost</div>
+        <div class="panel-desc" contenteditable="true">Going costs her comfort; staying costs her the night — and her friend's celebration. One breath held between the two.</div>
+        <div class="panel-vo" contenteditable="true">VO: [Silent.]</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="background:#e67e22"><span class="panel-number">04</span><span class="panel-timecode" contenteditable="true">DECISION</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag" style="background:#e67e22">Decision</span><span class="ph-icon">🙅‍♀️</span><span class="ph-label" contenteditable="true">Phone face-down on the basin — message deleted, not sent</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Delete, Don't Send</div>
+        <div class="panel-desc" contenteditable="true">She puts the phone face-down — message deleted. What she reaches for instead is the routine that's never let her down: Germol Aloe Soothe. Not to fix her face. To leave the day behind before it decides her evening.</div>
+        <div class="panel-vo" contenteditable="true">AUDIO: tap turning on.</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="background:var(--green)"><span class="panel-number">05</span><span class="panel-timecode" contenteditable="true">GERMOL ENABLES</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag" style="background:var(--green)">The Germol Moment</span><span class="ph-icon">🧼</span><span class="ph-label" contenteditable="true">Product close-up — creamy aloe lather worked gently over her face, pack visible</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Gentle Care</div>
+        <div class="panel-desc" contenteditable="true">The creamy aloe lather washes away the day's oil, sweat and impurities, gentle over the irritated area. Cool water rinse; pat dry.</div>
+        <div class="panel-vo" contenteditable="true">VO: "Gentle care is still care."</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="background:var(--green)"><span class="panel-number">06</span><span class="panel-timecode" contenteditable="true">REFRESHED</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag" style="background:var(--green)">Refreshed</span><span class="ph-icon">✨</span><span class="ph-label" contenteditable="true">Mirror again — the shine gone; skin looks fresher, blemish still there but calmer-looking</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Still There. Smaller Story.</div>
+        <div class="panel-desc" contenteditable="true">She looks again. The blemish hasn't disappeared — her skin simply looks calmer and fresher, feels soothed and comfortable. The day's shine is gone. That's enough.</div>
+        <div class="panel-vo" contenteditable="true">VO: [Silent — her small nod carries it.]</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><span class="panel-number">07</span><span class="panel-timecode" contenteditable="true">PAYOFF</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag">Payoff</span><span class="ph-icon">🤳</span><span class="ph-label" contenteditable="true">Dinner — laughing with friends; she leans INTO the selfie</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">The Night She Kept</div>
+        <div class="panel-desc" contenteditable="true">Later she's laughing with friends. Someone calls a selfie — she leans in without hesitation. She's in the moment, not in her mirror. And the message she almost sent stays unsent.</div>
+        <div class="panel-vo" contenteditable="true">AUDIO: restaurant warmth, her friend's toast.</div>
+      </div>
+    </div>
+    <div class="panel packshot">
+      <div class="panel-header"><span class="panel-number">08</span><span class="panel-timecode" contenteditable="true">PACKSHOT</span></div>
+      <div class="panel-image"><span class="phase-tag" style="background:var(--orange)">Packshot</span>
+        <div class="pack-logo">GERMOL</div>
+        <div class="pack-sub">Aloe Soothe Soap</div>
+        <div class="pack-tagline" contenteditable="true">Shields with Love and Care.</div>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Packshot + Endline</div>
+        <div class="panel-desc" contenteditable="true">Germol Aloe Soothe pack, clean frame.</div>
+        <div class="panel-vo" contenteditable="true">ENDLINE: Some days show on your skin. Gentle care helps you leave the day behind. Germol Aloe Soothe. Shields with Love and Care.</div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <div class="footer-audio" contenteditable="true">AUDIO: Interior quiet into restaurant warmth; no VO over the decision beat.</div>
+    <div class="footer-logo">Shalina</div>
+    <div class="footer-guardrails">COMPLIANCE (load-bearing): Soap ≠ treatment · Cosmetic language only ("looks calmer/fresher, feels soothed") · No acne/efficacy claims · Blemish visible at payoff</div>
+  </div>
+</div>
+
+<!-- ═══════════ STORY 3 · RIGHT ON TIME ═══════════ -->
+<div class="page" id="s3">
+  <div class="page-header">
+    <div class="header-left">
+      <div class="brand-line">Shalina Healthcare · Germol South Africa · FY2026/27 · Updated Stories — Conflict Rev A</div>
+      <div class="story-title">Right on Time</div>
+      <div class="story-sub">Germol Charcoal Soap &nbsp;|&nbsp; Leave the Day Behind &nbsp;|&nbsp; Story 3 of 4</div>
+    </div>
+    <div class="header-right">
+      <span class="page-badge">PAGE 3 / 4</span>
+      <span class="format-badge">STORY</span>
+    </div>
+  </div>
+  <div class="exec-summary">
+    <div class="es-label">What the story is about</div>
+    <div class="es-text">
+      <strong>A mechanic with twelve minutes stolen by traffic must choose: walk into his daughter's concert on time as the workshop, or wash and risk an empty stage — he chooses Dad, and Germol makes the choice keepable.</strong>
+      &nbsp;A true dilemma with a cost on both arms; the near-miss is what makes Emma's face worth everything.
+      &nbsp;Brand gets: the hardworking man's bridge between work and family — Leave the Day Behind, made literal.
+    </div>
+  </div>
+  <div class="panels-grid">
+    <div class="panel">
+      <div class="panel-header"><span class="panel-number">01</span><span class="panel-timecode" contenteditable="true">ORDINARY WORLD</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag">The World</span><span class="ph-icon">🔧</span><span class="ph-label" contenteditable="true">Workshop closing — he climbs into the bakkie; voice note plays</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Knock-Off Time</div>
+        <div class="panel-desc" contenteditable="true">The workshop closes. In the bakkie, a voice note from his wife: Emma's been asking all day. The concert starts at six. He smiles: "I'll be there."</div>
+        <div class="panel-vo" contenteditable="true">WIFE (VN): "Emma's been asking all day if you'll make it."</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="background:var(--conflict)"><span class="panel-number">02</span><span class="panel-timecode" contenteditable="true">CONFLICT</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag" style="background:var(--conflict)">Conflict</span><span class="ph-icon">🚗</span><span class="ph-label" contenteditable="true">Brake lights to the horizon — dashboard clock ticking against six</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Twelve Minutes Gone</div>
+        <div class="panel-desc" contenteditable="true">Emma's song is the opening item — six sharp, no buffer. Traffic takes back twelve minutes he doesn't have.</div>
+        <div class="panel-vo" contenteditable="true">AUDIO: idling engines; the clock; his breath.</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="background:var(--conflict)"><span class="panel-number">03</span><span class="panel-timecode" contenteditable="true">STAKES</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag" style="background:var(--conflict)">Stakes</span><span class="ph-icon">🪞</span><span class="ph-label" contenteditable="true">Rear-view mirror — grease to the collar, dust in his hairline</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">No Free Road</div>
+        <div class="panel-desc" contenteditable="true">In the mirror: the whole day on his skin. Walk in on time looking like the workshop — or wash, and risk walking in on an empty stage. There's no version where he loses nothing.</div>
+        <div class="panel-vo" contenteditable="true">VO: [Silent — the mirror carries it.]</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="background:#e67e22"><span class="panel-number">04</span><span class="panel-timecode" contenteditable="true">DECISION</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag" style="background:#e67e22">Decision</span><span class="ph-icon">🏃</span><span class="ph-label" contenteditable="true">Through the front door — Emma calls; he's already moving to the bathroom</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Dad Over Punctual</div>
+        <div class="panel-desc" contenteditable="true">He chooses Dad. "Give me two minutes" — said out loud like a promise, tap already running, Germol Charcoal Soap in hand. The lather has to work inside the time the choice bought.</div>
+        <div class="panel-vo" contenteditable="true">EMMA (O.S.): "Daddy! Hurry!"</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="background:var(--green)"><span class="panel-number">05</span><span class="panel-timecode" contenteditable="true">GERMOL ENABLES</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag" style="background:var(--green)">The Germol Moment</span><span class="ph-icon">🧼</span><span class="ph-label" contenteditable="true">Product close-up — rich charcoal lather; dark grime rinsing away with the water</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">The Day, Rinsed</div>
+        <div class="panel-desc" contenteditable="true">Hands first, then face and neck — the rich charcoal lather lifts the day's dust, sweat and grime, and the dark water carries it away.</div>
+        <div class="panel-vo" contenteditable="true">AUDIO: running water — the only calm two minutes of his day.</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="background:var(--green)"><span class="panel-number">06</span><span class="panel-timecode" contenteditable="true">READY</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag" style="background:var(--green)">Ready</span><span class="ph-icon">💐</span><span class="ph-label" contenteditable="true">Clean shirt buttoned; flowers scooped off the table on the way out</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Two Minutes, Kept</div>
+        <div class="panel-desc" contenteditable="true">Towel, mirror, clean shirt, flowers for Emma — out the door refreshed and ready, the workshop left in the water.</div>
+        <div class="panel-vo" contenteditable="true">VO: [Silent — momentum carries it.]</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><span class="panel-number">07</span><span class="panel-timecode" contenteditable="true">PAYOFF</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag">Payoff</span><span class="ph-icon">🎤</span><span class="ph-label" contenteditable="true">He slips into the row as lights go down — Emma spots him mid-song</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">She Finds Him</div>
+        <div class="panel-desc" contenteditable="true">Into the row just as the lights go down — not comfortably early, but there. Emma finds him from the stage: clean shirt, flowers on his lap. Afterwards she runs straight to him. The nearness of the miss makes her smile worth everything.</div>
+        <div class="panel-vo" contenteditable="true">AUDIO: her song; then her feet running to him.</div>
+      </div>
+    </div>
+    <div class="panel packshot">
+      <div class="panel-header"><span class="panel-number">08</span><span class="panel-timecode" contenteditable="true">PACKSHOT</span></div>
+      <div class="panel-image"><span class="phase-tag" style="background:var(--orange)">Packshot</span>
+        <div class="pack-logo">GERMOL</div>
+        <div class="pack-sub">Charcoal Soap · Leave the Day Behind</div>
+        <div class="pack-tagline" contenteditable="true">Shields with Love and Care.</div>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Packshot + Endline</div>
+        <div class="panel-desc" contenteditable="true">Germol Charcoal Soap pack, clean frame.</div>
+        <div class="panel-vo" contenteditable="true">ENDLINE: A hard day's work deserves an even better evening. Leave the Day Behind. Germol Charcoal Soap. Shields with Love and Care.</div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <div class="footer-audio" contenteditable="true">AUDIO: Engine/clock tension into water calm into live school hall.</div>
+    <div class="footer-logo">Shalina</div>
+    <div class="footer-guardrails">Guardrails: Product incidental · Cleansing benefit only · The choice is his; the soap keeps it possible</div>
+  </div>
+</div>
+
+<!-- ═══════════ STORY 4 · MOVIE NIGHT ═══════════ -->
+<div class="page" id="s4">
+  <div class="page-header">
+    <div class="header-left">
+      <div class="brand-line">Shalina Healthcare · Germol South Africa · FY2026/27 · Updated Stories — Conflict Rev A</div>
+      <div class="story-title">Movie Night</div>
+      <div class="story-sub">Germol Original Soap &nbsp;|&nbsp; Come Home to Care &nbsp;|&nbsp; Story 4 of 4</div>
+    </div>
+    <div class="header-right">
+      <span class="page-badge">PAGE 4 / 4</span>
+      <span class="format-badge">STORY</span>
+    </div>
+  </div>
+  <div class="exec-summary">
+    <div class="es-label">What the story is about</div>
+    <div class="es-text">
+      <strong>A nurse comes home empty after twelve hours of caring for everyone else — and for one honest second, "not tonight" is in her mouth. She doesn't say it. The bath is the hinge: shift ended on purpose, Sister becomes Mom.</strong>
+      &nbsp;Every parent knows the empty tank. The conflict is the almost-no; the payoff is staying through the credits.
+      &nbsp;Brand gets: the ritual that ends a workday — care for the carer.
+    </div>
+  </div>
+  <div class="panels-grid">
+    <div class="panel">
+      <div class="panel-header"><span class="panel-number">01</span><span class="panel-timecode" contenteditable="true">ORDINARY WORLD</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag">The World</span><span class="ph-icon">🏥</span><span class="ph-label" contenteditable="true">Ward, end of shift — the elderly patient's thank-you</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Last Rounds</div>
+        <div class="panel-desc" contenteditable="true">She checks on her last patient. "Thank you, Sister." A tired smile back, and the shift quietly ends. A long day of caring for others.</div>
+        <div class="panel-vo" contenteditable="true">PATIENT: "Thank you, Sister."</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="background:var(--conflict)"><span class="panel-number">02</span><span class="panel-timecode" contenteditable="true">CONFLICT</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag" style="background:var(--conflict)">Conflict</span><span class="ph-icon">🚪</span><span class="ph-label" contenteditable="true">She leans against the closed front door — nothing left in the tank</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">The Empty Tank</div>
+        <div class="panel-desc" contenteditable="true">Door closed, she leans on it. Twelve hours of other people's emergencies still on her skin. Around the corner: the blanket fort already built, the popcorn bowl ready since five.</div>
+        <div class="panel-vo" contenteditable="true">SON: "Mom… we're still having movie night… right?"</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="background:var(--conflict)"><span class="panel-number">03</span><span class="panel-timecode" contenteditable="true">STAKES</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag" style="background:var(--conflict)">Stakes</span><span class="ph-icon">💔</span><span class="ph-label" contenteditable="true">Close on her — the almost-no; his face already reading hers</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">The Almost-No</div>
+        <div class="panel-desc" contenteditable="true">For one honest second the sentence in her mouth is "Not tonight, my love." His hopeful face is already reading hers.</div>
+        <div class="panel-vo" contenteditable="true">VO: [Silent — the held breath is the beat.]</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="background:#e67e22"><span class="panel-number">04</span><span class="panel-timecode" contenteditable="true">DECISION</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag" style="background:#e67e22">Decision</span><span class="ph-icon">🛁</span><span class="ph-label" contenteditable="true">Warm bath running; Germol Original in her hand</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">"Ten Minutes"</div>
+        <div class="panel-desc" contenteditable="true">She doesn't say it. "Ten minutes," she says instead. The bath isn't a freshen-up — it's the hinge of the evening: the ward washed off, the shift ended on purpose. Sister becomes Mom.</div>
+        <div class="panel-vo" contenteditable="true">SON: "I'll get the popcorn ready."</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="background:var(--green)"><span class="panel-number">05</span><span class="panel-timecode" contenteditable="true">GERMOL ENABLES</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag" style="background:var(--green)">The Germol Moment</span><span class="ph-icon">🧼</span><span class="ph-label" contenteditable="true">Product close-up — rich creamy lather; a quiet exhale in the warm water</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Changing Shifts</div>
+        <div class="panel-desc" contenteditable="true">The rich creamy lather gently cleanses away the day's sweat and impurities while caring for her skin. A quiet moment — the first that's hers all day.</div>
+        <div class="panel-vo" contenteditable="true">AUDIO: water; the movie menu looping faintly from the lounge.</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header" style="background:var(--green)"><span class="panel-number">06</span><span class="panel-timecode" contenteditable="true">RENEWED</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag" style="background:var(--green)">Renewed</span><span class="ph-icon">🧦</span><span class="ph-label" contenteditable="true">Comfortable clothes; she walks into the lounge refreshed</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Home, Properly</div>
+        <div class="panel-desc" contenteditable="true">Comfortable clothes, damp hair, shoulders down. She walks into the lounge refreshed — arriving home a second time, this time all the way.</div>
+        <div class="panel-vo" contenteditable="true">VO: [Silent.]</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><span class="panel-number">07</span><span class="panel-timecode" contenteditable="true">PAYOFF</span></div>
+      <div class="panel-image placeholder"><span class="phase-tag">Payoff</span><span class="ph-icon">🍿</span><span class="ph-label" contenteditable="true">Couch — his head on her shoulder, asleep before the credits; she stays</span></div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">She Stays for the Credits</div>
+        <div class="panel-desc" contenteditable="true">"There you are." They settle in. Halfway through he curls up against her shoulder; he's asleep before the credits. She stays to the end anyway — finally just being Mom.</div>
+        <div class="panel-vo" contenteditable="true">SON: "There you are."</div>
+      </div>
+    </div>
+    <div class="panel packshot">
+      <div class="panel-header"><span class="panel-number">08</span><span class="panel-timecode" contenteditable="true">PACKSHOT</span></div>
+      <div class="panel-image"><span class="phase-tag" style="background:var(--orange)">Packshot</span>
+        <div class="pack-logo">GERMOL</div>
+        <div class="pack-sub">Original Soap</div>
+        <div class="pack-tagline" contenteditable="true">Shields with Love and Care.</div>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Packshot + Endline</div>
+        <div class="panel-desc" contenteditable="true">Germol Original Soap pack, clean frame.</div>
+        <div class="panel-vo" contenteditable="true">ENDLINE: After a day spent caring for others, come home to the care you trust. Germol Original Soap. Shields with Love and Care.</div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <div class="footer-audio" contenteditable="true">AUDIO: Ward hush into home quiet into movie warmth; dialogue sparse and real.</div>
+    <div class="footer-logo">Shalina</div>
+    <div class="footer-guardrails">Guardrails: Product incidental · Hygiene benefit stated plainly · The renewal is hers; the soap is the ritual</div>
+  </div>
+</div>
+
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

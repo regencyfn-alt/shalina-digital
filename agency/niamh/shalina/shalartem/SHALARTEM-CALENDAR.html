@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shal'Artem · Campaign Calendar · Knockout Generation · WMD (NG) · CENTREFREE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Source+Sans+3:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#1F4598; --blue-900:#15306B; --orange:#F17025; --gold:#C68A1E;
+  --parchment:#F7EFE0; --ink:#1A1A1A; --line:#e2d9c6; --muted:#8a7f6a;
+  --font:'Source Sans 3',system-ui,sans-serif; --display:'Playfair Display',Georgia,serif; --mono:'IBM Plex Mono',monospace;
+  --shadow:0 10px 30px rgba(31,48,107,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--parchment);color:var(--ink);font-size:16px;line-height:1.62}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px 120px}
+.band{background:var(--blue);color:#fff;padding:30px 34px}
+.band .bn{font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;opacity:.9;font-weight:600}
+.band .bt{font-family:var(--display);font-weight:800;font-size:2.3rem;margin-top:2px}
+.band .bstrip{height:6px;background:var(--orange);margin:14px -34px -30px}
+.head{padding:40px 0 8px}
+.eyebrow{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--orange);font-weight:700;margin-bottom:10px}
+h1{font-family:var(--display);font-weight:800;font-size:2.6rem;line-height:1.04;color:var(--blue-900);margin-bottom:12px}
+.lead{font-size:1.12rem;color:#4a4a44;max-width:64ch}
+.claim{font-family:var(--display);font-weight:800;font-style:italic;font-size:1.4rem;color:var(--blue-900);margin:14px 0}
+.claim .g{color:var(--gold)}
+.meta{font-family:var(--mono);font-size:.76rem;color:var(--muted);margin-top:12px;line-height:1.9}
+.meta a{color:var(--blue)}
+.wmd{background:#fff;border-left:5px solid var(--orange);padding:16px 20px;margin:24px 0;box-shadow:var(--shadow)}
+.wmd .k{font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);font-weight:700}
+.month{margin-top:34px}
+.month h2{font-family:var(--display);font-weight:700;font-size:1.5rem;color:var(--blue-900);padding-bottom:8px;border-bottom:2px solid var(--ink);display:flex;justify-content:space-between;align-items:baseline}
+.month h2 .b{font-family:var(--mono);font-size:.72rem;color:var(--muted);font-weight:400}
+.row{background:#fff;box-shadow:var(--shadow);margin:12px 0;padding:16px 20px;border-left:5px solid var(--blue);display:grid;grid-template-columns:92px 1fr auto;gap:16px;align-items:center}
+.row.hero{border-left-color:var(--orange);background:linear-gradient(90deg,#fff 0%,#fffaf3 100%)}
+.row .date{font-family:var(--mono);font-size:.76rem;color:var(--muted);line-height:1.3}
+.row .act{font-family:var(--display);font-weight:700;font-size:1.16rem;color:var(--ink)}
+.row .det{font-family:var(--mono);font-size:.67rem;color:var(--muted);margin-top:4px}
+.row .plats{font-family:var(--mono);font-size:.64rem;color:#5a6a86;text-align:right;line-height:1.5;white-space:nowrap}
+.tag{font-family:var(--mono);font-size:.6rem;padding:2px 7px;border-radius:3px;background:#eee3cc;color:#8a6d1e;margin-left:6px}
+.tag.hero{background:#fbe3cf;color:var(--orange)}
+.note{background:#fff;border-left:4px solid var(--gold);padding:14px 18px;margin:22px 0;box-shadow:var(--shadow);font-size:.92rem}
+.foot{margin-top:70px;padding-top:22px;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+@media(max-width:640px){.row{grid-template-columns:1fr;gap:4px}.row .plats{text-align:left}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="band">
+    <div class="bn">Shalina Healthcare · Nigeria · Anti-Malarial (Artemether + Lumefantrine)</div>
+    <div class="bt">Shal&rsquo;Artem</div>
+    <div class="bstrip"></div>
+  </div>
+
+  <div class="head">
+    <div class="eyebrow">Campaign Calendar · World Malaria Day 2026 · Knockout Generation</div>
+    <h1>Shal'Artem NG — WMD Burst</h1>
+    <p class="lead">A tight five-post burst around World Malaria Day, led by Dr Renner and built to a single generational rallying cry. Documentary, credible, urgent — trust before sell.</p>
+    <p class="claim">Knock out Malaria in <span class="g">3 Days</span>.</p>
+    <p class="meta">
+      Market: Nigeria &nbsp;·&nbsp; Filter: SHLA NG WMD 2026 &nbsp;·&nbsp; Objective: Engagement / Awareness &nbsp;·&nbsp; All complete<br>
+      Source schedule: <a href="https://docs.google.com/spreadsheets/d/1G3EqPHRSBOR5r542vjcKz0XayEFxJYWQoJj6RnD2CWU/edit">Google Sheet · Shal'Artem WMD</a> &nbsp;·&nbsp; Brand: <a href="./SHALARTEM-BOUNCE-BACK-BRAND-DOCUMENT.md">Bounce-Back doc</a> · <a href="./SHALARTEM-FY2627-STRATEGY.html">FY26/27 strategy</a>
+    </p>
+  </div>
+
+  <div class="wmd"><span class="k">★ World Malaria Day · Saturday 25 April</span><br>The hero — <strong>"I AM THE KNOCKOUT GENERATION"</strong> — drops on the day itself, the peak of the burst.</div>
+
+  <div class="month">
+    <h2>April 2026 <span class="b">budget $3,500 · influencer $275</span></h2>
+    <div class="row"><div class="date">Mon<br>20 Apr</div><div><div class="act">Dr Renner Video: Myths <span class="tag">complete</span></div><div class="det">Video · Engagement (IG/FB) · Awareness (TikTok)</div></div><div class="plats">Instagram<br>Facebook<br>TikTok</div></div>
+    <div class="row"><div class="date">Wed<br>22 Apr</div><div><div class="act">Teaser <span class="tag">complete</span></div><div class="det">Video · Engagement</div></div><div class="plats">Instagram<br>Facebook<br>TikTok</div></div>
+    <div class="row"><div class="date">Fri<br>24 Apr</div><div><div class="act">Knockout Countdown <span class="tag">complete</span></div><div class="det">Video · Engagement · 5-day flight</div></div><div class="plats">Instagram<br>Facebook<br>TikTok</div></div>
+    <div class="row hero"><div class="date">Sat<br>25 Apr</div><div><div class="act">I AM THE KNOCKOUT GENERATION <span class="tag hero">★ WMD hero</span></div><div class="det">Video · Engagement · World Malaria Day peak</div></div><div class="plats">Instagram<br>Facebook<br>TikTok</div></div>
+    <div class="row"><div class="date">Sun<br>26 Apr</div><div><div class="act">Malaria Doesn't Win <span class="tag">complete</span></div><div class="det">Video · Engagement · burst close</div></div><div class="plats">Instagram<br>Facebook<br>TikTok</div></div>
+  </div>
+
+  <div class="note"><strong>Budget — WMD burst:</strong> overall <b>$3,500</b> · grand-total value ≈ <b>R49,117</b> / spend <b>R49,290</b> · influencer spend <b>$275</b>. Heaviest weight on the Saturday WMD hero and the Knockout Generation rally.</div>
+
+  <div class="foot">
+    Shal'Artem · Knockout Generation · Nigeria WMD April burst &nbsp;·&nbsp; five videos in a week, peaking on World Malaria Day.<br>
+    Palette: Blue <span class="mono">#1F4598</span> · Orange <span class="mono">#F17025</span> · Gold <span class="mono">#C68A1E</span> · Playfair Display. &nbsp;·&nbsp; Niamh · CENTREFREE Agency · 2026-07-16
+  </div>
+</div>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CENTREFREE Agency — Campaign Plans · July 2026</title>
+<style>
+:root{
+  color-scheme: light;
+  --paper:#FAF8F4; --white:#FFFFFF; --tungsten:#0F172A; --ink:#111827;
+  --grey:#6B7280; --hairline:#E5E7EB;
+  --cerise:#DE3163; --teal:#0F5E63; --mint:#A9FFD4; --amber:#E6B87D; --steel:#8FA5B8;
+  --display:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --body:'Outfit', system-ui, -apple-system, sans-serif;
+  --mono:'Roboto Mono', ui-monospace, 'Courier New', monospace;
+  --shadow-card:0 1px 2px rgba(15,23,42,.06), 0 4px 16px rgba(15,23,42,.07);
+  --shadow-md:0 2px 6px rgba(15,23,42,.08), 0 10px 28px rgba(15,23,42,.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey)}
+.eyebrow.accent{color:var(--acc,var(--teal))}
+
+/* ── Masthead ─────────────────────────── */
+header{padding:56px 48px 36px;border-bottom:1px solid var(--hairline);background:var(--paper)}
+header h1{font-family:var(--display);font-weight:600;font-size:44px;line-height:1.08;color:var(--tungsten);margin:10px 0 8px}
+header p.sub{max-width:640px;color:var(--grey);font-size:15px}
+.mast-row{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.mast-meta{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);text-align:right;line-height:2}
+
+/* ── Brand rail ───────────────────────── */
+nav{display:flex;gap:0;border-bottom:1px solid var(--hairline);background:var(--white);position:sticky;top:0;z-index:10;overflow-x:auto}
+nav button{appearance:none;border:none;background:none;cursor:pointer;padding:18px 26px 15px;font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);border-bottom:3px solid transparent;transition:color .18s ease-out,border-color .18s ease-out;white-space:nowrap}
+nav button:hover{color:var(--tungsten)}
+nav button.on{color:var(--tungsten);border-bottom-color:var(--acc,var(--teal))}
+
+/* ── Panels ───────────────────────────── */
+main{padding:40px 48px 80px;max-width:1280px;margin:0 auto}
+.panel{display:none}
+.panel.on{display:block;animation:rise .32s ease-out}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ── Overview band ────────────────────── */
+.overview{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:1px;background:var(--hairline);border:1px solid var(--hairline);margin:26px 0 34px}
+.overview>div{background:var(--white);padding:24px 26px}
+.overview h2{font-family:var(--display);font-weight:600;font-size:30px;color:var(--tungsten);line-height:1.12;margin:8px 0 6px}
+.overview .line{font-family:var(--display);font-style:italic;font-size:19px;color:var(--acc,var(--teal))}
+.kv{margin-top:10px;font-size:13.5px;color:var(--grey)}
+.kv b{color:var(--ink);font-weight:600}
+.bignum{font-family:var(--display);font-size:42px;font-weight:600;color:var(--tungsten);line-height:1;margin:8px 0 4px}
+
+/* ── Chips ────────────────────────────── */
+.chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:4px 9px;border:1px solid var(--hairline);color:var(--grey);background:var(--white);margin:2px 4px 2px 0;white-space:nowrap}
+.chip.done{border-color:var(--teal);color:var(--teal)}
+.chip.gate{border-color:var(--cerise);color:var(--cerise)}
+.chip.next{background:var(--tungsten);border-color:var(--tungsten);color:var(--mint)}
+.chip.pend{border-style:dashed}
+
+/* ── Week / schedule cards ────────────── */
+.sect{margin:38px 0 14px;display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--hairline);padding-bottom:10px}
+.sect h3{font-family:var(--display);font-weight:600;font-size:24px;color:var(--tungsten)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.card{background:var(--white);border:1px solid var(--hairline);border-left:4px solid var(--acc,var(--teal));box-shadow:var(--shadow-card);cursor:pointer;transition:box-shadow .2s ease-out,transform .2s ease-out}
+.card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.card .hd{padding:16px 18px 12px}
+.card h4{font-family:var(--display);font-weight:600;font-size:21px;color:var(--tungsten);line-height:1.15;margin:6px 0 4px}
+.card .hook{font-style:italic;font-family:var(--display);font-size:15.5px;color:var(--grey)}
+.card .bd{display:none;padding:0 18px 16px;border-top:1px dashed var(--hairline);margin-top:4px;padding-top:12px;font-size:13.5px;color:var(--ink)}
+.card.open .bd{display:block;animation:rise .22s ease-out}
+.card .bd p{margin-bottom:8px}
+.card .foot{padding:0 18px 14px}
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--grey)}
+.tag b{color:var(--ink)}
+
+/* phase filter */
+.filters{display:flex;gap:8px}
+.filters button{appearance:none;border:1px solid var(--hairline);background:var(--white);cursor:pointer;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;padding:7px 13px;color:var(--grey);transition:all .16s ease-out}
+.filters button.on{background:var(--tungsten);color:var(--paper);border-color:var(--tungsten)}
+
+/* ── Calendar strip (Germol) ──────────── */
+.calstrip{display:grid;grid-template-columns:repeat(8,1fr);gap:10px;margin:22px 0 8px}
+.calday{background:var(--white);border:1px solid var(--hairline);border-top:4px solid var(--acc,var(--teal));padding:12px 12px 10px;cursor:pointer;transition:box-shadow .2s ease-out}
+.calday:hover{box-shadow:var(--shadow-md)}
+.calday.organic{border-top-color:var(--steel)}
+.calday.today-next{outline:2px solid var(--cerise);outline-offset:2px}
+.calday .d{font-family:var(--display);font-size:26px;font-weight:600;color:var(--tungsten);line-height:1}
+.calday .m{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--grey);margin:2px 0 8px}
+.calday .t{font-size:12px;line-height:1.35;color:var(--ink);font-weight:600}
+.calday .a{font-family:var(--mono);font-size:9.5px;color:var(--grey);text-transform:uppercase;letter-spacing:.08em;margin-top:6px}
+
+/* budget table */
+table{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--hairline);font-size:13.5px}
+th{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--grey);text-align:left;padding:12px 16px;border-bottom:1px solid var(--hairline);font-weight:500}
+td{padding:11px 16px;border-bottom:1px solid var(--hairline);vertical-align:top}
+tr:last-child td{border-bottom:none}
+td.num{font-family:var(--mono);font-size:12.5px;text-align:right}
+tr.total td{background:var(--paper);font-weight:600}
+tr.total td.num{color:var(--teal)}
+
+/* gates */
+.gates{background:var(--white);border:1px solid var(--hairline);border-left:4px solid var(--cerise);padding:20px 24px;margin:34px 0}
+.gates h3{font-family:var(--display);font-size:21px;font-weight:600;color:var(--tungsten);margin:6px 0 10px}
+.gates li{margin:6px 0 6px 18px;font-size:13.5px}
+.pending-slab{background:var(--white);border:1px dashed var(--steel);padding:40px;text-align:center;margin:26px 0}
+.pending-slab .big{font-family:var(--display);font-size:26px;font-weight:600;color:var(--steel);margin:8px 0}
+.beat-engine{background:var(--tungsten);color:var(--paper);padding:26px 30px;margin:26px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:22px}
+.beat-engine .eyebrow{color:var(--mint)}
+.beat-engine h5{font-family:var(--display);font-size:19px;font-weight:600;margin:6px 0 4px;color:var(--white)}
+.beat-engine p{font-size:12.5px;color:var(--steel);line-height:1.5}
+footer{border-top:1px solid var(--hairline);padding:26px 48px;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--grey);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+@media(max-width:900px){.overview{grid-template-columns:1fr}.calstrip{grid-template-columns:repeat(4,1fr)}header,main{padding-left:20px;padding-right:20px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="mast-row">
+    <div>
+      <div class="eyebrow">Centrefree Agency · RegencyFlux for Shalina Healthcare</div>
+      <h1>Campaign Plans</h1>
+      <p class="sub">Every live campaign, one surface. Click a card to open its story; switch brands on the rail. Figures shown are real — where a number or a market is pending, it says so.</p>
+    </div>
+    <div class="mast-meta">
+      Compiled 09 Jul 2026<br>
+      Source docs on file · Drive originals govern<br>
+      Niamh · Seat 02 · Design/Agency Lead
+    </div>
+  </div>
+</header>
+
+<nav id="rail"></nav>
+
+<main id="panels"></main>
+
+<footer>
+  <span>Centrefree Agency — Campaign Plans · July 2026</span>
+  <span>Gates: Elvis PT · Germol image rulings · Angola cast — all Shane's word</span>
+</footer>
+
+<script>
+/* ───────────────────────── DATA ───────────────────────── */
+const BRANDS = [
+{
+  id:'aco', label:'ACO · Angola', acc:'var(--teal)',
+  name:'ACO Pine Gel', line:'“You Only Need One.”',
+  market:'Angola (PT) · lead — also NG, GH, Francophone',
+  channels:'Meta · TikTok · YouTube · WhatsApp',
+  series:'Ana & Glória · 10-week arc · 3 phases',
+  stat:{n:'5 / 10', l:'story scripts written (W4–W8)'},
+  gates:['PT locked line — Elvis rules “Só Precisa de Um.” vs “Só precisas de um.” before anything ships',
+         'Angola neighbour/family cast ratification — ensemble unnamed until Shane’s word',
+         'Packshot law: real 500ml tub only, media ID locked — never re-lettered'],
+  engine:[
+    ['Hook','One question the viewer already has'],
+    ['Story','Documentary proof — show, never lecture'],
+    ['Product truth','One claim per film, earned on screen'],
+    ['Emotion → CTA','Named feeling, one ask']
+  ],
+  engineTitle:'The Content-Plan Engine · every week runs it',
+  weeks:[
+    {w:'W1',ph:'Discovery',t:'You Only Need One (hero)',hook:'Can one product really replace everything?',d:'Ana visits Glória: proud “perfect” home, ~20 specialised products. Role reversal: Glória visits Ana — just as clean, cupboard holds ONE. Companion static: The Cupboard Comparison.',emo:'Curiosity / Surprise',cta:'See how it works',st:'plan'},
+    {w:'W2',ph:'Discovery',t:'The Shopping Trip',hook:'What if your trolley looked different?',d:'Glória fills a trolley with specialised cleaners; Ana picks one ACO. Checkout contrast: full + expensive vs simple + cost-effective. Companion: One vs Many.',emo:'Saving / Surprise',cta:'Smarter cleaning starts here',st:'plan'},
+    {w:'W3',ph:'Discovery',t:'Grease Test',hook:'Which one actually works?',d:'Same greased stovetop. Glória switches products scrubbing; Ana cleans in one process with diluted ACO. Companion carousel: Grease Challenge Breakdown.',emo:'Doubt → Belief',cta:'Watch results',st:'plan'},
+    {w:'W4',ph:'Proof',t:'Why Are You Always Ready?',hook:'How is your home always clean?',d:'Glória notices Ana is always calm, never stressed by cleaning. Ana explains: no juggling — only ACO for everything. Simplicity = less stress, more control.',emo:'Admiration / Curiosity',cta:'Discover the ACO advantage',st:'written'},
+    {w:'W5',ph:'Proof',t:'Unexpected Guests',hook:'What if guests arrive in 20 minutes?',d:'Glória panics with multiple products; Ana calmly makes one ACO bucket — kitchen, bathroom, floors, fast. Readiness under real pressure.',emo:'Stress → Relief',cta:'Be ready anytime',st:'written'},
+    {w:'W6',ph:'Proof',t:'One Bucket Challenge',hook:'Can one product really do it all?',d:'Glória challenges Ana directly. ONE diluted bucket: kitchen, bathroom, tiles, floors, dining. Consistent performance across environments. Companion: Five Surfaces Tested.',emo:'Doubt → Belief',cta:'Watch the challenge',st:'written'},
+    {w:'W7',ph:'Proof',t:'Community Day',hook:'People notice the change',d:'Hosting morning. Glória reaches for ACO without thinking — habit, not test. Ana clocks it from the doorway, says nothing. The quietest film in the series, on purpose. Companion: A Smarter Habit.',emo:'Trust / Normalisation',cta:'Join the shift',st:'written'},
+    {w:'W8',ph:'Conversion',t:'The Neighbourhood Gossip',hook:'Everyone is asking the same question',d:'The courtyard trades theories — a fortune on products? professionals? Glória settles the bet: one open cupboard, one tub, tap on the lid. The answer starts travelling the other way. Companion: What’s the Secret?',emo:'Curiosity / Social proof',cta:'Find out why',st:'written'},
+    {w:'W9',ph:'Conversion',t:'The Cupboard Clean-Out',hook:'It’s time to let go',d:'Glória confronts the cupboard: expired, duplicate, half-used — removed one by one until only ACO remains. Clutter → clarity. Companion: Before & After Cupboard.',emo:'Relief / Liberation',cta:'Declutter your home',st:'next'},
+    {w:'W10',ph:'Conversion',t:'YOU ONLY NEED ONE (finale)',hook:'The truth is undeniable',d:'Ana visits Glória; calm, organised home; cupboard opens on one product. Flashbacks: trip, test, clean-out. “I thought I needed many; one is enough.” Companion: Hero Lockup Visual.',emo:'Emotional payoff',cta:'Buy ACO now',st:'plan'}
+  ]
+},
+{
+  id:'germol-sa', label:'Germol · SA', acc:'var(--cerise)',
+  name:'Germol — Wash & Brush', line:'“Shields with Love and Care.”',
+  market:'South Africa · EN/mixed register',
+  channels:'TikTok · Instagram · YouTube · Facebook',
+  series:'FANTASY concept · 8 Reels (4 ASL + 4 Soap) + 4 statics',
+  stat:{n:'$800', l:'July paid flight · finalized 07-07 (sheet)'},
+  gates:['Germol face / no-face + animation-dial + livery rulings — NO image generation until Shane’s word (standing)',
+         'Client deltas live: branded jersey + winning goal on R3; R4 re-centred on mum + baby clothes; personal-hygiene reel gap on R1',
+         'Kesia collaboration: ASL scripts SA + Angola update from treatments'],
+  engine:[
+    ['Shot 1 · 0–10s','Reality — a family moment, real SA home'],
+    ['Shot 2 · 10–20s','The fantasy break — the child’s eyes take over; blue glow, shields, germ-creatures flee'],
+    ['Shot 3 · 20–30s','Return to reality carrying the weight. Product hero.']
+  ],
+  engineTitle:'The Three-Shot Fantasy Engine · the world as a child sees it',
+  schedule:[
+    {d:'07',m:'Jul · Tue',t:'Care In Every Lather',a:'Static · IG + FB · Organic',org:true,
+     det:'Static post, Instagram + Facebook, South Africa. Organic — no paid flight.'},
+    {d:'10',m:'Jul · Fri',t:'ASL Usage — Football (grass cut, no blood)',a:'15s video · 4 platforms · $200',next:true,
+     det:'“Back on the Pitch” — grass graze treated with ASL; child at the fence sees the armouring; player returns IN GERMOL JERSEY and scores the winner (client delta). TikTok $40/7d Video Views · IG $30/5d Engagement · YT $50/7d Video Views · FB $80/5d Reach.'},
+    {d:'14',m:'Jul · Tue',t:'The Full Shield',a:'5s animated static · Organic',org:true,
+     det:'Animated static, TikTok + Instagram + Facebook. Organic.'},
+    {d:'17',m:'Jul · Fri',t:'ASL Usage for Personal Hygiene',a:'30s video · 4 platforms · $200',
+     det:'Client R1 — the coverage gap: existing ASL treatments are surface-led; this needs a personal-hygiene reel or a re-angle. Same $200 platform split.'},
+    {d:'21',m:'Jul · Tue',t:'Bath Time Fun Time',a:'5s animated static · Organic',org:true,
+     det:'Animated static, TikTok + Instagram + Facebook. Organic. (Soap side: Bath-Time Trust.)'},
+    {d:'24',m:'Jul · Fri',t:'ASL — Surface Cleaning & Disinfecting',a:'30s video · 4 platforms · $200',
+     det:'Client R2, covered twice over: “The Daily Shield” (mother’s dawn routine, shield imprints) and “Winter-Proof Home” (the force-field house). Pick or merge. Same $200 split.'},
+    {d:'28',m:'Jul · Tue',t:'Warm Care for Winter — Skin-Safe Germol',a:'Static · IG + FB · Organic',org:true,
+     det:'Static, Instagram + Facebook. Skin-safe + nourishment balance message (client brief).'},
+    {d:'31',m:'Jul · Fri',t:'ASL + Kids + Mom Washing Clothes',a:'30s video · 4 platforms · $200',
+     det:'Client R4 — “Hands That Teach” re-centred: mum present, the laundry is the sibling’s baby clothes; keep the glow and the inheritance beat. Same $200 split.'}
+  ],
+  budget:[
+    ['10 Jul — ASL Football','$40','$30','$50','$80','$200'],
+    ['17 Jul — Personal Hygiene','$40','$30','$50','$80','$200'],
+    ['24 Jul — Surface Cleaning','$40','$30','$50','$80','$200'],
+    ['31 Jul — Kids + Mom Laundry','$40','$30','$50','$80','$200']
+  ]
+},
+{
+  id:'germol-ao', label:'Germol · Angola', acc:'var(--amber)',
+  name:'Germol Angola', line:'Portuguese transposition · same fantasy engine',
+  market:'Angola · Portuguese final content',
+  channels:'Per finalized schedule (tab pending)',
+  series:'ASL scripts: Angolan cultural transposition — market, home textures, football context',
+  stat:{n:'TAB', l:'schedule tab not yet readable — link the tab'},
+  gates:['Elvis PT pass on all Portuguese lines','Same Germol image rulings as SA — nothing generates until Shane’s word'],
+  pending:'The GERMOL ANGOLA tab exists on the finalized sheet but only the first tab travels through a share link. Open the tab in your browser and paste that URL — the panel fills the same hour.'
+},
+{
+  id:'flodent-sa', label:'Flodent · SA', acc:'var(--teal)',
+  name:'Flodent — Fresh Start Club', line:'The day someone decides to change something.',
+  market:'South Africa · flagship — TikTok-led, high cadence',
+  channels:'TikTok-led · Meta',
+  series:'The Mkhize family, Joburg · four moments per character per year',
+  stat:{n:'2+', l:'episodes scripted · Zimkhita storyboard complete (no clips)'},
+  gates:['Mkhize Drive share fix — wanted, not blocking (bible §8/§9 update)','Flodent must be the hinge, not the decoration — every script passes the removal test'],
+  engine:[
+    ['Beat 1','The moment that matters approaches'],
+    ['Beat 2','Hesitation — the “not yet”'],
+    ['Beat 3','The hinge: reaching for Flodent. Tube visible, label readable, in use'],
+    ['Beat 4','The step into the moment. Earned, not gloss']
+  ],
+  engineTitle:'The Four-Beat Engine · series bible v1.2 governs',
+  weeks:[
+    {w:'EP02',ph:'Scripted',t:'The Father’s Day',hook:'Mkhize dad’s episode',d:'Scripted 07-07. Four-beat engine, dad carries the turning point.',emo:'Warm / Earned',cta:'—',st:'written'},
+    {w:'EP—',ph:'Scripted',t:'The Youngest Member',hook:'The household grows',d:'Scripted 07-07. The family spine carries a new face; product stays the hinge.',emo:'Warm / Earned',cta:'—',st:'written'},
+    {w:'ZIM',ph:'Boarded',t:'Zimkhita',hook:'Mkhize mum’s moment',d:'Storyboard complete — no clips generated yet. Production waits its slot in the queue.',emo:'—',cta:'—',st:'next'}
+  ]
+},
+{
+  id:'flodent-ao', label:'Flodent · Angola', acc:'var(--steel)',
+  name:'Flodent Angola — Fresh Start Club', line:'Same format, different family. The voice flexes; the structure doesn’t.',
+  market:'Angola · relationship-led — Meta-anchored, quieter cadence',
+  channels:'Meta-anchored',
+  series:'Separate permanent family · working cast names await ratification',
+  stat:{n:'1', l:'Kids script written — “The Colour Change” (07-08)'},
+  gates:['Elvis PT pass — all PT lines held (⟨PT-HELD⟩ convention)','Angola family cast ratification: Zeca / Mamã / Avó Domingas working names — Shane’s word'],
+  weeks:[
+    {w:'KIDS',ph:'Scripted',t:'The Colour Change',hook:'Flodent Kids, Angola',d:'Kids script written 07-08, EN master, PT lines held for Elvis. Cast working names pending ratification.',emo:'—',cta:'—',st:'written'}
+  ],
+  pending:'The FLODENT ANGOLA and FLODENT SA schedule tabs sit on the same finalized sheet — paste each tab’s URL and both panels take their flight dates and budgets.'
+},
+{
+  id:'ibucap', label:'Ibucap · KE', acc:'var(--cerise)',
+  name:'Ibucap KE — Kamau', line:'“The Power of Three in One.”',
+  market:'Kenya (PPB) · also Ghana (FDA)',
+  channels:'Synthesizer live at centrefree.com/agency/production/ibucap-ke/',
+  series:'Kamau character-locked · storyboards 01–08 built',
+  stat:{n:'3', l:'beats in regen queue (03, 04, 05 — wrong clips)'},
+  gates:['Only on-art claim: “The Power of Three in One.” — nothing else, ever',
+         'PPB/FDA hard bans: no doctors, nurses, pharmacists, mascots, pill-taking, medical settings, comparative claims',
+         'Heritage line audio-only: “Always with you…to Beat Pain.” (25+ years)'],
+  weeks:[
+    {w:'SYN',ph:'Live',t:'Kamau Synthesizer',hook:'Production line, running',d:'Live production surface assembling the Kamau film from beats. Storyboard stack + boards 05–08 on disk.',emo:'—',cta:'—',st:'written'},
+    {w:'B3-5',ph:'Regen',t:'Beats 03 · 04 · 05',hook:'Wrong clips — regen queued',d:'Regen brief on file. HIGH priority in the active project table; fires when image-spend gates allow.',emo:'—',cta:'—',st:'next'}
+  ]
+}
+];
+
+/* ─────────────────────── RENDER ─────────────────────── */
+const rail = document.getElementById('rail');
+const panels = document.getElementById('panels');
+
+BRANDS.forEach((b,i)=>{
+  const btn = document.createElement('button');
+  btn.textContent = b.label;
+  btn.style.setProperty('--acc', b.acc);
+  btn.className = i===0?'on':'';
+  btn.onclick = ()=>show(b.id);
+  btn.dataset.id = b.id;
+  rail.appendChild(btn);
+
+  const p = document.createElement('section');
+  p.className = 'panel'+(i===0?' on':'');
+  p.id = 'panel-'+b.id;
+  p.style.setProperty('--acc', b.acc);
+  p.innerHTML = renderBrand(b);
+  panels.appendChild(p);
+});
+
+function show(id){
+  document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x.dataset.id===id));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('on',x.id==='panel-'+id));
+}
+
+function chip(st){
+  if(st==='written') return '<span class="chip done">Written</span>';
+  if(st==='next') return '<span class="chip next">Next up</span>';
+  return '<span class="chip pend">Planned</span>';
+}
+
+function renderBrand(b){
+  let h = `
+  <div class="overview">
+    <div>
+      <div class="eyebrow accent">${b.label} · Campaign</div>
+      <h2>${b.name}</h2>
+      <div class="line">${b.line}</div>
+      <div class="kv"><b>Market:</b> ${b.market} &nbsp;·&nbsp; <b>Channels:</b> ${b.channels}</div>
+    </div>
+    <div>
+      <div class="eyebrow">Series</div>
+      <div class="kv" style="margin-top:12px;font-size:14.5px">${b.series}</div>
+    </div>
+    <div>
+      <div class="eyebrow">State</div>
+      <div class="bignum">${b.stat.n}</div>
+      <div class="kv">${b.stat.l}</div>
+    </div>
+  </div>`;
+
+  if(b.engine){
+    h += `<div class="beat-engine"><div style="grid-column:1/-1"><div class="eyebrow">${b.engineTitle}</div></div>`;
+    b.engine.forEach(e=>{ h += `<div><h5>${e[0]}</h5><p>${e[1]}</p></div>`; });
+    h += `</div>`;
+  }
+
+  if(b.schedule){
+    h += `<div class="sect"><h3>July flight — finalized 07-07</h3><span class="tag">Click a date for detail · <b style="color:var(--cerise)">outlined = next deliverable</b></span></div>`;
+    h += `<div class="calstrip">`;
+    b.schedule.forEach((s,idx)=>{
+      h += `<div class="calday ${s.org?'organic':''} ${s.next?'today-next':''}" onclick="toggleDet('${b.id}',${idx})">
+        <div class="d">${s.d}</div><div class="m">${s.m}</div>
+        <div class="t">${s.t}</div><div class="a">${s.a}</div></div>`;
+    });
+    h += `</div><div id="det-${b.id}" style="display:none" class="gates"></div>`;
+
+    h += `<div class="sect"><h3>Paid budget — video flights</h3><span class="tag">Statics run organic · total <b>$800</b></span></div>
+    <table><thead><tr><th>Flight</th><th style="text-align:right">TikTok · 7d · Views</th><th style="text-align:right">Instagram · 5d · Engage</th><th style="text-align:right">YouTube · 7d · Views</th><th style="text-align:right">Facebook · 5d · Reach</th><th style="text-align:right">Flight total</th></tr></thead><tbody>`;
+    b.budget.forEach(r=>{ h += `<tr><td>${r[0]}</td><td class="num">${r[1]}</td><td class="num">${r[2]}</td><td class="num">${r[3]}</td><td class="num">${r[4]}</td><td class="num">${r[5]}</td></tr>`; });
+    h += `<tr class="total"><td>July total — Germol SA</td><td class="num">$160</td><td class="num">$120</td><td class="num">$200</td><td class="num">$320</td><td class="num">$800</td></tr></tbody></table>`;
+  }
+
+  if(b.weeks){
+    const phases = [...new Set(b.weeks.map(w=>w.ph))];
+    h += `<div class="sect"><h3>${b.id==='aco'?'The Ana & Glória arc — 10 weeks':'Episodes & production'}</h3>`;
+    if(phases.length>1){
+      h += `<div class="filters"><button class="on" onclick="filt('${b.id}','all',this)">All</button>`;
+      phases.forEach(ph=>{ h += `<button onclick="filt('${b.id}','${ph}',this)">${ph}</button>`; });
+      h += `</div>`;
+    }
+    h += `</div><div class="cards" id="cards-${b.id}">`;
+    b.weeks.forEach(w=>{
+      h += `<div class="card" data-ph="${w.ph}" onclick="this.classList.toggle('open')">
+        <div class="hd">
+          <span class="eyebrow accent">${w.w} · ${w.ph}</span>
+          <h4>${w.t}</h4>
+          <div class="hook">${w.hook}</div>
+        </div>
+        <div class="bd"><p>${w.d}</p><p class="tag"><b>Emotion:</b> ${w.emo} &nbsp;·&nbsp; <b>CTA:</b> ${w.cta}</p></div>
+        <div class="foot">${chip(w.st)}</div>
+      </div>`;
+    });
+    h += `</div>`;
+  }
+
+  if(b.pending){
+    h += `<div class="pending-slab"><div class="eyebrow">Awaiting data</div><div class="big">Schedule tab pending</div><p style="max-width:520px;margin:6px auto 0;color:var(--grey);font-size:13.5px">${b.pending}</p></div>`;
+  }
+
+  if(b.gates && b.gates.length){
+    h += `<div class="gates"><div class="eyebrow" style="color:var(--cerise)">Standing gates & laws</div><h3>Nothing ships past these</h3><ul>`;
+    b.gates.forEach(g=>{ h += `<li>${g}</li>`; });
+    h += `</ul></div>`;
+  }
+  return h;
+}
+
+function toggleDet(bid, idx){
+  const b = BRANDS.find(x=>x.id===bid);
+  const el = document.getElementById('det-'+bid);
+  const s = b.schedule[idx];
+  const key = bid+'-'+idx;
+  if(el.dataset.key===key && el.style.display!=='none'){ el.style.display='none'; el.dataset.key=''; return; }
+  el.dataset.key = key;
+  el.style.display='block';
+  el.style.borderLeftColor = s.org ? 'var(--steel)' : 'var(--cerise)';
+  el.innerHTML = `<div class="eyebrow">${s.d} ${s.m} — ${s.a}</div><h3>${s.t}</h3><p style="font-size:13.5px">${s.det}</p>`;
+}
+
+function filt(bid, ph, btn){
+  btn.parentElement.querySelectorAll('button').forEach(x=>x.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('#cards-'+bid+' .card').forEach(c=>{
+    c.style.display = (ph==='all'||c.dataset.ph===ph)?'':'none';
+  });
+}
+</script>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

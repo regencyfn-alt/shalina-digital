@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Cockpit — InfoCube · design system</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* ——— pastel design system ——— */
+  --canvas:#F4EFE6;            /* warm cream desk */
+  --dot:rgba(120,104,80,.10);  /* grid dots */
+  --panel:#FFFDFA;             /* panel body */
+  --ink:#2C2733; --muted:#857E92; --line:#ECE6DA;
+  --shadow:0 12px 34px rgba(74,62,46,.12);
+  --shadow-lift:0 22px 54px rgba(74,62,46,.20);
+
+  /* panel identities (pastel, one per zone) */
+  --c-write:#6E7AE0;   --c-write-tint:#ECEEFB;   --c-write-ink:#4954B8;
+  --c-board:#D9A23B;   --c-board-tint:#FBF3E2;   --c-board-ink:#9C6E16;
+  --c-image:#E0719B;   --c-image-tint:#FBEAF1;   --c-image-ink:#B14E76;
+  --c-movie:#46B98A;   --c-movie-tint:#E6F6EE;   --c-movie-ink:#2C8A63;
+  --c-spend:#4C84C9;   --c-spend-tint:#E9F1FB;   --c-spend-ink:#2C5C94;
+
+  --r:16px; --r-sm:10px;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'Inter',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{
+  font-family:var(--sans); color:var(--ink); overflow:hidden;
+  background:
+    radial-gradient(120% 80% at 85% -10%,rgba(110,122,224,.10),transparent 55%),
+    radial-gradient(100% 70% at 0% 110%,rgba(224,113,155,.08),transparent 55%),
+    var(--canvas);
+}
+
+/* ——— top bar ——— */
+.topbar{
+  position:fixed; top:0; left:0; right:0; height:56px; z-index:100;
+  display:flex; align-items:center; gap:18px; padding:0 22px;
+  background:rgba(255,253,250,.78); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.brand{display:flex; align-items:center; gap:11px;}
+.brand .mark{width:30px;height:30px;flex-shrink:0;}
+.brand .name{font-family:var(--serif); font-weight:700; font-size:20px; letter-spacing:.2px;}
+.brand .name b{color:var(--c-image-ink); font-weight:700;}
+.brand .sub{font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); padding-top:3px;}
+.proj{margin-left:6px; font-size:12.5px; color:var(--muted);}
+.proj b{color:var(--ink); font-weight:600;}
+.topbar .spacer{flex:1;}
+.legend{display:flex; gap:14px; align-items:center; font-size:11px; color:var(--muted);}
+.legend .lg{display:flex; align-items:center; gap:6px;}
+.legend .sw{width:9px;height:9px;border-radius:50%;}
+.topbar .credits{font-size:11.5px; color:var(--muted); border:1px solid var(--line); padding:6px 11px; border-radius:20px; background:#fff;}
+.topbar .credits b{color:var(--c-movie-ink);}
+
+/* ——— canvas ——— */
+.canvas{
+  position:fixed; inset:56px 0 0 0;
+  background-image:radial-gradient(var(--dot) 1.4px, transparent 1.4px);
+  background-size:26px 26px;
+  overflow:hidden;
+}
+#wires{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:1;}
+
+/* ——— panel ——— */
+.panel{
+  position:absolute; z-index:5; width:340px;
+  background:var(--panel); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); display:flex; flex-direction:column; overflow:hidden;
+  transition:box-shadow .18s ease;
+}
+.panel.dragging{box-shadow:var(--shadow-lift); transition:none;}
+.panel.resizing{box-shadow:var(--shadow-lift); transition:none;}
+.panel{min-width:240px; min-height:170px;}
+/* corner resize grip → drag a box up to be the main surface */
+.resize{
+  position:absolute; right:0; bottom:0; width:20px; height:20px;
+  cursor:nwse-resize; z-index:7; touch-action:none;
+}
+.resize::after{
+  content:""; position:absolute; right:4px; bottom:4px; width:9px; height:9px;
+  border-right:2.4px solid var(--accent); border-bottom:2.4px solid var(--accent);
+  border-bottom-right-radius:3px; opacity:.55;
+}
+.resize:hover::after{opacity:1;}
+.panel-head{
+  display:flex; align-items:center; gap:9px; padding:11px 13px;
+  cursor:grab; user-select:none; border-bottom:1px solid var(--line);
+  background:var(--tint);
+}
+.panel-head:active{cursor:grabbing;}
+.grip{color:var(--muted); font-size:15px; line-height:1; letter-spacing:-1px; opacity:.7;}
+.dot{width:9px;height:9px;border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px var(--tint);}
+.p-title{font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.4px; color:var(--accent-ink);}
+.p-tag{margin-left:auto; font-size:10px; color:var(--muted); background:#fff; border:1px solid var(--line); padding:3px 8px; border-radius:14px;}
+.panel-body{padding:14px; display:flex; flex-direction:column; gap:12px; overflow-y:auto; flex:1 1 auto; min-height:0;}
+
+/* form bits */
+.lbl{font-size:10.5px; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-bottom:6px; display:block;}
+textarea,input,select{
+  width:100%; font-family:inherit; font-size:13px; color:var(--ink);
+  background:#FCFAF6; border:1px solid var(--line); border-radius:var(--r-sm); padding:10px 11px; line-height:1.5;
+}
+textarea{resize:none; min-height:64px;}
+textarea:focus,input:focus,select:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--tint);}
+.row{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
+.chips{display:flex; gap:6px; flex-wrap:wrap;}
+.chip{font-size:11.5px; padding:6px 11px; border-radius:20px; border:1px solid var(--line); background:#fff; color:var(--muted); cursor:pointer; font-weight:500;}
+.chip.on{background:var(--tint); border-color:var(--accent); color:var(--accent-ink); font-weight:600;}
+.btn{font-family:inherit; font-size:12.5px; font-weight:600; letter-spacing:.2px; padding:9px 15px; border-radius:var(--r-sm); border:none; cursor:pointer; color:#fff; background:var(--accent);}
+.btn:hover{filter:brightness(1.04);}
+.btn.ghost{background:#fff; color:var(--accent-ink); border:1px solid var(--accent);}
+.seg{display:inline-flex; border:1px solid var(--line); border-radius:20px; overflow:hidden; background:#fff;}
+.seg button{font-family:inherit; font-size:11.5px; font-weight:600; padding:7px 13px; border:none; background:transparent; color:var(--muted); cursor:pointer;}
+.seg button.on{background:var(--accent); color:#fff;}
+.note{font-size:11px; color:var(--muted); line-height:1.5;}
+
+/* writing output */
+.gen{background:var(--tint); border:1px solid var(--line); border-radius:var(--r-sm); padding:11px 12px; font-size:12.5px; line-height:1.6;}
+.gen .h{font-family:var(--serif); font-size:14px; color:var(--accent-ink); margin-bottom:4px;}
+.gen ul{margin:6px 0 0 16px;} .gen li{margin:3px 0;}
+
+/* storyboard */
+.beats{display:flex; gap:10px; overflow-x:auto; padding-bottom:4px;}
+.beat{flex:0 0 92px;}
+.beat .frame{aspect-ratio:9/16; border-radius:9px; border:1px solid var(--line); overflow:hidden; position:relative;}
+.beat .cap{font-size:10px; color:var(--muted); margin-top:5px; text-align:center;}
+.beat .lab{position:absolute; top:5px; left:5px; font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:#fff; background:rgba(44,39,51,.55); padding:2px 6px; border-radius:10px;}
+.beat .dur{position:absolute; bottom:5px; right:5px; font-size:9px; color:#fff; background:rgba(44,39,51,.55); padding:2px 5px; border-radius:8px;}
+.beat.add .frame{border-style:dashed; display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:22px; cursor:pointer;}
+.timeline{margin-top:4px; border-top:1px solid var(--line); padding-top:11px;}
+.track{display:flex; gap:4px; height:30px; border-radius:8px; overflow:hidden;}
+.track span{flex:1; position:relative;}
+.track span small{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:9.5px; color:#fff; font-weight:600;}
+
+/* image library */
+.gallery{display:grid; grid-template-columns:repeat(3,1fr); gap:9px;}
+.cell{aspect-ratio:9/16; border-radius:9px; border:1px solid var(--line); position:relative; overflow:hidden;}
+.cell.empty{display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:10px; background:#FCFAF6; border-style:dashed;}
+.cell .acts{position:absolute; bottom:6px; left:6px; right:6px; display:flex; gap:5px; justify-content:center; opacity:0; transition:.15s;}
+.cell:hover .acts{opacity:1;}
+.cell .mini{font-size:10px; font-weight:600; background:rgba(255,255,255,.92); border:1px solid var(--line); border-radius:7px; padding:3px 7px; cursor:pointer; color:var(--ink);}
+.cell .mini.ref{color:var(--c-image-ink);}
+.cell.is-ref{outline:2.5px solid var(--c-image); outline-offset:-2.5px;}
+.cell.is-ref::after{content:"★ ref"; position:absolute; top:5px; right:5px; font-size:9px; font-weight:700; color:#fff; background:var(--c-image); padding:2px 6px; border-radius:9px;}
+.shelf{display:flex; gap:7px; align-items:center; border-top:1px solid var(--line); padding-top:11px;}
+.shelf .t{font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--muted);}
+.shelf .rthumb{width:26px;height:46px;border-radius:6px; border:2px solid var(--c-image);}
+
+/* movie */
+.screen{aspect-ratio:16/10; border-radius:var(--r-sm); overflow:hidden; position:relative; display:flex; align-items:center; justify-content:center; border:1px solid var(--line);}
+.screen .play{width:52px;height:52px;border-radius:50%; background:rgba(255,255,255,.86); display:flex; align-items:center; justify-content:center; box-shadow:0 6px 16px rgba(0,0,0,.18);}
+.screen .play::after{content:""; border-left:16px solid var(--c-movie-ink); border-top:10px solid transparent; border-bottom:10px solid transparent; margin-left:4px;}
+.screen .meta{position:absolute; bottom:8px; left:10px; font-size:10px; color:#fff; background:rgba(44,39,51,.5); padding:3px 8px; border-radius:10px;}
+.queue{display:flex; flex-direction:column; gap:7px;}
+.q{display:flex; align-items:center; gap:9px; font-size:12px; background:#FCFAF6; border:1px solid var(--line); border-radius:9px; padding:8px 10px;}
+.q .sw{width:30px;height:30px;border-radius:7px; flex-shrink:0;}
+.q .nm{flex:1; min-width:0;}
+.q .nm b{font-weight:600; font-size:12px;}
+.q .nm small{display:block; color:var(--muted); font-size:10.5px;}
+.q .st{font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; padding:3px 8px; border-radius:10px;}
+.q .st.go{color:var(--c-movie-ink); background:var(--c-movie-tint);}
+.q .st.run{color:var(--c-board-ink); background:var(--c-board-tint);}
+.bar{height:4px; background:var(--line); border-radius:3px; overflow:hidden; margin-top:5px;}
+.bar i{display:block; height:100%; background:var(--c-board); border-radius:3px;}
+
+/* pastel placeholder media */
+.ph{width:100%;height:100%;}
+.ph1{background:linear-gradient(150deg,#F6D9E4,#D9E0FA);}
+.ph2{background:linear-gradient(150deg,#E0EFD9,#FBEFD2);}
+.ph3{background:linear-gradient(150deg,#D9ECF6,#EADCF6);}
+.ph4{background:linear-gradient(150deg,#FBE2D2,#F6D9E9);}
+.ph5{background:linear-gradient(150deg,#E4F6EC,#D9E6FA);}
+.ph6{background:linear-gradient(150deg,#F6E9D2,#F0D9E0);}
+
+.hintbar{position:fixed; bottom:14px; left:50%; transform:translateX(-50%); z-index:100;
+  font-size:11.5px; color:var(--muted); background:rgba(255,253,250,.86); backdrop-filter:blur(8px);
+  border:1px solid var(--line); border-radius:20px; padding:8px 16px; box-shadow:var(--shadow);}
+.hintbar b{color:var(--ink);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <svg class="mark" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="60" cy="60" r="56" stroke="#E0719B" stroke-width="2" opacity=".4"/>
+      <path d="M22 60c10-15 26-15 36 0-10 15-26 15-36 0z" stroke="#4954B8" stroke-width="2.6" fill="#ECEEFB"/>
+      <circle cx="40" cy="60" r="7.5" fill="#46B98A"/><circle cx="42.5" cy="57.5" r="2" fill="#fff"/>
+      <path d="M62 60c10-15 26-15 36 0-10 15-26 15-36 0z" stroke="#4954B8" stroke-width="2.6" fill="#ECEEFB"/>
+      <circle cx="80" cy="60" r="7.5" fill="#46B98A"/><circle cx="82.5" cy="57.5" r="2" fill="#fff"/>
+      <path d="M48 86c4 4 20 4 24 0" stroke="#D9A23B" stroke-width="2.6" stroke-linecap="round"/>
+    </svg>
+    <div>
+      <div class="name">Studio <b>·</b> Cockpit</div>
+    </div>
+    <span class="sub">Academy of We</span>
+  </div>
+  <span class="proj">Project · <b>Abbii — Self-Love EP03</b></span>
+  <span class="spacer"></span>
+  <div class="legend">
+    <span class="lg"><span class="sw" style="background:var(--c-write)"></span>Write</span>
+    <span class="lg"><span class="sw" style="background:var(--c-board)"></span>Board</span>
+    <span class="lg"><span class="sw" style="background:var(--c-image)"></span>Image</span>
+    <span class="lg"><span class="sw" style="background:var(--c-movie)"></span>Movie</span>
+  </div>
+  <span class="credits">Fal credits · <b>$41.20</b></span>
+</div>
+
+<div class="canvas" id="canvas">
+  <svg id="wires"></svg>
+
+  <!-- PANEL 1 — WRITING / IDEATION -->
+  <div class="panel" id="p-write" style="left:30px; top:24px; width:330px;"
+       data-accent="--c-write" data-tint="--c-write-tint" data-ink="--c-write-ink">
+    <div class="panel-head"><span class="grip">⠿</span><span class="dot"></span><span class="p-title">Writing · Ideation</span><span class="p-tag">the pen</span></div>
+    <div class="panel-body">
+      <div>
+        <span class="lbl">What are we making?</span>
+        <textarea>Abbii faces the mirror after a hard day — she chooses herself. Warm, intimate, 35s. Ends on a small private smile.</textarea>
+      </div>
+      <div class="chips">
+        <span class="chip on">Concept</span><span class="chip">Copy</span><span class="chip">Character</span><span class="chip">Motion</span>
+      </div>
+      <div class="row">
+        <select style="flex:1"><option>Voice · Abbii (warm, low)</option><option>Voice · Narrator</option></select>
+        <button class="btn">Generate →</button>
+      </div>
+      <div class="gen">
+        <div class="h">Concept — "The Mirror Turns"</div>
+        Three beats: the flinch, the breath, the choice.
+        <ul><li>Hook: hand wipes fog from glass</li><li>Build: eyes meet eyes, hold</li><li>Payoff: the smile she didn't perform</li></ul>
+      </div>
+      <div class="note">Drafts from <b>banana-pro-director</b> + <b>cinema-worldbuilder</b> grammar. Push a beat → Storyboard.</div>
+    </div>
+  </div>
+
+  <!-- PANEL 2 — STORYBOARDS / CAMPAIGN -->
+  <div class="panel" id="p-board" style="left:392px; top:24px; width:430px;"
+       data-accent="--c-board" data-tint="--c-board-tint" data-ink="--c-board-ink">
+    <div class="panel-head"><span class="grip">⠿</span><span class="dot"></span><span class="p-title">Storyboards · Campaign</span><span class="p-tag">the shape</span></div>
+    <div class="panel-body">
+      <div class="beats">
+        <div class="beat"><div class="frame"><div class="ph ph1"></div><span class="lab">Hook</span><span class="dur">4s</span></div><div class="cap">Fog wipe</div></div>
+        <div class="beat"><div class="frame"><div class="ph ph4"></div><span class="lab">Build</span><span class="dur">8s</span></div><div class="cap">Eyes hold</div></div>
+        <div class="beat"><div class="frame"><div class="ph ph6"></div><span class="lab">Turn</span><span class="dur">6s</span></div><div class="cap">Breath</div></div>
+        <div class="beat"><div class="frame"><div class="ph ph2"></div><span class="lab">Payoff</span><span class="dur">5s</span></div><div class="cap">The smile</div></div>
+        <div class="beat add"><div class="frame">+</div><div class="cap">add beat</div></div>
+      </div>
+      <div class="timeline">
+        <div class="row" style="justify-content:space-between; margin-bottom:8px;">
+          <span class="lbl" style="margin:0;">Timeline · drag to reorder</span>
+          <span class="note" style="margin:0;">Total <b style="color:var(--ink)">23s</b></span>
+        </div>
+        <div class="track">
+          <span style="flex:4;background:var(--c-write)"><small>Hook</small></span>
+          <span style="flex:8;background:var(--c-board)"><small>Build</small></span>
+          <span style="flex:6;background:var(--c-image)"><small>Turn</small></span>
+          <span style="flex:5;background:var(--c-movie)"><small>Payoff</small></span>
+        </div>
+        <div class="row" style="justify-content:flex-end; margin-top:11px;">
+          <button class="btn ghost">+ Variant</button>
+          <button class="btn">Export MP4 →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 3 — IMAGE LIBRARY -->
+  <div class="panel" id="p-image" style="left:30px; top:380px; width:330px;"
+       data-accent="--c-image" data-tint="--c-image-tint" data-ink="--c-image-ink">
+    <div class="panel-head"><span class="grip">⠿</span><span class="dot"></span><span class="p-title">Image Library</span><span class="p-tag">the look, locked</span></div>
+    <div class="panel-body">
+      <div class="row" style="justify-content:space-between;">
+        <div class="seg"><button class="on">Nano Banana Pro</button><button>GPT-2</button></div>
+        <select style="width:auto"><option>9:16</option><option>16:9</option><option>1:1</option></select>
+      </div>
+      <div class="row">
+        <input style="flex:1" value="Abbii at the mirror, warm tungsten, 35mm" />
+        <button class="btn">Generate</button>
+      </div>
+      <div class="gallery">
+        <div class="cell is-ref"><div class="ph ph1"></div><div class="acts"><span class="mini">⤓</span><span class="mini ref">★ ref</span></div></div>
+        <div class="cell"><div class="ph ph4"></div><div class="acts"><span class="mini">⤓</span><span class="mini ref">★ ref</span></div></div>
+        <div class="cell"><div class="ph ph6"></div><div class="acts"><span class="mini">⤓</span><span class="mini ref">★ ref</span></div></div>
+        <div class="cell"><div class="ph ph3"></div><div class="acts"><span class="mini">⤓</span><span class="mini ref">★ ref</span></div></div>
+        <div class="cell"><div class="ph ph2"></div><div class="acts"><span class="mini">⤓</span><span class="mini ref">★ ref</span></div></div>
+        <div class="cell empty">empty</div>
+      </div>
+      <div class="shelf">
+        <span class="t">Reference shelf</span>
+        <span class="rthumb ph1"></span>
+        <span class="note" style="margin:0;">Character lock — feeds every shot.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 4 — MOVIE SCREEN -->
+  <div class="panel" id="p-movie" style="left:392px; top:340px; width:430px;"
+       data-accent="--c-movie" data-tint="--c-movie-tint" data-ink="--c-movie-ink">
+    <div class="panel-head"><span class="grip">⠿</span><span class="dot"></span><span class="p-title">Movie Screen</span><span class="p-tag">Fal · Seedance 2.0</span></div>
+    <div class="panel-body">
+      <div class="screen"><div class="ph ph5"></div><div class="play" style="position:absolute"></div><span class="meta">Build · 8s · 1080p</span></div>
+      <div class="row">
+        <input style="flex:1" value="Camera holds. She exhales, the smile arrives." />
+      </div>
+      <div class="row" style="justify-content:space-between;">
+        <div class="row">
+          <span class="rthumb ph1" style="border-color:var(--c-movie); width:22px; height:38px;"></span>
+          <select style="width:auto"><option>8s</option><option>5s</option><option>10s</option><option>15s</option></select>
+          <div class="seg"><button class="on">Draft 720p</button><button>Final 1080p</button></div>
+        </div>
+        <button class="btn">Animate →</button>
+      </div>
+      <div>
+        <span class="lbl">Render queue</span>
+        <div class="queue">
+          <div class="q"><span class="sw ph2"></span><span class="nm"><b>Payoff — the smile</b><small>8s · 1080p · Seedance</small></span><span class="st go">ready</span></div>
+          <div class="q"><span class="sw ph6"></span><span class="nm"><b>Turn — breath</b><small>6s · 720p · rendering…</small><span class="bar"><i style="width:62%"></i></span></span><span class="st run">62%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="hintbar">Drag a panel by its <b>⠿ header</b>. Drag the <b>bottom-right corner</b> to grow it into the main surface — <b>double-click the corner</b> to snap it back. The wires follow.</div>
+
+<script>
+var canvas = document.getElementById('canvas');
+var svg = document.getElementById('wires');
+var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
+var zTop = 10;
+
+/* apply per-panel identity colours from data-attrs + add corner resize grip */
+panels.forEach(function(p){
+  p.style.setProperty('--accent', 'var('+p.dataset.accent+')');
+  p.style.setProperty('--tint', 'var('+p.dataset.tint+')');
+  p.style.setProperty('--accent-ink', 'var('+p.dataset.ink+')');
+  // remember the panel's default footprint so the corner can snap back to it
+  p.dataset.defW = p.offsetWidth;
+  p.dataset.defH = p.offsetHeight;
+  var grip = document.createElement('div');
+  grip.className = 'resize';
+  grip.title = 'Drag to grow · double-click to reset';
+  p.appendChild(grip);
+});
+
+/* ——— drag ——— */
+panels.forEach(function(p){
+  var head = p.querySelector('.panel-head');
+  head.addEventListener('pointerdown', function(e){
+    if(e.target.closest('button,select,input,.chip,.mini,.seg')) return;
+    bringFront(p);
+    var rect = p.getBoundingClientRect();
+    var cRect = canvas.getBoundingClientRect();
+    var offX = e.clientX - rect.left, offY = e.clientY - rect.top;
+    p.classList.add('dragging');
+    head.setPointerCapture(e.pointerId);
+    function move(ev){
+      var x = ev.clientX - cRect.left - offX;
+      var y = ev.clientY - cRect.top - offY;
+      x = Math.max(0, Math.min(x, canvas.clientWidth - p.offsetWidth));
+      y = Math.max(0, Math.min(y, canvas.clientHeight - p.offsetHeight));
+      p.style.left = x+'px'; p.style.top = y+'px';
+      drawWires();
+    }
+    function up(ev){
+      p.classList.remove('dragging');
+      head.releasePointerCapture(e.pointerId);
+      head.removeEventListener('pointermove', move);
+      head.removeEventListener('pointerup', up);
+    }
+    head.addEventListener('pointermove', move);
+    head.addEventListener('pointerup', up);
+  });
+  p.addEventListener('pointerdown', function(){ bringFront(p); });
+});
+function bringFront(p){ p.style.zIndex = (++zTop); }
+
+/* ——— corner resize → grow a box into the main surface ——— */
+panels.forEach(function(p){
+  var grip = p.querySelector('.resize');
+  if(!grip) return;
+  grip.addEventListener('pointerdown', function(e){
+    e.preventDefault(); e.stopPropagation();
+    bringFront(p);
+    var cRect = canvas.getBoundingClientRect();
+    var startW = p.offsetWidth, startH = p.offsetHeight;
+    var startX = e.clientX, startY = e.clientY;
+    var maxW = canvas.clientWidth - p.offsetLeft - 8;
+    var maxH = canvas.clientHeight - p.offsetTop - 8;
+    p.classList.add('resizing');
+    grip.setPointerCapture(e.pointerId);
+    function move(ev){
+      var w = startW + (ev.clientX - startX);
+      var h = startH + (ev.clientY - startY);
+      w = Math.max(240, Math.min(w, maxW));
+      h = Math.max(170, Math.min(h, maxH));
+      p.style.width = w+'px';
+      p.style.height = h+'px';
+      drawWires();
+    }
+    function up(ev){
+      p.classList.remove('resizing');
+      grip.releasePointerCapture(e.pointerId);
+      grip.removeEventListener('pointermove', move);
+      grip.removeEventListener('pointerup', up);
+      drawWires();
+    }
+    grip.addEventListener('pointermove', move);
+    grip.addEventListener('pointerup', up);
+  });
+  /* double-click the corner → snap back to the default footprint */
+  grip.addEventListener('dblclick', function(e){
+    e.preventDefault(); e.stopPropagation();
+    p.style.width = p.dataset.defW + 'px';
+    p.style.height = '';   /* back to content-driven height */
+    drawWires();
+  });
+});
+
+/* ——— pipeline wires ——— */
+var links = [
+  ['p-write','p-board','--c-write'],
+  ['p-board','p-movie','--c-board'],
+  ['p-image','p-board','--c-image'],
+  ['p-image','p-movie','--c-movie']
+];
+function anchor(el, side){
+  var r = el.getBoundingClientRect(), c = canvas.getBoundingClientRect();
+  var x = r.left - c.left, y = r.top - c.top;
+  if(side==='r') return [x + r.width, y + 46];
+  if(side==='l') return [x, y + 46];
+  if(side==='t') return [x + r.width/2, y];
+  return [x + r.width/2, y + r.height];
+}
+function drawWires(){
+  var paths = '';
+  links.forEach(function(lk){
+    var a = document.getElementById(lk[0]), b = document.getElementById(lk[1]);
+    if(!a||!b) return;
+    var ar = a.getBoundingClientRect(), br = b.getBoundingClientRect();
+    var aSide = (ar.left < br.left) ? 'r' : 'l';
+    var bSide = (ar.left < br.left) ? 'l' : 'r';
+    var p1 = anchor(a, aSide), p2 = anchor(b, bSide);
+    var dx = Math.abs(p2[0]-p1[0]) * 0.5 + 30;
+    var c1x = p1[0] + (aSide==='r'?dx:-dx), c2x = p2[0] + (bSide==='r'?dx:-dx);
+    var col = getComputedStyle(document.documentElement).getPropertyValue(lk[2]).trim();
+    paths += '<path d="M'+p1[0]+','+p1[1]+' C'+c1x+','+p1[1]+' '+c2x+','+p2[1]+' '+p2[0]+','+p2[1]+'" '+
+             'fill="none" stroke="'+col+'" stroke-width="2.2" stroke-dasharray="2 7" stroke-linecap="round" opacity="0.55"/>';
+    paths += '<circle cx="'+p2[0]+'" cy="'+p2[1]+'" r="3.5" fill="'+col+'"/>';
+  });
+  svg.innerHTML = paths;
+}
+
+/* little interactions so it feels alive */
+document.querySelectorAll('.chip').forEach(function(ch){
+  ch.addEventListener('click', function(){
+    ch.parentNode.querySelectorAll('.chip').forEach(function(c){c.classList.remove('on');});
+    ch.classList.add('on');
+  });
+});
+document.querySelectorAll('.seg').forEach(function(sg){
+  sg.querySelectorAll('button').forEach(function(b){
+    b.addEventListener('click', function(){
+      sg.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+      b.classList.add('on');
+    });
+  });
+});
+document.querySelectorAll('.cell .mini.ref').forEach(function(r){
+  r.addEventListener('click', function(e){
+    e.stopPropagation();
+    document.querySelectorAll('.cell').forEach(function(c){c.classList.remove('is-ref');});
+    r.closest('.cell').classList.add('is-ref');
+  });
+});
+
+window.addEventListener('resize', drawWires);
+drawWires();
+</script>
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

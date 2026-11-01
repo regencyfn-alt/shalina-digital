@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CENTREFREE — Fleximax Practice: ACO Agency Room</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&family=Cormorant+Garamond:wght@500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    overflow: hidden;
+    font-family: 'Roboto Mono', monospace;
+  }
+
+  .stage { display: flex; width: 100vw; height: 100vh; }
+
+  .lhs { flex: 1 1 33.333%; display: flex; flex-direction: column; height: 100%; }
+  .lhs .cell { flex: 1; }
+
+  .rhs { flex: 2 1 66.666%; display: flex; flex-direction: column; height: 100%; }
+  .rhs .cell.tall   { flex: 2; }
+  .rhs .cell.normal { flex: 1; }
+  body.merge-bottom .rhs { flex-direction: column-reverse; }
+
+  .cell {
+    position: relative;
+    overflow: hidden;
+    border-right: 1px solid rgba(255,255,255,0.07);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .lhs .cell:last-child, .rhs .cell:last-child { border-bottom: none; }
+  .lhs { border-right: 1px solid rgba(255,255,255,0.07); }
+
+  /* ===== filled slots — real local assets, no CDN, per Shane's 07-08 direction:
+     the image sits at z-index:0 (pushed to background), the overlay above it
+     stays transparent unless a slot is actually carrying text. ===== */
+  .cell-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background-size: cover; background-position: center;
+  }
+  #slot1 .cell-bg { background-image: url('../../shalina/aco/heroes/aco-hero-1-floor.png'); }
+  #slot2 .cell-bg { background-image: url('../../shalina/aco/heroes/aco-hero-2-surfaces.png'); }
+  #slot3 .cell-bg { background-image: url('../../shalina/aco/heroes/aco-hero-3-dishes.png'); }
+  #slot4 .cell-bg { background-image: url('../../shalina/aco/storyboards/img/story07-panel-a.webp'); }
+  #slot5 .cell-bg { background-image: url('../../shalina/aco/storyboards/img/story07-panel-b.webp'); }
+
+  .cell-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    background: transparent;
+    display: flex; align-items: flex-end;
+    padding: clamp(14px, 1.6vw, 28px);
+    pointer-events: none;
+  }
+  .cell-overlay.scrim {
+    background: linear-gradient(to top, rgba(0,0,0,0.68) 0%, rgba(0,0,0,0) 62%);
+  }
+
+  .label {
+    font-size: clamp(10px, 0.75vw, 13px);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+  }
+
+  /* the one slot carrying real copy — demonstrates the readability law:
+     scrim, not a block; type stays roman; eyebrow -> headline hierarchy */
+  .headline-block { display: flex; flex-direction: column; gap: 6px; }
+  .eyebrow {
+    font-size: clamp(10px, 0.72vw, 12px);
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: #E6B87D; font-weight: 500;
+  }
+  .headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600; font-style: normal;
+    font-size: clamp(28px, 3.4vw, 56px);
+    line-height: 1.04;
+    color: #fff;
+  }
+
+  .star-nav {
+    position: fixed; left: 50%; bottom: clamp(16px, 2.2vh, 32px);
+    transform: translateX(-50%); z-index: 5;
+    display: flex; align-items: center; gap: clamp(10px, 1vw, 18px);
+    padding: 8px 18px; border-radius: 999px;
+    background: rgba(0,0,0,0.45); backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .star {
+    appearance: none; background: none; border: none;
+    font-size: 15px; line-height: 1; color: rgba(255,255,255,0.3);
+    cursor: pointer; transition: color 0.18s ease-out, transform 0.18s ease-out;
+  }
+  .star:hover, .star.active { color: #E6B87D; transform: scale(1.15); }
+
+  .merge-toggle {
+    appearance: none; border: 1px solid rgba(255,255,255,0.18);
+    background: transparent; color: rgba(255,255,255,0.55);
+    font-family: 'Roboto Mono', monospace; font-size: 10px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 5px 10px; border-radius: 999px; cursor: pointer; margin-left: 6px;
+  }
+  .merge-toggle:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
+
+  .source-tag {
+    position: fixed; top: 16px; left: 16px; z-index: 5;
+    font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    background: rgba(0,0,0,0.4); padding: 6px 10px; border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+</style>
+</head>
+<body>
+
+  <div class="source-tag">practice room · ACO · all 5 slots local, zero CDN</div>
+
+  <div class="stage">
+    <div class="lhs">
+      <div class="cell" id="slot1">
+        <div class="cell-bg"></div>
+        <div class="cell-overlay"><span class="label">Hero 1 · Floor</span></div>
+      </div>
+      <div class="cell" id="slot2">
+        <div class="cell-bg"></div>
+        <div class="cell-overlay"><span class="label">Hero 2 · Surfaces</span></div>
+      </div>
+      <div class="cell" id="slot3">
+        <div class="cell-bg"></div>
+        <div class="cell-overlay"><span class="label">Hero 3 · Dishes</span></div>
+      </div>
+    </div>
+    <div class="rhs">
+      <div class="cell tall" id="slot4">
+        <div class="cell-bg"></div>
+        <div class="cell-overlay scrim">
+          <div class="headline-block">
+            <span class="eyebrow">ACO Pine Gel · Story 07</span>
+            <span class="headline">You Only Need One.</span>
+          </div>
+        </div>
+      </div>
+      <div class="cell normal" id="slot5">
+        <div class="cell-bg"></div>
+        <div class="cell-overlay"><span class="label">Story 07 · Panel B</span></div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="star-nav" aria-label="slot index">
+    <button class="star" data-target="slot1">★</button>
+    <button class="star" data-target="slot2">★</button>
+    <button class="star" data-target="slot3">★</button>
+    <button class="star" data-target="slot4">★</button>
+    <button class="star" data-target="slot5">★</button>
+    <button class="merge-toggle" id="mergeToggle">merge: top</button>
+  </nav>
+
+  <script>
+    document.querySelectorAll('.star').forEach(function (s) {
+      s.addEventListener('click', function () {
+        document.querySelectorAll('.star').forEach(function (o) { o.classList.remove('active'); });
+        s.classList.add('active');
+      });
+    });
+    var toggle = document.getElementById('mergeToggle');
+    toggle.addEventListener('click', function () {
+      var bottom = document.body.classList.toggle('merge-bottom');
+      toggle.textContent = bottom ? 'merge: bottom' : 'merge: top';
+    });
+  </script>
+
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+/* ==========================================================================
+   CENTREFREE · estate-carbon.css — THE CARBON SURFACE (bench-plate pattern)
+   v1 · 2026-07-18 · Niamh, seat 02 · extracted verbatim-class from
+   labs/machines-board.html (Vedanga pattern no. 08) on Shane's ruling:
+   "The only surface for governance and labs is the beautiful carbon design."
+
+   TWO-SURFACE LAW (Shane, 2026-07-18, live):
+     · CARBON    — governance + labs surfaces. This file.
+     · PARCHMENT — agency + brand surfaces. design-system/core/colors_and_type.css
+   Every estate page belongs to exactly one. Register:
+   agency/niamh/design-system/SURFACE-RULING-2026-07-18.md
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  /* plate steels */
+  --plate:#23262A; --plate2:#1C1F22; --plate3:#2A2E33;
+  --hi:rgba(255,255,255,0.07); --lo:rgba(0,0,0,0.55);
+  /* engraving + stamped type */
+  --engrave:#9AA0A6; --engrave2:#6B7178; --stamp:#D6D9DC;
+  /* metalwork + signal */
+  --brass:#B08D57; --brass2:#8F6F3F;
+  --led:#49D17C; --led-off:#3A3F44; --amber:#E0A93F; --fault:#D14949;
+  /* paper tape */
+  --paper:#F2EEE6; --paperink:#26241F;
+  /* faces */
+  --mono:'JetBrains Mono',monospace; --sans:'Inter',sans-serif;
+}
+
+/* ── canonical carbon ground ── */
+.carbon-body {
+  font-family:var(--sans); color:var(--stamp); min-height:100vh;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.012) 0 1px, transparent 1px 3px),
+    linear-gradient(160deg, #202327 0%, #191C1F 60%, #15181B 100%);
+}
+
+/* ── embossing primitives (the bevel) ── */
+.raised { background:linear-gradient(160deg, var(--plate3), var(--plate2));
+          border-radius:10px;
+          box-shadow: inset 1px 1px 0 var(--hi), inset -1px -1px 0 rgba(0,0,0,0.4),
+                      3px 4px 10px var(--lo), -1px -1px 2px rgba(255,255,255,0.03); }
+.sunk   { background:linear-gradient(160deg, #17191C, #1D2023);
+          border-radius:8px;
+          box-shadow: inset 2px 3px 8px rgba(0,0,0,0.65), inset -1px -1px 0 rgba(255,255,255,0.04); }
+.engraved { color:var(--engrave); text-shadow: 0 1px 0 rgba(0,0,0,0.8), 0 -1px 0 rgba(255,255,255,0.06);
+            font-family:var(--mono); letter-spacing:0.22em; text-transform:uppercase; }
+.screw { position:absolute; width:14px; height:14px; border-radius:50%;
+         background:radial-gradient(circle at 35% 30%, #3A3F45, #17191B 70%);
+         box-shadow: inset 0 1px 1px rgba(255,255,255,0.15), 0 1px 2px rgba(0,0,0,0.7); }
+.screw::after { content:''; position:absolute; left:2px; right:2px; top:6px; height:1.6px;
+                background:#0E1012; transform:rotate(37deg); border-radius:1px; }
+
+/* ── signal LEDs ── */
+.led { width:10px; height:10px; border-radius:50%; background:var(--led-off);
+       box-shadow: inset 0 1px 2px rgba(0,0,0,0.6); }
+.led.on    { background:var(--led);   box-shadow: 0 0 8px rgba(73,209,124,0.55), inset 0 1px 1px rgba(255,255,255,0.4); }
+.led.amber { background:var(--amber); box-shadow: 0 0 8px rgba(224,169,63,0.5); }
+.led.fault { background:var(--fault); box-shadow: 0 0 8px rgba(209,73,73,0.5); }
+
+/* ── sunk inputs ── */
+.carbon-input { width:100%; background:#121416; color:var(--stamp); border:none; border-radius:5px;
+  font-family:var(--mono); font-size:12px; padding:9px 10px;
+  box-shadow: inset 2px 2px 6px rgba(0,0,0,0.7), inset -1px -1px 0 rgba(255,255,255,0.03); }
+
+/* ── paper tape readout ── */
+.paper-tape { background:var(--paper); color:var(--paperink); font-family:var(--mono); font-size:11.5px;
+  border-radius:4px; padding:18px 20px; white-space:pre-wrap; overflow:auto;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.35), 0 1px 0 rgba(255,255,255,0.05);
+  background-image: repeating-linear-gradient(0deg, transparent 0 23px, rgba(38,36,31,0.05) 23px 24px); }
+
+/* ── brass action (the fire button family) ── */
+.brass-btn { border:none; cursor:pointer; font-family:var(--mono); font-weight:700;
+  letter-spacing:0.14em; color:#1A130A;
+  background: radial-gradient(circle at 38% 32%, #D9B87E, var(--brass) 55%, var(--brass2) 100%);
+  box-shadow: 0 5px 12px rgba(0,0,0,0.6), inset 0 2px 3px rgba(255,255,255,0.5), inset 0 -4px 8px rgba(0,0,0,0.35); }
+.brass-btn:active { transform:translateY(2px); box-shadow: 0 2px 5px rgba(0,0,0,0.6), inset 0 2px 6px rgba(0,0,0,0.4); }

@@ -1,0 +1,6 @@
+# Assets stay out of git — live in R2 (flux-design-system bucket)
+assets/
+
+# OS noise
+.DS_Store
+Thumbs.db

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CENTREFREE — Fleximax Image Template (bento, transparent slots)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    overflow: hidden;
+    font-family: 'Roboto Mono', monospace;
+  }
+
+  /* ===== STAGE — fully fluid, no fixed pixel canvas.
+     Scales to any screen (built + tested against a 3200px-wide reference). ===== */
+  .stage {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  /* LHS — 1/3 width, three even stacked slots, never merges */
+  .lhs {
+    flex: 1 1 33.333%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .lhs .cell { flex: 1; }
+
+  /* RHS — 2/3 width, two slots: one TALL (merged, ~2 rows worth) + one NORMAL.
+     body.merge-bottom flips which end the tall slot sits on — no DOM change,
+     just column-reverse — so "merge from top or bottom" is a one-class toggle. */
+  .rhs {
+    flex: 2 1 66.666%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: flex-direction 0s;
+  }
+  .rhs .cell.tall   { flex: 2; }
+  .rhs .cell.normal { flex: 1; }
+  body.merge-bottom .rhs { flex-direction: column-reverse; }
+
+  /* ===== CELL — the swap unit.
+     Two layers, always in this order:
+       1. .cell-bg      — TRANSPARENT by default. This is where an image goes
+                           (background-image, or drop an <img class="cell-bg">
+                           inside with object-fit:cover). The image is PUSHED
+                           TO BACKGROUND — it always sits at z-index:0, under
+                           the overlay, never on top of it.
+       2. .cell-overlay — stays transparent. Chrome/labels/UI live here at
+                           z-index:1. It never gains a solid fill of its own —
+                           only .scrim (below) darkens it, and only when the
+                           overlay is actually carrying text that needs it.
+     Swap law: touching one cell's image never moves or resizes any other
+     cell — flex-basis is fixed by .tall/.normal/LHS-third, not by content. ===== */
+  .cell {
+    position: relative;
+    overflow: hidden;
+    border-right: 1px solid rgba(255,255,255,0.07);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .lhs .cell:last-child, .rhs .cell:last-child { border-bottom: none; }
+  .lhs { border-right: 1px solid rgba(255,255,255,0.07); }
+
+  .cell-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-color: transparent;   /* ← replace with an image; slot stays transparent until you do */
+    background-size: cover;
+    background-position: center;
+  }
+  .cell-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .cell-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: transparent;         /* readability law: only .scrim below may darken this, never a flat fill */
+    display: flex;
+    align-items: flex-end;
+    padding: clamp(14px, 1.6vw, 28px);
+    pointer-events: none;
+  }
+  /* Opt-in only — add to .cell-overlay when the slot carries real text over
+     a busy image. Gradient, not a block, per house law (scrims not capsules). */
+  .cell-overlay.scrim {
+    background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 60%);
+  }
+
+  .label {
+    font-size: clamp(10px, 0.75vw, 13px);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.32);
+  }
+
+  /* ===== bottom-centre star nav — one star per slot + the merge toggle ===== */
+  .star-nav {
+    position: fixed;
+    left: 50%;
+    bottom: clamp(16px, 2.2vh, 32px);
+    transform: translateX(-50%);
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: clamp(10px, 1vw, 18px);
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .star {
+    appearance: none;
+    background: none;
+    border: none;
+    font-size: 15px;
+    line-height: 1;
+    color: rgba(255,255,255,0.3);
+    cursor: pointer;
+    transition: color 0.18s ease-out, transform 0.18s ease-out;
+  }
+  .star:hover, .star.active { color: #E6B87D; transform: scale(1.15); } /* amber, house accent */
+
+  .merge-toggle {
+    appearance: none;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: transparent;
+    color: rgba(255,255,255,0.55);
+    font-family: 'Roboto Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+    margin-left: 6px;
+  }
+  .merge-toggle:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
+</style>
+</head>
+<body>
+
+  <div class="stage">
+    <div class="lhs">
+      <div class="cell" data-slot="1">
+        <div class="cell-bg"></div>
+        <div class="cell-overlay"><span class="label">Slot 1 · LHS 1/3</span></div>
+      </div>
+      <div class="cell" data-slot="2">
+        <div class="cell-bg"></div>
+        <div class="cell-overlay"><span class="label">Slot 2 · LHS 1/3</span></div>
+      </div>
+      <div class="cell" data-slot="3">
+        <div class="cell-bg"></div>
+        <div class="cell-overlay"><span class="label">Slot 3 · LHS 1/3</span></div>
+      </div>
+    </div>
+    <div class="rhs">
+      <div class="cell tall" data-slot="4">
+        <div class="cell-bg"></div>
+        <div class="cell-overlay"><span class="label">Slot 4 · RHS 2/3 · tall (merged)</span></div>
+      </div>
+      <div class="cell normal" data-slot="5">
+        <div class="cell-bg"></div>
+        <div class="cell-overlay"><span class="label">Slot 5 · RHS 2/3 · normal</span></div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="star-nav" aria-label="slot index">
+    <button class="star" data-target="1">★</button>
+    <button class="star" data-target="2">★</button>
+    <button class="star" data-target="3">★</button>
+    <button class="star" data-target="4">★</button>
+    <button class="star" data-target="5">★</button>
+    <button class="merge-toggle" id="mergeToggle">merge: top</button>
+  </nav>
+
+  <script>
+    // Stars: purely a visual index for now (highlights on hover, "active" on click) —
+    // wire data-target to real navigation/lightbox logic once the page it lives on is picked.
+    document.querySelectorAll('.star').forEach(function (s) {
+      s.addEventListener('click', function () {
+        document.querySelectorAll('.star').forEach(function (o) { o.classList.remove('active'); });
+        s.classList.add('active');
+      });
+    });
+
+    // Merge toggle — flips which pair of RHS rows reads as "merged tall":
+    // default = tall slot on top; toggled = tall slot on bottom. One class, no layout jump.
+    var toggle = document.getElementById('mergeToggle');
+    toggle.addEventListener('click', function () {
+      var bottom = document.body.classList.toggle('merge-bottom');
+      toggle.textContent = bottom ? 'merge: bottom' : 'merge: top';
+    });
+  </script>
+
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>

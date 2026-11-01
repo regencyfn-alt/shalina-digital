@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shalina Story Template</title>
+<style>
+  /* ── RESET & BASE ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --azure: #1B6CA8;
+    --orange: #F47920;
+    --cream: #FDF8F0;
+    --charcoal: #1C1C1C;
+    --mid: #5A5A5A;
+    --light: #E8E0D0;
+    --panel-bg: #F0EBE0;
+    --green: #006838;
+    --page-w: 210mm;
+    --page-h: 297mm;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+    background: #d0ccc4;
+    color: var(--charcoal);
+    font-size: 10px;
+  }
+
+  /* ── EDITABLE FIELDS ── */
+  [contenteditable] {
+    outline: none;
+    border-radius: 2px;
+    transition: background 0.15s;
+  }
+  [contenteditable]:hover {
+    background: rgba(244,121,32,0.08);
+  }
+  [contenteditable]:focus {
+    background: rgba(244,121,32,0.15);
+    box-shadow: 0 0 0 1.5px var(--orange);
+  }
+  @media print {
+    [contenteditable]:focus,
+    [contenteditable]:hover {
+      background: none;
+      box-shadow: none;
+    }
+  }
+
+  /* ── PAGE ── */
+  .page {
+    width: var(--page-w);
+    min-height: var(--page-h);
+    background: var(--cream);
+    margin: 12mm auto;
+    padding: 8mm 8mm 10mm;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+    page-break-after: always;
+    position: relative;
+  }
+
+  @media print {
+    body { background: white; }
+    .page {
+      margin: 0;
+      box-shadow: none;
+      padding: 6mm 7mm 8mm;
+      page-break-after: always;
+    }
+    .controls { display: none !important; }
+  }
+
+  /* ── HEADER ── */
+  .page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    border-bottom: 2.5px solid var(--azure);
+    padding-bottom: 3.5mm;
+    margin-bottom: 4mm;
+  }
+
+  .header-left .brand-line {
+    font-size: 7.5px;
+    font-weight: 600;
+    color: var(--orange);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1mm;
+  }
+
+  .header-left .story-title {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--charcoal);
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+
+  .header-left .story-sub {
+    font-size: 8px;
+    color: var(--mid);
+    margin-top: 1mm;
+    font-weight: 500;
+  }
+
+  .header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1.5mm;
+  }
+
+  .page-badge {
+    background: var(--azure);
+    color: white;
+    font-size: 7px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+
+  .format-badge {
+    background: var(--orange);
+    color: white;
+    font-size: 7px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── EXECUTIVE SUMMARY ── */
+  .exec-summary {
+    background: white;
+    border-left: 3px solid var(--orange);
+    padding: 3mm 4mm;
+    margin-bottom: 4mm;
+    border-radius: 0 3px 3px 0;
+  }
+
+  .exec-summary .es-label {
+    font-size: 6px;
+    font-weight: 800;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 1.5mm;
+  }
+
+  .exec-summary .es-text {
+    font-size: 8.5px;
+    color: var(--charcoal);
+    line-height: 1.5;
+  }
+
+  .exec-summary .es-text strong {
+    color: var(--azure);
+  }
+
+  /* ── PANELS GRID ── */
+  .panels-grid {
+    display: grid;
+    gap: 2.5mm;
+  }
+
+  .panels-grid.grid-8 {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, auto);
+  }
+
+  .panels-grid.grid-8-long {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, auto);
+  }
+
+  /* ── PANEL ── */
+  .panel {
+    background: white;
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid var(--light);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2mm 2mm;
+    background: var(--azure);
+  }
+
+  .panel-number {
+    font-size: 8px;
+    font-weight: 800;
+    color: white;
+    line-height: 1;
+  }
+
+  .panel-timecode {
+    font-size: 6.5px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .panel-image {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: var(--panel-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .panel-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .panel-image.placeholder {
+    flex-direction: column;
+    gap: 1.5mm;
+  }
+
+  .panel-image.placeholder .ph-icon {
+    font-size: 14px;
+    opacity: 0.3;
+  }
+
+  .panel-image.placeholder .ph-label {
+    font-size: 6px;
+    color: var(--mid);
+    text-align: center;
+    padding: 0 2mm;
+    line-height: 1.4;
+    font-style: italic;
+  }
+
+  /* Phase badge on placeholder */
+  .phase-tag {
+    position: absolute;
+    top: 1.5mm;
+    left: 1.5mm;
+    background: var(--orange);
+    color: white;
+    font-size: 5.5px;
+    font-weight: 800;
+    padding: 1px 4px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .panel-body {
+    padding: 1.5mm 2mm 2mm;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1mm;
+  }
+
+  .panel-scene-name {
+    font-size: 7.5px;
+    font-weight: 800;
+    color: var(--charcoal);
+    line-height: 1.1;
+  }
+
+  .panel-desc {
+    font-size: 6.5px;
+    color: var(--mid);
+    line-height: 1.4;
+    flex: 1;
+  }
+
+  .panel-vo {
+    font-size: 6px;
+    color: var(--azure);
+    font-style: italic;
+    border-top: 1px solid var(--light);
+    padding-top: 1mm;
+    line-height: 1.35;
+  }
+
+  /* ── PACKSHOT PANEL ── */
+  .panel.packshot .panel-header {
+    background: var(--charcoal);
+  }
+
+  .panel.packshot .panel-image {
+    background: #0a0a0a;
+    flex-direction: column;
+    gap: 1.5mm;
+    padding: 2mm;
+  }
+
+  .panel.packshot .pack-logo {
+    font-size: 13px;
+    font-weight: 900;
+    color: var(--orange);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    text-align: center;
+  }
+
+  .panel.packshot .pack-tagline {
+    font-size: 6.5px;
+    color: rgba(255,255,255,0.75);
+    text-align: center;
+    font-style: italic;
+    line-height: 1.3;
+  }
+
+  .panel.packshot .pack-sub {
+    font-size: 5.5px;
+    color: var(--orange);
+    text-align: center;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── FOOTER ── */
+  .page-footer {
+    margin-top: 3.5mm;
+    padding-top: 2.5mm;
+    border-top: 1px solid var(--light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-audio {
+    font-size: 6.5px;
+    color: var(--mid);
+    font-style: italic;
+  }
+
+  .footer-guardrails {
+    font-size: 6px;
+    color: #aaa;
+    text-align: right;
+    line-height: 1.5;
+  }
+
+  .footer-logo {
+    font-size: 8px;
+    font-weight: 900;
+    color: var(--azure);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── LOOP DIVIDER (45-sec only) ── */
+  .loop-divider {
+    display: flex;
+    align-items: center;
+    gap: 3mm;
+    margin: 2mm 0 1.5mm;
+  }
+
+  .loop-divider .loop-label {
+    font-size: 6.5px;
+    font-weight: 800;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+
+  .loop-divider .loop-line {
+    flex: 1;
+    height: 1px;
+    background: var(--light);
+  }
+
+  .loop-divider .loop-time {
+    font-size: 6px;
+    color: var(--mid);
+    white-space: nowrap;
+  }
+
+  /* ── CONTROLS (screen only) ── */
+  .controls {
+    width: var(--page-w);
+    margin: 0 auto 6mm;
+    display: flex;
+    gap: 3mm;
+    align-items: center;
+  }
+
+  .controls button {
+    background: var(--azure);
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .controls button:hover { background: #155a8a; }
+
+  .controls button.orange { background: var(--orange); }
+  .controls button.orange:hover { background: #d9650f; }
+
+  .controls select {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     CONTROLS
+═══════════════════════════════════════════════ -->
+<div class="controls">
+  <button class="orange" onclick="window.print()">⬇ Save as PDF</button>
+  <button onclick="document.getElementById('page15').scrollIntoView()">15-sec template</button>
+  <button onclick="document.getElementById('page45').scrollIntoView()">45-sec template</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE 1 — 15-SECOND STORY TEMPLATE
+═══════════════════════════════════════════════ -->
+<div class="page" id="page15">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="header-left">
+      <div class="brand-line">Shalina Healthcare · <span contenteditable="true">[BRAND]</span> Kenya · FY2026/27</div>
+      <div class="story-title"><span contenteditable="true">[CHARACTER]</span> — <span contenteditable="true">[STORY TITLE]</span></div>
+      <div class="story-sub"><span contenteditable="true">[BRAND]</span> Kenya &nbsp;|&nbsp; <span contenteditable="true">[Pain Territory]</span> &nbsp;|&nbsp; 15 Seconds</div>
+    </div>
+    <div class="header-right">
+      <span class="page-badge">PAGE 1 / 1</span>
+      <span class="format-badge">15 SEC</span>
+    </div>
+  </div>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <div class="exec-summary">
+    <div class="es-label">What the story is about</div>
+    <div class="es-text">
+      <strong contenteditable="true">[One sentence: who, what moment, what they overcome, what the brand gives back.]</strong>
+      &nbsp;<span contenteditable="true">[Why it works — 1–2 sentences on the emotional mechanic and why this audience will feel it.]</span>
+      &nbsp;<span contenteditable="true">[What the brand gets — positioning note in plain language.]</span>
+    </div>
+  </div>
+
+  <!-- LOOP LABEL -->
+  <div class="loop-divider">
+    <span class="loop-label">Story · 8 beats · 15 seconds</span>
+    <span class="loop-line"></span>
+    <span class="loop-time">0:00 → 0:15</span>
+  </div>
+
+  <!-- PANELS -->
+  <div class="panels-grid grid-8">
+
+    <!-- PANEL 01 -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-number">01</span>
+        <span class="panel-timecode" contenteditable="true">00:00–00:02</span>
+      </div>
+      <div class="panel-image placeholder">
+        <span class="phase-tag">The Character</span>
+        <span class="ph-icon">🎬</span>
+        <span class="ph-label" contenteditable="true">Wide establishing — character in their world, full confidence</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Morning Hustle</div>
+        <div class="panel-desc" contenteditable="true">[Character] moves through their environment. The audience sees themselves immediately.</div>
+        <div class="panel-vo" contenteditable="true">VO: "[Character name]'s [setting] starts before anyone else's."</div>
+      </div>
+    </div>
+
+    <!-- PANEL 02 -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-number">02</span>
+        <span class="panel-timecode" contenteditable="true">00:02–00:04</span>
+      </div>
+      <div class="panel-image placeholder">
+        <span class="phase-tag">The Opportunity</span>
+        <span class="ph-icon">⚡</span>
+        <span class="ph-label" contenteditable="true">Medium shot — something valuable arrives. Stakes established.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">The Opportunity</div>
+        <div class="panel-desc" contenteditable="true">Something valuable appears — a client, a moment, a chance. The character moves toward it.</div>
+        <div class="panel-vo" contenteditable="true">VO: [Silent — action carries it]</div>
+      </div>
+    </div>
+
+    <!-- PANEL 03 -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-number">03</span>
+        <span class="panel-timecode" contenteditable="true">00:04–00:06</span>
+      </div>
+      <div class="panel-image placeholder">
+        <span class="phase-tag">Time Pressure</span>
+        <span class="ph-icon">⏱</span>
+        <span class="ph-label" contenteditable="true">Medium shot — the clock, the deadline, the window closing</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">The Deadline</div>
+        <div class="panel-desc" contenteditable="true">Time is established — a clock, a person waiting, a departure. The audience feels the pressure.</div>
+        <div class="panel-vo" contenteditable="true">VO: "[Time reference]. [Stakes in one line.]"</div>
+      </div>
+    </div>
+
+    <!-- PANEL 04 -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-number">04</span>
+        <span class="panel-timecode" contenteditable="true">00:06–00:08</span>
+      </div>
+      <div class="panel-image placeholder">
+        <span class="phase-tag">Pain Appears</span>
+        <span class="ph-icon">😣</span>
+        <span class="ph-label" contenteditable="true">Close-up — the wince, the grip, the controlled pause</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Pain Appears</div>
+        <div class="panel-desc" contenteditable="true">The pain arrives — quiet, specific, honest. Not dramatic. The character pauses. The audience knows this.</div>
+        <div class="panel-vo" contenteditable="true">VO: [Silent — expression carries it]</div>
+      </div>
+    </div>
+
+    <!-- PANEL 05 -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-number">05</span>
+        <span class="panel-timecode" contenteditable="true">00:08–00:10</span>
+      </div>
+      <div class="panel-image placeholder">
+        <span class="phase-tag">Pressure Builds</span>
+        <span class="ph-icon">📱</span>
+        <span class="ph-label" contenteditable="true">Medium shot — external pressure arrives (call, person, deadline signal)</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Can't Miss This</div>
+        <div class="panel-desc" contenteditable="true">The moment won't wait. Something external reinforces the stakes — a call, a look, a departure signal.</div>
+        <div class="panel-vo" contenteditable="true">VO: "[External pressure line — one sentence.]"</div>
+      </div>
+    </div>
+
+    <!-- PANEL 06 — IBUCAP MOMENT -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-number">06</span>
+        <span class="panel-timecode" contenteditable="true">00:10–00:12</span>
+      </div>
+      <div class="panel-image placeholder">
+        <span class="phase-tag">The Ibucap Moment</span>
+        <span class="ph-icon">💊</span>
+        <span class="ph-label" contenteditable="true">Product close-up — two capsules in hand, pack clearly visible</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">The [Brand] Moment</div>
+        <div class="panel-desc" contenteditable="true">Character takes TWO [Brand] capsules with water. Product pack clearly visible. No ceremony — decisive action.</div>
+        <div class="panel-vo" contenteditable="true">SUPER: Power of 3-in-1</div>
+      </div>
+    </div>
+
+    <!-- PANEL 07 -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-number">07</span>
+        <span class="panel-timecode" contenteditable="true">00:12–00:14</span>
+      </div>
+      <div class="panel-image placeholder">
+        <span class="phase-tag">Back in Action</span>
+        <span class="ph-icon">🚀</span>
+        <span class="ph-label" contenteditable="true">Tracking shot — character moving, confident, fully themselves</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Back in Action</div>
+        <div class="panel-desc" contenteditable="true">Character back at full capacity — moving, focused, handling the moment. The pain is not the story anymore.</div>
+        <div class="panel-vo" contenteditable="true">SUPER: Power of 3-in-1</div>
+      </div>
+    </div>
+
+    <!-- PANEL 08 — PACKSHOT -->
+    <div class="panel packshot">
+      <div class="panel-header">
+        <span class="panel-number">08</span>
+        <span class="panel-timecode" contenteditable="true">00:14–00:15</span>
+      </div>
+      <div class="panel-image">
+        <span class="phase-tag" style="background:var(--orange)">Packshot</span>
+        <div class="pack-logo">[BRAND]</div>
+        <div class="pack-sub">Power of 3-in-1</div>
+        <div class="pack-tagline" contenteditable="true">Always with you...<br>to Beat Pain.</div>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Packshot + Endline</div>
+        <div class="panel-desc" contenteditable="true">[Brand] Kenya Mono Pack + two capsules visible. Clean product frame.</div>
+        <div class="panel-vo" contenteditable="true">ENDLINE: Always with you... to Beat Pain.</div>
+      </div>
+    </div>
+
+  </div><!-- /panels-grid -->
+
+  <!-- FOOTER -->
+  <div class="page-footer">
+    <div class="footer-audio" contenteditable="true">AUDIO: Music throughout. &nbsp; End Chorus: "[Brand]... Power of 3-in-1... Always with you... to Beat Pain."</div>
+    <div class="footer-logo">Shalina</div>
+    <div class="footer-guardrails">PPB guardrails: No HCPs · Product incidental · No "cure" · No before/after · Outro = claim only</div>
+  </div>
+
+</div><!-- /page 15sec -->
+
+
+<!-- ═══════════════════════════════════════════════
+     PAGE 2 — 45-SECOND STORY TEMPLATE
+═══════════════════════════════════════════════ -->
+<div class="page" id="page45">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="header-left">
+      <div class="brand-line">Shalina Healthcare · [BRAND] Kenya · FY2026/27</div>
+      <div class="story-title">[CHARACTER] — [STORY TITLE]</div>
+      <div class="story-sub">[BRAND] Kenya &nbsp;|&nbsp; [Pain Territory] &nbsp;|&nbsp; 45 Seconds · Double-Loop</div>
+    </div>
+    <div class="header-right">
+      <span class="page-badge">PAGE 1 / 1</span>
+      <span class="format-badge" style="background:var(--green)">45 SEC</span>
+    </div>
+  </div>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <div class="exec-summary">
+    <div class="es-label">What the story is about</div>
+    <div class="es-text">
+      <strong>[One sentence: who, what moment, what they overcome, what the brand gives back.]</strong>
+      &nbsp;[Why it works — the emotional mechanic, why this audience feels it, what the key tension moment is.]
+      &nbsp;[What the brand gets — positioning note in plain language, target demo, shareability note.]
+    </div>
+  </div>
+
+  <!-- LOOP 1 -->
+  <div class="loop-divider">
+    <span class="loop-label">Loop 1 · Establish</span>
+    <span class="loop-line"></span>
+    <span class="loop-time">0:00 → ~0:20</span>
+  </div>
+
+  <div class="panels-grid grid-8-long" style="grid-template-columns: repeat(4,1fr); margin-bottom: 2mm;">
+
+    <!-- PHASE 1 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--azure)">
+        <span class="panel-number">01</span>
+        <span class="panel-timecode" contenteditable="true">0–5s &nbsp; RELATE</span>
+      </div>
+      <div class="panel-image placeholder">
+        <span class="phase-tag">Relate</span>
+        <span class="ph-icon">🌍</span>
+        <span class="ph-label" contenteditable="true">Wide establishing — character in their world. Audience sees themselves.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Their World</div>
+        <div class="panel-desc" contenteditable="true">[Character] in their element — confident, competent, at home. The audience thinks: that's me on a good day.</div>
+        <div class="panel-vo" contenteditable="true">VO: "[Character name]'s [world] starts before [reference]."</div>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="panel">
+      <div class="panel-header" style="background:#c0392b">
+        <span class="panel-number">02</span>
+        <span class="panel-timecode" contenteditable="true">5–10s &nbsp; CONFLICT</span>
+      </div>
+      <div class="panel-image placeholder">
+        <span class="phase-tag" style="background:#c0392b">Conflict</span>
+        <span class="ph-icon">😣</span>
+        <span class="ph-label" contenteditable="true">Close-up — pain arrives. Quiet, specific, controlled.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Pain Arrives</div>
+        <div class="panel-desc" contenteditable="true">The pain settles in. Not dramatic — the wince, the grip, the adjustment. The character keeps moving but we feel it.</div>
+        <div class="panel-vo" contenteditable="true">VO: [Silent — expression carries it]</div>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="panel">
+      <div class="panel-header" style="background:#e67e22">
+        <span class="panel-number">03</span>
+        <span class="panel-timecode" contenteditable="true">10–14s &nbsp; TIMING</span>
+      </div>
+      <div class="panel-image placeholder">
+        <span class="phase-tag" style="background:#e67e22">Timing</span>
+        <span class="ph-icon">⏱</span>
+        <span class="ph-label" contenteditable="true">Clock / deadline signal — the window is real and finite</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">The Clock</div>
+        <div class="panel-desc" contenteditable="true">Time is pinned — a clock, a departure, a call. The audience feels the frame narrow. This cannot be moved.</div>
+        <div class="panel-vo" contenteditable="true">VO: "[Time reference]. [Stakes.]"</div>
+      </div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="panel">
+      <div class="panel-header" style="background:#27ae60">
+        <span class="panel-number">04</span>
+        <span class="panel-timecode" contenteditable="true">14–20s &nbsp; PARTIAL RES.</span>
+      </div>
+      <div class="panel-image placeholder">
+        <span class="phase-tag" style="background:#27ae60">Partial Resolution</span>
+        <span class="ph-icon">💊</span>
+        <span class="ph-label" contenteditable="true">Character takes Ibucap — decisive, no ceremony. Still in the fight.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">They Prepare</div>
+        <div class="panel-desc" contenteditable="true">Character takes [Brand] — TWO capsules, pack visible, quick and decisive. Something in them steadies. They're not done yet.</div>
+        <div class="panel-vo" contenteditable="true">VO: "They know what works. They trust it."</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- LOOP 2 -->
+  <div class="loop-divider">
+    <span class="loop-label">Loop 2 · Escalate &amp; Resolve</span>
+    <span class="loop-line"></span>
+    <span class="loop-time">~0:20 → 0:45</span>
+  </div>
+
+  <div class="panels-grid grid-8-long" style="grid-template-columns: repeat(4,1fr);">
+
+    <!-- PHASE 5 -->
+    <div class="panel">
+      <div class="panel-header" style="background:var(--azure)">
+        <span class="panel-number">05</span>
+        <span class="panel-timecode" contenteditable="true">20–26s &nbsp; RE-RELATE</span>
+      </div>
+      <div class="panel-image placeholder">
+        <span class="phase-tag">Re-Relate</span>
+        <span class="ph-icon">🔍</span>
+        <span class="ph-label" contenteditable="true">Tighter frame — still managing, audience back inside their experience</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Still Managing</div>
+        <div class="panel-desc" contenteditable="true">Deeper in — the pain hasn't fully cleared, the pressure is higher. We're closer to the character now. The cost of failure is real.</div>
+        <div class="panel-vo" contenteditable="true">VO: "[Restatement of what's at stake — personal, specific.]"</div>
+      </div>
+    </div>
+
+    <!-- PHASE 6 -->
+    <div class="panel">
+      <div class="panel-header" style="background:#c0392b">
+        <span class="panel-number">06</span>
+        <span class="panel-timecode" contenteditable="true">26–32s &nbsp; ESCALATES</span>
+      </div>
+      <div class="panel-image placeholder">
+        <span class="phase-tag" style="background:#c0392b">Conflict Escalates</span>
+        <span class="ph-icon">🔥</span>
+        <span class="ph-label" contenteditable="true">Pain peaks — the moment everything converges</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">The Peak</div>
+        <div class="panel-desc" contenteditable="true">Pain at its hardest, timing at its tightest. This is the moment the pain chose. Close on face — controlled, not stopped.</div>
+        <div class="panel-vo" contenteditable="true">VO: "The pain picks its moment. Always the wrong one."</div>
+      </div>
+    </div>
+
+    <!-- PHASE 7 -->
+    <div class="panel">
+      <div class="panel-header" style="background:#e67e22">
+        <span class="panel-number">07</span>
+        <span class="panel-timecode" contenteditable="true">32–37s &nbsp; TIGHTENS</span>
+      </div>
+      <div class="panel-image placeholder">
+        <span class="phase-tag" style="background:#e67e22">Timing Tightens</span>
+        <span class="ph-icon">⚡</span>
+        <span class="ph-label" contenteditable="true">Triple-action working — the body returns. The window is now.</span>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">Three in One</div>
+        <div class="panel-desc" contenteditable="true">[Brand] at full work — the triple-action landing, the pain releasing, the body returning. The window is open. They can.</div>
+        <div class="panel-vo" contenteditable="true">VO: "Three in one. [Action they can now take]."</div>
+      </div>
+    </div>
+
+    <!-- PHASE 8 — BRAND RESOLUTION -->
+    <div class="panel packshot">
+      <div class="panel-header" style="background:var(--charcoal)">
+        <span class="panel-number">08</span>
+        <span class="panel-timecode" contenteditable="true">37–45s &nbsp; BRAND RES.</span>
+      </div>
+      <div class="panel-image" style="flex-direction:column; gap:1.5mm; padding:2mm;">
+        <span class="phase-tag" style="background:var(--orange)">Brand Event</span>
+        <div class="pack-logo">[BRAND]</div>
+        <div class="pack-sub">Power of 3-in-1</div>
+        <div class="pack-tagline" contenteditable="true">Always with you...<br>to Beat Pain.</div>
+      </div>
+      <div class="panel-body">
+        <div class="panel-scene-name" contenteditable="true">The Moment</div>
+        <div class="panel-desc" contenteditable="true">The brand event — not relief, but return. The character completely themselves. Hold. Then: [Brand] Kenya Mono Pack + two capsules.</div>
+        <div class="panel-vo" contenteditable="true">VO: "[Brand]. Power of 3-in-1. Always with you... to Beat Pain."</div>
+      </div>
+    </div>
+
+  </div><!-- /loop 2 panels -->
+
+  <!-- FOOTER -->
+  <div class="page-footer">
+    <div class="footer-audio" contenteditable="true">AUDIO: Music throughout. &nbsp; End Chorus: "[Brand]... Power of 3-in-1... Always with you... to Beat Pain."</div>
+    <div class="footer-logo">Shalina</div>
+    <div class="footer-guardrails">PPB guardrails: No HCPs · Product incidental · No "cure" · No before/after · Claim only at outro · Two capsules visible</div>
+  </div>
+
+</div><!-- /page 45sec -->
+
+<script defer src="/estate-menu.js"></script>
+<script defer src="/estate-picker.js"></script>
+</body>
+</html>
